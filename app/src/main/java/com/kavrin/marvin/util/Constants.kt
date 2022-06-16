@@ -5,6 +5,7 @@ object Constants {
 	const val DETAILS_ARGUMENT_KEY = "id"
 	const val LIST_ARGUMENT_KEY = "listId"
 
+	const val MARVIN_DB = "marvin_db"
 
 	const val MOVIE_TABLE = "movie_table"
 	const val MOVIE_GENRE_TABLE = "movie_genre_table"
