@@ -7,6 +7,7 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.navArgument
 import com.kavrin.marvin.presentation.screens.splash.SplashScreen
+import com.kavrin.marvin.presentation.screens.welcome.WelcomeScreen
 import com.kavrin.marvin.util.Constants.DETAILS_ARGUMENT_KEY
 import com.kavrin.marvin.util.Constants.LIST_ARGUMENT_KEY
 
@@ -15,7 +16,7 @@ fun SetupNavGraph(navHostController: NavHostController) {
 
 	NavHost(
 		navController = navHostController,
-		startDestination = Screen.Splash.route
+		startDestination = Screen.Welcome.route
 	) {
 
 		//// Splash Screen ////
@@ -27,7 +28,7 @@ fun SetupNavGraph(navHostController: NavHostController) {
 
 		//// OnBoarding Screen ////
 		composable(route = Screen.Welcome.route) {
-
+			WelcomeScreen(navController = navHostController)
 		}
 
 		//// Home Screen ////

@@ -6,6 +6,7 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -15,10 +16,11 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
-import androidx.compose.ui.unit.sp
 import androidx.navigation.NavHostController
+import com.kavrin.marvin.R
 import com.kavrin.marvin.ui.theme.*
 
 @Composable
@@ -40,24 +42,29 @@ fun SplashScreen(navController: NavHostController) {
 
 @Composable
 fun Splash(animAlpha: Float = 1f) {
+
 	if (isSystemInDarkTheme()) {
+		//// Text Container ////
 		Box(
 			modifier = Modifier
 				.background(color = Color.Black)
 				.fillMaxSize(),
 			contentAlignment = Alignment.Center
 		) {
+			//// Text ////
 			Text(
 				modifier = Modifier
 					.alpha(alpha = animAlpha),
 				color = Color.White,
-				text = "Marvin",
+				text = stringResource(R.string.marvin),
 				fontFamily = splashFont,
 				fontWeight = FontWeight.Normal,
-				fontSize = 40.sp
+				fontSize = MaterialTheme.typography.h3.fontSize
 			)
 		}
 	} else {
+
+		//// Text Container ////
 		Box(
 			modifier = Modifier
 				.background(
@@ -66,14 +73,16 @@ fun Splash(animAlpha: Float = 1f) {
 				.fillMaxSize(),
 			contentAlignment = Alignment.Center
 		) {
+
+			//// Text ////
 			Text(
 				modifier = Modifier
 					.alpha(alpha = animAlpha),
 				color = BrightMaroon,
-				text = "Marvin",
+				text = stringResource(R.string.marvin),
 				fontFamily = splashFont,
 				fontWeight = FontWeight.Normal,
-				fontSize = 40.sp
+				fontSize = MaterialTheme.typography.h3.fontSize
 			)
 		}
 	}
