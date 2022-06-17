@@ -23,3 +23,11 @@ val DarkGray = Color(0xFF343a40)
 val Colors.backGroundColor
 	@Composable
 	get() = if (isLight) BackGround else Color.Black
+
+val Colors.topBarContentColor
+	@Composable
+	get() = if (isLight) Color.Black else LightGray
+
+val Colors.topBarBgColor
+	@Composable
+	get() = if (isLight) Color.White else Color.Black

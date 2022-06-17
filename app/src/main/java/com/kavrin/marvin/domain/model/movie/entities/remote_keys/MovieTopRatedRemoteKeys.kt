@@ -2,12 +2,12 @@ package com.kavrin.marvin.domain.model.movie.entities.remote_keys
 
 import androidx.room.Entity
 import androidx.room.PrimaryKey
-import com.kavrin.marvin.util.Constants.MOVIE_POPULAR_REMOTE_TABLE
+import com.kavrin.marvin.util.Constants.MOVIE_TOP_RATED_REMOTE_TABLE
 
-@Entity(tableName = MOVIE_POPULAR_REMOTE_TABLE)
-data class MoviePopularRemoteKey(
+@Entity(tableName = MOVIE_TOP_RATED_REMOTE_TABLE)
+data class MovieTopRatedRemoteKeys(
 	@PrimaryKey(autoGenerate = false)
-	val moviePopularId: Int,
+	val movieTopRatedId: Int,
 	val prevPage: Int?,
 	val nextPage: Int?
 )

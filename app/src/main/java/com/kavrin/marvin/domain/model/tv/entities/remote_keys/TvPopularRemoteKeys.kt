@@ -5,7 +5,7 @@ import androidx.room.PrimaryKey
 import com.kavrin.marvin.util.Constants.TV_POPULAR_REMOTE_TABLE
 
 @Entity(tableName = TV_POPULAR_REMOTE_TABLE)
-data class TvPopularRemoteKey(
+data class TvPopularRemoteKeys(
 	@PrimaryKey(autoGenerate = false)
 	val tvPopularId: Int,
 	val prevPage: Int?,

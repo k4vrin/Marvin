@@ -5,7 +5,7 @@ import androidx.room.PrimaryKey
 import com.kavrin.marvin.util.Constants.MOVIE_TRENDING_REMOTE_TABLE
 
 @Entity(tableName = MOVIE_TRENDING_REMOTE_TABLE)
-data class MovieTrendingRemoteKey(
+data class MovieTrendingRemoteKeys(
 	@PrimaryKey(autoGenerate = false)
 	val movieTrendingId: Int,
 	val prevPage: Int?,

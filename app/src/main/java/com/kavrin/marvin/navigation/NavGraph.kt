@@ -6,6 +6,7 @@ import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.navArgument
+import com.kavrin.marvin.presentation.screens.home.HomeScreen
 import com.kavrin.marvin.presentation.screens.splash.SplashScreen
 import com.kavrin.marvin.presentation.screens.welcome.WelcomeScreen
 import com.kavrin.marvin.util.Constants.DETAILS_ARGUMENT_KEY
@@ -33,7 +34,7 @@ fun SetupNavGraph(navHostController: NavHostController) {
 
 		//// Home Screen ////
 		composable(route = Screen.Home.route) {
-
+			HomeScreen(navController = navHostController)
 		}
 
 		//// Detail Screen ////
