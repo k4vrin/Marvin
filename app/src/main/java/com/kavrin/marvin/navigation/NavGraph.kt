@@ -16,7 +16,7 @@ fun SetupNavGraph(navHostController: NavHostController) {
 
 	NavHost(
 		navController = navHostController,
-		startDestination = Screen.Welcome.route
+		startDestination = Screen.Splash.route
 	) {
 
 		//// Splash Screen ////
