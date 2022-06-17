@@ -10,7 +10,7 @@ import com.kavrin.marvin.domain.model.movie.entities.Movie
 interface MovieDao {
 
 	@Insert(onConflict = OnConflictStrategy.REPLACE)
-	suspend fun insertMovie(movie: Movie)
+	suspend fun insertMovie(movie: List<Movie>)
 
 	@Query("SELECT * FROM movie_table WHERE movieId = :movieId")
 	suspend fun getSelectedMovie(movieId: Int): Movie

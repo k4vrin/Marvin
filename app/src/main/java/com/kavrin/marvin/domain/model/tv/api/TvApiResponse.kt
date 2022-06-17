@@ -12,7 +12,7 @@ data class TvApiResponse(
     val page: Int,
 
 	@SerialName("results")
-    val movies: List<Tv>,
+    val tvs: List<Tv>,
 
 	@SerialName("total_pages")
     val totalPages: Int,

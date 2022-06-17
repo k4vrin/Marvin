@@ -8,10 +8,16 @@ import com.kavrin.marvin.data.local.dao.movie.MovieDao
 import com.kavrin.marvin.data.local.dao.movie.MoviePopularDao
 import com.kavrin.marvin.data.local.dao.movie.MovieTopRatedDao
 import com.kavrin.marvin.data.local.dao.movie.MovieTrendingDao
+import com.kavrin.marvin.data.local.dao.movie.remote_keys.MoviePopularRemoteKeysDao
+import com.kavrin.marvin.data.local.dao.movie.remote_keys.MovieTopRatedRemoteKeysDao
+import com.kavrin.marvin.data.local.dao.movie.remote_keys.MovieTrendingRemoteKeysDao
 import com.kavrin.marvin.data.local.dao.tv.TvDao
 import com.kavrin.marvin.data.local.dao.tv.TvPopularDao
 import com.kavrin.marvin.data.local.dao.tv.TvTopRatedDao
 import com.kavrin.marvin.data.local.dao.tv.TvTrendingDao
+import com.kavrin.marvin.data.local.dao.tv.remote_keys.TvPopularRemoteKeysDao
+import com.kavrin.marvin.data.local.dao.tv.remote_keys.TvTopRatedRemoteKeysDao
+import com.kavrin.marvin.data.local.dao.tv.remote_keys.TvTrendingRemoteKeysDao
 import com.kavrin.marvin.domain.model.Playlist
 import com.kavrin.marvin.domain.model.movie.entities.relations.MoviePlaylistCrossRef
 import com.kavrin.marvin.domain.model.movie.entities.Movie
@@ -44,17 +50,23 @@ import com.kavrin.marvin.domain.model.tv.entities.relations.TvPlaylistCrossRef
 @TypeConverters(DatabaseConverter::class)
 abstract class MarvinDatabase : RoomDatabase() {
 
-	abstract val playlistDao: PlaylistDao
+	abstract fun playlistDao(): PlaylistDao
 
-	abstract val movieDao: MovieDao
-	abstract val moviePopularDao: MoviePopularDao
-	abstract val movieTopRatedDao: MovieTopRatedDao
-	abstract val movieTrendingDao: MovieTrendingDao
+	abstract fun movieDao(): MovieDao
+	abstract fun moviePopularDao(): MoviePopularDao
+	abstract fun movieTopRatedDao(): MovieTopRatedDao
+	abstract fun movieTrendingDao(): MovieTrendingDao
 
-	abstract val tvDao: TvDao
-	abstract val tvPopularDao: TvPopularDao
-	abstract val tvTopRatedDao: TvTopRatedDao
-	abstract val tvTrendingDao: TvTrendingDao
+	abstract fun tvDao(): TvDao
+	abstract fun tvPopularDao(): TvPopularDao
+	abstract fun tvTopRatedDao(): TvTopRatedDao
+	abstract fun tvTrendingDao(): TvTrendingDao
 
+	abstract fun moviePopularRemoteKeysDao(): MoviePopularRemoteKeysDao
+	abstract fun movieTopRatedRemoteKeysDao(): MovieTopRatedRemoteKeysDao
+	abstract fun movieTrendingRemoteKeysDao(): MovieTrendingRemoteKeysDao
 
+	abstract fun tvPopularRemoteKeysDao(): TvPopularRemoteKeysDao
+	abstract fun tvTopRatedRemoteKeysDao(): TvTopRatedRemoteKeysDao
+	abstract fun tvTrendingRemoteKeysDao(): TvTrendingRemoteKeysDao
 }

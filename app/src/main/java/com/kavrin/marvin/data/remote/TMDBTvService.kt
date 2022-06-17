@@ -9,28 +9,28 @@ import retrofit2.http.Query
 interface TMDBTvService {
 
 	@GET("/tv/popular")
-	suspend fun getPopularMovies(
+	suspend fun getPopularTvs(
 		@Query("api_key") apiKey: String = BuildConfig.API_KEY,
 		@Query("page") page: Int = 1
 	): TvApiResponse
 
 
 	@GET("/tv/top_rated")
-	suspend fun getTopRatedMovies(
+	suspend fun getTopRatedTvs(
 		@Query("api_key") apiKey: String = BuildConfig.API_KEY,
 		@Query("page") page: Int = 1
 	): TvApiResponse
 
 
 	@GET("trending/tv/day")
-	suspend fun getTrendingMovies(
+	suspend fun getTrendingTvs(
 		@Query("api_key") apiKey: String = BuildConfig.API_KEY,
 		@Query("page") page: Int = 1
 	): TvApiResponse
 
 
 	@GET("/search/tv")
-	suspend fun searchMovies(
+	suspend fun searchTvs(
 		@Query("api_key") apiKey: String = BuildConfig.API_KEY,
 		@Query("query") query: String,
 		@Query("page") page: Int = 1,
@@ -39,7 +39,7 @@ interface TMDBTvService {
 
 
 	@GET("/genre/tv/list")
-	suspend fun getMovieGenres(
+	suspend fun getTvGenres(
 		@Query("api_key") apiKey: String = BuildConfig.API_KEY,
 		@Query("page") page: Int = 1
 	): TvGenreApiResponse

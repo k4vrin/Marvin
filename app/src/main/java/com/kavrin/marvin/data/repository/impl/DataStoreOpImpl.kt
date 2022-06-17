@@ -1,4 +1,4 @@
-package com.kavrin.marvin.data.pref
+package com.kavrin.marvin.data.repository.impl
 
 import android.content.Context
 import androidx.datastore.core.DataStore
