@@ -16,6 +16,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
 import com.google.accompanist.pager.HorizontalPager
@@ -23,6 +24,7 @@ import com.google.accompanist.pager.HorizontalPagerIndicator
 import com.google.accompanist.pager.PagerState
 import com.google.accompanist.pager.rememberPagerState
 import com.kavrin.marvin.R
+import com.kavrin.marvin.navigation.Screen
 import com.kavrin.marvin.ui.theme.*
 import com.kavrin.marvin.util.Constants.LAST_WELCOME_PAGE
 import com.kavrin.marvin.util.Constants.ON_BOARDING_PAGE_COUNT
@@ -30,6 +32,7 @@ import com.kavrin.marvin.util.Constants.ON_BOARDING_PAGE_COUNT
 @Composable
 fun WelcomeScreen(
 	navController: NavHostController,
+	welcomeViewModel: WelcomeViewModel = hiltViewModel()
 ) {
 	//// List Of Pages ////
 	val pages = listOf(
@@ -71,7 +74,9 @@ fun WelcomeScreen(
 			ExploreButton(
 				pagerState = pagerState,
 				onClick = {
-
+					welcomeViewModel.saveOnBoardingState(completed = true)
+					navController.popBackStack()
+					navController.navigate(route = Screen.Home.route)
 				}
 			)
 		}

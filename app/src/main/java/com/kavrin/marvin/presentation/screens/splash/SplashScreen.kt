@@ -10,6 +10,7 @@ import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -19,12 +20,19 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
 import com.kavrin.marvin.R
+import com.kavrin.marvin.navigation.Screen
 import com.kavrin.marvin.ui.theme.*
 
 @Composable
-fun SplashScreen(navController: NavHostController) {
+fun SplashScreen(
+	navController: NavHostController,
+	splashViewModel: SplashViewModel = hiltViewModel()
+) {
+
+	val onBoardingState = splashViewModel.onBoardingCompleted.collectAsState()
 
 	val animAlpha = remember { Animatable(initialValue = 0f) }
 	LaunchedEffect(key1 = true) {
@@ -35,6 +43,13 @@ fun SplashScreen(navController: NavHostController) {
 				delayMillis = 200
 			)
 		)
+
+		navController.popBackStack()
+		if (onBoardingState.value)
+			navController.navigate(route = Screen.Home.route)
+		else
+			navController.navigate(route = Screen.Welcome.route)
+
 	}
 
 	Splash(animAlpha = animAlpha.value)
