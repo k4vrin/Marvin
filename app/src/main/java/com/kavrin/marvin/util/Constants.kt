@@ -2,6 +2,8 @@ package com.kavrin.marvin.util
 
 object Constants {
 
+	const val BASE_URL = "https://api.themoviedb.org/3"
+
 	const val DETAILS_ARGUMENT_KEY = "id"
 	const val LIST_ARGUMENT_KEY = "listId"
 
