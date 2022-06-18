@@ -1,8 +1,11 @@
 package com.kavrin.marvin.di
 
 import com.jakewharton.retrofit2.converter.kotlinx.serialization.asConverterFactory
+import com.kavrin.marvin.data.local.MarvinDatabase
 import com.kavrin.marvin.data.remote.TMDBMovieService
 import com.kavrin.marvin.data.remote.TMDBTvService
+import com.kavrin.marvin.data.repository.impl.RemoteDataSourceImpl
+import com.kavrin.marvin.domain.repository.RemoteDataSource
 import com.kavrin.marvin.util.Constants.BASE_URL
 import dagger.Module
 import dagger.Provides
@@ -58,5 +61,19 @@ object NetworkModule {
 		retrofit: Retrofit
 	): TMDBTvService {
 		return retrofit.create(TMDBTvService::class.java)
+	}
+
+	@Provides
+	@Singleton
+	fun provideRemoteDataSource(
+		movieService: TMDBMovieService,
+		tvService: TMDBTvService,
+		marvinDatabase: MarvinDatabase
+	): RemoteDataSource {
+		return RemoteDataSourceImpl(
+			movieService = movieService,
+			tvService = tvService,
+			marvinDatabase = marvinDatabase
+		)
 	}
 }

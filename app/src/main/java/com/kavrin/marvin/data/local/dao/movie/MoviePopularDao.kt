@@ -15,6 +15,7 @@ interface MoviePopularDao {
 	suspend fun deleteAllPopular()
 
 	@Transaction
-	@Query("SELECT * FROM movie_table WHERE movieId = :movieId")
-	fun getMovieAndPopular(movieId: Int): PagingSource<Int, MovieAndPopular>
+	@Query("SELECT * FROM movie_table")
+	fun getMovieAndPopular(): PagingSource<Int, MovieAndPopular>
+
 }

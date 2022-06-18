@@ -15,6 +15,6 @@ interface TvTrendingDao {
 	suspend fun deleteAllTrending()
 
 	@Transaction
-	@Query("SELECT * FROM tv_table WHERE tvId = :tvId")
-	fun getTvAndTrending(tvId: Int): PagingSource<Int, TvAndTrending>
+	@Query("SELECT * FROM tv_table")
+	fun getTvAndTrending(): PagingSource<Int, TvAndTrending>
 }

@@ -15,6 +15,6 @@ interface TvTopRatedDao {
 	suspend fun deleteAllTopRated()
 
 	@Transaction
-	@Query("SELECT * FROM tv_table WHERE tvId = :tvId")
-	fun getTvAndTopRated(tvId: Int): PagingSource<Int, TvAndTopRated>
+	@Query("SELECT * FROM tv_table")
+	fun getTvAndTopRated(): PagingSource<Int, TvAndTopRated>
 }

@@ -15,6 +15,6 @@ interface MovieTrendingDao {
 	suspend fun deleteAllTrending()
 
 	@Transaction
-	@Query("SELECT * FROM movie_table WHERE movieId = :movieId")
-	fun getMovieAndTrending(movieId: Int): PagingSource<Int, MovieAndTrending>
+	@Query("SELECT * FROM movie_table")
+	fun getMovieAndTrending(): PagingSource<Int, MovieAndTrending>
 }

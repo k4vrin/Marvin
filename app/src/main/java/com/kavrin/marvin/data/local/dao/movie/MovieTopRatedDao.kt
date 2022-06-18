@@ -15,6 +15,6 @@ interface MovieTopRatedDao {
 	suspend fun deleteAllTopRated()
 
 	@Transaction
-	@Query("SELECT * FROM movie_table WHERE movieId = :movieId")
-	fun getMovieAndTopRated(movieId: Int): PagingSource<Int, MovieAndTopRated>
+	@Query("SELECT * FROM movie_table")
+	fun getMovieAndTopRated(): PagingSource<Int, MovieAndTopRated>
 }

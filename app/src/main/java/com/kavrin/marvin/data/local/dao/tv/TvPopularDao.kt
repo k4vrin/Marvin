@@ -15,6 +15,6 @@ interface TvPopularDao {
 	suspend fun deleteAllPopular()
 
 	@Transaction
-	@Query("SELECT * FROM tv_table WHERE tvId = :tvId")
-	fun getTvAndPopular(tvId: Int): PagingSource<Int, TvAndPopular>
+	@Query("SELECT * FROM tv_table")
+	fun getTvAndPopular(): PagingSource<Int, TvAndPopular>
 }

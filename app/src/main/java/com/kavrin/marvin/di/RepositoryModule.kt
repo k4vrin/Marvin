@@ -1,8 +1,8 @@
 package com.kavrin.marvin.di
 
 import android.app.Application
-import com.kavrin.marvin.data.pref.DataStoreOpImpl
 import com.kavrin.marvin.data.repository.Repository
+import com.kavrin.marvin.data.repository.impl.DataStoreOpImpl
 import com.kavrin.marvin.domain.repository.DataStoreOp
 import com.kavrin.marvin.domain.use_cases.ReadOnBoardingUseCase
 import com.kavrin.marvin.domain.use_cases.SaveOnBoardingUseCase
