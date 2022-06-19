@@ -116,7 +116,7 @@ class MoviePopularRemoteMediator @Inject constructor(
 			page.data.isNotEmpty()
 		}?.data?.firstOrNull()
 			?.let {
-				moviePopularRemoteKeysDao.getPopularRemoteKeys(id = it.moviePopular.popularMovieId)
+				it.moviePopular?.let { it1 -> moviePopularRemoteKeysDao.getPopularRemoteKeys(id = it1.popularMovieId) }
 			}
 	}
 
@@ -127,7 +127,7 @@ class MoviePopularRemoteMediator @Inject constructor(
 			it.data.isNotEmpty()
 		}?.data?.lastOrNull()
 			?.let {
-				moviePopularRemoteKeysDao.getPopularRemoteKeys(id = it.moviePopular.popularMovieId)
+				it.moviePopular?.let { it1 -> moviePopularRemoteKeysDao.getPopularRemoteKeys(id = it1.popularMovieId) }
 			}
 	}
 

@@ -24,11 +24,17 @@ import com.kavrin.marvin.domain.model.movie.entities.Movie
 import com.kavrin.marvin.domain.model.movie.entities.MoviePopular
 import com.kavrin.marvin.domain.model.movie.entities.MovieTopRated
 import com.kavrin.marvin.domain.model.movie.entities.MovieTrending
+import com.kavrin.marvin.domain.model.movie.entities.remote_keys.MoviePopularRemoteKeys
+import com.kavrin.marvin.domain.model.movie.entities.remote_keys.MovieTopRatedRemoteKeys
+import com.kavrin.marvin.domain.model.movie.entities.remote_keys.MovieTrendingRemoteKeys
 import com.kavrin.marvin.domain.model.tv.entities.Tv
 import com.kavrin.marvin.domain.model.tv.entities.TvPopular
 import com.kavrin.marvin.domain.model.tv.entities.TvTopRated
 import com.kavrin.marvin.domain.model.tv.entities.TvTrending
 import com.kavrin.marvin.domain.model.tv.entities.relations.TvPlaylistCrossRef
+import com.kavrin.marvin.domain.model.tv.entities.remote_keys.TvPopularRemoteKeys
+import com.kavrin.marvin.domain.model.tv.entities.remote_keys.TvTopRatedRemoteKeys
+import com.kavrin.marvin.domain.model.tv.entities.remote_keys.TvTrendingRemoteKeys
 
 @Database(
 	entities = [
@@ -38,11 +44,17 @@ import com.kavrin.marvin.domain.model.tv.entities.relations.TvPlaylistCrossRef
 		MovieTopRated::class,
 		MovieTrending::class,
 		MoviePlaylistCrossRef::class,
+		MoviePopularRemoteKeys::class,
+		MovieTopRatedRemoteKeys::class,
+		MovieTrendingRemoteKeys::class,
 		Tv::class,
 		TvPopular::class,
 		TvTopRated::class,
 		TvTrending::class,
-		TvPlaylistCrossRef::class
+		TvPlaylistCrossRef::class,
+		TvPopularRemoteKeys::class,
+		TvTopRatedRemoteKeys::class,
+		TvTrendingRemoteKeys::class
 	],
 	version = 1,
 	exportSchema = true

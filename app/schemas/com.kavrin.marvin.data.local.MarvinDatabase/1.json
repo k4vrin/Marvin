@@ -2,7 +2,7 @@
   "formatVersion": 1,
   "database": {
     "version": 1,
-    "identityHash": "ec86cf8850b7f69f422ba79c2d63bf0d",
+    "identityHash": "67c2f559f8d3a63a3aedf1e4796b0568",
     "entities": [
       {
         "tableName": "playlist_table",
@@ -226,6 +226,102 @@
         "foreignKeys": []
       },
       {
+        "tableName": "movie_popular_remote_table",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`moviePopularId` INTEGER NOT NULL, `prevPage` INTEGER, `nextPage` INTEGER, PRIMARY KEY(`moviePopularId`))",
+        "fields": [
+          {
+            "fieldPath": "moviePopularId",
+            "columnName": "moviePopularId",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "prevPage",
+            "columnName": "prevPage",
+            "affinity": "INTEGER",
+            "notNull": false
+          },
+          {
+            "fieldPath": "nextPage",
+            "columnName": "nextPage",
+            "affinity": "INTEGER",
+            "notNull": false
+          }
+        ],
+        "primaryKey": {
+          "columnNames": [
+            "moviePopularId"
+          ],
+          "autoGenerate": false
+        },
+        "indices": [],
+        "foreignKeys": []
+      },
+      {
+        "tableName": "movie_top_rated_remote_table",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`movieTopRatedId` INTEGER NOT NULL, `prevPage` INTEGER, `nextPage` INTEGER, PRIMARY KEY(`movieTopRatedId`))",
+        "fields": [
+          {
+            "fieldPath": "movieTopRatedId",
+            "columnName": "movieTopRatedId",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "prevPage",
+            "columnName": "prevPage",
+            "affinity": "INTEGER",
+            "notNull": false
+          },
+          {
+            "fieldPath": "nextPage",
+            "columnName": "nextPage",
+            "affinity": "INTEGER",
+            "notNull": false
+          }
+        ],
+        "primaryKey": {
+          "columnNames": [
+            "movieTopRatedId"
+          ],
+          "autoGenerate": false
+        },
+        "indices": [],
+        "foreignKeys": []
+      },
+      {
+        "tableName": "movie_trending_remote_table",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`movieTrendingId` INTEGER NOT NULL, `prevPage` INTEGER, `nextPage` INTEGER, PRIMARY KEY(`movieTrendingId`))",
+        "fields": [
+          {
+            "fieldPath": "movieTrendingId",
+            "columnName": "movieTrendingId",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "prevPage",
+            "columnName": "prevPage",
+            "affinity": "INTEGER",
+            "notNull": false
+          },
+          {
+            "fieldPath": "nextPage",
+            "columnName": "nextPage",
+            "affinity": "INTEGER",
+            "notNull": false
+          }
+        ],
+        "primaryKey": {
+          "columnNames": [
+            "movieTrendingId"
+          ],
+          "autoGenerate": false
+        },
+        "indices": [],
+        "foreignKeys": []
+      },
+      {
         "tableName": "tv_table",
         "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`backdropPath` TEXT NOT NULL, `firstAirDate` TEXT NOT NULL, `genreIds` TEXT NOT NULL, `tvId` INTEGER NOT NULL, `name` TEXT NOT NULL, `originCountry` TEXT NOT NULL, `originalLanguage` TEXT NOT NULL, `originalName` TEXT NOT NULL, `overview` TEXT NOT NULL, `popularity` REAL NOT NULL, `posterPath` TEXT NOT NULL, `voteAverage` REAL NOT NULL, `voteCount` INTEGER NOT NULL, PRIMARY KEY(`tvId`))",
         "fields": [
@@ -413,12 +509,108 @@
           }
         ],
         "foreignKeys": []
+      },
+      {
+        "tableName": "tv_popular_remote_table",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`tvPopularId` INTEGER NOT NULL, `prevPage` INTEGER, `nextPage` INTEGER, PRIMARY KEY(`tvPopularId`))",
+        "fields": [
+          {
+            "fieldPath": "tvPopularId",
+            "columnName": "tvPopularId",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "prevPage",
+            "columnName": "prevPage",
+            "affinity": "INTEGER",
+            "notNull": false
+          },
+          {
+            "fieldPath": "nextPage",
+            "columnName": "nextPage",
+            "affinity": "INTEGER",
+            "notNull": false
+          }
+        ],
+        "primaryKey": {
+          "columnNames": [
+            "tvPopularId"
+          ],
+          "autoGenerate": false
+        },
+        "indices": [],
+        "foreignKeys": []
+      },
+      {
+        "tableName": "tv_top_rated_remote_table",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`tvTopRatedId` INTEGER NOT NULL, `prevPage` INTEGER, `nextPage` INTEGER, PRIMARY KEY(`tvTopRatedId`))",
+        "fields": [
+          {
+            "fieldPath": "tvTopRatedId",
+            "columnName": "tvTopRatedId",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "prevPage",
+            "columnName": "prevPage",
+            "affinity": "INTEGER",
+            "notNull": false
+          },
+          {
+            "fieldPath": "nextPage",
+            "columnName": "nextPage",
+            "affinity": "INTEGER",
+            "notNull": false
+          }
+        ],
+        "primaryKey": {
+          "columnNames": [
+            "tvTopRatedId"
+          ],
+          "autoGenerate": false
+        },
+        "indices": [],
+        "foreignKeys": []
+      },
+      {
+        "tableName": "tv_trending_remote_table",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`tvTrendingId` INTEGER NOT NULL, `prevPage` INTEGER, `nextPage` INTEGER, PRIMARY KEY(`tvTrendingId`))",
+        "fields": [
+          {
+            "fieldPath": "tvTrendingId",
+            "columnName": "tvTrendingId",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "prevPage",
+            "columnName": "prevPage",
+            "affinity": "INTEGER",
+            "notNull": false
+          },
+          {
+            "fieldPath": "nextPage",
+            "columnName": "nextPage",
+            "affinity": "INTEGER",
+            "notNull": false
+          }
+        ],
+        "primaryKey": {
+          "columnNames": [
+            "tvTrendingId"
+          ],
+          "autoGenerate": false
+        },
+        "indices": [],
+        "foreignKeys": []
       }
     ],
     "views": [],
     "setupQueries": [
       "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
-      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, 'ec86cf8850b7f69f422ba79c2d63bf0d')"
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, '67c2f559f8d3a63a3aedf1e4796b0568')"
     ]
   }
 }

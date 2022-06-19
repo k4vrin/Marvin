@@ -7,6 +7,12 @@ import com.kavrin.marvin.domain.repository.DataStoreOp
 import com.kavrin.marvin.domain.use_cases.ReadOnBoardingUseCase
 import com.kavrin.marvin.domain.use_cases.SaveOnBoardingUseCase
 import com.kavrin.marvin.domain.use_cases.UseCases
+import com.kavrin.marvin.domain.use_cases.movie.GetPopularMoviesUseCase
+import com.kavrin.marvin.domain.use_cases.movie.GetTopRatedMoviesUseCase
+import com.kavrin.marvin.domain.use_cases.movie.GetTrendingMoviesUseCase
+import com.kavrin.marvin.domain.use_cases.tv.GetPopularTvsUseCase
+import com.kavrin.marvin.domain.use_cases.tv.GetTopRatedTvsUseCase
+import com.kavrin.marvin.domain.use_cases.tv.GetTrendingTvsUseCase
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -20,7 +26,7 @@ object RepositoryModule {
 	@Provides
 	@Singleton
 	fun provideDataStoreOp(
-		app: Application
+		app: Application,
 	): DataStoreOp {
 		return DataStoreOpImpl(context = app)
 	}
@@ -28,11 +34,17 @@ object RepositoryModule {
 	@Provides
 	@Singleton
 	fun provideUseCases(
-		repository: Repository
+		repository: Repository,
 	): UseCases {
 		return UseCases(
 			saveOnBoardingUseCase = SaveOnBoardingUseCase(repository = repository),
-			readOnBoardingUseCase = ReadOnBoardingUseCase(repository = repository)
+			readOnBoardingUseCase = ReadOnBoardingUseCase(repository = repository),
+			getPopularMoviesUseCase = GetPopularMoviesUseCase(repository = repository),
+			getTopRatedMoviesUseCase = GetTopRatedMoviesUseCase(repository = repository),
+			getTrendingMoviesUseCase = GetTrendingMoviesUseCase(repository = repository),
+			getPopularTvsUseCase = GetPopularTvsUseCase(repository = repository),
+			getTopRatedTvsUseCase = GetTopRatedTvsUseCase(repository = repository),
+			getTrendingTvsUseCase = GetTrendingTvsUseCase(repository = repository)
 		)
 	}
 }

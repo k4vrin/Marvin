@@ -8,12 +8,12 @@ import com.kavrin.marvin.domain.model.movie.entities.MoviePopular
 data class MovieAndPopular(
 
 	@Embedded
-	val movie: Movie,
+	val movie: Movie?,
 
 	@Relation(
 		parentColumn = "movieId",
 		entityColumn = "popularMovieId",
 		entity = MoviePopular::class
 	)
-	val moviePopular: MoviePopular
+	val moviePopular: MoviePopular?
 )
