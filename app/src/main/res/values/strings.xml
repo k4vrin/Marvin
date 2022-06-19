@@ -4,4 +4,6 @@
     <string name="explore">Explore</string>
     <string name="on_boarding_image">OnBoarding Image</string>
     <string name="search_icon">Search Icon</string>
+    <string name="movie_poster">Movie Poster</string>
+    <string name="menu_icon">Menu Icon</string>
 </resources>

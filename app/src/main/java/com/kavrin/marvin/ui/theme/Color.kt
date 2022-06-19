@@ -20,6 +20,14 @@ val LightGray = Color(0xFFadb5bd)
 val MediumGray = Color(0xFF6c757d)
 val DarkGray = Color(0xFF343a40)
 
+val HighRate = Color(0xFF008000)
+val MediumRate = Color(0xFFeeef20)
+val LowRate = Color(0xFFd00000)
+
+val DarkCard = Color(0xFF212529)
+val LightCard = Color(0xFFe9ecef)
+
+
 val Colors.backGroundColor
 	@Composable
 	get() = if (isLight) BackGround else Color.Black
@@ -31,3 +39,11 @@ val Colors.topBarContentColor
 val Colors.topBarBgColor
 	@Composable
 	get() = if (isLight) Color.White else Color.Black
+
+val Colors.cardColor
+	@Composable
+	get() = if (isLight) LightCard else DarkCard
+
+val Colors.cardContentColor
+	@Composable
+	get() = if (isLight) DarkGray else LightGray
