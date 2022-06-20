@@ -116,7 +116,7 @@ class TvPopularRemoteMediator @Inject constructor(
 			page.data.isNotEmpty()
 		}?.data?.firstOrNull()
 			?.let {
-				tvPopularRemoteKeysDao.getPopularRemoteKeys(id = it.tvPopular.popularTvId)
+				it.tvPopular?.let { it1 -> tvPopularRemoteKeysDao.getPopularRemoteKeys(id = it1.popularTvId) }
 			}
 	}
 
@@ -127,7 +127,7 @@ class TvPopularRemoteMediator @Inject constructor(
 			it.data.isNotEmpty()
 		}?.data?.lastOrNull()
 			?.let {
-				tvPopularRemoteKeysDao.getPopularRemoteKeys(id = it.tvPopular.popularTvId)
+				it.tvPopular?.let { it1 -> tvPopularRemoteKeysDao.getPopularRemoteKeys(id = it1.popularTvId) }
 			}
 	}
 

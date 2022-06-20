@@ -116,7 +116,7 @@ class TvTrendingRemoteMediator @Inject constructor(
 			page.data.isNotEmpty()
 		}?.data?.firstOrNull()
 			?.let {
-				tvTrendingRemoteKeysDao.getTrendingRemoteKeys(id = it.tvTrending.trendingTvId)
+				it.tvTrending?.let { it1 -> tvTrendingRemoteKeysDao.getTrendingRemoteKeys(id = it1.trendingTvId) }
 			}
 	}
 
@@ -127,7 +127,7 @@ class TvTrendingRemoteMediator @Inject constructor(
 			it.data.isNotEmpty()
 		}?.data?.lastOrNull()
 			?.let {
-				tvTrendingRemoteKeysDao.getTrendingRemoteKeys(id = it.tvTrending.trendingTvId)
+				it.tvTrending?.let { it1 -> tvTrendingRemoteKeysDao.getTrendingRemoteKeys(id = it1.trendingTvId) }
 			}
 	}
 

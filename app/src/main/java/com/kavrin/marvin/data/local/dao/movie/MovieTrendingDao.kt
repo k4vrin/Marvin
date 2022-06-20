@@ -20,5 +20,10 @@ interface MovieTrendingDao {
 
 	@Transaction
 	@Query("SELECT * FROM movie_table ORDER BY popularity DESC LIMIT 5")
-	fun getMovieAndTrendingCarousel(): PagingSource<Int, MovieAndTrending>
+	fun getCarouselMovieAndTrending(): PagingSource<Int, MovieAndTrending>
+
+	@Transaction
+	@Query("SELECT * FROM movie_table LIMIT 8")
+	fun getHomeMovieAndTrending(): PagingSource<Int, MovieAndTrending>
+
 }

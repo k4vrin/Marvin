@@ -1,15 +1,15 @@
-package com.kavrin.marvin.domain.use_cases.tv
+package com.kavrin.marvin.domain.use_cases.home
 
 import androidx.paging.PagingData
 import com.kavrin.marvin.data.repository.Repository
 import com.kavrin.marvin.domain.model.tv.entities.relations.TvAndTrending
 import kotlinx.coroutines.flow.Flow
 
-class GetTrendingTvsUseCase(
+class GetCarouselTvs(
 	private val repository: Repository
 ) {
 
 	operator fun invoke(): Flow<PagingData<TvAndTrending>> {
-		return repository.getAllTrendingTvs()
+		return repository.getCarouselTvs()
 	}
 }

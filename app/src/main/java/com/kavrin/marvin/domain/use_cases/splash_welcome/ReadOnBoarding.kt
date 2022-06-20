@@ -1,9 +1,9 @@
-package com.kavrin.marvin.domain.use_cases
+package com.kavrin.marvin.domain.use_cases.splash_welcome
 
 import com.kavrin.marvin.data.repository.Repository
 import kotlinx.coroutines.flow.Flow
 
-class ReadOnBoardingUseCase(
+class ReadOnBoarding(
 	private val repository: Repository
 ) {
 

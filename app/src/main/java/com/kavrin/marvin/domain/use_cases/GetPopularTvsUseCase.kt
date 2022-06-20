@@ -1,4 +1,4 @@
-package com.kavrin.marvin.domain.use_cases.tv
+package com.kavrin.marvin.domain.use_cases
 
 import androidx.paging.PagingData
 import com.kavrin.marvin.data.repository.Repository

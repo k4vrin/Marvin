@@ -116,7 +116,7 @@ class MovieTopRatedRemoteMediator @Inject constructor(
 			page.data.isNotEmpty()
 		}?.data?.firstOrNull()
 			?.let {
-				movieTopRatedRemoteKeysDao.getTopRatedRemoteKeys(id = it.movieTopRated.topRatedMovieId)
+				it.movieTopRated?.let { it1 -> movieTopRatedRemoteKeysDao.getTopRatedRemoteKeys(id = it1.topRatedMovieId) }
 			}
 	}
 
@@ -127,7 +127,7 @@ class MovieTopRatedRemoteMediator @Inject constructor(
 			it.data.isNotEmpty()
 		}?.data?.lastOrNull()
 			?.let {
-				movieTopRatedRemoteKeysDao.getTopRatedRemoteKeys(id = it.movieTopRated.topRatedMovieId)
+				it.movieTopRated?.let { it1 -> movieTopRatedRemoteKeysDao.getTopRatedRemoteKeys(id = it1.topRatedMovieId) }
 			}
 	}
 

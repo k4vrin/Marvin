@@ -4,8 +4,10 @@ import com.jakewharton.retrofit2.converter.kotlinx.serialization.asConverterFact
 import com.kavrin.marvin.data.local.MarvinDatabase
 import com.kavrin.marvin.data.remote.TMDBMovieService
 import com.kavrin.marvin.data.remote.TMDBTvService
-import com.kavrin.marvin.data.repository.impl.RemoteDataSourceImpl
-import com.kavrin.marvin.domain.repository.RemoteDataSource
+import com.kavrin.marvin.data.repository.impl.MovieRemoteDataSourceImpl
+import com.kavrin.marvin.data.repository.impl.TvRemoteDataSourceImpl
+import com.kavrin.marvin.domain.repository.MovieRemoteDataSource
+import com.kavrin.marvin.domain.repository.TvRemoteDataSource
 import com.kavrin.marvin.util.Constants.BASE_URL
 import dagger.Module
 import dagger.Provides
@@ -65,13 +67,23 @@ object NetworkModule {
 
 	@Provides
 	@Singleton
-	fun provideRemoteDataSource(
+	fun provideMovieRemoteDataSource(
 		movieService: TMDBMovieService,
+		marvinDatabase: MarvinDatabase
+	): MovieRemoteDataSource {
+		return MovieRemoteDataSourceImpl(
+			movieService = movieService,
+			marvinDatabase = marvinDatabase
+		)
+	}
+
+	@Provides
+	@Singleton
+	fun provideTvRemoteDataSource(
 		tvService: TMDBTvService,
 		marvinDatabase: MarvinDatabase
-	): RemoteDataSource {
-		return RemoteDataSourceImpl(
-			movieService = movieService,
+	): TvRemoteDataSource {
+		return TvRemoteDataSourceImpl(
 			tvService = tvService,
 			marvinDatabase = marvinDatabase
 		)

@@ -116,7 +116,7 @@ class TvTopRatedRemoteMediator @Inject constructor(
 			page.data.isNotEmpty()
 		}?.data?.firstOrNull()
 			?.let {
-				tvTopRatedRemoteKeysDao.getTopRatedRemoteKeys(id = it.tvTopRated.topRatedTvId)
+				it.tvTopRated?.let { it1 -> tvTopRatedRemoteKeysDao.getTopRatedRemoteKeys(id = it1.topRatedTvId) }
 			}
 	}
 
@@ -127,7 +127,7 @@ class TvTopRatedRemoteMediator @Inject constructor(
 			it.data.isNotEmpty()
 		}?.data?.lastOrNull()
 			?.let {
-				tvTopRatedRemoteKeysDao.getTopRatedRemoteKeys(id = it.tvTopRated.topRatedTvId)
+				it.tvTopRated?.let { it1 -> tvTopRatedRemoteKeysDao.getTopRatedRemoteKeys(id = it1.topRatedTvId) }
 			}
 	}
 

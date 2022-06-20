@@ -3,6 +3,7 @@ package com.kavrin.marvin.data.local.dao.tv
 import androidx.paging.PagingSource
 import androidx.room.*
 import com.kavrin.marvin.domain.model.tv.entities.TvTrending
+import com.kavrin.marvin.domain.model.tv.entities.relations.TvAndTopRated
 import com.kavrin.marvin.domain.model.tv.entities.relations.TvAndTrending
 
 @Dao
@@ -18,8 +19,11 @@ interface TvTrendingDao {
 	@Query("SELECT * FROM tv_table")
 	fun getTvAndTrending(): PagingSource<Int, TvAndTrending>
 
-
 	@Transaction
 	@Query("SELECT * FROM tv_table ORDER BY popularity DESC LIMIT 5")
-	fun getMovieAndTrendingCarousel(): PagingSource<Int, TvAndTrending>
+	fun getCarouselTvAndTrending(): PagingSource<Int, TvAndTrending>
+
+	@Transaction
+	@Query("SELECT * FROM tv_table LIMIT 8")
+	fun getHomeTvAndTrending(): PagingSource<Int, TvAndTrending>
 }

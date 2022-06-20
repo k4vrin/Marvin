@@ -2,7 +2,7 @@ package com.kavrin.marvin.presentation.screens.splash
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.kavrin.marvin.domain.use_cases.UseCases
+import com.kavrin.marvin.domain.use_cases.splash_welcome.SplashWelcomeUseCases
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -13,7 +13,7 @@ import javax.inject.Inject
 
 @HiltViewModel
 class SplashViewModel @Inject constructor(
-	private val useCases: UseCases,
+	private val useCases: SplashWelcomeUseCases,
 ) : ViewModel() {
 
 	private val _onBoardingCompleted = MutableStateFlow(false)
@@ -22,7 +22,7 @@ class SplashViewModel @Inject constructor(
 	init {
 		viewModelScope.launch(context = Dispatchers.IO) {
 			_onBoardingCompleted.value =
-				useCases.readOnBoardingUseCase().stateIn(scope = viewModelScope).value
+				useCases.readOnBoarding().stateIn(scope = viewModelScope).value
 		}
 	}
 }

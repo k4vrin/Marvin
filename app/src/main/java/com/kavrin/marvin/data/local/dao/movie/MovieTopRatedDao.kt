@@ -3,6 +3,7 @@ package com.kavrin.marvin.data.local.dao.movie
 import androidx.paging.PagingSource
 import androidx.room.*
 import com.kavrin.marvin.domain.model.movie.entities.MovieTopRated
+import com.kavrin.marvin.domain.model.movie.entities.relations.MovieAndPopular
 import com.kavrin.marvin.domain.model.movie.entities.relations.MovieAndTopRated
 
 @Dao
@@ -17,4 +18,8 @@ interface MovieTopRatedDao {
 	@Transaction
 	@Query("SELECT * FROM movie_table")
 	fun getMovieAndTopRated(): PagingSource<Int, MovieAndTopRated>
+
+	@Transaction
+	@Query("SELECT * FROM movie_table LIMIT 8")
+	fun getHomeMovieAndTopRated(): PagingSource<Int, MovieAndTopRated>
 }

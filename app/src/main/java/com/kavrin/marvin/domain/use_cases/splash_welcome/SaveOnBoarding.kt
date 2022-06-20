@@ -1,8 +1,8 @@
-package com.kavrin.marvin.domain.use_cases
+package com.kavrin.marvin.domain.use_cases.splash_welcome
 
 import com.kavrin.marvin.data.repository.Repository
 
-class SaveOnBoardingUseCase(
+class SaveOnBoarding(
 	private val repository: Repository
 ) {
 

@@ -28,7 +28,7 @@ import com.kavrin.marvin.ui.theme.*
 
 @Composable
 fun MovieCarousel(
-	trendingItems: LazyPagingItems<MovieAndTrending>,
+	items: LazyPagingItems<MovieAndTrending>,
 	onItemClicked: (Int) -> Unit,
 	onMenuIconClicked: (Int) -> Unit,
 ) {
@@ -43,14 +43,14 @@ fun MovieCarousel(
 	) {
 
 		HorizontalPager(
-			count = trendingItems.itemCount,
+			count = items.itemCount,
 			state = pagerState,
 			contentPadding = PaddingValues(
 				horizontal = CAROUSEL_HORIZONTAL_PADDING,
 				vertical = CAROUSEL_VERTICAL_PADDING
 			),
 		) { page ->
-			val item = trendingItems[page]
+			val item = items[page]
 
 			val scale = remember {
 				Animatable(
@@ -96,14 +96,16 @@ fun MovieCarousel(
 				enter = fadeIn(),
 				exit = fadeOut()
 			) {
-				trendingItems[pagerState.currentPage]?.movie?.title?.let {
-					Text(
-						text = it,
-						fontFamily = fonts,
-						fontSize = MaterialTheme.typography.h6.fontSize,
-						fontWeight = FontWeight.Bold,
-						textAlign = TextAlign.Center
-					)
+				if (items.itemCount >= 1) {
+					items[pagerState.currentPage]?.movie?.title?.let {
+						Text(
+							text = it,
+							fontFamily = fonts,
+							fontSize = MaterialTheme.typography.h6.fontSize,
+							fontWeight = FontWeight.Bold,
+							textAlign = TextAlign.Center
+						)
+					}
 				}
 
 			}

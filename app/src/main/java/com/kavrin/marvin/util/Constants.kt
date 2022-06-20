@@ -38,6 +38,6 @@ object Constants {
 	const val PREFERENCES_NAME = "marvin_preferences"
 	const val PREFERENCES_KEY = "on_boarding_completed"
 
-	const val ITEMS_PER_PAGE = 20
+	const val ITEMS_PER_PAGE = 10
 
 }
