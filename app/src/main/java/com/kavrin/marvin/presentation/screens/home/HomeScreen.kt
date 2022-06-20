@@ -12,9 +12,15 @@ fun HomeScreen(
 	homeViewModel: HomeViewModel = hiltViewModel(),
 ) {
 
-	val popularMovies = homeViewModel.getPopularMovies.collectAsLazyPagingItems()
-	val trendingMovies = homeViewModel.getTrendingMovie.collectAsLazyPagingItems()
 	val carouselMovies = homeViewModel.getCarouselMovies.collectAsLazyPagingItems()
+	val popularMovies = homeViewModel.getPopularMovies.collectAsLazyPagingItems()
+	val topRatedMovies = homeViewModel.getTopRatedMovies.collectAsLazyPagingItems()
+	val trendingMovies = homeViewModel.getTrendingMovies.collectAsLazyPagingItems()
+
+	val carouselTvs = homeViewModel.getCarouselTvs.collectAsLazyPagingItems()
+	val popularTvs = homeViewModel.getPopularTvs.collectAsLazyPagingItems()
+	val topRatedTvs = homeViewModel.getTopRatedTvs.collectAsLazyPagingItems()
+	val trendingTvs = homeViewModel.getTrendingTvs.collectAsLazyPagingItems()
 
 	Scaffold(
 		topBar = {
@@ -26,7 +32,15 @@ fun HomeScreen(
 
 		HomeContent(
 			navHostController = navController,
-			movies = carouselMovies
+			carouselMovies = carouselMovies,
+			popularMovies = popularMovies,
+			topRatedMovies = topRatedMovies,
+			trendingMovies = trendingMovies,
+			carouselTvs = carouselTvs,
+			popularTvs = popularTvs,
+			topRatedTvs = topRatedTvs,
+			trendingTvs = trendingTvs,
+			paddingValues = it
 		)
 	}
 

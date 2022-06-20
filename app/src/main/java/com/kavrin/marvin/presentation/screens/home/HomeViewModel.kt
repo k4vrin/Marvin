@@ -12,4 +12,12 @@ class HomeViewModel @Inject constructor(
 
 
 	val getCarouselMovies = useCases.getCarouselMovies()
+	val getPopularMovies = useCases.getHomePopularMovies()
+	val getTopRatedMovies = useCases.getHomeTopRatedMovies()
+	val getTrendingMovies = useCases.getHomeTrendingMovies()
+
+	val getCarouselTvs = useCases.getCarouselTvs()
+	val getPopularTvs = useCases.getHomePopularTvs()
+	val getTopRatedTvs = useCases.getHomeTopRatedTvs()
+	val getTrendingTvs = useCases.getHomeTrendingTvs()
 }

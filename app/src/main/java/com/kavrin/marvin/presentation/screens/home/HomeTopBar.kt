@@ -7,6 +7,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import com.kavrin.marvin.R
+import com.kavrin.marvin.ui.theme.HOME_TOP_BAR_ELEVATION
 import com.kavrin.marvin.ui.theme.fonts
 import com.kavrin.marvin.ui.theme.topBarBgColor
 import com.kavrin.marvin.ui.theme.topBarContentColor
@@ -38,7 +39,8 @@ fun HomeTopBar(
 					contentDescription = stringResource(R.string.search_icon)
 				)
 			}
-		}
+		},
+		elevation = HOME_TOP_BAR_ELEVATION
 	)
 }
 
