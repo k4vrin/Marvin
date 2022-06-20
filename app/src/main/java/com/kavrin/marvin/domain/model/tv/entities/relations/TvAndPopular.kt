@@ -8,12 +8,12 @@ import com.kavrin.marvin.domain.model.tv.entities.TvPopular
 data class TvAndPopular(
 
 	@Embedded
-	val tv: Tv,
+	val tv: Tv?,
 
 	@Relation(
 		parentColumn = "tvId",
 		entityColumn = "popularTvId",
 		entity = TvPopular::class
 	)
-	val tvPopular: TvPopular
+	val tvPopular: TvPopular?
 )

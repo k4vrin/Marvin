@@ -24,9 +24,9 @@ import com.kavrin.marvin.ui.theme.SMALL_PADDING
 @Composable
 fun PosterWithRating(
 	painter: Painter,
-	rating: Double,
-	count: Int,
-	itemId: Int,
+	rating: Double?,
+	count: Int?,
+	itemId: Int?,
 	modifier: Modifier = Modifier,
 	maxIndicatorValue: Float = 10f,
 	backgroundIndicatorStrokeWidth: Float = 15f,
@@ -45,7 +45,9 @@ fun PosterWithRating(
 			modifier = Modifier
 				.fillMaxSize()
 				.clickable {
-					onItemClicked(itemId)
+					itemId?.let {
+						onItemClicked(it)
+					}
 				},
 			painter = painter,
 			contentDescription = stringResource(R.string.movie_poster),
@@ -65,17 +67,23 @@ fun PosterWithRating(
 				verticalAlignment = Alignment.CenterVertically,
 				horizontalArrangement = Arrangement.SpaceBetween
 			) {
-				RatingIndicator(
-					canvasSize = 75.dp,
-					backgroundIndicatorStrokeWidth = backgroundIndicatorStrokeWidth,
-					foregroundIndicatorStrokeWidth = foregroundIndicatorStrokeWidth,
-					indicatorValue = rating,
-					maxIndicatorValue = maxIndicatorValue,
-					smallText = count
-				)
+				if (rating != null && count != null) {
+					RatingIndicator(
+						canvasSize = 75.dp,
+						backgroundIndicatorStrokeWidth = backgroundIndicatorStrokeWidth,
+						foregroundIndicatorStrokeWidth = foregroundIndicatorStrokeWidth,
+						indicatorValue = rating,
+						maxIndicatorValue = maxIndicatorValue,
+						smallText = count
+					)
+				}
 
 				IconButton(
-					onClick = { onMenuIconClicked(itemId) }
+					onClick = {
+						itemId?.let {
+							onMenuIconClicked(it)
+						}
+					}
 				) {
 
 					Icon(

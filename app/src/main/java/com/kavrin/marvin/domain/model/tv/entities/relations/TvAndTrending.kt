@@ -8,12 +8,12 @@ import com.kavrin.marvin.domain.model.tv.entities.TvTrending
 data class TvAndTrending(
 
 	@Embedded
-	val tv: Tv,
+	val tv: Tv?,
 
 	@Relation(
 		parentColumn = "tvId",
 		entityColumn = "trendingTvId",
 		entity = TvTrending::class
 	)
-	val tvTrending: TvTrending
+	val tvTrending: TvTrending?
 )

@@ -5,11 +5,11 @@ import com.kavrin.marvin.data.repository.Repository
 import com.kavrin.marvin.domain.model.movie.entities.relations.MovieAndTrending
 import kotlinx.coroutines.flow.Flow
 
-class MovieCarouselUseCase(
+class GetCarouselMoviesUseCase(
 	private val repository: Repository
 ) {
 
 	operator fun invoke(): Flow<PagingData<MovieAndTrending>> {
-		return repository.getMovieCarousel()
+		return repository.getCarouselMovies()
 	}
 }

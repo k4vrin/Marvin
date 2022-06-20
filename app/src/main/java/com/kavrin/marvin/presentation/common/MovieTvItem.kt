@@ -15,7 +15,7 @@ import com.kavrin.marvin.ui.theme.*
 import com.kavrin.marvin.util.Constants.IMAGE_BASE_URL
 
 @Composable
-fun MovieItem(
+fun MovieTvItem(
 	posterPath: String,
 	rating: Double,
 	voteCount: Int,
@@ -82,7 +82,7 @@ fun MovieItem(
 @Preview
 @Composable
 fun MovieItemPrev() {
-	MovieItem(
+	MovieTvItem(
 		posterPath = "",
 		rating = 8.8,
 		voteCount = 46545,

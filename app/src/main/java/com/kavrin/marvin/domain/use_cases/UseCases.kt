@@ -3,7 +3,7 @@ package com.kavrin.marvin.domain.use_cases
 import com.kavrin.marvin.domain.use_cases.movie.GetPopularMoviesUseCase
 import com.kavrin.marvin.domain.use_cases.movie.GetTopRatedMoviesUseCase
 import com.kavrin.marvin.domain.use_cases.movie.GetTrendingMoviesUseCase
-import com.kavrin.marvin.domain.use_cases.movie.MovieCarouselUseCase
+import com.kavrin.marvin.domain.use_cases.movie.GetCarouselMoviesUseCase
 import com.kavrin.marvin.domain.use_cases.tv.GetPopularTvsUseCase
 import com.kavrin.marvin.domain.use_cases.tv.GetTopRatedTvsUseCase
 import com.kavrin.marvin.domain.use_cases.tv.GetTrendingTvsUseCase
@@ -15,7 +15,7 @@ data class UseCases(
 	val getPopularMoviesUseCase: GetPopularMoviesUseCase,
 	val getTopRatedMoviesUseCase: GetTopRatedMoviesUseCase,
 	val getTrendingMoviesUseCase: GetTrendingMoviesUseCase,
-	val carouselUseCase: MovieCarouselUseCase,
+	val carouselUseCase: GetCarouselMoviesUseCase,
 	val getPopularTvsUseCase: GetPopularTvsUseCase,
 	val getTopRatedTvsUseCase: GetTopRatedTvsUseCase,
 	val getTrendingTvsUseCase: GetTrendingTvsUseCase

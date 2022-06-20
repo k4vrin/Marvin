@@ -10,7 +10,7 @@ import com.kavrin.marvin.domain.use_cases.UseCases
 import com.kavrin.marvin.domain.use_cases.movie.GetPopularMoviesUseCase
 import com.kavrin.marvin.domain.use_cases.movie.GetTopRatedMoviesUseCase
 import com.kavrin.marvin.domain.use_cases.movie.GetTrendingMoviesUseCase
-import com.kavrin.marvin.domain.use_cases.movie.MovieCarouselUseCase
+import com.kavrin.marvin.domain.use_cases.movie.GetCarouselMoviesUseCase
 import com.kavrin.marvin.domain.use_cases.tv.GetPopularTvsUseCase
 import com.kavrin.marvin.domain.use_cases.tv.GetTopRatedTvsUseCase
 import com.kavrin.marvin.domain.use_cases.tv.GetTrendingTvsUseCase
@@ -43,7 +43,7 @@ object RepositoryModule {
 			getPopularMoviesUseCase = GetPopularMoviesUseCase(repository = repository),
 			getTopRatedMoviesUseCase = GetTopRatedMoviesUseCase(repository = repository),
 			getTrendingMoviesUseCase = GetTrendingMoviesUseCase(repository = repository),
-			carouselUseCase = MovieCarouselUseCase(repository = repository),
+			carouselUseCase = GetCarouselMoviesUseCase(repository = repository),
 			getPopularTvsUseCase = GetPopularTvsUseCase(repository = repository),
 			getTopRatedTvsUseCase = GetTopRatedTvsUseCase(repository = repository),
 			getTrendingTvsUseCase = GetTrendingTvsUseCase(repository = repository)
