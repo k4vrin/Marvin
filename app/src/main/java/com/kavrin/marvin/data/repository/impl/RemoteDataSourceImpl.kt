@@ -75,6 +75,21 @@ class RemoteDataSourceImpl(
 		).flow
 	}
 
+	override fun getCarouselMovies(): Flow<PagingData<MovieAndTrending>> {
+		val pagingSourceFactory = {
+			marvinDatabase.movieTrendingDao().getMovieAndTrendingCarousel()
+		}
+
+		return Pager(
+			config = PagingConfig(pageSize = ITEMS_PER_PAGE),
+			remoteMediator = MovieTrendingRemoteMediator(
+				movieService = movieService,
+				marvinDatabase = marvinDatabase
+			),
+			pagingSourceFactory = pagingSourceFactory
+		).flow
+	}
+
 	override fun getPopularTvs(): Flow<PagingData<TvAndPopular>> {
 		val pagingSourceFactory = {
 			marvinDatabase.tvPopularDao().getTvAndPopular()

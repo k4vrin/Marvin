@@ -81,7 +81,7 @@ dependencies {
     debugImplementation "androidx.compose.ui:ui-test-manifest:$compose_version"
 
     // Compose Navigation
-    implementation("androidx.navigation:navigation-compose:2.5.0-rc01")
+    implementation("androidx.navigation:navigation-compose:2.5.0-rc02")
 
     // Room components
     implementation "androidx.room:room-runtime:2.4.2"
@@ -95,7 +95,7 @@ dependencies {
     implementation("com.jakewharton.retrofit:retrofit2-kotlinx-serialization-converter:0.8.0")
 
     // Paging 3.0
-    implementation 'androidx.paging:paging-compose:1.0.0-alpha14'
+    implementation 'androidx.paging:paging-compose:1.0.0-alpha15'
     implementation("androidx.paging:paging-runtime-ktx:3.1.1")
 
 

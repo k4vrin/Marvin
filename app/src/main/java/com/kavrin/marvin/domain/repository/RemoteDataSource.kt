@@ -16,6 +16,7 @@ interface RemoteDataSource {
 	fun getPopularMovies(): Flow<PagingData<MovieAndPopular>>
 	fun getTopRatedMovies(): Flow<PagingData<MovieAndTopRated>>
 	fun getTrendingMovies(): Flow<PagingData<MovieAndTrending>>
+	fun getCarouselMovies(): Flow<PagingData<MovieAndTrending>>
 	fun searchMovies(): Flow<PagingData<Movie>>
 
 	fun getPopularTvs(): Flow<PagingData<TvAndPopular>>

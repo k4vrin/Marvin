@@ -1,9 +1,9 @@
 buildscript {
     ext {
-        compose_version = '1.1.1'
-        accompanist_version = '0.23.1'
+        compose_version = '1.2.0-rc01'
+        accompanist_version = '0.24.11-rc'
         dagger_hilt_vesion = '2.41'
-        kotlin_version = '1.6.10'
+        kotlin_version = '1.6.21'
     }
     dependencies {
         classpath 'com.android.tools.build:gradle:7.2.1'

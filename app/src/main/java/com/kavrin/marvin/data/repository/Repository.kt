@@ -29,6 +29,10 @@ class Repository @Inject constructor(
 		return remote.getTrendingMovies()
 	}
 
+	fun getMovieCarousel(): Flow<PagingData<MovieAndTrending>> {
+		return remote.getCarouselMovies()
+	}
+
 	fun getAllPopularTvs(): Flow<PagingData<TvAndPopular>> {
 		return remote.getPopularTvs()
 	}
