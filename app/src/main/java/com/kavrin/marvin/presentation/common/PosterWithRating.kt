@@ -15,11 +15,11 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.dp
 import com.kavrin.marvin.R
 import com.kavrin.marvin.presentation.component.RatingIndicator
-import com.kavrin.marvin.ui.theme.LARGE_PADDING
-import com.kavrin.marvin.ui.theme.MAIN_RATING_SIZE
 import com.kavrin.marvin.ui.theme.MENU_ICON_SIZE
+import com.kavrin.marvin.ui.theme.SMALL_PADDING
 
 @Composable
 fun PosterWithRating(
@@ -55,18 +55,18 @@ fun PosterWithRating(
 		Surface(
 			modifier = Modifier
 				.fillMaxWidth()
-				.fillMaxHeight(0.2f),
+				.fillMaxHeight(0.3f),
 			color = Color.Black.copy(alpha = ContentAlpha.medium),
 		) {
 
 			Row(
 				modifier = Modifier
-					.padding(horizontal = LARGE_PADDING),
+					.padding(horizontal = SMALL_PADDING),
 				verticalAlignment = Alignment.CenterVertically,
 				horizontalArrangement = Arrangement.SpaceBetween
 			) {
 				RatingIndicator(
-					canvasSize = MAIN_RATING_SIZE,
+					canvasSize = 75.dp,
 					backgroundIndicatorStrokeWidth = backgroundIndicatorStrokeWidth,
 					foregroundIndicatorStrokeWidth = foregroundIndicatorStrokeWidth,
 					indicatorValue = rating,
