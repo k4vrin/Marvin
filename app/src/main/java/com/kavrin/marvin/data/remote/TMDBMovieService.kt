@@ -8,14 +8,14 @@ import retrofit2.http.Query
 
 interface TMDBMovieService {
 
-	@GET("/movie/popular")
+	@GET("movie/popular")
 	suspend fun getPopularMovies(
 		@Query("api_key") apiKey: String = BuildConfig.API_KEY,
 		@Query("page") page: Int = 1
 	): MovieApiResponse
 
 
-	@GET("/movie/top_rated")
+	@GET("movie/top_rated")
 	suspend fun getTopRatedMovies(
 		@Query("api_key") apiKey: String = BuildConfig.API_KEY,
 		@Query("page") page: Int = 1
@@ -29,7 +29,7 @@ interface TMDBMovieService {
 	): MovieApiResponse
 
 
-	@GET("/search/movie")
+	@GET("search/movie")
 	suspend fun searchMovies(
 		@Query("api_key") apiKey: String = BuildConfig.API_KEY,
 		@Query("query") query: String,
@@ -38,7 +38,7 @@ interface TMDBMovieService {
 	): MovieApiResponse
 
 
-	@GET("/genre/movie/list")
+	@GET("genre/movie/list")
 	suspend fun getMovieGenres(
 		@Query("api_key") apiKey: String = BuildConfig.API_KEY,
 		@Query("page") page: Int = 1
