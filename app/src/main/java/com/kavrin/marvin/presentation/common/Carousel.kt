@@ -69,7 +69,7 @@ fun <T : MarvinItem> Carousel(
 				} else {
 					scale.animateTo(
 						targetValue = 1f,
-						animationSpec = tween(durationMillis = 700)
+						animationSpec = tween(durationMillis = 200)
 					)
 				}
 			}
@@ -106,8 +106,16 @@ fun <T : MarvinItem> Carousel(
 		) {
 			AnimatedVisibility(
 				visible = !pagerState.isScrollInProgress,
-				enter = fadeIn(),
-				exit = fadeOut()
+				enter = fadeIn(
+					animationSpec = tween(
+						durationMillis = 500
+					)
+				),
+				exit = fadeOut(
+					animationSpec = tween(
+						durationMillis = 200
+					)
+				)
 			) {
 				if (items.itemCount >= 1) {
 					val title = if (isMovie) items[pagerState.currentPage]?.movie?.title else items[pagerState.currentPage]?.tv?.name

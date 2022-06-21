@@ -12,11 +12,11 @@ import com.kavrin.marvin.ui.theme.*
 
 @Composable
 fun MovieTvItem(
-	posterPath: String,
-	rating: Double,
-	voteCount: Int,
-	itemId: Int,
-	itemTitle: String,
+	posterPath: String?,
+	rating: Double?,
+	voteCount: Int?,
+	itemId: Int?,
+	itemTitle: String?,
 	onCardClicked: (Int) -> Unit,
 	onMenuIconClicked: (Int) -> Unit
 ) {
@@ -26,7 +26,7 @@ fun MovieTvItem(
 			.height(MAIN_CARD_HEIGHT)
 			.width(MAIN_CARD_WIDTH)
 			.clip(shape = RoundedCornerShape(size = MEDIUM_PADDING)),
-		onClick = { onCardClicked(itemId) }
+		onClick = { itemId?.let(onCardClicked) }
 	) {
 
 		Column(
@@ -52,12 +52,14 @@ fun MovieTvItem(
 					.padding(all = MEDIUM_PADDING)
 			) {
 
-				Text(
-					text = itemTitle,
-					color = MaterialTheme.colors.cardContentColor,
-					fontFamily = fonts,
-					fontSize = MaterialTheme.typography.h6.fontSize
-				)
+				if (itemTitle != null) {
+					Text(
+						text = itemTitle,
+						color = MaterialTheme.colors.cardContentColor,
+						fontFamily = fonts,
+						fontSize = MaterialTheme.typography.h6.fontSize
+					)
+				}
 
 			}
 

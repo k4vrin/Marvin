@@ -1,6 +1,7 @@
 package com.kavrin.marvin.presentation.common
 
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.*
@@ -9,6 +10,7 @@ import androidx.compose.material.icons.filled.Menu
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
@@ -61,15 +63,25 @@ fun PosterWithRating(
 			contentScale = ContentScale.Crop
 		)
 
-		Surface(
+		Box(
 			modifier = Modifier
+				.background(
+					brush = Brush.verticalGradient(
+						listOf(
+							Color.Black.copy(alpha = 0.05f),
+							Color.Black.copy(alpha = ContentAlpha.medium),
+							Color.Black.copy(alpha = ContentAlpha.high),
+						)
+					)
+				)
 				.fillMaxWidth()
-				.fillMaxHeight(0.3f),
-			color = Color.Black.copy(alpha = ContentAlpha.medium),
+				.fillMaxHeight(0.3f)
+
 		) {
 
 			Row(
 				modifier = Modifier
+					.fillMaxSize()
 					.padding(horizontal = SMALL_PADDING),
 				verticalAlignment = Alignment.CenterVertically,
 				horizontalArrangement = Arrangement.SpaceBetween

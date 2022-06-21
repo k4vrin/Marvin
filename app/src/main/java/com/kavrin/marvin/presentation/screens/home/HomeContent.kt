@@ -2,11 +2,9 @@ package com.kavrin.marvin.presentation.screens.home
 
 import androidx.compose.foundation.gestures.Orientation
 import androidx.compose.foundation.gestures.scrollable
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.PaddingValues
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
@@ -20,8 +18,10 @@ import com.kavrin.marvin.domain.model.movie.entities.relations.MovieAndTrending
 import com.kavrin.marvin.domain.model.tv.entities.relations.TvAndPopular
 import com.kavrin.marvin.domain.model.tv.entities.relations.TvAndTopRated
 import com.kavrin.marvin.domain.model.tv.entities.relations.TvAndTrending
+import com.kavrin.marvin.presentation.common.CardList
 import com.kavrin.marvin.presentation.common.Carousel
 import com.kavrin.marvin.presentation.component.MarvinTabRow
+import com.kavrin.marvin.ui.theme.MEDIUM_PADDING
 import kotlinx.coroutines.launch
 
 @Composable
@@ -40,11 +40,16 @@ fun HomeContent(
 
 	val pagerState = rememberPagerState()
 	val scope = rememberCoroutineScope()
+	val scrollState = rememberScrollState()
 
 	Column(
 		modifier = Modifier
 			.fillMaxSize()
 			.padding(paddingValues)
+			.scrollable(
+				state = scrollState,
+				orientation = Orientation.Vertical
+			)
 	) {
 
 		MarvinTabRow(
@@ -98,16 +103,36 @@ fun MovieTabContent(
 
 	val scrollState = rememberScrollState()
 
+
 	Column(
 		modifier = Modifier
 			.fillMaxSize()
-			.scrollable(state = scrollState, orientation = Orientation.Vertical)
+			.verticalScroll(
+				state = scrollState,
+				reverseScrolling = false
+			)
 	) {
 		Carousel(
 			items = carousel,
 			isMovie = true,
 			onItemClicked = {},
 			onMenuIconClicked = {}
+		)
+
+		Spacer(modifier = Modifier.height(MEDIUM_PADDING))
+
+		CardList(
+			cardListTitle = "Trending",
+			items = trending,
+			isMovie = true
+		)
+
+		Spacer(modifier = Modifier.height(MEDIUM_PADDING))
+
+		CardList(
+			cardListTitle = "Top Rated",
+			items = topRated,
+			isMovie = true
 		)
 	}
 }
