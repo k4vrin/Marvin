@@ -4,16 +4,17 @@ import androidx.room.Embedded
 import androidx.room.Relation
 import com.kavrin.marvin.domain.model.movie.entities.Movie
 import com.kavrin.marvin.domain.model.movie.entities.MoviePopular
+import com.kavrin.marvin.util.MarvinItem
 
 data class MovieAndPopular(
 
 	@Embedded
-	val movie: Movie?,
+	override val movie: Movie?,
 
 	@Relation(
 		parentColumn = "movieId",
 		entityColumn = "popularMovieId",
 		entity = MoviePopular::class
 	)
-	val moviePopular: MoviePopular?
-)
+	val moviePopular: MoviePopular?,
+) : MarvinItem

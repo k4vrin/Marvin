@@ -20,8 +20,7 @@ import com.kavrin.marvin.domain.model.movie.entities.relations.MovieAndTrending
 import com.kavrin.marvin.domain.model.tv.entities.relations.TvAndPopular
 import com.kavrin.marvin.domain.model.tv.entities.relations.TvAndTopRated
 import com.kavrin.marvin.domain.model.tv.entities.relations.TvAndTrending
-import com.kavrin.marvin.presentation.common.MovieCarousel
-import com.kavrin.marvin.presentation.common.TvCarousel
+import com.kavrin.marvin.presentation.common.Carousel
 import com.kavrin.marvin.presentation.component.MarvinTabRow
 import kotlinx.coroutines.launch
 
@@ -104,8 +103,9 @@ fun MovieTabContent(
 			.fillMaxSize()
 			.scrollable(state = scrollState, orientation = Orientation.Vertical)
 	) {
-		MovieCarousel(
+		Carousel(
 			items = carousel,
+			isMovie = true,
 			onItemClicked = {},
 			onMenuIconClicked = {}
 		)
@@ -128,8 +128,9 @@ fun TvTabContent(
 			.fillMaxSize()
 			.scrollable(state = scrollState, orientation = Orientation.Vertical)
 	) {
-		TvCarousel(
+		Carousel(
 			items = carousel,
+			isMovie = false,
 			onItemClicked = {},
 			onMenuIconClicked = {}
 		)

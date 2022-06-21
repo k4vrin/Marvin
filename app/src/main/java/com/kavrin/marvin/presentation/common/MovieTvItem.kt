@@ -7,12 +7,8 @@ import androidx.compose.material.*
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
-import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
-import coil.compose.rememberAsyncImagePainter
-import com.kavrin.marvin.R
 import com.kavrin.marvin.ui.theme.*
-import com.kavrin.marvin.util.Constants.IMAGE_BASE_URL
 
 @Composable
 fun MovieTvItem(
@@ -24,12 +20,6 @@ fun MovieTvItem(
 	onCardClicked: (Int) -> Unit,
 	onMenuIconClicked: (Int) -> Unit
 ) {
-
-	val painter = rememberAsyncImagePainter(
-		model = "$IMAGE_BASE_URL${posterPath}",
-		placeholder = painterResource(id = R.drawable.placeholder),
-		error = painterResource(id = R.drawable.placeholder)
-	)
 
 	Card(
 		modifier = Modifier
@@ -48,7 +38,7 @@ fun MovieTvItem(
 			PosterWithRating(
 				modifier = Modifier
 				    .weight(8f),
-				painter = painter,
+				posterPath = posterPath,
 				rating = rating,
 				itemId = itemId,
 				count = voteCount,

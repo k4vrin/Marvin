@@ -10,20 +10,21 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import coil.compose.rememberAsyncImagePainter
 import com.kavrin.marvin.R
 import com.kavrin.marvin.presentation.component.RatingIndicator
 import com.kavrin.marvin.ui.theme.MENU_ICON_SIZE
 import com.kavrin.marvin.ui.theme.SMALL_PADDING
+import com.kavrin.marvin.util.Constants
 
 @Composable
 fun PosterWithRating(
-	painter: Painter,
+	posterPath: String?,
 	rating: Double?,
 	count: Int?,
 	itemId: Int?,
@@ -34,6 +35,12 @@ fun PosterWithRating(
 	onMenuIconClicked: (Int) -> Unit,
 	onItemClicked: (Int) -> Unit,
 ) {
+
+	val painter = rememberAsyncImagePainter(
+		model = "${Constants.IMAGE_BASE_URL}${posterPath}",
+		placeholder = painterResource(id = R.drawable.placeholder),
+		error = painterResource(id = R.drawable.placeholder)
+	)
 
 
 	Box(
@@ -106,7 +113,7 @@ fun PosterWithRating(
 @Composable
 fun PosterWithRatingPrev() {
 	PosterWithRating(
-		painter = painterResource(id = R.drawable.test),
+		posterPath = null,
 		rating = 7.0,
 		count = 12345,
 		itemId = 1,
