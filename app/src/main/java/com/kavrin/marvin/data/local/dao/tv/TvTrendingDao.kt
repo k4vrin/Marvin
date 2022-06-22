@@ -19,7 +19,7 @@ interface TvTrendingDao {
 	fun getTvAndTrending(): PagingSource<Int, TvAndTrending>
 
 	@Transaction
-	@Query("SELECT * FROM tv_table,tv_trending_remote_table WHERE tvId = tvTrendingId ORDER BY popularity DESC LIMIT 5")
+	@Query("SELECT * FROM tv_table, tv_trending_table WHERE tvId = trendingTvId ORDER BY popularity DESC LIMIT 5")
 	fun getCarouselTvAndTrending(): PagingSource<Int, TvAndTrending>
 
 	@Transaction

@@ -13,7 +13,8 @@ class DatabaseConverter {
 		for (item in list)
 			stringBuilder.append(item).append(separator)
 
-		stringBuilder.setLength(stringBuilder.length - separator.length)
+		if (stringBuilder.isNotEmpty())
+			stringBuilder.setLength(stringBuilder.length - separator.length)
 		return stringBuilder.toString()
 	}
 
