@@ -1,4 +1,4 @@
-package com.kavrin.marvin.presentation.common
+package com.kavrin.marvin.presentation.component
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
@@ -19,7 +19,6 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import coil.compose.rememberAsyncImagePainter
 import com.kavrin.marvin.R
-import com.kavrin.marvin.presentation.component.RatingIndicator
 import com.kavrin.marvin.ui.theme.MENU_ICON_SIZE
 import com.kavrin.marvin.ui.theme.SMALL_PADDING
 import com.kavrin.marvin.util.Constants

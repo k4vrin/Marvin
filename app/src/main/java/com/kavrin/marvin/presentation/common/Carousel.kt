@@ -18,11 +18,11 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.scale
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
-import androidx.compose.ui.unit.dp
 import androidx.paging.compose.LazyPagingItems
 import com.google.accompanist.pager.HorizontalPager
 import com.google.accompanist.pager.HorizontalPagerIndicator
 import com.google.accompanist.pager.rememberPagerState
+import com.kavrin.marvin.presentation.component.PosterWithRating
 import com.kavrin.marvin.ui.theme.*
 import com.kavrin.marvin.util.MarvinItem
 
@@ -81,8 +81,8 @@ fun <T : MarvinItem> Carousel(
 
 			PosterWithRating(
 				modifier = Modifier
-					.height(300.dp)
-					.width(200.dp)
+					.height(CAROUSEL_ITEM_HEIGHT)
+					.width(CAROUSEL_ITEM_WIDTH)
 					.scale(scale.value)
 					.clip(shape = RoundedCornerShape(EXTRA_SMALL_PADDING)),
 				posterPath = posterPath,

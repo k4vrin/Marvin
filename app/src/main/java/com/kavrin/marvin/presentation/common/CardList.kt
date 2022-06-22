@@ -10,6 +10,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.font.FontWeight
 import androidx.paging.compose.LazyPagingItems
 import androidx.paging.compose.items
+import com.kavrin.marvin.presentation.component.MovieTvItem
 import com.kavrin.marvin.ui.theme.MEDIUM_PADDING
 import com.kavrin.marvin.ui.theme.SMALL_PADDING
 import com.kavrin.marvin.ui.theme.fonts

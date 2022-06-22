@@ -9,6 +9,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
 import androidx.navigation.NavHostController
+import androidx.paging.LoadState
 import androidx.paging.compose.LazyPagingItems
 import com.google.accompanist.pager.HorizontalPager
 import com.google.accompanist.pager.rememberPagerState
@@ -21,7 +22,9 @@ import com.kavrin.marvin.domain.model.tv.entities.relations.TvAndTrending
 import com.kavrin.marvin.presentation.common.CardList
 import com.kavrin.marvin.presentation.common.Carousel
 import com.kavrin.marvin.presentation.component.MarvinTabRow
+import com.kavrin.marvin.presentation.component.ShimmerEffect
 import com.kavrin.marvin.ui.theme.MEDIUM_PADDING
+import com.kavrin.marvin.util.MarvinItem
 import kotlinx.coroutines.launch
 
 @Composable
@@ -102,39 +105,43 @@ fun MovieTabContent(
 ) {
 
 	val scrollState = rememberScrollState()
+	val result = handlePagingResult(carousel = carousel)
 
+	if (result) {
 
-	Column(
-		modifier = Modifier
-			.fillMaxSize()
-			.verticalScroll(
-				state = scrollState,
-				reverseScrolling = false
+		Column(
+			modifier = Modifier
+				.fillMaxSize()
+				.verticalScroll(
+					state = scrollState,
+					reverseScrolling = false
+				)
+		) {
+			Carousel(
+				items = carousel,
+				isMovie = true,
+				onItemClicked = {},
+				onMenuIconClicked = {}
 			)
-	) {
-		Carousel(
-			items = carousel,
-			isMovie = true,
-			onItemClicked = {},
-			onMenuIconClicked = {}
-		)
 
-		Spacer(modifier = Modifier.height(MEDIUM_PADDING))
+			Spacer(modifier = Modifier.height(MEDIUM_PADDING))
 
-		CardList(
-			cardListTitle = "Trending",
-			items = trending,
-			isMovie = true
-		)
+			CardList(
+				cardListTitle = "Trending",
+				items = trending,
+				isMovie = true
+			)
 
-		Spacer(modifier = Modifier.height(MEDIUM_PADDING))
+			Spacer(modifier = Modifier.height(MEDIUM_PADDING))
 
-		CardList(
-			cardListTitle = "Top Rated",
-			items = topRated,
-			isMovie = true
-		)
+			CardList(
+				cardListTitle = "Top Rated",
+				items = topRated,
+				isMovie = true
+			)
+		}
 	}
+
 }
 
 @Composable
@@ -147,18 +154,42 @@ fun TvTabContent(
 ) {
 
 	val scrollState = rememberScrollState()
+	val result = handlePagingResult(carousel = carousel)
 
-	Column(
-		modifier = Modifier
-			.fillMaxSize()
-			.scrollable(state = scrollState, orientation = Orientation.Vertical)
-	) {
-		Carousel(
-			items = carousel,
-			isMovie = false,
-			onItemClicked = {},
-			onMenuIconClicked = {}
-		)
+	if (result) {
+
+		Column(
+			modifier = Modifier
+				.fillMaxSize()
+				.scrollable(state = scrollState, orientation = Orientation.Vertical)
+		) {
+			Carousel(
+				items = carousel,
+				isMovie = false,
+				onItemClicked = {},
+				onMenuIconClicked = {}
+			)
+		}
 	}
+
+
+}
+
+@Composable
+fun <T : MarvinItem>handlePagingResult(
+	carousel: LazyPagingItems<T>
+): Boolean {
+
+	carousel.apply {
+
+		return when {
+			loadState.refresh is LoadState.Loading -> {
+				ShimmerEffect()
+				false
+			}
+			else -> true
+		}
+	}
+
 
 }
