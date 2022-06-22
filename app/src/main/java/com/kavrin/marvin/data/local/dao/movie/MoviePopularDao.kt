@@ -4,7 +4,6 @@ import androidx.paging.PagingSource
 import androidx.room.*
 import com.kavrin.marvin.domain.model.movie.entities.MoviePopular
 import com.kavrin.marvin.domain.model.movie.entities.relations.MovieAndPopular
-import com.kavrin.marvin.domain.model.movie.entities.relations.MovieAndTrending
 
 @Dao
 interface MoviePopularDao {
@@ -20,7 +19,7 @@ interface MoviePopularDao {
 	fun getMovieAndPopular(): PagingSource<Int, MovieAndPopular>
 
 	@Transaction
-	@Query("SELECT * FROM movie_table LIMIT 8")
+	@Query("SELECT * FROM movie_table, movie_popular_table WHERE movieId = popularMovieId LIMIT 8")
 	fun getHomeMovieAndPopular(): PagingSource<Int, MovieAndPopular>
 
 }

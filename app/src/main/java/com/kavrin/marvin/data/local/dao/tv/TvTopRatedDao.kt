@@ -3,7 +3,6 @@ package com.kavrin.marvin.data.local.dao.tv
 import androidx.paging.PagingSource
 import androidx.room.*
 import com.kavrin.marvin.domain.model.tv.entities.TvTopRated
-import com.kavrin.marvin.domain.model.tv.entities.relations.TvAndPopular
 import com.kavrin.marvin.domain.model.tv.entities.relations.TvAndTopRated
 
 @Dao
@@ -20,6 +19,6 @@ interface TvTopRatedDao {
 	fun getTvAndTopRated(): PagingSource<Int, TvAndTopRated>
 
 	@Transaction
-	@Query("SELECT * FROM tv_table LIMIT 8")
+	@Query("SELECT * FROM tv_table, tv_top_rated_table WHERE tvId = topRatedTvId LIMIT 8")
 	fun getHomeTvAndTopRated(): PagingSource<Int, TvAndTopRated>
 }

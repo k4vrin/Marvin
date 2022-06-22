@@ -2,7 +2,6 @@ package com.kavrin.marvin.data.local.dao.tv
 
 import androidx.paging.PagingSource
 import androidx.room.*
-import com.kavrin.marvin.domain.model.movie.entities.relations.MovieAndTopRated
 import com.kavrin.marvin.domain.model.tv.entities.TvPopular
 import com.kavrin.marvin.domain.model.tv.entities.relations.TvAndPopular
 
@@ -20,6 +19,6 @@ interface TvPopularDao {
 	fun getTvAndPopular(): PagingSource<Int, TvAndPopular>
 
 	@Transaction
-	@Query("SELECT * FROM tv_table LIMIT 8")
+	@Query("SELECT * FROM tv_table, tv_popular_table WHERE tvId = popularTvId LIMIT 8")
 	fun getHomeTvAndPopular(): PagingSource<Int, TvAndPopular>
 }

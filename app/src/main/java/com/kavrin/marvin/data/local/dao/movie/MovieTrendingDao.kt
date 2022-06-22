@@ -23,7 +23,15 @@ interface MovieTrendingDao {
 	fun getCarouselMovieAndTrending(): PagingSource<Int, MovieAndTrending>
 
 	@Transaction
-	@Query("SELECT * FROM movie_table LIMIT 8")
+	@Query("SELECT * FROM movie_table, movie_trending_table WHERE movieId = trendingMovieId LIMIT 8")
 	fun getHomeMovieAndTrending(): PagingSource<Int, MovieAndTrending>
 
 }
+
+/*
+@Query("SELECT * FROM movie_table JOIN movie_trending_table ON movieId = trendingMovieId LIMIT 8")
+Multimap return types approach
+
+https://developer.android.com/training/data-storage/room/relationships
+
+ */
