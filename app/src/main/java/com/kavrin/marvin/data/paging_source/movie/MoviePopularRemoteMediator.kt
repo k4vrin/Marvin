@@ -61,7 +61,7 @@ class MoviePopularRemoteMediator @Inject constructor(
 					}
 
 					val prevPage = when (response.page) {
-						0 -> null
+						1 -> null
 						else -> response.page - 1
 					}
 
