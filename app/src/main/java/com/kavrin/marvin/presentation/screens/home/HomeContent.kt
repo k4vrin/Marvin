@@ -3,8 +3,9 @@ package com.kavrin.marvin.presentation.screens.home
 import androidx.compose.foundation.gestures.Orientation
 import androidx.compose.foundation.gestures.scrollable
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.foundation.rememberScrollState
-import androidx.compose.foundation.verticalScroll
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
@@ -104,41 +105,50 @@ fun MovieTabContent(
 	trending: LazyPagingItems<MovieAndTrending>,
 ) {
 
-	val scrollState = rememberScrollState()
+	val lazyListState = rememberLazyListState()
 	val result = handlePagingResult(carousel = carousel)
 
 	if (result) {
 
-		Column(
+		LazyColumn(
 			modifier = Modifier
-				.fillMaxSize()
-				.verticalScroll(
-					state = scrollState,
-					reverseScrolling = false
-				)
+				.fillMaxSize(),
+			verticalArrangement = Arrangement.spacedBy(MEDIUM_PADDING),
+			state = lazyListState
 		) {
-			Carousel(
-				items = carousel,
-				isMovie = true,
-				onItemClicked = {},
-				onMenuIconClicked = {}
-			)
 
-			Spacer(modifier = Modifier.height(MEDIUM_PADDING))
+			item {
+				Carousel(
+					items = carousel,
+					isMovie = true,
+					onItemClicked = {},
+					onMenuIconClicked = {}
+				)
+			}
 
-			CardList(
-				cardListTitle = "Trending",
-				items = trending,
-				isMovie = true
-			)
+			item {
+				CardList(
+					cardListTitle = "Trending",
+					items = trending,
+					isMovie = true
+				)
+			}
 
-			Spacer(modifier = Modifier.height(MEDIUM_PADDING))
+			item {
+				CardList(
+					cardListTitle = "Popular",
+					items = popular,
+					isMovie = true
+				)
+			}
 
-			CardList(
-				cardListTitle = "Top Rated",
-				items = topRated,
-				isMovie = true
-			)
+			item {
+				CardList(
+					cardListTitle = "Top Rated",
+					items = topRated,
+					isMovie = true
+				)
+			}
 		}
 	}
 
@@ -153,22 +163,50 @@ fun TvTabContent(
 	trending: LazyPagingItems<TvAndTrending>,
 ) {
 
-	val scrollState = rememberScrollState()
+	val lazyListState = rememberLazyListState()
 	val result = handlePagingResult(carousel = carousel)
 
 	if (result) {
 
-		Column(
+		LazyColumn(
 			modifier = Modifier
-				.fillMaxSize()
-				.scrollable(state = scrollState, orientation = Orientation.Vertical)
+				.fillMaxSize(),
+			verticalArrangement = Arrangement.spacedBy(MEDIUM_PADDING),
+			state = lazyListState
 		) {
-			Carousel(
-				items = carousel,
-				isMovie = false,
-				onItemClicked = {},
-				onMenuIconClicked = {}
-			)
+
+			item {
+				Carousel(
+					items = carousel,
+					isMovie = false,
+					onItemClicked = {},
+					onMenuIconClicked = {}
+				)
+			}
+
+			item {
+				CardList(
+					cardListTitle = "Trending",
+					items = trending,
+					isMovie = false
+				)
+			}
+
+			item {
+				CardList(
+					cardListTitle = "Popular",
+					items = popular,
+					isMovie = false
+				)
+			}
+
+			item {
+				CardList(
+					cardListTitle = "Top Rated",
+					items = topRated,
+					isMovie = false
+				)
+			}
 		}
 	}
 
