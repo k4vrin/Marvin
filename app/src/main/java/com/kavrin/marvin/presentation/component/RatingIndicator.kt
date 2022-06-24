@@ -2,9 +2,11 @@ package com.kavrin.marvin.presentation.component
 
 import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.animation.core.tween
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
 import androidx.compose.runtime.*
@@ -23,24 +25,21 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.TextUnit
 import androidx.compose.ui.unit.dp
-import com.kavrin.marvin.ui.theme.HighRate
-import com.kavrin.marvin.ui.theme.LowRate
-import com.kavrin.marvin.ui.theme.MediumRate
-import com.kavrin.marvin.ui.theme.fonts
+import com.kavrin.marvin.ui.theme.*
 
 @Composable
 fun RatingIndicator(
+	indicatorValue: Double,
+	smallText: Int,
+	modifier: Modifier = Modifier,
 	canvasSize: Dp = 300.dp,
-	indicatorValue: Double = 8.8,
 	maxIndicatorValue: Float = 10f,
-	backgroundIndicatorColor: Color = Color.White.copy(alpha = 0.5f),
 	backgroundIndicatorStrokeWidth: Float = 50f,
 	foregroundIndicatorStrokeWidth: Float = 50f,
 	bigTextFontSize: TextUnit = MaterialTheme.typography.h5.fontSize,
 	bigTextColor: Color = Color.White,
 	smallTextFontSize: TextUnit = MaterialTheme.typography.overline.fontSize,
 	smallTextColor: Color = Color.White.copy(alpha = 0.5f),
-	smallText: Int = 1234,
 ) {
 
 	var allowedIndicatorValue by remember {
@@ -71,10 +70,15 @@ fun RatingIndicator(
 		in 4f..7f -> MediumRate
 		else -> HighRate
 	}
+	val backgroundIndicatorColor = foregroundIndicatorColor.copy(alpha = 0.3f)
 
 	Column(
-		modifier = Modifier
+		modifier = modifier
 			.size(canvasSize)
+			.background(
+				color = ShimmerDarkGray,
+				shape = CircleShape
+			)
 			.drawBehind {
 				val componentSize = size / 1.25f
 				backgroundIndicator(
@@ -135,7 +139,7 @@ fun DrawScope.foregroundIndicator(
 	drawArc(
 		size = componentSize,
 		color = indicatorColor,
-		startAngle = 0f,
+		startAngle = 270f,
 		sweepAngle = sweepAngle,
 		useCenter = false,
 		style = Stroke(
@@ -184,6 +188,8 @@ fun EmbeddedElements(
 @Composable
 fun RatingComponentPrev() {
 	RatingIndicator(
+		indicatorValue = 8.8,
+		smallText = 4654,
 		bigTextFontSize = MaterialTheme.typography.h1.fontSize,
 		smallTextFontSize = MaterialTheme.typography.h4.fontSize,
 	)

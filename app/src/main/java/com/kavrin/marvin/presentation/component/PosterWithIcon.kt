@@ -18,7 +18,6 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
-import androidx.compose.ui.unit.dp
 import coil.compose.rememberAsyncImagePainter
 import com.kavrin.marvin.R
 import com.kavrin.marvin.ui.theme.MENU_ICON_SIZE
@@ -26,15 +25,10 @@ import com.kavrin.marvin.ui.theme.SMALL_PADDING
 import com.kavrin.marvin.util.Constants.IMAGE_BASE_URL
 
 @Composable
-fun PosterWithRating(
+fun PosterWithIcon(
 	posterPath: String?,
-	rating: Double?,
-	count: Int?,
 	itemId: Int?,
 	modifier: Modifier = Modifier,
-	maxIndicatorValue: Float = 10f,
-	backgroundIndicatorStrokeWidth: Float = 15f,
-	foregroundIndicatorStrokeWidth: Float = 15f,
 	onMenuIconClicked: (Int) -> Unit,
 	onItemClicked: (Int) -> Unit,
 ) {
@@ -69,9 +63,8 @@ fun PosterWithRating(
 				.background(
 					brush = Brush.verticalGradient(
 						listOf(
-							Color.Black.copy(alpha = 0.05f),
+							Color.Black.copy(alpha = 0.03f),
 							Color.Black.copy(alpha = ContentAlpha.medium),
-							Color.Black.copy(alpha = ContentAlpha.high),
 						)
 					)
 				)
@@ -85,18 +78,8 @@ fun PosterWithRating(
 					.fillMaxSize()
 					.padding(horizontal = SMALL_PADDING),
 				verticalAlignment = Alignment.CenterVertically,
-				horizontalArrangement = Arrangement.SpaceBetween
+				horizontalArrangement = Arrangement.End
 			) {
-				if (rating != null && count != null) {
-					RatingIndicator(
-						canvasSize = 75.dp,
-						backgroundIndicatorStrokeWidth = backgroundIndicatorStrokeWidth,
-						foregroundIndicatorStrokeWidth = foregroundIndicatorStrokeWidth,
-						indicatorValue = rating,
-						maxIndicatorValue = maxIndicatorValue,
-						smallText = count
-					)
-				}
 
 				IconButton(
 					onClick = {
@@ -125,10 +108,8 @@ fun PosterWithRating(
 @Preview
 @Composable
 fun PosterWithRatingPrev() {
-	PosterWithRating(
+	PosterWithIcon(
 		posterPath = null,
-		rating = 7.0,
-		count = 12345,
 		itemId = 1,
 		onMenuIconClicked = {},
 		onItemClicked = {}

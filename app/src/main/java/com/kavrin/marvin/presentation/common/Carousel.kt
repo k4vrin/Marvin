@@ -18,11 +18,13 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.scale
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.unit.dp
 import androidx.paging.compose.LazyPagingItems
 import com.google.accompanist.pager.HorizontalPager
 import com.google.accompanist.pager.HorizontalPagerIndicator
 import com.google.accompanist.pager.rememberPagerState
-import com.kavrin.marvin.presentation.component.PosterWithRating
+import com.kavrin.marvin.presentation.component.PosterWithIcon
+import com.kavrin.marvin.presentation.component.RatingIndicator
 import com.kavrin.marvin.ui.theme.*
 import com.kavrin.marvin.util.MarvinItem
 
@@ -79,23 +81,36 @@ fun <T : MarvinItem> Carousel(
 			val voteCount = if (isMovie) item?.movie?.voteCount else item?.tv?.voteCount
 			val itemId = if (isMovie) item?.movie?.movieId else item?.tv?.tvId
 
-			PosterWithRating(
-				modifier = Modifier
-					.height(CAROUSEL_ITEM_HEIGHT)
-					.width(CAROUSEL_ITEM_WIDTH)
-					.scale(scale.value)
-					.clip(shape = RoundedCornerShape(EXTRA_SMALL_PADDING)),
-				posterPath = posterPath,
-				rating = rating,
-				count = voteCount,
-				itemId = itemId,
-				onMenuIconClicked = onMenuIconClicked,
-				onItemClicked = onItemClicked
+			Box {
+				PosterWithIcon(
+					modifier = Modifier
+						.height(CAROUSEL_ITEM_HEIGHT)
+						.width(CAROUSEL_ITEM_WIDTH)
+						.scale(scale.value)
+						.clip(shape = RoundedCornerShape(EXTRA_SMALL_PADDING)),
+					posterPath = posterPath,
+					itemId = itemId,
+					onMenuIconClicked = onMenuIconClicked,
+					onItemClicked = onItemClicked
+				)
 
-			)
+				RatingIndicator(
+					modifier = Modifier
+						.scale(scale.value)
+					    .align(Alignment.BottomStart)
+						.offset(x = 5.dp, y = 30.dp),
+					canvasSize = 65.dp,
+					indicatorValue = rating ?: 0.0,
+					smallText = voteCount ?: 0,
+					backgroundIndicatorStrokeWidth = 10f,
+					foregroundIndicatorStrokeWidth = 10f
+				)
+
+			}
+
 		}
 
-		Spacer(modifier = Modifier.height(SMALL_PADDING))
+		Spacer(modifier = Modifier.height(MEDIUM_PADDING))
 
 		Row(
 			modifier = Modifier

@@ -76,6 +76,7 @@ fun <T : MarvinItem> CardList(
 						voteCount = item?.voteCount,
 						itemId = item?.movieId,
 						itemTitle = item?.title,
+						releasedDate = item?.releaseDate,
 						onCardClicked = {},
 						onMenuIconClicked = {}
 					)
@@ -99,6 +100,7 @@ fun <T : MarvinItem> CardList(
 						voteCount = item?.voteCount,
 						itemId = item?.tvId,
 						itemTitle = item?.name,
+						releasedDate = item?.firstAirDate,
 						onCardClicked = {},
 						onMenuIconClicked = {}
 					)
