@@ -4,7 +4,9 @@ import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
-import androidx.compose.material.*
+import androidx.compose.material.ContentAlpha
+import androidx.compose.material.Icon
+import androidx.compose.material.IconButton
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Menu
 import androidx.compose.runtime.Composable
@@ -21,7 +23,7 @@ import coil.compose.rememberAsyncImagePainter
 import com.kavrin.marvin.R
 import com.kavrin.marvin.ui.theme.MENU_ICON_SIZE
 import com.kavrin.marvin.ui.theme.SMALL_PADDING
-import com.kavrin.marvin.util.Constants
+import com.kavrin.marvin.util.Constants.IMAGE_BASE_URL
 
 @Composable
 fun PosterWithRating(
@@ -38,7 +40,7 @@ fun PosterWithRating(
 ) {
 
 	val painter = rememberAsyncImagePainter(
-		model = "${Constants.IMAGE_BASE_URL}${posterPath}",
+		model = "${IMAGE_BASE_URL}${posterPath}",
 		placeholder = painterResource(id = R.drawable.placeholder),
 		error = painterResource(id = R.drawable.placeholder)
 	)
