@@ -1,5 +1,6 @@
 package com.kavrin.marvin.presentation.screens.home
 
+import androidx.compose.foundation.background
 import androidx.compose.foundation.gestures.Orientation
 import androidx.compose.foundation.gestures.scrollable
 import androidx.compose.foundation.layout.*
@@ -26,6 +27,7 @@ import com.kavrin.marvin.presentation.component.MarvinTabRow
 import com.kavrin.marvin.presentation.component.ShimmerCardEffect
 import com.kavrin.marvin.presentation.component.ShimmerCarouselEffect
 import com.kavrin.marvin.ui.theme.MEDIUM_PADDING
+import com.kavrin.marvin.ui.theme.backGroundColor
 import com.kavrin.marvin.util.MarvinItem
 import kotlinx.coroutines.launch
 
@@ -112,7 +114,8 @@ fun MovieTabContent(
 
 	LazyColumn(
 		modifier = Modifier
-			.fillMaxSize(),
+			.fillMaxSize()
+			.background(color = backGroundColor),
 		verticalArrangement = Arrangement.spacedBy(MEDIUM_PADDING),
 		state = lazyListState
 	) {
@@ -168,7 +171,8 @@ fun TvTabContent(
 
 	LazyColumn(
 		modifier = Modifier
-			.fillMaxSize(),
+			.fillMaxSize()
+			.background(color = backGroundColor),
 		verticalArrangement = Arrangement.spacedBy(MEDIUM_PADDING),
 		state = lazyListState
 	) {

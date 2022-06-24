@@ -14,6 +14,7 @@ import com.kavrin.marvin.presentation.component.MovieTvItem
 import com.kavrin.marvin.presentation.screens.home.handlePagingResult
 import com.kavrin.marvin.ui.theme.MEDIUM_PADDING
 import com.kavrin.marvin.ui.theme.SMALL_PADDING
+import com.kavrin.marvin.ui.theme.contentColor
 import com.kavrin.marvin.ui.theme.fonts
 import com.kavrin.marvin.util.MarvinItem
 
@@ -44,14 +45,16 @@ fun <T : MarvinItem> CardList(
 					text = cardListTitle,
 					fontFamily = fonts,
 					fontSize = MaterialTheme.typography.h6.fontSize,
-					fontWeight = FontWeight.Bold
+					fontWeight = FontWeight.Bold,
+					color = contentColor
 				)
 
 				Text(
 					text = "See All",
 					fontFamily = fonts,
 					fontSize = MaterialTheme.typography.subtitle1.fontSize,
-					fontWeight = FontWeight.Normal
+					fontWeight = FontWeight.Normal,
+					color = contentColor
 				)
 			}
 

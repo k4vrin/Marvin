@@ -6,8 +6,8 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.font.FontWeight
 import com.google.accompanist.pager.PagerState
-import com.kavrin.marvin.ui.theme.BrightMaroon
 import com.kavrin.marvin.ui.theme.fonts
+import com.kavrin.marvin.ui.theme.tabIndicatorColor
 import com.kavrin.marvin.ui.theme.topBarBgColor
 import com.kavrin.marvin.ui.theme.topBarContentColor
 
@@ -21,7 +21,7 @@ fun MarvinTabRow(
 	val titles = listOf("Movie", "Series")
 	val indicator = @Composable { tabPositions: List<TabPosition> ->
 		TabIndicator(
-			color = BrightMaroon,
+			color = tabIndicatorColor,
 			modifier = Modifier.tabIndicatorOffset(tabPositions[pagerState.currentPage])
 		)
 	}
@@ -29,8 +29,8 @@ fun MarvinTabRow(
 
 	TabRow(
 		selectedTabIndex = pagerState.currentPage,
-		backgroundColor = MaterialTheme.colors.topBarBgColor,
-		contentColor = MaterialTheme.colors.topBarContentColor,
+		backgroundColor = topBarBgColor,
+		contentColor = topBarContentColor,
 		indicator = indicator
 	) {
 		titles.forEachIndexed { index, title ->

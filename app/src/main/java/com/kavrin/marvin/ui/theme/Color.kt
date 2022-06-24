@@ -1,6 +1,6 @@
 package com.kavrin.marvin.ui.theme
 
-import androidx.compose.material.Colors
+import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.graphics.Color
 
@@ -9,7 +9,8 @@ val Purple500 = Color(0xFF6200EE)
 val Purple700 = Color(0xFF3700B3)
 val Teal200 = Color(0xFF03DAC5)
 
-val BackGround = Color(0xFFF5F5F5)
+val BackGroundLight = Color(0xFFF5F5F5)
+val BackGroundDark = Color(0xFF090909)
 
 val BrightMaroon = Color(0xFFB9314F)
 val AntiqueBrass = Color(0xFFD5A18E)
@@ -35,23 +36,35 @@ val ShimmerDarkGray = Color(0xFF1D1D1D)
 val ShimmerDarkGrayVariant = Color(0xFF252525)
 val ShimmerMediumGrayVariant = Color(0xFFACACAC)
 
-
-val Colors.backGroundColor
+val tabIndicatorColor
 	@Composable
-	get() = if (isLight) BackGround else Color.Black
+	get() = if (isSystemInDarkTheme()) LightGray else BrightMaroon
 
-val Colors.topBarContentColor
-	@Composable
-	get() = if (isLight) Color.Black else LightGray
 
-val Colors.topBarBgColor
+val backGroundColor
 	@Composable
-	get() = if (isLight) Color.White else Color.Black
+	get() = if (isSystemInDarkTheme()) BackGroundDark else BackGroundLight
 
-val Colors.cardColor
+val topBarContentColor
 	@Composable
-	get() = if (isLight) LightCard else DarkCard
+	get() = if (isSystemInDarkTheme()) LightGray else Color.Black
 
-val Colors.cardContentColor
+val topBarBgColor
 	@Composable
-	get() = if (isLight) DarkGray else LightGray
+	get() = if (isSystemInDarkTheme()) Color.Black else Color.White
+
+val cardColor
+	@Composable
+	get() = if (isSystemInDarkTheme()) DarkCard else LightCard
+
+val cardContentColor
+	@Composable
+	get() = if (isSystemInDarkTheme()) LightGray else DarkGray
+
+val contentColor
+	@Composable
+	get() = if (isSystemInDarkTheme()) Color.White else Color.Black
+
+val pagerIndicatorActiveColor
+	@Composable
+	get() = if (isSystemInDarkTheme()) DarkGray else BrightMaroon

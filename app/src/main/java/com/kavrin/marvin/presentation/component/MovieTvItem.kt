@@ -1,6 +1,5 @@
 package com.kavrin.marvin.presentation.component
 
-import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Card
@@ -9,7 +8,7 @@ import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.clip
+import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
@@ -34,14 +33,18 @@ fun MovieTvItem(
 		modifier = Modifier
 			.height(MAIN_CARD_HEIGHT)
 			.width(MAIN_CARD_WIDTH)
-			.clip(shape = RoundedCornerShape(size = MEDIUM_PADDING)),
+			.shadow(
+				shape = RoundedCornerShape(size = MEDIUM_PADDING),
+				elevation = 2.dp
+			),
+		shape = RoundedCornerShape(size = MEDIUM_PADDING),
+		backgroundColor = cardColor,
 		onClick = { itemId?.let(onCardClicked) }
 	) {
 
 		Column(
 			modifier = Modifier
 				.fillMaxSize()
-				.background(color = MaterialTheme.colors.cardColor)
 		) {
 
 			Box(
@@ -83,7 +86,7 @@ fun MovieTvItem(
 						modifier = Modifier
 							.fillMaxWidth(),
 						text = itemTitle,
-						color = MaterialTheme.colors.cardContentColor,
+						color = cardContentColor,
 						fontFamily = fonts,
 						fontSize = MaterialTheme.typography.body1.fontSize,
 						fontWeight = FontWeight.Bold,
@@ -97,7 +100,7 @@ fun MovieTvItem(
 						modifier = Modifier
 							.fillMaxWidth(),
 						text = dateFormatter(date = releasedDate),
-						color = MaterialTheme.colors.cardContentColor,
+						color = cardContentColor,
 						fontFamily = fonts,
 						fontSize = MaterialTheme.typography.subtitle2.fontSize,
 						fontWeight = FontWeight.Normal,

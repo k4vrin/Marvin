@@ -146,7 +146,9 @@ fun <T : MarvinItem> Carousel(
 								fontSize = MaterialTheme.typography.h5.fontSize,
 								fontWeight = FontWeight.ExtraBold,
 								textAlign = TextAlign.Center,
-								maxLines = 2
+								maxLines = 2,
+								color = contentColor
+
 							)
 						}
 					}
@@ -158,7 +160,7 @@ fun <T : MarvinItem> Carousel(
 
 			HorizontalPagerIndicator(
 				pagerState = pagerState,
-				activeColor = BrightMaroon,
+				activeColor = pagerIndicatorActiveColor,
 				inactiveColor = LightGray,
 			)
 		}
