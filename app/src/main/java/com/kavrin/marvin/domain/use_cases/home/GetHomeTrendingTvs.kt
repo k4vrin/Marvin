@@ -2,9 +2,6 @@ package com.kavrin.marvin.domain.use_cases.home
 
 import androidx.paging.PagingData
 import com.kavrin.marvin.data.repository.Repository
-import com.kavrin.marvin.domain.model.movie.entities.relations.MovieAndPopular
-import com.kavrin.marvin.domain.model.movie.entities.relations.MovieAndTopRated
-import com.kavrin.marvin.domain.model.movie.entities.relations.MovieAndTrending
 import com.kavrin.marvin.domain.model.tv.entities.relations.TvAndTrending
 import kotlinx.coroutines.flow.Flow
 

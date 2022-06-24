@@ -20,9 +20,12 @@ class DatabaseConverter {
 
 	@TypeConverter
 	fun convertStringToIntList(string: String): List<Int> {
-		return string.split(separator).map {
-			it.toInt()
-		}
+		return if (string.isNotEmpty())
+			    string.split(separator).map {
+					it.toInt()
+				}
+		else
+			emptyList()
 	}
 
 	@TypeConverter

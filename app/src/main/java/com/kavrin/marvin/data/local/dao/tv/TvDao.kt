@@ -9,7 +9,7 @@ import com.kavrin.marvin.domain.model.tv.entities.Tv
 @Dao
 interface TvDao {
 
-	@Insert(onConflict = OnConflictStrategy.REPLACE)
+	@Insert(onConflict = OnConflictStrategy.IGNORE)
 	suspend fun insertTv(tv: List<Tv>)
 
 	@Query("SELECT * FROM tv_table WHERE tvId = :tvId")

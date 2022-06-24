@@ -9,16 +9,33 @@ import com.kavrin.marvin.data.remote.TMDBMovieService
 import com.kavrin.marvin.domain.model.movie.entities.MovieTrending
 import com.kavrin.marvin.domain.model.movie.entities.relations.MovieAndTrending
 import com.kavrin.marvin.domain.model.movie.entities.remote_keys.MovieTrendingRemoteKeys
-import javax.inject.Inject
+import com.kavrin.marvin.util.Constants.FIRST_REQUEST_DEFAULT
+import com.kavrin.marvin.util.Constants.ONE_MINUTE_IN_SECONDS
+import com.kavrin.marvin.util.Constants.ONE_SECOND_IN_MILLIS
+import com.kavrin.marvin.util.Constants.TWENTY_FOUR_HOURS_IN_MINUTES
 
-class MovieTrendingRemoteMediator @Inject constructor(
+class MovieTrendingRemoteMediator(
 	private val movieService: TMDBMovieService,
-	private val marvinDatabase: MarvinDatabase
+	private val marvinDatabase: MarvinDatabase,
 ) : RemoteMediator<Int, MovieAndTrending>() {
 
 	private val movieDao = marvinDatabase.movieDao()
 	private val movieTrendingDao = marvinDatabase.movieTrendingDao()
 	private val movieTrendingRemoteKeysDao = marvinDatabase.movieTrendingRemoteKeysDao()
+
+	override suspend fun initialize(): InitializeAction {
+		val currentTime = System.currentTimeMillis()
+		val lastUpdated = movieTrendingRemoteKeysDao.getTrendingRemoteKeys(id = 1)?.lastUpdated
+			?: FIRST_REQUEST_DEFAULT
+		val cacheTimeout = TWENTY_FOUR_HOURS_IN_MINUTES
+
+		val diffInMinutes =
+			(currentTime - lastUpdated) / ONE_SECOND_IN_MILLIS / ONE_MINUTE_IN_SECONDS
+		return if (diffInMinutes.toInt() <= cacheTimeout)
+			InitializeAction.SKIP_INITIAL_REFRESH
+		else
+			InitializeAction.LAUNCH_INITIAL_REFRESH
+	}
 
 
 	override suspend fun load(
@@ -43,7 +60,7 @@ class MovieTrendingRemoteMediator @Inject constructor(
 				LoadType.APPEND -> {
 					val remoteKeys = getRemoteKeyForLastItem(state)
 					val nextPage = remoteKeys?.nextPage
-						?:return MediatorResult.Success(
+						?: return MediatorResult.Success(
 							endOfPaginationReached = remoteKeys != null
 						)
 					nextPage
@@ -70,21 +87,21 @@ class MovieTrendingRemoteMediator @Inject constructor(
 						else -> response.page + 1
 					}
 
+					val lastUpdate = System.currentTimeMillis()
 					val keys = response.movies.map { movie ->
 						MovieTrendingRemoteKeys(
 							movieTrendingId = movie.movieId,
 							prevPage = prevPage,
-							nextPage = nextPage
+							nextPage = nextPage,
+							lastUpdated = lastUpdate
 						)
 					}
-
 					movieTrendingRemoteKeysDao.addTrendingRemoteKeys(trendingRemoteKeys = keys)
 
-					response.movies.map { movie ->
-						movieTrendingDao.insertTrending(
-							MovieTrending(trendingMovieId = movie.movieId)
-						)
+					val trending = response.movies.map { movie ->
+						MovieTrending(trendingMovieId = movie.movieId)
 					}
+					movieTrendingDao.insertTrending(movieTrending = trending)
 
 					movieDao.insertMovie(movie = response.movies)
 
@@ -103,7 +120,7 @@ class MovieTrendingRemoteMediator @Inject constructor(
 	): MovieTrendingRemoteKeys? {
 
 		return state.anchorPosition?.let { position ->
-			state.closestItemToPosition(anchorPosition = position)?.movieTrending?.trendingMovieId?.let { id ->
+			state.closestItemToPosition(anchorPosition = position)?.movieTrending?.id?.let { id ->
 				movieTrendingRemoteKeysDao.getTrendingRemoteKeys(id = id)
 			}
 		}
@@ -115,8 +132,12 @@ class MovieTrendingRemoteMediator @Inject constructor(
 		return state.pages.firstOrNull { page ->
 			page.data.isNotEmpty()
 		}?.data?.firstOrNull()
-			?.let {
-				it.movieTrending?.let { it1 -> movieTrendingRemoteKeysDao.getTrendingRemoteKeys(id = it1.trendingMovieId) }
+			?.let { movieAndTrending ->
+				movieAndTrending.movieTrending?.let { movieTrending ->
+					movieTrending.id?.let { id ->
+						movieTrendingRemoteKeysDao.getTrendingRemoteKeys(id = id)
+					}
+				}
 			}
 	}
 
@@ -126,8 +147,12 @@ class MovieTrendingRemoteMediator @Inject constructor(
 		return state.pages.lastOrNull {
 			it.data.isNotEmpty()
 		}?.data?.lastOrNull()
-			?.let {
-				it.movieTrending?.let { it1 -> movieTrendingRemoteKeysDao.getTrendingRemoteKeys(id = it1.trendingMovieId) }
+			?.let { movieAndTrending ->
+				movieAndTrending.movieTrending?.let { movieTrending ->
+					movieTrending.id?.let { id ->
+						movieTrendingRemoteKeysDao.getTrendingRemoteKeys(id = id)
+					}
+				}
 			}
 	}
 

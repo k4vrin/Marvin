@@ -13,7 +13,6 @@ import com.kavrin.marvin.domain.model.tv.entities.relations.TvAndPopular
 import com.kavrin.marvin.domain.model.tv.entities.relations.TvAndTopRated
 import com.kavrin.marvin.domain.model.tv.entities.relations.TvAndTrending
 import com.kavrin.marvin.domain.repository.TvRemoteDataSource
-import com.kavrin.marvin.util.Constants
 import com.kavrin.marvin.util.Constants.ITEMS_PER_PAGE
 import kotlinx.coroutines.flow.Flow
 
@@ -77,7 +76,7 @@ class TvRemoteDataSourceImpl(
 
 	override fun getCarouselTvs(): Flow<PagingData<TvAndTrending>> {
 		val pagingSourceFactory = {
-			marvinDatabase.tvTrendingDao().getCarouselTvAndTrending()
+			marvinDatabase.tvTrendingDao().getCarouselTvs()
 		}
 
 		return Pager(
@@ -102,8 +101,7 @@ class TvRemoteDataSourceImpl(
 				marvinDatabase = marvinDatabase
 			),
 			pagingSourceFactory = pagingSourceFactory
-		).flow
-	}
+		).flow	}
 
 	override fun getHomeTopRatedTvs(): Flow<PagingData<TvAndTopRated>> {
 		val pagingSourceFactory = {
@@ -117,8 +115,7 @@ class TvRemoteDataSourceImpl(
 				marvinDatabase = marvinDatabase
 			),
 			pagingSourceFactory = pagingSourceFactory
-		).flow
-	}
+		).flow	}
 
 	override fun getHomeTrendingTvs(): Flow<PagingData<TvAndTrending>> {
 		val pagingSourceFactory = {
@@ -132,8 +129,7 @@ class TvRemoteDataSourceImpl(
 				marvinDatabase = marvinDatabase
 			),
 			pagingSourceFactory = pagingSourceFactory
-		).flow
-	}
+		).flow	}
 
 	///////////////////////////////////////////////////////////////////////////
 	// Search

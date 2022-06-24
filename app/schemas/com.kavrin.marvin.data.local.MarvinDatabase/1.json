@@ -2,7 +2,7 @@
   "formatVersion": 1,
   "database": {
     "version": 1,
-    "identityHash": "67c2f559f8d3a63a3aedf1e4796b0568",
+    "identityHash": "1bf4855a17b769af3fa325aaee83b34a",
     "entities": [
       {
         "tableName": "playlist_table",
@@ -32,8 +32,14 @@
       },
       {
         "tableName": "movie_table",
-        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`adult` INTEGER NOT NULL, `backdropPath` TEXT NOT NULL, `genreIds` TEXT NOT NULL, `movieId` INTEGER NOT NULL, `originalLanguage` TEXT NOT NULL, `originalTitle` TEXT NOT NULL, `overview` TEXT NOT NULL, `popularity` REAL NOT NULL, `posterPath` TEXT NOT NULL, `releaseDate` TEXT NOT NULL, `title` TEXT NOT NULL, `video` INTEGER NOT NULL, `voteAverage` REAL NOT NULL, `voteCount` INTEGER NOT NULL, PRIMARY KEY(`movieId`))",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`localId` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `adult` INTEGER NOT NULL, `backdropPath` TEXT NOT NULL, `genreIds` TEXT NOT NULL, `movieId` INTEGER NOT NULL, `originalLanguage` TEXT NOT NULL, `originalTitle` TEXT NOT NULL, `overview` TEXT NOT NULL, `popularity` REAL NOT NULL, `posterPath` TEXT NOT NULL, `releaseDate` TEXT NOT NULL, `title` TEXT NOT NULL, `video` INTEGER NOT NULL, `voteAverage` REAL NOT NULL, `voteCount` INTEGER NOT NULL)",
         "fields": [
+          {
+            "fieldPath": "localId",
+            "columnName": "localId",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
           {
             "fieldPath": "adult",
             "columnName": "adult",
@@ -121,17 +127,33 @@
         ],
         "primaryKey": {
           "columnNames": [
-            "movieId"
+            "localId"
           ],
-          "autoGenerate": false
+          "autoGenerate": true
         },
-        "indices": [],
+        "indices": [
+          {
+            "name": "index_movie_table_movieId",
+            "unique": true,
+            "columnNames": [
+              "movieId"
+            ],
+            "orders": [],
+            "createSql": "CREATE UNIQUE INDEX IF NOT EXISTS `index_movie_table_movieId` ON `${TABLE_NAME}` (`movieId`)"
+          }
+        ],
         "foreignKeys": []
       },
       {
         "tableName": "movie_popular_table",
-        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`popularMovieId` INTEGER NOT NULL, PRIMARY KEY(`popularMovieId`))",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `popularMovieId` INTEGER NOT NULL)",
         "fields": [
+          {
+            "fieldPath": "id",
+            "columnName": "id",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
           {
             "fieldPath": "popularMovieId",
             "columnName": "popularMovieId",
@@ -141,17 +163,33 @@
         ],
         "primaryKey": {
           "columnNames": [
-            "popularMovieId"
+            "id"
           ],
-          "autoGenerate": false
+          "autoGenerate": true
         },
-        "indices": [],
+        "indices": [
+          {
+            "name": "index_movie_popular_table_popularMovieId",
+            "unique": true,
+            "columnNames": [
+              "popularMovieId"
+            ],
+            "orders": [],
+            "createSql": "CREATE UNIQUE INDEX IF NOT EXISTS `index_movie_popular_table_popularMovieId` ON `${TABLE_NAME}` (`popularMovieId`)"
+          }
+        ],
         "foreignKeys": []
       },
       {
         "tableName": "movie_top_rated_table",
-        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`topRatedMovieId` INTEGER NOT NULL, PRIMARY KEY(`topRatedMovieId`))",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `topRatedMovieId` INTEGER NOT NULL)",
         "fields": [
+          {
+            "fieldPath": "id",
+            "columnName": "id",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
           {
             "fieldPath": "topRatedMovieId",
             "columnName": "topRatedMovieId",
@@ -161,17 +199,33 @@
         ],
         "primaryKey": {
           "columnNames": [
-            "topRatedMovieId"
+            "id"
           ],
-          "autoGenerate": false
+          "autoGenerate": true
         },
-        "indices": [],
+        "indices": [
+          {
+            "name": "index_movie_top_rated_table_topRatedMovieId",
+            "unique": true,
+            "columnNames": [
+              "topRatedMovieId"
+            ],
+            "orders": [],
+            "createSql": "CREATE UNIQUE INDEX IF NOT EXISTS `index_movie_top_rated_table_topRatedMovieId` ON `${TABLE_NAME}` (`topRatedMovieId`)"
+          }
+        ],
         "foreignKeys": []
       },
       {
         "tableName": "movie_trending_table",
-        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`trendingMovieId` INTEGER NOT NULL, PRIMARY KEY(`trendingMovieId`))",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `trendingMovieId` INTEGER NOT NULL)",
         "fields": [
+          {
+            "fieldPath": "id",
+            "columnName": "id",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
           {
             "fieldPath": "trendingMovieId",
             "columnName": "trendingMovieId",
@@ -181,11 +235,21 @@
         ],
         "primaryKey": {
           "columnNames": [
-            "trendingMovieId"
+            "id"
           ],
-          "autoGenerate": false
+          "autoGenerate": true
         },
-        "indices": [],
+        "indices": [
+          {
+            "name": "index_movie_trending_table_trendingMovieId",
+            "unique": true,
+            "columnNames": [
+              "trendingMovieId"
+            ],
+            "orders": [],
+            "createSql": "CREATE UNIQUE INDEX IF NOT EXISTS `index_movie_trending_table_trendingMovieId` ON `${TABLE_NAME}` (`trendingMovieId`)"
+          }
+        ],
         "foreignKeys": []
       },
       {
@@ -227,8 +291,14 @@
       },
       {
         "tableName": "movie_popular_remote_table",
-        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`moviePopularId` INTEGER NOT NULL, `prevPage` INTEGER, `nextPage` INTEGER, PRIMARY KEY(`moviePopularId`))",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `moviePopularId` INTEGER NOT NULL, `prevPage` INTEGER, `nextPage` INTEGER, `lastUpdated` INTEGER NOT NULL)",
         "fields": [
+          {
+            "fieldPath": "id",
+            "columnName": "id",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
           {
             "fieldPath": "moviePopularId",
             "columnName": "moviePopularId",
@@ -246,21 +316,43 @@
             "columnName": "nextPage",
             "affinity": "INTEGER",
             "notNull": false
+          },
+          {
+            "fieldPath": "lastUpdated",
+            "columnName": "lastUpdated",
+            "affinity": "INTEGER",
+            "notNull": true
           }
         ],
         "primaryKey": {
           "columnNames": [
-            "moviePopularId"
+            "id"
           ],
-          "autoGenerate": false
+          "autoGenerate": true
         },
-        "indices": [],
+        "indices": [
+          {
+            "name": "index_movie_popular_remote_table_moviePopularId",
+            "unique": true,
+            "columnNames": [
+              "moviePopularId"
+            ],
+            "orders": [],
+            "createSql": "CREATE UNIQUE INDEX IF NOT EXISTS `index_movie_popular_remote_table_moviePopularId` ON `${TABLE_NAME}` (`moviePopularId`)"
+          }
+        ],
         "foreignKeys": []
       },
       {
         "tableName": "movie_top_rated_remote_table",
-        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`movieTopRatedId` INTEGER NOT NULL, `prevPage` INTEGER, `nextPage` INTEGER, PRIMARY KEY(`movieTopRatedId`))",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `movieTopRatedId` INTEGER NOT NULL, `prevPage` INTEGER, `nextPage` INTEGER, `lastUpdated` INTEGER NOT NULL)",
         "fields": [
+          {
+            "fieldPath": "id",
+            "columnName": "id",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
           {
             "fieldPath": "movieTopRatedId",
             "columnName": "movieTopRatedId",
@@ -278,21 +370,43 @@
             "columnName": "nextPage",
             "affinity": "INTEGER",
             "notNull": false
+          },
+          {
+            "fieldPath": "lastUpdated",
+            "columnName": "lastUpdated",
+            "affinity": "INTEGER",
+            "notNull": true
           }
         ],
         "primaryKey": {
           "columnNames": [
-            "movieTopRatedId"
+            "id"
           ],
-          "autoGenerate": false
+          "autoGenerate": true
         },
-        "indices": [],
+        "indices": [
+          {
+            "name": "index_movie_top_rated_remote_table_movieTopRatedId",
+            "unique": true,
+            "columnNames": [
+              "movieTopRatedId"
+            ],
+            "orders": [],
+            "createSql": "CREATE UNIQUE INDEX IF NOT EXISTS `index_movie_top_rated_remote_table_movieTopRatedId` ON `${TABLE_NAME}` (`movieTopRatedId`)"
+          }
+        ],
         "foreignKeys": []
       },
       {
         "tableName": "movie_trending_remote_table",
-        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`movieTrendingId` INTEGER NOT NULL, `prevPage` INTEGER, `nextPage` INTEGER, PRIMARY KEY(`movieTrendingId`))",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `movieTrendingId` INTEGER NOT NULL, `prevPage` INTEGER, `nextPage` INTEGER, `lastUpdated` INTEGER NOT NULL)",
         "fields": [
+          {
+            "fieldPath": "id",
+            "columnName": "id",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
           {
             "fieldPath": "movieTrendingId",
             "columnName": "movieTrendingId",
@@ -310,26 +424,48 @@
             "columnName": "nextPage",
             "affinity": "INTEGER",
             "notNull": false
+          },
+          {
+            "fieldPath": "lastUpdated",
+            "columnName": "lastUpdated",
+            "affinity": "INTEGER",
+            "notNull": true
           }
         ],
         "primaryKey": {
           "columnNames": [
-            "movieTrendingId"
+            "id"
           ],
-          "autoGenerate": false
+          "autoGenerate": true
         },
-        "indices": [],
+        "indices": [
+          {
+            "name": "index_movie_trending_remote_table_movieTrendingId",
+            "unique": true,
+            "columnNames": [
+              "movieTrendingId"
+            ],
+            "orders": [],
+            "createSql": "CREATE UNIQUE INDEX IF NOT EXISTS `index_movie_trending_remote_table_movieTrendingId` ON `${TABLE_NAME}` (`movieTrendingId`)"
+          }
+        ],
         "foreignKeys": []
       },
       {
         "tableName": "tv_table",
-        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`backdropPath` TEXT NOT NULL, `firstAirDate` TEXT NOT NULL, `genreIds` TEXT NOT NULL, `tvId` INTEGER NOT NULL, `name` TEXT NOT NULL, `originCountry` TEXT NOT NULL, `originalLanguage` TEXT NOT NULL, `originalName` TEXT NOT NULL, `overview` TEXT NOT NULL, `popularity` REAL NOT NULL, `posterPath` TEXT NOT NULL, `voteAverage` REAL NOT NULL, `voteCount` INTEGER NOT NULL, PRIMARY KEY(`tvId`))",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`localId` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `backdropPath` TEXT, `firstAirDate` TEXT NOT NULL, `genreIds` TEXT NOT NULL, `tvId` INTEGER NOT NULL, `name` TEXT NOT NULL, `originCountry` TEXT NOT NULL, `originalLanguage` TEXT NOT NULL, `originalName` TEXT NOT NULL, `overview` TEXT NOT NULL, `popularity` REAL NOT NULL, `posterPath` TEXT, `voteAverage` REAL NOT NULL, `voteCount` INTEGER NOT NULL)",
         "fields": [
+          {
+            "fieldPath": "localId",
+            "columnName": "localId",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
           {
             "fieldPath": "backdropPath",
             "columnName": "backdropPath",
             "affinity": "TEXT",
-            "notNull": true
+            "notNull": false
           },
           {
             "fieldPath": "firstAirDate",
@@ -389,7 +525,7 @@
             "fieldPath": "posterPath",
             "columnName": "posterPath",
             "affinity": "TEXT",
-            "notNull": true
+            "notNull": false
           },
           {
             "fieldPath": "voteAverage",
@@ -406,17 +542,33 @@
         ],
         "primaryKey": {
           "columnNames": [
-            "tvId"
+            "localId"
           ],
-          "autoGenerate": false
+          "autoGenerate": true
         },
-        "indices": [],
+        "indices": [
+          {
+            "name": "index_tv_table_tvId",
+            "unique": true,
+            "columnNames": [
+              "tvId"
+            ],
+            "orders": [],
+            "createSql": "CREATE UNIQUE INDEX IF NOT EXISTS `index_tv_table_tvId` ON `${TABLE_NAME}` (`tvId`)"
+          }
+        ],
         "foreignKeys": []
       },
       {
         "tableName": "tv_popular_table",
-        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`popularTvId` INTEGER NOT NULL, PRIMARY KEY(`popularTvId`))",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `popularTvId` INTEGER NOT NULL)",
         "fields": [
+          {
+            "fieldPath": "id",
+            "columnName": "id",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
           {
             "fieldPath": "popularTvId",
             "columnName": "popularTvId",
@@ -426,17 +578,33 @@
         ],
         "primaryKey": {
           "columnNames": [
-            "popularTvId"
+            "id"
           ],
-          "autoGenerate": false
+          "autoGenerate": true
         },
-        "indices": [],
+        "indices": [
+          {
+            "name": "index_tv_popular_table_popularTvId",
+            "unique": true,
+            "columnNames": [
+              "popularTvId"
+            ],
+            "orders": [],
+            "createSql": "CREATE UNIQUE INDEX IF NOT EXISTS `index_tv_popular_table_popularTvId` ON `${TABLE_NAME}` (`popularTvId`)"
+          }
+        ],
         "foreignKeys": []
       },
       {
         "tableName": "tv_top_rated_table",
-        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`topRatedTvId` INTEGER NOT NULL, PRIMARY KEY(`topRatedTvId`))",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `topRatedTvId` INTEGER NOT NULL)",
         "fields": [
+          {
+            "fieldPath": "id",
+            "columnName": "id",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
           {
             "fieldPath": "topRatedTvId",
             "columnName": "topRatedTvId",
@@ -446,17 +614,33 @@
         ],
         "primaryKey": {
           "columnNames": [
-            "topRatedTvId"
+            "id"
           ],
-          "autoGenerate": false
+          "autoGenerate": true
         },
-        "indices": [],
+        "indices": [
+          {
+            "name": "index_tv_top_rated_table_topRatedTvId",
+            "unique": true,
+            "columnNames": [
+              "topRatedTvId"
+            ],
+            "orders": [],
+            "createSql": "CREATE UNIQUE INDEX IF NOT EXISTS `index_tv_top_rated_table_topRatedTvId` ON `${TABLE_NAME}` (`topRatedTvId`)"
+          }
+        ],
         "foreignKeys": []
       },
       {
         "tableName": "tv_trending_table",
-        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`trendingTvId` INTEGER NOT NULL, PRIMARY KEY(`trendingTvId`))",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `trendingTvId` INTEGER NOT NULL)",
         "fields": [
+          {
+            "fieldPath": "id",
+            "columnName": "id",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
           {
             "fieldPath": "trendingTvId",
             "columnName": "trendingTvId",
@@ -466,11 +650,21 @@
         ],
         "primaryKey": {
           "columnNames": [
-            "trendingTvId"
+            "id"
           ],
-          "autoGenerate": false
+          "autoGenerate": true
         },
-        "indices": [],
+        "indices": [
+          {
+            "name": "index_tv_trending_table_trendingTvId",
+            "unique": true,
+            "columnNames": [
+              "trendingTvId"
+            ],
+            "orders": [],
+            "createSql": "CREATE UNIQUE INDEX IF NOT EXISTS `index_tv_trending_table_trendingTvId` ON `${TABLE_NAME}` (`trendingTvId`)"
+          }
+        ],
         "foreignKeys": []
       },
       {
@@ -512,8 +706,14 @@
       },
       {
         "tableName": "tv_popular_remote_table",
-        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`tvPopularId` INTEGER NOT NULL, `prevPage` INTEGER, `nextPage` INTEGER, PRIMARY KEY(`tvPopularId`))",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `tvPopularId` INTEGER NOT NULL, `prevPage` INTEGER, `nextPage` INTEGER, `lastUpdated` INTEGER NOT NULL)",
         "fields": [
+          {
+            "fieldPath": "id",
+            "columnName": "id",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
           {
             "fieldPath": "tvPopularId",
             "columnName": "tvPopularId",
@@ -531,21 +731,43 @@
             "columnName": "nextPage",
             "affinity": "INTEGER",
             "notNull": false
+          },
+          {
+            "fieldPath": "lastUpdated",
+            "columnName": "lastUpdated",
+            "affinity": "INTEGER",
+            "notNull": true
           }
         ],
         "primaryKey": {
           "columnNames": [
-            "tvPopularId"
+            "id"
           ],
-          "autoGenerate": false
+          "autoGenerate": true
         },
-        "indices": [],
+        "indices": [
+          {
+            "name": "index_tv_popular_remote_table_tvPopularId",
+            "unique": true,
+            "columnNames": [
+              "tvPopularId"
+            ],
+            "orders": [],
+            "createSql": "CREATE UNIQUE INDEX IF NOT EXISTS `index_tv_popular_remote_table_tvPopularId` ON `${TABLE_NAME}` (`tvPopularId`)"
+          }
+        ],
         "foreignKeys": []
       },
       {
         "tableName": "tv_top_rated_remote_table",
-        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`tvTopRatedId` INTEGER NOT NULL, `prevPage` INTEGER, `nextPage` INTEGER, PRIMARY KEY(`tvTopRatedId`))",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `tvTopRatedId` INTEGER NOT NULL, `prevPage` INTEGER, `nextPage` INTEGER, `lastUpdated` INTEGER NOT NULL)",
         "fields": [
+          {
+            "fieldPath": "id",
+            "columnName": "id",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
           {
             "fieldPath": "tvTopRatedId",
             "columnName": "tvTopRatedId",
@@ -563,21 +785,43 @@
             "columnName": "nextPage",
             "affinity": "INTEGER",
             "notNull": false
+          },
+          {
+            "fieldPath": "lastUpdated",
+            "columnName": "lastUpdated",
+            "affinity": "INTEGER",
+            "notNull": true
           }
         ],
         "primaryKey": {
           "columnNames": [
-            "tvTopRatedId"
+            "id"
           ],
-          "autoGenerate": false
+          "autoGenerate": true
         },
-        "indices": [],
+        "indices": [
+          {
+            "name": "index_tv_top_rated_remote_table_tvTopRatedId",
+            "unique": true,
+            "columnNames": [
+              "tvTopRatedId"
+            ],
+            "orders": [],
+            "createSql": "CREATE UNIQUE INDEX IF NOT EXISTS `index_tv_top_rated_remote_table_tvTopRatedId` ON `${TABLE_NAME}` (`tvTopRatedId`)"
+          }
+        ],
         "foreignKeys": []
       },
       {
         "tableName": "tv_trending_remote_table",
-        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`tvTrendingId` INTEGER NOT NULL, `prevPage` INTEGER, `nextPage` INTEGER, PRIMARY KEY(`tvTrendingId`))",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `tvTrendingId` INTEGER NOT NULL, `prevPage` INTEGER, `nextPage` INTEGER, `lastUpdated` INTEGER NOT NULL)",
         "fields": [
+          {
+            "fieldPath": "id",
+            "columnName": "id",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
           {
             "fieldPath": "tvTrendingId",
             "columnName": "tvTrendingId",
@@ -595,22 +839,38 @@
             "columnName": "nextPage",
             "affinity": "INTEGER",
             "notNull": false
+          },
+          {
+            "fieldPath": "lastUpdated",
+            "columnName": "lastUpdated",
+            "affinity": "INTEGER",
+            "notNull": true
           }
         ],
         "primaryKey": {
           "columnNames": [
-            "tvTrendingId"
+            "id"
           ],
-          "autoGenerate": false
+          "autoGenerate": true
         },
-        "indices": [],
+        "indices": [
+          {
+            "name": "index_tv_trending_remote_table_tvTrendingId",
+            "unique": true,
+            "columnNames": [
+              "tvTrendingId"
+            ],
+            "orders": [],
+            "createSql": "CREATE UNIQUE INDEX IF NOT EXISTS `index_tv_trending_remote_table_tvTrendingId` ON `${TABLE_NAME}` (`tvTrendingId`)"
+          }
+        ],
         "foreignKeys": []
       }
     ],
     "views": [],
     "setupQueries": [
       "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
-      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, '67c2f559f8d3a63a3aedf1e4796b0568')"
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, '1bf4855a17b769af3fa325aaee83b34a')"
     ]
   }
 }

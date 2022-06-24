@@ -8,19 +8,19 @@ import com.kavrin.marvin.domain.model.movie.entities.relations.MovieAndTrending
 @Dao
 interface MovieTrendingDao {
 
-	@Insert(onConflict = OnConflictStrategy.REPLACE)
-	suspend fun insertTrending(movieTrending: MovieTrending)
+	@Insert(onConflict = OnConflictStrategy.IGNORE)
+	suspend fun insertTrending(movieTrending: List<MovieTrending>)
 
-	@Query("DELETE FROM movie_top_rated_table")
+	@Query("DELETE FROM movie_trending_table")
 	suspend fun deleteAllTrending()
 
 	@Transaction
-	@Query("SELECT * FROM movie_table")
+	@Query("SELECT * FROM movie_table, movie_trending_table WHERE movieId = trendingMovieId")
 	fun getMovieAndTrending(): PagingSource<Int, MovieAndTrending>
 
 	@Transaction
-	@Query("SELECT * FROM movie_table ORDER BY popularity DESC LIMIT 5")
-	fun getCarouselMovieAndTrending(): PagingSource<Int, MovieAndTrending>
+	@Query("SELECT * FROM movie_table, movie_trending_table WHERE movieId = trendingMovieId ORDER BY popularity DESC LIMIT 5")
+	fun getCarouselMovies(): PagingSource<Int, MovieAndTrending>
 
 	@Transaction
 	@Query("SELECT * FROM movie_table, movie_trending_table WHERE movieId = trendingMovieId LIMIT 8")

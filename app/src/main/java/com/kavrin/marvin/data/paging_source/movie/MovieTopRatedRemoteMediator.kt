@@ -9,16 +9,33 @@ import com.kavrin.marvin.data.remote.TMDBMovieService
 import com.kavrin.marvin.domain.model.movie.entities.MovieTopRated
 import com.kavrin.marvin.domain.model.movie.entities.relations.MovieAndTopRated
 import com.kavrin.marvin.domain.model.movie.entities.remote_keys.MovieTopRatedRemoteKeys
-import javax.inject.Inject
+import com.kavrin.marvin.util.Constants.FIRST_REQUEST_DEFAULT
+import com.kavrin.marvin.util.Constants.ONE_MINUTE_IN_SECONDS
+import com.kavrin.marvin.util.Constants.ONE_SECOND_IN_MILLIS
+import com.kavrin.marvin.util.Constants.TWENTY_FOUR_HOURS_IN_MINUTES
 
-class MovieTopRatedRemoteMediator @Inject constructor(
+class MovieTopRatedRemoteMediator(
 	private val movieService: TMDBMovieService,
-	private val marvinDatabase: MarvinDatabase
+	private val marvinDatabase: MarvinDatabase,
 ) : RemoteMediator<Int, MovieAndTopRated>() {
 
 	private val movieDao = marvinDatabase.movieDao()
 	private val movieTopRatedDao = marvinDatabase.movieTopRatedDao()
 	private val movieTopRatedRemoteKeysDao = marvinDatabase.movieTopRatedRemoteKeysDao()
+
+	override suspend fun initialize(): InitializeAction {
+		val currentTime = System.currentTimeMillis()
+		val lastUpdated = movieTopRatedRemoteKeysDao.getTopRatedRemoteKeys(id = 1)?.lastUpdated
+			?: FIRST_REQUEST_DEFAULT
+		val cacheTimeout = TWENTY_FOUR_HOURS_IN_MINUTES
+
+		val diffInMinutes =
+			(currentTime - lastUpdated) / ONE_SECOND_IN_MILLIS / ONE_MINUTE_IN_SECONDS
+		return if (diffInMinutes.toInt() <= cacheTimeout)
+			InitializeAction.SKIP_INITIAL_REFRESH
+		else
+			InitializeAction.LAUNCH_INITIAL_REFRESH
+	}
 
 
 	override suspend fun load(
@@ -43,7 +60,7 @@ class MovieTopRatedRemoteMediator @Inject constructor(
 				LoadType.APPEND -> {
 					val remoteKeys = getRemoteKeyForLastItem(state)
 					val nextPage = remoteKeys?.nextPage
-						?:return MediatorResult.Success(
+						?: return MediatorResult.Success(
 							endOfPaginationReached = remoteKeys != null
 						)
 					nextPage
@@ -70,21 +87,22 @@ class MovieTopRatedRemoteMediator @Inject constructor(
 						else -> response.page + 1
 					}
 
+					val lastUpdate = System.currentTimeMillis()
 					val keys = response.movies.map { movie ->
 						MovieTopRatedRemoteKeys(
 							movieTopRatedId = movie.movieId,
 							prevPage = prevPage,
-							nextPage = nextPage
+							nextPage = nextPage,
+							lastUpdated = lastUpdate
 						)
 					}
-
 					movieTopRatedRemoteKeysDao.addTopRatedRemoteKeys(topRatedRemoteKeys = keys)
 
-					response.movies.map { movie ->
-						movieTopRatedDao.insertTopRated(
-							MovieTopRated(topRatedMovieId = movie.movieId)
-						)
+
+					val topRated = response.movies.map { movie ->
+						MovieTopRated(topRatedMovieId = movie.movieId)
 					}
+					movieTopRatedDao.insertTopRated(movieTopRated = topRated)
 
 					movieDao.insertMovie(movie = response.movies)
 
@@ -103,7 +121,7 @@ class MovieTopRatedRemoteMediator @Inject constructor(
 	): MovieTopRatedRemoteKeys? {
 
 		return state.anchorPosition?.let { position ->
-			state.closestItemToPosition(anchorPosition = position)?.movieTopRated?.topRatedMovieId?.let { id ->
+			state.closestItemToPosition(anchorPosition = position)?.movieTopRated?.id?.let { id ->
 				movieTopRatedRemoteKeysDao.getTopRatedRemoteKeys(id = id)
 			}
 		}
@@ -115,8 +133,12 @@ class MovieTopRatedRemoteMediator @Inject constructor(
 		return state.pages.firstOrNull { page ->
 			page.data.isNotEmpty()
 		}?.data?.firstOrNull()
-			?.let {
-				it.movieTopRated?.let { it1 -> movieTopRatedRemoteKeysDao.getTopRatedRemoteKeys(id = it1.topRatedMovieId) }
+			?.let { movieAndTopRated ->
+				movieAndTopRated.movieTopRated?.let { movieTopRated ->
+					movieTopRated.id?.let { id ->
+						movieTopRatedRemoteKeysDao.getTopRatedRemoteKeys(id = id)
+					}
+				}
 			}
 	}
 
@@ -126,10 +148,13 @@ class MovieTopRatedRemoteMediator @Inject constructor(
 		return state.pages.lastOrNull {
 			it.data.isNotEmpty()
 		}?.data?.lastOrNull()
-			?.let {
-				it.movieTopRated?.let { it1 -> movieTopRatedRemoteKeysDao.getTopRatedRemoteKeys(id = it1.topRatedMovieId) }
+			?.let { movieAndTopRated ->
+				movieAndTopRated.movieTopRated?.let { movieTopRated ->
+					movieTopRated.id?.let { id ->
+						movieTopRatedRemoteKeysDao.getTopRatedRemoteKeys(id = id)
+					}
+				}
 			}
 	}
-
 
 }

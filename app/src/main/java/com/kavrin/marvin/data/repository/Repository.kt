@@ -23,7 +23,6 @@ class Repository @Inject constructor(
 	// Movie
 	///////////////////////////////////////////////////////////////////////////
 
-	//// All ////
 
 	fun getAllPopularMovies(): Flow<PagingData<MovieAndPopular>> {
 		return movieRemote.getPopularMovies()
@@ -36,6 +35,8 @@ class Repository @Inject constructor(
 	fun getAllTrendingMovies(): Flow<PagingData<MovieAndTrending>> {
 		return movieRemote.getTrendingMovies()
 	}
+
+
 
 	//// Home ////
 
@@ -59,7 +60,6 @@ class Repository @Inject constructor(
 	// Tv
 	///////////////////////////////////////////////////////////////////////////
 
-	//// All ////
 
 	fun getAllPopularTvs(): Flow<PagingData<TvAndPopular>> {
 		return tvRemote.getPopularTvs()

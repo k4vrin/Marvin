@@ -9,16 +9,33 @@ import com.kavrin.marvin.data.remote.TMDBTvService
 import com.kavrin.marvin.domain.model.tv.entities.TvTopRated
 import com.kavrin.marvin.domain.model.tv.entities.relations.TvAndTopRated
 import com.kavrin.marvin.domain.model.tv.entities.remote_keys.TvTopRatedRemoteKeys
-import javax.inject.Inject
+import com.kavrin.marvin.util.Constants.FIRST_REQUEST_DEFAULT
+import com.kavrin.marvin.util.Constants.ONE_MINUTE_IN_SECONDS
+import com.kavrin.marvin.util.Constants.ONE_SECOND_IN_MILLIS
+import com.kavrin.marvin.util.Constants.TWENTY_FOUR_HOURS_IN_MINUTES
 
-class TvTopRatedRemoteMediator @Inject constructor(
+class TvTopRatedRemoteMediator(
 	private val tvService: TMDBTvService,
-	private val marvinDatabase: MarvinDatabase
+	private val marvinDatabase: MarvinDatabase,
 ) : RemoteMediator<Int, TvAndTopRated>() {
 
 	private val tvDao = marvinDatabase.tvDao()
 	private val tvTopRatedDao = marvinDatabase.tvTopRatedDao()
 	private val tvTopRatedRemoteKeysDao = marvinDatabase.tvTopRatedRemoteKeysDao()
+
+	override suspend fun initialize(): InitializeAction {
+		val currentTime = System.currentTimeMillis()
+		val lastUpdated = tvTopRatedRemoteKeysDao.getTopRatedRemoteKeys(id = 1)?.lastUpdated
+			?: FIRST_REQUEST_DEFAULT
+		val cacheTimeout = TWENTY_FOUR_HOURS_IN_MINUTES
+
+		val diffInMinutes =
+			(currentTime - lastUpdated) / ONE_SECOND_IN_MILLIS / ONE_MINUTE_IN_SECONDS
+		return if (diffInMinutes.toInt() <= cacheTimeout)
+			InitializeAction.SKIP_INITIAL_REFRESH
+		else
+			InitializeAction.LAUNCH_INITIAL_REFRESH
+	}
 
 
 	override suspend fun load(
@@ -43,7 +60,7 @@ class TvTopRatedRemoteMediator @Inject constructor(
 				LoadType.APPEND -> {
 					val remoteKeys = getRemoteKeyForLastItem(state)
 					val nextPage = remoteKeys?.nextPage
-						?:return MediatorResult.Success(
+						?: return MediatorResult.Success(
 							endOfPaginationReached = remoteKeys != null
 						)
 					nextPage
@@ -70,27 +87,26 @@ class TvTopRatedRemoteMediator @Inject constructor(
 						else -> response.page + 1
 					}
 
+					val lastUpdate = System.currentTimeMillis()
 					val keys = response.tvs.map { tv ->
 						TvTopRatedRemoteKeys(
 							tvTopRatedId = tv.tvId,
 							prevPage = prevPage,
-							nextPage = nextPage
+							nextPage = nextPage,
+							lastUpdated = lastUpdate
 						)
 					}
-
 					tvTopRatedRemoteKeysDao.addTopRatedRemoteKeys(topRatedRemoteKeys = keys)
 
-					response.tvs.map { tv ->
-						tvTopRatedDao.insertTopRated(
-							TvTopRated(topRatedTvId = tv.tvId)
-						)
+					val topRated = response.tvs.map { tv ->
+						TvTopRated(topRatedTvId = tv.tvId)
 					}
+					tvTopRatedDao.insertTopRated(topRated)
 
 					tvDao.insertTv(tv = response.tvs)
 
 				}
 			}
-
 
 			MediatorResult.Success(endOfPaginationReached = response.page == response.totalPages)
 		} catch (e: Exception) {
@@ -103,7 +119,7 @@ class TvTopRatedRemoteMediator @Inject constructor(
 	): TvTopRatedRemoteKeys? {
 
 		return state.anchorPosition?.let { position ->
-			state.closestItemToPosition(anchorPosition = position)?.tvTopRated?.topRatedTvId?.let { id ->
+			state.closestItemToPosition(anchorPosition = position)?.tvTopRated?.id?.let { id ->
 				tvTopRatedRemoteKeysDao.getTopRatedRemoteKeys(id = id)
 			}
 		}
@@ -115,8 +131,12 @@ class TvTopRatedRemoteMediator @Inject constructor(
 		return state.pages.firstOrNull { page ->
 			page.data.isNotEmpty()
 		}?.data?.firstOrNull()
-			?.let {
-				it.tvTopRated?.let { it1 -> tvTopRatedRemoteKeysDao.getTopRatedRemoteKeys(id = it1.topRatedTvId) }
+			?.let { tvAndTopRated ->
+				tvAndTopRated.tvTopRated?.let { tvTopRated ->
+					tvTopRated.id?.let { id ->
+						tvTopRatedRemoteKeysDao.getTopRatedRemoteKeys(id = id)
+					}
+				}
 			}
 	}
 
@@ -126,8 +146,12 @@ class TvTopRatedRemoteMediator @Inject constructor(
 		return state.pages.lastOrNull {
 			it.data.isNotEmpty()
 		}?.data?.lastOrNull()
-			?.let {
-				it.tvTopRated?.let { it1 -> tvTopRatedRemoteKeysDao.getTopRatedRemoteKeys(id = it1.topRatedTvId) }
+			?.let { tvAndTopRated ->
+				tvAndTopRated.tvTopRated?.let { tvTopRated ->
+					tvTopRated.id?.let { id ->
+						tvTopRatedRemoteKeysDao.getTopRatedRemoteKeys(id = id)
+					}
+				}
 			}
 	}
 

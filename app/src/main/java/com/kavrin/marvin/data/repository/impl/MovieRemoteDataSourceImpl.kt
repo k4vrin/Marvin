@@ -72,10 +72,9 @@ class MovieRemoteDataSourceImpl(
 	///////////////////////////////////////////////////////////////////////////
 	// Home
 	///////////////////////////////////////////////////////////////////////////
-
 	override fun getCarouselMovies(): Flow<PagingData<MovieAndTrending>> {
 		val pagingSourceFactory = {
-			marvinDatabase.movieTrendingDao().getCarouselMovieAndTrending()
+			marvinDatabase.movieTrendingDao().getCarouselMovies()
 		}
 
 		return Pager(
@@ -100,8 +99,7 @@ class MovieRemoteDataSourceImpl(
 				marvinDatabase = marvinDatabase
 			),
 			pagingSourceFactory = pagingSourceFactory
-		).flow
-	}
+		).flow	}
 
 	override fun getHomeTopRatedMovies(): Flow<PagingData<MovieAndTopRated>> {
 		val pagingSourceFactory = {
@@ -115,8 +113,7 @@ class MovieRemoteDataSourceImpl(
 				marvinDatabase = marvinDatabase
 			),
 			pagingSourceFactory = pagingSourceFactory
-		).flow
-	}
+		).flow	}
 
 	override fun getHomeTrendingMovies(): Flow<PagingData<MovieAndTrending>> {
 		val pagingSourceFactory = {
@@ -130,8 +127,7 @@ class MovieRemoteDataSourceImpl(
 				marvinDatabase = marvinDatabase
 			),
 			pagingSourceFactory = pagingSourceFactory
-		).flow
-	}
+		).flow	}
 
 	///////////////////////////////////////////////////////////////////////////
 	// Search

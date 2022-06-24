@@ -117,7 +117,7 @@ fun <T : MarvinItem> Carousel(
 					)
 				)
 			) {
-				if (items.itemCount >= 1) {
+				if (items.itemCount >= 2) {
 					val title = if (isMovie) items[pagerState.currentPage]?.movie?.title else items[pagerState.currentPage]?.tv?.name
 					title?.let {
 						Text(

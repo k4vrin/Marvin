@@ -9,16 +9,31 @@ import com.kavrin.marvin.data.remote.TMDBMovieService
 import com.kavrin.marvin.domain.model.movie.entities.MoviePopular
 import com.kavrin.marvin.domain.model.movie.entities.relations.MovieAndPopular
 import com.kavrin.marvin.domain.model.movie.entities.remote_keys.MoviePopularRemoteKeys
-import javax.inject.Inject
+import com.kavrin.marvin.util.Constants.FIRST_REQUEST_DEFAULT
+import com.kavrin.marvin.util.Constants.ONE_MINUTE_IN_SECONDS
+import com.kavrin.marvin.util.Constants.ONE_SECOND_IN_MILLIS
+import com.kavrin.marvin.util.Constants.TWENTY_FOUR_HOURS_IN_MINUTES
 
-class MoviePopularRemoteMediator @Inject constructor(
+class MoviePopularRemoteMediator(
 	private val movieService: TMDBMovieService,
-	private val marvinDatabase: MarvinDatabase
+	private val marvinDatabase: MarvinDatabase,
 ) : RemoteMediator<Int, MovieAndPopular>() {
 
 	private val movieDao = marvinDatabase.movieDao()
 	private val moviePopularDao = marvinDatabase.moviePopularDao()
 	private val moviePopularRemoteKeysDao = marvinDatabase.moviePopularRemoteKeysDao()
+
+	override suspend fun initialize(): InitializeAction {
+		val currentTime = System.currentTimeMillis()
+		val lastUpdated = moviePopularRemoteKeysDao.getPopularRemoteKeys(id = 1)?.lastUpdated ?: FIRST_REQUEST_DEFAULT
+		val cacheTimeout = TWENTY_FOUR_HOURS_IN_MINUTES
+
+		val diffInMinutes = (currentTime - lastUpdated) / ONE_SECOND_IN_MILLIS / ONE_MINUTE_IN_SECONDS
+		return if (diffInMinutes.toInt() <= cacheTimeout)
+			InitializeAction.SKIP_INITIAL_REFRESH
+		else
+			InitializeAction.LAUNCH_INITIAL_REFRESH
+	}
 
 
 	override suspend fun load(
@@ -43,7 +58,7 @@ class MoviePopularRemoteMediator @Inject constructor(
 				LoadType.APPEND -> {
 					val remoteKeys = getRemoteKeyForLastItem(state)
 					val nextPage = remoteKeys?.nextPage
-						?:return MediatorResult.Success(
+						?: return MediatorResult.Success(
 							endOfPaginationReached = remoteKeys != null
 						)
 					nextPage
@@ -70,21 +85,21 @@ class MoviePopularRemoteMediator @Inject constructor(
 						else -> response.page + 1
 					}
 
+					val lastUpdate = System.currentTimeMillis()
 					val keys = response.movies.map { movie ->
 						MoviePopularRemoteKeys(
 							moviePopularId = movie.movieId,
 							prevPage = prevPage,
-							nextPage = nextPage
+							nextPage = nextPage,
+							lastUpdated = lastUpdate
 						)
 					}
-
 					moviePopularRemoteKeysDao.addPopularRemoteKeys(popularRemoteKeys = keys)
 
-					response.movies.map { movie ->
-						moviePopularDao.insertPopular(
-							MoviePopular(popularMovieId = movie.movieId)
-						)
+					val popular = response.movies.map { movie ->
+						MoviePopular(popularMovieId = movie.movieId)
 					}
+					moviePopularDao.insertPopular(moviePopular = popular)
 
 					movieDao.insertMovie(movie = response.movies)
 
@@ -103,7 +118,7 @@ class MoviePopularRemoteMediator @Inject constructor(
 	): MoviePopularRemoteKeys? {
 
 		return state.anchorPosition?.let { position ->
-			state.closestItemToPosition(anchorPosition = position)?.moviePopular?.popularMovieId?.let { id ->
+			state.closestItemToPosition(anchorPosition = position)?.moviePopular?.id?.let { id ->
 				moviePopularRemoteKeysDao.getPopularRemoteKeys(id = id)
 			}
 		}
@@ -115,8 +130,12 @@ class MoviePopularRemoteMediator @Inject constructor(
 		return state.pages.firstOrNull { page ->
 			page.data.isNotEmpty()
 		}?.data?.firstOrNull()
-			?.let {
-				it.moviePopular?.let { it1 -> moviePopularRemoteKeysDao.getPopularRemoteKeys(id = it1.popularMovieId) }
+			?.let { movieAndPopular ->
+				movieAndPopular.moviePopular?.let { moviePopular ->
+					moviePopular.id?.let { id ->
+						moviePopularRemoteKeysDao.getPopularRemoteKeys(id = id)
+					}
+				}
 			}
 	}
 
@@ -126,8 +145,12 @@ class MoviePopularRemoteMediator @Inject constructor(
 		return state.pages.lastOrNull {
 			it.data.isNotEmpty()
 		}?.data?.lastOrNull()
-			?.let {
-				it.moviePopular?.let { it1 -> moviePopularRemoteKeysDao.getPopularRemoteKeys(id = it1.popularMovieId) }
+			?.let { movieAndPopular ->
+				movieAndPopular.moviePopular?.let { moviePopular ->
+					moviePopular.id?.let { id ->
+						moviePopularRemoteKeysDao.getPopularRemoteKeys(id = id)
+					}
+				}
 			}
 	}
 

@@ -8,19 +8,19 @@ import com.kavrin.marvin.domain.model.tv.entities.relations.TvAndTrending
 @Dao
 interface TvTrendingDao {
 
-	@Insert(onConflict = OnConflictStrategy.REPLACE)
-	suspend fun insertTrending(tvTrending: TvTrending)
+	@Insert(onConflict = OnConflictStrategy.IGNORE)
+	suspend fun insertTrending(tvTrending: List<TvTrending>)
 
-	@Query("DELETE FROM tv_top_rated_table")
+	@Query("DELETE FROM tv_trending_table")
 	suspend fun deleteAllTrending()
 
 	@Transaction
-	@Query("SELECT * FROM tv_table")
+	@Query("SELECT * FROM tv_table, tv_trending_table WHERE tvId = trendingTvId")
 	fun getTvAndTrending(): PagingSource<Int, TvAndTrending>
 
 	@Transaction
 	@Query("SELECT * FROM tv_table, tv_trending_table WHERE tvId = trendingTvId ORDER BY popularity DESC LIMIT 5")
-	fun getCarouselTvAndTrending(): PagingSource<Int, TvAndTrending>
+	fun getCarouselTvs(): PagingSource<Int, TvAndTrending>
 
 	@Transaction
 	@Query("SELECT * FROM tv_table, tv_trending_table WHERE tvId = trendingTvId LIMIT 8")

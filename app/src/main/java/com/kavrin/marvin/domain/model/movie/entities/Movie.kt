@@ -2,14 +2,18 @@ package com.kavrin.marvin.domain.model.movie.entities
 
 
 import androidx.room.Entity
+import androidx.room.Index
 import androidx.room.PrimaryKey
 import com.kavrin.marvin.util.Constants.MOVIE_TABLE
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
-@Entity(tableName = MOVIE_TABLE)
+@Entity(tableName = MOVIE_TABLE, indices = [Index(value = ["movieId"], unique = true),])
 @Serializable
 data class Movie(
+
+	@PrimaryKey(autoGenerate = true)
+	val localId: Int = 0,
 
 	@SerialName("adult")
 	val adult: Boolean,
@@ -20,7 +24,6 @@ data class Movie(
 	@SerialName("genre_ids")
 	val genreIds: List<Int>,
 
-	@PrimaryKey(autoGenerate = false)
 	@SerialName("id")
 	val movieId: Int,
 

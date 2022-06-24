@@ -8,14 +8,14 @@ import com.kavrin.marvin.domain.model.tv.entities.relations.TvAndTopRated
 @Dao
 interface TvTopRatedDao {
 
-	@Insert(onConflict = OnConflictStrategy.REPLACE)
-	suspend fun insertTopRated(tvTopRated: TvTopRated)
+	@Insert(onConflict = OnConflictStrategy.IGNORE)
+	suspend fun insertTopRated(tvTopRated: List<TvTopRated>)
 
 	@Query("DELETE FROM tv_top_rated_table")
 	suspend fun deleteAllTopRated()
 
 	@Transaction
-	@Query("SELECT * FROM tv_table")
+	@Query("SELECT * FROM tv_table, tv_top_rated_table WHERE tvId = topRatedTvId")
 	fun getTvAndTopRated(): PagingSource<Int, TvAndTopRated>
 
 	@Transaction

@@ -9,16 +9,33 @@ import com.kavrin.marvin.data.remote.TMDBTvService
 import com.kavrin.marvin.domain.model.tv.entities.TvTrending
 import com.kavrin.marvin.domain.model.tv.entities.relations.TvAndTrending
 import com.kavrin.marvin.domain.model.tv.entities.remote_keys.TvTrendingRemoteKeys
-import javax.inject.Inject
+import com.kavrin.marvin.util.Constants.FIRST_REQUEST_DEFAULT
+import com.kavrin.marvin.util.Constants.ONE_MINUTE_IN_SECONDS
+import com.kavrin.marvin.util.Constants.ONE_SECOND_IN_MILLIS
+import com.kavrin.marvin.util.Constants.TWENTY_FOUR_HOURS_IN_MINUTES
 
-class TvTrendingRemoteMediator @Inject constructor(
+class TvTrendingRemoteMediator(
 	private val tvService: TMDBTvService,
-	private val marvinDatabase: MarvinDatabase
+	private val marvinDatabase: MarvinDatabase,
 ) : RemoteMediator<Int, TvAndTrending>() {
 
 	private val tvDao = marvinDatabase.tvDao()
 	private val tvTrendingDao = marvinDatabase.tvTrendingDao()
 	private val tvTrendingRemoteKeysDao = marvinDatabase.tvTrendingRemoteKeysDao()
+
+	override suspend fun initialize(): InitializeAction {
+		val currentTime = System.currentTimeMillis()
+		val lastUpdated = tvTrendingRemoteKeysDao.getTrendingRemoteKeys(id = 1)?.lastUpdated
+			?: FIRST_REQUEST_DEFAULT
+		val cacheTimeout = TWENTY_FOUR_HOURS_IN_MINUTES
+
+		val diffInMinutes =
+			(currentTime - lastUpdated) / ONE_SECOND_IN_MILLIS / ONE_MINUTE_IN_SECONDS
+		return if (diffInMinutes.toInt() <= cacheTimeout)
+			InitializeAction.SKIP_INITIAL_REFRESH
+		else
+			InitializeAction.LAUNCH_INITIAL_REFRESH
+	}
 
 
 	override suspend fun load(
@@ -43,7 +60,7 @@ class TvTrendingRemoteMediator @Inject constructor(
 				LoadType.APPEND -> {
 					val remoteKeys = getRemoteKeyForLastItem(state)
 					val nextPage = remoteKeys?.nextPage
-						?:return MediatorResult.Success(
+						?: return MediatorResult.Success(
 							endOfPaginationReached = remoteKeys != null
 						)
 					nextPage
@@ -70,21 +87,21 @@ class TvTrendingRemoteMediator @Inject constructor(
 						else -> response.page + 1
 					}
 
+					val lastUpdate = System.currentTimeMillis()
 					val keys = response.tvs.map { tv ->
 						TvTrendingRemoteKeys(
 							tvTrendingId = tv.tvId,
 							prevPage = prevPage,
-							nextPage = nextPage
+							nextPage = nextPage,
+							lastUpdated = lastUpdate
 						)
 					}
-
 					tvTrendingRemoteKeysDao.addTrendingRemoteKeys(trendingRemoteKeys = keys)
 
-					response.tvs.map { tv ->
-						tvTrendingDao.insertTrending(
-							TvTrending(trendingTvId = tv.tvId)
-						)
+					val trending = response.tvs.map { tv ->
+						TvTrending(trendingTvId = tv.tvId)
 					}
+					tvTrendingDao.insertTrending(tvTrending = trending)
 
 					tvDao.insertTv(tv = response.tvs)
 
@@ -103,7 +120,7 @@ class TvTrendingRemoteMediator @Inject constructor(
 	): TvTrendingRemoteKeys? {
 
 		return state.anchorPosition?.let { position ->
-			state.closestItemToPosition(anchorPosition = position)?.tvTrending?.trendingTvId?.let { id ->
+			state.closestItemToPosition(anchorPosition = position)?.tvTrending?.id?.let { id ->
 				tvTrendingRemoteKeysDao.getTrendingRemoteKeys(id = id)
 			}
 		}
@@ -115,8 +132,12 @@ class TvTrendingRemoteMediator @Inject constructor(
 		return state.pages.firstOrNull { page ->
 			page.data.isNotEmpty()
 		}?.data?.firstOrNull()
-			?.let {
-				it.tvTrending?.let { it1 -> tvTrendingRemoteKeysDao.getTrendingRemoteKeys(id = it1.trendingTvId) }
+			?.let { tvAndTrending ->
+				tvAndTrending.tvTrending?.let { tvTrending ->
+					tvTrending.id?.let { id ->
+						tvTrendingRemoteKeysDao.getTrendingRemoteKeys(id = id)
+					}
+				}
 			}
 	}
 
@@ -126,8 +147,12 @@ class TvTrendingRemoteMediator @Inject constructor(
 		return state.pages.lastOrNull {
 			it.data.isNotEmpty()
 		}?.data?.lastOrNull()
-			?.let {
-				it.tvTrending?.let { it1 -> tvTrendingRemoteKeysDao.getTrendingRemoteKeys(id = it1.trendingTvId) }
+			?.let { tvAndTrending ->
+				tvAndTrending.tvTrending?.let { tvTrending ->
+					tvTrending.id?.let { id ->
+						tvTrendingRemoteKeysDao.getTrendingRemoteKeys(id = id)
+					}
+				}
 			}
 	}
 

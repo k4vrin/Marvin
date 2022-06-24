@@ -2,17 +2,21 @@ package com.kavrin.marvin.domain.model.tv.entities
 
 
 import androidx.room.Entity
+import androidx.room.Index
 import androidx.room.PrimaryKey
 import com.kavrin.marvin.util.Constants.TV_TABLE
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
-@Entity(tableName = TV_TABLE)
+@Entity(tableName = TV_TABLE, indices = [Index(value = ["tvId"], unique = true),])
 @Serializable
 data class Tv(
 
+	@PrimaryKey(autoGenerate = true)
+	val localId: Int = 0,
+
 	@SerialName("backdrop_path")
-	val backdropPath: String,
+	val backdropPath: String?,
 
 	@SerialName("first_air_date")
 	val firstAirDate: String,
@@ -21,7 +25,6 @@ data class Tv(
 	val genreIds: List<Int>,
 
 	@SerialName("id")
-	@PrimaryKey(autoGenerate = false)
 	val tvId: Int,
 
 	@SerialName("name")
@@ -43,7 +46,7 @@ data class Tv(
 	val popularity: Double,
 
 	@SerialName("poster_path")
-	val posterPath: String,
+	val posterPath: String?,
 
 	@SerialName("vote_average")
 	val voteAverage: Double,
