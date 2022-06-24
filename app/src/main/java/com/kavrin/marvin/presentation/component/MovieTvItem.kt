@@ -91,7 +91,7 @@ fun MovieTvItem(
 						overflow = TextOverflow.Ellipsis
 					)
 
-					Spacer(modifier = Modifier.height(MEDIUM_PADDING))
+					Spacer(modifier = Modifier.height(SMALL_PADDING))
 
 					Text(
 						modifier = Modifier

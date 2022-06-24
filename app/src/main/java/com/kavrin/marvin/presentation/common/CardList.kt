@@ -11,6 +11,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.paging.compose.LazyPagingItems
 import androidx.paging.compose.items
 import com.kavrin.marvin.presentation.component.MovieTvItem
+import com.kavrin.marvin.presentation.screens.home.handlePagingResult
 import com.kavrin.marvin.ui.theme.MEDIUM_PADDING
 import com.kavrin.marvin.ui.theme.SMALL_PADDING
 import com.kavrin.marvin.ui.theme.fonts
@@ -19,95 +20,99 @@ import com.kavrin.marvin.util.MarvinItem
 @Composable
 fun <T : MarvinItem> CardList(
 	cardListTitle: String,
-	items : LazyPagingItems<T>,
-	isMovie: Boolean
+	items: LazyPagingItems<T>,
+	isMovie: Boolean,
 ) {
 
 	val listState = rememberLazyListState()
+	val result = handlePagingResult(item = items, isCarousel = false)
 
-
-	Column(
-		modifier = Modifier
-		    .fillMaxWidth()
-	) {
-
-		Row(
+	if (result) {
+		Column(
 			modifier = Modifier
 				.fillMaxWidth()
-				.padding(horizontal = MEDIUM_PADDING),
-			horizontalArrangement = Arrangement.SpaceBetween
 		) {
 
-			Text(
-				text = cardListTitle,
-				fontFamily = fonts,
-				fontSize = MaterialTheme.typography.h6.fontSize,
-				fontWeight = FontWeight.Bold
-			)
+			Row(
+				modifier = Modifier
+					.fillMaxWidth()
+					.padding(horizontal = MEDIUM_PADDING),
+				horizontalArrangement = Arrangement.SpaceBetween
+			) {
 
-			Text(
-				text = "See All",
-				fontFamily = fonts,
-				fontSize = MaterialTheme.typography.subtitle1.fontSize,
-				fontWeight = FontWeight.Normal
-			)
-		}
+				Text(
+					text = cardListTitle,
+					fontFamily = fonts,
+					fontSize = MaterialTheme.typography.h6.fontSize,
+					fontWeight = FontWeight.Bold
+				)
 
-		LazyRow(
-			state = listState,
-			contentPadding = PaddingValues(all = MEDIUM_PADDING),
-			horizontalArrangement = Arrangement.spacedBy(SMALL_PADDING)
-		) {
+				Text(
+					text = "See All",
+					fontFamily = fonts,
+					fontSize = MaterialTheme.typography.subtitle1.fontSize,
+					fontWeight = FontWeight.Normal
+				)
+			}
 
-			if (isMovie) {
+			LazyRow(
+				state = listState,
+				contentPadding = PaddingValues(all = MEDIUM_PADDING),
+				horizontalArrangement = Arrangement.spacedBy(SMALL_PADDING)
+			) {
 
-				items(
-					items = items,
-					key = {
-						it.movie?.movieId!!
+				if (isMovie) {
+
+					items(
+						items = items,
+						key = {
+							it.movie?.movieId!!
+						}
+					) { itemWrapper ->
+
+						val item = itemWrapper?.movie
+
+						MovieTvItem(
+							posterPath = item?.posterPath,
+							rating = item?.voteAverage,
+							voteCount = item?.voteCount,
+							itemId = item?.movieId,
+							itemTitle = item?.title,
+							releasedDate = item?.releaseDate,
+							onCardClicked = {},
+							onMenuIconClicked = {}
+						)
+
 					}
-				) { itemWrapper ->
 
-					val item = itemWrapper?.movie
+				} else {
 
-					MovieTvItem(
-						posterPath = item?.posterPath,
-						rating = item?.voteAverage,
-						voteCount = item?.voteCount,
-						itemId = item?.movieId,
-						itemTitle = item?.title,
-						releasedDate = item?.releaseDate,
-						onCardClicked = {},
-						onMenuIconClicked = {}
-					)
+					items(
+						items = items,
+						key = {
+							it.tv?.tvId!!
+						}
+					) { itemWrapper ->
 
-				}
+						val item = itemWrapper?.tv
 
-			} else {
+						MovieTvItem(
+							posterPath = item?.posterPath,
+							rating = item?.voteAverage,
+							voteCount = item?.voteCount,
+							itemId = item?.tvId,
+							itemTitle = item?.name,
+							releasedDate = item?.firstAirDate,
+							onCardClicked = {},
+							onMenuIconClicked = {}
+						)
 
-				items(
-					items = items,
-					key = {
-						it.tv?.tvId!!
 					}
-				) { itemWrapper ->
-
-					val item = itemWrapper?.tv
-
-					MovieTvItem(
-						posterPath = item?.posterPath,
-						rating = item?.voteAverage,
-						voteCount = item?.voteCount,
-						itemId = item?.tvId,
-						itemTitle = item?.name,
-						releasedDate = item?.firstAirDate,
-						onCardClicked = {},
-						onMenuIconClicked = {}
-					)
-
 				}
 			}
-		}
 
+		}
 	}
+
+
 }

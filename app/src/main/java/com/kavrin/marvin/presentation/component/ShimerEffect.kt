@@ -18,7 +18,7 @@ import com.kavrin.marvin.ui.theme.*
 
 
 @Composable
-fun ShimmerEffect() {
+fun ShimmerCarouselEffect() {
 
 	val transition = rememberInfiniteTransition()
 	val alphaAnim by transition.animateFloat(
@@ -33,26 +33,27 @@ fun ShimmerEffect() {
 		)
 	)
 
-	ShimmerItem(alpha = alphaAnim)
+	ShimmerCarouselItem(alpha = alphaAnim)
 
 }
 
 @Composable
-fun ShimmerItem(
-	alpha: Float,
-) {
+fun ShimmerCardEffect() {
 
-	Column(
-		modifier = Modifier
-			.fillMaxSize()
-	) {
+	val transition = rememberInfiniteTransition()
+	val alphaAnim by transition.animateFloat(
+		initialValue = 1f,
+		targetValue = 0f,
+		animationSpec = infiniteRepeatable(
+			animation = tween(
+				durationMillis = 500,
+				easing = FastOutLinearInEasing
+			),
+			repeatMode = RepeatMode.Reverse
+		)
+	)
 
-		ShimmerCarouselItem(alpha = alpha)
-		Spacer(modifier = Modifier.height(EXTRA_LARGE_PADDING))
-		ShimmerCardListItem(alpha = alpha)
-
-	}
-
+	ShimmerCardListItem(alpha = alphaAnim)
 
 }
 
@@ -65,6 +66,7 @@ fun ShimmerCarouselItem(
 	Row(
 		modifier = Modifier
 			.fillMaxWidth()
+			.padding(vertical = MEDIUM_PADDING)
 	) {
 
 		Box(
@@ -169,7 +171,7 @@ fun ShimmerCardListItem(
 		Box(
 			modifier = Modifier
 				.alpha(alpha)
-				.width(MAIN_CARD_WIDTH)
+				.width(MAIN_CARD_WIDTH * 1.1f)
 				.height(MAIN_CARD_HEIGHT)
 				.background(
 					color = if (isSystemInDarkTheme()) ShimmerDarkGray else ShimmerMediumGray,
@@ -204,7 +206,7 @@ fun ShimmerCardListItem(
 		Box(
 			modifier = Modifier
 				.alpha(alpha)
-				.width(MAIN_CARD_WIDTH)
+				.width(MAIN_CARD_WIDTH * 1.1f)
 				.height(MAIN_CARD_HEIGHT)
 				.background(
 					color = if (isSystemInDarkTheme()) ShimmerDarkGray else ShimmerMediumGray,

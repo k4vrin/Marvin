@@ -23,7 +23,8 @@ import com.kavrin.marvin.domain.model.tv.entities.relations.TvAndTrending
 import com.kavrin.marvin.presentation.common.CardList
 import com.kavrin.marvin.presentation.common.Carousel
 import com.kavrin.marvin.presentation.component.MarvinTabRow
-import com.kavrin.marvin.presentation.component.ShimmerEffect
+import com.kavrin.marvin.presentation.component.ShimmerCardEffect
+import com.kavrin.marvin.presentation.component.ShimmerCarouselEffect
 import com.kavrin.marvin.ui.theme.MEDIUM_PADDING
 import com.kavrin.marvin.util.MarvinItem
 import kotlinx.coroutines.launch
@@ -39,7 +40,7 @@ fun HomeContent(
 	popularTvs: LazyPagingItems<TvAndPopular>,
 	topRatedTvs: LazyPagingItems<TvAndTopRated>,
 	trendingTvs: LazyPagingItems<TvAndTrending>,
-	paddingValues: PaddingValues
+	paddingValues: PaddingValues,
 ) {
 
 	val pagerState = rememberPagerState()
@@ -106,51 +107,50 @@ fun MovieTabContent(
 ) {
 
 	val lazyListState = rememberLazyListState()
-	val result = handlePagingResult(carousel = carousel)
 
-	if (result) {
 
-		LazyColumn(
-			modifier = Modifier
-				.fillMaxSize(),
-			verticalArrangement = Arrangement.spacedBy(MEDIUM_PADDING),
-			state = lazyListState
-		) {
 
-			item {
-				Carousel(
-					items = carousel,
-					isMovie = true,
-					onItemClicked = {},
-					onMenuIconClicked = {}
-				)
-			}
+	LazyColumn(
+		modifier = Modifier
+			.fillMaxSize(),
+		verticalArrangement = Arrangement.spacedBy(MEDIUM_PADDING),
+		state = lazyListState
+	) {
 
-			item {
-				CardList(
-					cardListTitle = "Trending",
-					items = trending,
-					isMovie = true
-				)
-			}
+		item {
+			Carousel(
+				items = carousel,
+				isMovie = true,
+				onItemClicked = {},
+				onMenuIconClicked = {}
+			)
+		}
 
-			item {
-				CardList(
-					cardListTitle = "Popular",
-					items = popular,
-					isMovie = true
-				)
-			}
+		item {
+			CardList(
+				cardListTitle = "Trending",
+				items = trending,
+				isMovie = true
+			)
+		}
 
-			item {
-				CardList(
-					cardListTitle = "Top Rated",
-					items = topRated,
-					isMovie = true
-				)
-			}
+		item {
+			CardList(
+				cardListTitle = "Popular",
+				items = popular,
+				isMovie = true
+			)
+		}
+
+		item {
+			CardList(
+				cardListTitle = "Top Rated",
+				items = topRated,
+				isMovie = true
+			)
 		}
 	}
+
 
 }
 
@@ -164,66 +164,68 @@ fun TvTabContent(
 ) {
 
 	val lazyListState = rememberLazyListState()
-	val result = handlePagingResult(carousel = carousel)
 
-	if (result) {
 
-		LazyColumn(
-			modifier = Modifier
-				.fillMaxSize(),
-			verticalArrangement = Arrangement.spacedBy(MEDIUM_PADDING),
-			state = lazyListState
-		) {
+	LazyColumn(
+		modifier = Modifier
+			.fillMaxSize(),
+		verticalArrangement = Arrangement.spacedBy(MEDIUM_PADDING),
+		state = lazyListState
+	) {
 
-			item {
-				Carousel(
-					items = carousel,
-					isMovie = false,
-					onItemClicked = {},
-					onMenuIconClicked = {}
-				)
-			}
+		item {
+			Carousel(
+				items = carousel,
+				isMovie = false,
+				onItemClicked = {},
+				onMenuIconClicked = {}
+			)
+		}
 
-			item {
-				CardList(
-					cardListTitle = "Trending",
-					items = trending,
-					isMovie = false
-				)
-			}
+		item {
+			CardList(
+				cardListTitle = "Trending",
+				items = trending,
+				isMovie = false
+			)
+		}
 
-			item {
-				CardList(
-					cardListTitle = "Popular",
-					items = popular,
-					isMovie = false
-				)
-			}
+		item {
+			CardList(
+				cardListTitle = "Popular",
+				items = popular,
+				isMovie = false
+			)
+		}
 
-			item {
-				CardList(
-					cardListTitle = "Top Rated",
-					items = topRated,
-					isMovie = false
-				)
-			}
+		item {
+			CardList(
+				cardListTitle = "Top Rated",
+				items = topRated,
+				isMovie = false
+			)
 		}
 	}
-
 
 }
 
 @Composable
-fun <T : MarvinItem>handlePagingResult(
-	carousel: LazyPagingItems<T>
+fun <T : MarvinItem> handlePagingResult(
+	item: LazyPagingItems<T>,
+	isCarousel: Boolean,
 ): Boolean {
 
-	carousel.apply {
+	item.apply {
 
 		return when {
 			loadState.refresh is LoadState.Loading -> {
-				ShimmerEffect()
-				false
+				if (isCarousel) {
+					ShimmerCarouselEffect()
+					false
+				} else {
+					ShimmerCardEffect()
+					false
+				}
 			}
 			else -> true
 		}
