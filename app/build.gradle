@@ -44,6 +44,7 @@ android {
                 "-opt-in=kotlinx.coroutines.ExperimentalCoroutinesApi",
                 "-opt-in=androidx.paging.ExperimentalPagingApi",
                 "-opt-in=kotlinx.serialization.ExperimentalSerializationApi",
+                "-opt-in=androidx.constraintlayout.compose.ExperimentalMotionApi"
         ]
     }
     buildFeatures {
@@ -93,6 +94,9 @@ dependencies {
     implementation 'com.squareup.retrofit2:retrofit:2.9.0'
     implementation 'com.squareup.retrofit2:converter-gson:2.9.0'
     implementation("com.jakewharton.retrofit:retrofit2-kotlinx-serialization-converter:0.8.0")
+
+    // Motion Layout
+    implementation "androidx.constraintlayout:constraintlayout-compose:1.0.1"
 
     // Paging 3.0
     implementation 'androidx.paging:paging-compose:1.0.0-alpha15'

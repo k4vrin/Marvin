@@ -6,6 +6,7 @@ import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.navArgument
+import com.kavrin.marvin.presentation.screens.detail.DetailScreen
 import com.kavrin.marvin.presentation.screens.home.HomeScreen
 import com.kavrin.marvin.presentation.screens.splash.SplashScreen
 import com.kavrin.marvin.presentation.screens.welcome.WelcomeScreen
@@ -44,6 +45,7 @@ fun SetupNavGraph(navHostController: NavHostController) {
 				type = NavType.IntType
 			})
 		) {
+			DetailScreen(navController = navHostController)
 
 		}
 

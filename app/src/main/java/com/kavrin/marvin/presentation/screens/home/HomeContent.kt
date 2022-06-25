@@ -21,6 +21,7 @@ import com.kavrin.marvin.domain.model.movie.entities.relations.MovieAndTrending
 import com.kavrin.marvin.domain.model.tv.entities.relations.TvAndPopular
 import com.kavrin.marvin.domain.model.tv.entities.relations.TvAndTopRated
 import com.kavrin.marvin.domain.model.tv.entities.relations.TvAndTrending
+import com.kavrin.marvin.navigation.Screen
 import com.kavrin.marvin.presentation.common.CardList
 import com.kavrin.marvin.presentation.common.Carousel
 import com.kavrin.marvin.presentation.component.MarvinTabRow
@@ -33,207 +34,249 @@ import kotlinx.coroutines.launch
 
 @Composable
 fun HomeContent(
-	navHostController: NavHostController,
-	carouselMovies: LazyPagingItems<MovieAndTrending>,
-	popularMovies: LazyPagingItems<MovieAndPopular>,
-	topRatedMovies: LazyPagingItems<MovieAndTopRated>,
-	trendingMovies: LazyPagingItems<MovieAndTrending>,
-	carouselTvs: LazyPagingItems<TvAndTrending>,
-	popularTvs: LazyPagingItems<TvAndPopular>,
-	topRatedTvs: LazyPagingItems<TvAndTopRated>,
-	trendingTvs: LazyPagingItems<TvAndTrending>,
-	paddingValues: PaddingValues,
+    navHostController: NavHostController,
+    carouselMovies: LazyPagingItems<MovieAndTrending>,
+    popularMovies: LazyPagingItems<MovieAndPopular>,
+    topRatedMovies: LazyPagingItems<MovieAndTopRated>,
+    trendingMovies: LazyPagingItems<MovieAndTrending>,
+    carouselTvs: LazyPagingItems<TvAndTrending>,
+    popularTvs: LazyPagingItems<TvAndPopular>,
+    topRatedTvs: LazyPagingItems<TvAndTopRated>,
+    trendingTvs: LazyPagingItems<TvAndTrending>,
+    paddingValues: PaddingValues,
 ) {
 
-	val pagerState = rememberPagerState()
-	val scope = rememberCoroutineScope()
-	val scrollState = rememberScrollState()
+    val pagerState = rememberPagerState()
+    val scope = rememberCoroutineScope()
+    val scrollState = rememberScrollState()
 
-	Column(
-		modifier = Modifier
-			.fillMaxSize()
-			.padding(paddingValues)
-			.scrollable(
-				state = scrollState,
-				orientation = Orientation.Vertical
-			)
-	) {
+    Column(
+        modifier = Modifier
+            .fillMaxSize()
+            .padding(paddingValues)
+            .scrollable(
+                state = scrollState,
+                orientation = Orientation.Vertical
+            )
+    ) {
 
-		MarvinTabRow(
-			pagerState = pagerState,
-			onTabClicked = { tab ->
-				scope.launch {
-					pagerState.animateScrollToPage(
-						page = tab
-					)
-				}
-			}
-		)
+        MarvinTabRow(
+            pagerState = pagerState,
+            onTabClicked = { tab ->
+                scope.launch {
+                    pagerState.animateScrollToPage(
+                        page = tab
+                    )
+                }
+            }
+        )
 
-		HorizontalPager(
-			count = 2,
-			state = pagerState,
-			userScrollEnabled = false
-		) {
+        HorizontalPager(
+            count = 2,
+            state = pagerState,
+            userScrollEnabled = false
+        ) {
 
-			when (pagerState.currentPage) {
-				0 -> MovieTabContent(
-					navHostController = navHostController,
-					carousel = carouselMovies,
-					popular = popularMovies,
-					topRated = topRatedMovies,
-					trending = trendingMovies
-				)
-				else -> TvTabContent(
-					navHostController = navHostController,
-					carousel = carouselTvs,
-					popular = popularTvs,
-					topRated = topRatedTvs,
-					trending = trendingTvs
-				)
-			}
-		}
+            when (pagerState.currentPage) {
+                0 -> MovieTabContent(
+                    navHostController = navHostController,
+                    carousel = carouselMovies,
+                    popular = popularMovies,
+                    topRated = topRatedMovies,
+                    trending = trendingMovies
+                )
+                else -> TvTabContent(
+                    navHostController = navHostController,
+                    carousel = carouselTvs,
+                    popular = popularTvs,
+                    topRated = topRatedTvs,
+                    trending = trendingTvs
+                )
+            }
+        }
 
-	}
+    }
 
 }
 
 
 @Composable
 fun MovieTabContent(
-	navHostController: NavHostController,
-	carousel: LazyPagingItems<MovieAndTrending>,
-	popular: LazyPagingItems<MovieAndPopular>,
-	topRated: LazyPagingItems<MovieAndTopRated>,
-	trending: LazyPagingItems<MovieAndTrending>,
+    navHostController: NavHostController,
+    carousel: LazyPagingItems<MovieAndTrending>,
+    popular: LazyPagingItems<MovieAndPopular>,
+    topRated: LazyPagingItems<MovieAndTopRated>,
+    trending: LazyPagingItems<MovieAndTrending>,
 ) {
 
-	val lazyListState = rememberLazyListState()
+    val lazyListState = rememberLazyListState()
 
 
 
-	LazyColumn(
-		modifier = Modifier
-			.fillMaxSize()
-			.background(color = backGroundColor),
-		verticalArrangement = Arrangement.spacedBy(MEDIUM_PADDING),
-		state = lazyListState
-	) {
+    LazyColumn(
+        modifier = Modifier
+            .fillMaxSize()
+            .background(color = backGroundColor),
+        verticalArrangement = Arrangement.spacedBy(MEDIUM_PADDING),
+        state = lazyListState
+    ) {
 
-		item {
-			Carousel(
-				items = carousel,
-				isMovie = true,
-				onItemClicked = {},
-				onMenuIconClicked = {}
-			)
-		}
+        item {
+            Carousel(
+                items = carousel,
+                isMovie = true,
+                onItemClicked = {
+                    navHostController.navigate(Screen.Detail.passId(id = it))
+                },
+                onMenuIconClicked = {}
+            )
+        }
 
-		item {
-			CardList(
-				cardListTitle = "Trending",
-				items = trending,
-				isMovie = true
-			)
-		}
+        item {
+            CardList(
+                cardListTitle = "Trending",
+                items = trending,
+                isMovie = true,
+                onItemClicked = {
+                    navHostController.navigate(Screen.Detail.passId(id = it))
+                },
+                onMenuIconClicked = {
 
-		item {
-			CardList(
-				cardListTitle = "Popular",
-				items = popular,
-				isMovie = true
-			)
-		}
+                }
+            )
+        }
 
-		item {
-			CardList(
-				cardListTitle = "Top Rated",
-				items = topRated,
-				isMovie = true
-			)
-		}
-	}
+        item {
+            CardList(
+                cardListTitle = "Popular",
+                items = popular,
+                isMovie = true,
+                onItemClicked = {
+                    navHostController.navigate(Screen.Detail.passId(id = it))
+                },
+                onMenuIconClicked = {
+
+                }
+            )
+        }
+
+        item {
+            CardList(
+                cardListTitle = "Top Rated",
+                items = topRated,
+                isMovie = true,
+                onItemClicked = {
+                    navHostController.navigate(Screen.Detail.passId(id = it))
+                },
+                onMenuIconClicked = {
+
+                }
+            )
+        }
+    }
 
 
 }
 
 @Composable
 fun TvTabContent(
-	navHostController: NavHostController,
-	carousel: LazyPagingItems<TvAndTrending>,
-	popular: LazyPagingItems<TvAndPopular>,
-	topRated: LazyPagingItems<TvAndTopRated>,
-	trending: LazyPagingItems<TvAndTrending>,
+    navHostController: NavHostController,
+    carousel: LazyPagingItems<TvAndTrending>,
+    popular: LazyPagingItems<TvAndPopular>,
+    topRated: LazyPagingItems<TvAndTopRated>,
+    trending: LazyPagingItems<TvAndTrending>,
 ) {
 
-	val lazyListState = rememberLazyListState()
+    val lazyListState = rememberLazyListState()
 
 
-	LazyColumn(
-		modifier = Modifier
-			.fillMaxSize()
-			.background(color = backGroundColor),
-		verticalArrangement = Arrangement.spacedBy(MEDIUM_PADDING),
-		state = lazyListState
-	) {
+    LazyColumn(
+        modifier = Modifier
+            .fillMaxSize()
+            .background(color = backGroundColor),
+        verticalArrangement = Arrangement.spacedBy(MEDIUM_PADDING),
+        state = lazyListState
+    ) {
 
-		item {
-			Carousel(
-				items = carousel,
-				isMovie = false,
-				onItemClicked = {},
-				onMenuIconClicked = {}
-			)
-		}
+        item {
+            Carousel(
+                items = carousel,
+                isMovie = false,
+                onItemClicked = {
+                    navHostController.navigate(Screen.Detail.passId(id = it))
+                },
+                onMenuIconClicked = {
 
-		item {
-			CardList(
-				cardListTitle = "Trending",
-				items = trending,
-				isMovie = false
-			)
-		}
+                }
+            )
+        }
 
-		item {
-			CardList(
-				cardListTitle = "Popular",
-				items = popular,
-				isMovie = false
-			)
-		}
+        item {
+            CardList(
+                cardListTitle = "Trending",
+                items = trending,
+                isMovie = false,
+                onItemClicked = {
+                    navHostController.navigate(Screen.Detail.passId(id = it))
+                },
+                onMenuIconClicked = {
 
-		item {
-			CardList(
-				cardListTitle = "Top Rated",
-				items = topRated,
-				isMovie = false
-			)
-		}
-	}
+                }
+            )
+        }
+
+        item {
+            CardList(
+                cardListTitle = "Popular",
+                items = popular,
+                isMovie = false,
+                onItemClicked = {
+                    navHostController.navigate(Screen.Detail.passId(id = it))
+                },
+                onMenuIconClicked = {
+
+                }
+            )
+        }
+
+        item {
+            CardList(
+                cardListTitle = "Top Rated",
+                items = topRated,
+                isMovie = false,
+                onItemClicked = {
+                    navHostController.navigate(Screen.Detail.passId(id = it))
+                },
+                onMenuIconClicked = {
+
+                }
+            )
+        }
+    }
 
 }
 
 @Composable
 fun <T : MarvinItem> handlePagingResult(
-	item: LazyPagingItems<T>,
-	isCarousel: Boolean,
+    item: LazyPagingItems<T>,
+    isCarousel: Boolean,
 ): Boolean {
 
-	item.apply {
+    item.apply {
 
-		return when {
-			loadState.refresh is LoadState.Loading -> {
-				if (isCarousel) {
-					ShimmerCarouselEffect()
-					false
-				} else {
-					ShimmerCardEffect()
-					false
-				}
-			}
-			else -> true
-		}
-	}
+        return when {
+            loadState.refresh is LoadState.Loading -> {
+                if (isCarousel) {
+                    ShimmerCarouselEffect()
+                    false
+                } else {
+                    ShimmerCardEffect()
+                    false
+                }
+            }
+            else -> true
+        }
+    }
 
 
 }

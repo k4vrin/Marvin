@@ -23,6 +23,8 @@ fun <T : MarvinItem> CardList(
 	cardListTitle: String,
 	items: LazyPagingItems<T>,
 	isMovie: Boolean,
+	onItemClicked: (Int) -> Unit,
+	onMenuIconClicked: (Int) -> Unit
 ) {
 
 	val listState = rememberLazyListState()
@@ -82,8 +84,12 @@ fun <T : MarvinItem> CardList(
 							itemId = item?.movieId,
 							itemTitle = item?.title,
 							releasedDate = item?.releaseDate,
-							onCardClicked = {},
-							onMenuIconClicked = {}
+							onCardClicked = {
+								onItemClicked(it)
+							},
+							onMenuIconClicked = {
+								onMenuIconClicked(it)
+							}
 						)
 
 					}
@@ -106,8 +112,12 @@ fun <T : MarvinItem> CardList(
 							itemId = item?.tvId,
 							itemTitle = item?.name,
 							releasedDate = item?.firstAirDate,
-							onCardClicked = {},
-							onMenuIconClicked = {}
+							onCardClicked = {
+								onItemClicked(it)
+							},
+							onMenuIconClicked = {
+								onMenuIconClicked(it)
+							}
 						)
 
 					}
