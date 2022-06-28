@@ -17,5 +17,6 @@ interface MovieRemoteDataSource {
 	fun getHomeTopRatedMovies(): Flow<PagingData<MovieAndTopRated>>
 	fun getHomeTrendingMovies(): Flow<PagingData<MovieAndTrending>>
 	fun searchMovies(): Flow<PagingData<Movie>>
+	suspend fun saveMovieGenres()
 
 }

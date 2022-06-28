@@ -3,7 +3,8 @@ package com.kavrin.marvin.data.local
 import androidx.room.Database
 import androidx.room.RoomDatabase
 import androidx.room.TypeConverters
-import com.kavrin.marvin.data.local.dao.*
+import com.kavrin.marvin.data.local.dao.GenreDao
+import com.kavrin.marvin.data.local.dao.PlaylistDao
 import com.kavrin.marvin.data.local.dao.movie.MovieDao
 import com.kavrin.marvin.data.local.dao.movie.MoviePopularDao
 import com.kavrin.marvin.data.local.dao.movie.MovieTopRatedDao
@@ -19,18 +20,12 @@ import com.kavrin.marvin.data.local.dao.tv.remote_keys.TvPopularRemoteKeysDao
 import com.kavrin.marvin.data.local.dao.tv.remote_keys.TvTopRatedRemoteKeysDao
 import com.kavrin.marvin.data.local.dao.tv.remote_keys.TvTrendingRemoteKeysDao
 import com.kavrin.marvin.domain.model.Playlist
+import com.kavrin.marvin.domain.model.movie.entities.*
 import com.kavrin.marvin.domain.model.movie.entities.relations.MoviePlaylistCrossRef
-import com.kavrin.marvin.domain.model.movie.entities.Movie
-import com.kavrin.marvin.domain.model.movie.entities.MoviePopular
-import com.kavrin.marvin.domain.model.movie.entities.MovieTopRated
-import com.kavrin.marvin.domain.model.movie.entities.MovieTrending
 import com.kavrin.marvin.domain.model.movie.entities.remote_keys.MoviePopularRemoteKeys
 import com.kavrin.marvin.domain.model.movie.entities.remote_keys.MovieTopRatedRemoteKeys
 import com.kavrin.marvin.domain.model.movie.entities.remote_keys.MovieTrendingRemoteKeys
-import com.kavrin.marvin.domain.model.tv.entities.Tv
-import com.kavrin.marvin.domain.model.tv.entities.TvPopular
-import com.kavrin.marvin.domain.model.tv.entities.TvTopRated
-import com.kavrin.marvin.domain.model.tv.entities.TvTrending
+import com.kavrin.marvin.domain.model.tv.entities.*
 import com.kavrin.marvin.domain.model.tv.entities.relations.TvPlaylistCrossRef
 import com.kavrin.marvin.domain.model.tv.entities.remote_keys.TvPopularRemoteKeys
 import com.kavrin.marvin.domain.model.tv.entities.remote_keys.TvTopRatedRemoteKeys
@@ -39,6 +34,8 @@ import com.kavrin.marvin.domain.model.tv.entities.remote_keys.TvTrendingRemoteKe
 @Database(
 	entities = [
 		Playlist::class,
+		MovieGenre::class,
+		TvGenre::class,
 		Movie::class,
 		MoviePopular::class,
 		MovieTopRated::class,
@@ -63,6 +60,7 @@ import com.kavrin.marvin.domain.model.tv.entities.remote_keys.TvTrendingRemoteKe
 abstract class MarvinDatabase : RoomDatabase() {
 
 	abstract fun playlistDao(): PlaylistDao
+	abstract fun genreDao(): GenreDao
 
 	abstract fun movieDao(): MovieDao
 	abstract fun moviePopularDao(): MoviePopularDao

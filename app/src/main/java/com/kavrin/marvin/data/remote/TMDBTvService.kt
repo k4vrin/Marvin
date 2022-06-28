@@ -40,7 +40,6 @@ interface TMDBTvService {
 
 	@GET("genre/tv/list")
 	suspend fun getTvGenres(
-		@Query("api_key") apiKey: String = BuildConfig.API_KEY,
-		@Query("page") page: Int = 1
+		@Query("api_key") apiKey: String = BuildConfig.API_KEY
 	): TvGenreApiResponse
 }

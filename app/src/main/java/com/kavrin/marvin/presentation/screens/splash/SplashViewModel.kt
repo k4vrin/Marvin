@@ -25,4 +25,10 @@ class SplashViewModel @Inject constructor(
 				useCases.readOnBoarding().stateIn(scope = viewModelScope).value
 		}
 	}
+
+	fun saveGenres() {
+		viewModelScope.launch(context = Dispatchers.IO) {
+			useCases.saveGenres()
+		}
+	}
 }

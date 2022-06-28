@@ -24,7 +24,10 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
 import com.kavrin.marvin.R
 import com.kavrin.marvin.navigation.Screen
-import com.kavrin.marvin.ui.theme.*
+import com.kavrin.marvin.ui.theme.AntiqueBrass
+import com.kavrin.marvin.ui.theme.BrightMaroon
+import com.kavrin.marvin.ui.theme.SilverPink
+import com.kavrin.marvin.ui.theme.splashFont
 
 @Composable
 fun SplashScreen(
@@ -43,6 +46,7 @@ fun SplashScreen(
 				delayMillis = 200
 			)
 		)
+		splashViewModel.saveGenres()
 
 		navController.popBackStack()
 		if (onBoardingState.value)

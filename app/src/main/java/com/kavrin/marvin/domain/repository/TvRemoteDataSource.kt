@@ -17,4 +17,5 @@ interface TvRemoteDataSource {
 	fun getHomeTopRatedTvs(): Flow<PagingData<TvAndTopRated>>
 	fun getHomeTrendingTvs(): Flow<PagingData<TvAndTrending>>
 	fun searchTvs(): Flow<PagingData<Tv>>
+	suspend fun saveTvGenres()
 }

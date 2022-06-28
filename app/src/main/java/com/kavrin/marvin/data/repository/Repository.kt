@@ -102,4 +102,9 @@ class Repository @Inject constructor(
 	fun readOnBoardingState(): Flow<Boolean> {
 		return dataStore.readOnBoardingState()
 	}
+
+	suspend fun saveGenres() {
+		movieRemote.saveMovieGenres()
+		tvRemote.saveTvGenres()
+	}
 }

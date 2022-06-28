@@ -138,4 +138,9 @@ class TvRemoteDataSourceImpl(
 	override fun searchTvs(): Flow<PagingData<Tv>> {
 		TODO("Not yet implemented")
 	}
+
+	override suspend fun saveTvGenres() {
+		val response = tvService.getTvGenres()
+		marvinDatabase.genreDao().insertTvGenres(genres = response.tvGenres)
+	}
 }

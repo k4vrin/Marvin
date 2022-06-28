@@ -6,6 +6,7 @@ import com.kavrin.marvin.data.repository.impl.DataStoreOpImpl
 import com.kavrin.marvin.domain.repository.DataStoreOp
 import com.kavrin.marvin.domain.use_cases.home.*
 import com.kavrin.marvin.domain.use_cases.splash_welcome.ReadOnBoarding
+import com.kavrin.marvin.domain.use_cases.splash_welcome.SaveGenres
 import com.kavrin.marvin.domain.use_cases.splash_welcome.SaveOnBoarding
 import com.kavrin.marvin.domain.use_cases.splash_welcome.SplashWelcomeUseCases
 import dagger.Module
@@ -33,7 +34,8 @@ object RepositoryModule {
 	): SplashWelcomeUseCases {
 		return SplashWelcomeUseCases(
 			readOnBoarding = ReadOnBoarding(repository),
-			saveOnBoarding = SaveOnBoarding(repository)
+			saveOnBoarding = SaveOnBoarding(repository),
+			saveGenres = SaveGenres(repository)
 		)
 	}
 

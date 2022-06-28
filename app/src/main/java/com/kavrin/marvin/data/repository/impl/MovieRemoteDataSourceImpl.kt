@@ -137,5 +137,8 @@ class MovieRemoteDataSourceImpl(
 		TODO("Not yet implemented")
 	}
 
-
+	override suspend fun saveMovieGenres() {
+		val response = movieService.getMovieGenres()
+		marvinDatabase.genreDao().insertMovieGenres(genres = response.movieGenres)
+	}
 }

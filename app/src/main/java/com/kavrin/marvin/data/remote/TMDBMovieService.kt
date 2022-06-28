@@ -40,7 +40,6 @@ interface TMDBMovieService {
 
 	@GET("genre/movie/list")
 	suspend fun getMovieGenres(
-		@Query("api_key") apiKey: String = BuildConfig.API_KEY,
-		@Query("page") page: Int = 1
+		@Query("api_key") apiKey: String = BuildConfig.API_KEY
 	): MovieGenreApiResponse
 }

@@ -26,6 +26,7 @@ import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.TextUnit
 import androidx.compose.ui.unit.dp
 import com.kavrin.marvin.ui.theme.*
+import java.text.DecimalFormat
 
 @Composable
 fun RatingIndicator(
@@ -46,7 +47,7 @@ fun RatingIndicator(
 		mutableStateOf(maxIndicatorValue)
 	}
 	allowedIndicatorValue = if (indicatorValue.toFloat() <= maxIndicatorValue)
-		indicatorValue.toFloat()
+		DecimalFormat("#.#").format(indicatorValue).toFloat()
 	else
 		maxIndicatorValue
 
