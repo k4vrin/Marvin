@@ -4,6 +4,7 @@ import android.app.Application
 import com.kavrin.marvin.data.repository.Repository
 import com.kavrin.marvin.data.repository.impl.DataStoreOpImpl
 import com.kavrin.marvin.domain.repository.DataStoreOp
+import com.kavrin.marvin.domain.use_cases.detail.*
 import com.kavrin.marvin.domain.use_cases.home.*
 import com.kavrin.marvin.domain.use_cases.splash_welcome.ReadOnBoarding
 import com.kavrin.marvin.domain.use_cases.splash_welcome.SaveGenres
@@ -53,6 +54,19 @@ object RepositoryModule {
 			getHomePopularTvs = GetHomePopularTvs(repository),
 			getHomeTopRatedTvs = GetHomeTopRatedTvs(repository),
 			getHomeTrendingTvs = GetHomeTrendingTvs(repository)
+		)
+	}
+
+	@Provides
+	@Singleton
+	fun provideDetailUseCases(
+		repository: Repository
+	): DetailUseCases {
+		return DetailUseCases(
+			getMovie = GetMovie(repository),
+			getTv = GetTv(repository),
+			getMovieGenres = GetMovieGenres(repository),
+			getTvGenres = GetTvGenres(repository)
 		)
 	}
 }

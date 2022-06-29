@@ -16,9 +16,9 @@ interface GenreDao {
     @Insert(onConflict = OnConflictStrategy.IGNORE)
     suspend fun insertTvGenres(genres: List<TvGenre>)
 
-    @Query("SELECT * FROM movie_genre_table WHERE id = :genreId")
-    suspend fun getMovieGenre(genreId: Int): MovieGenre
+    @Query("SELECT name FROM movie_genre_table WHERE id = :id")
+    suspend fun getMovieGenre(id: Int): String
 
-    @Query("SELECT * FROM tv_genre_table WHERE id = :genreId")
-    suspend fun getTvGenre(genreId: Int): MovieGenre
+    @Query("SELECT name FROM tv_genre_table WHERE id = :id")
+    suspend fun getTvGenre(id: Int): String
 }

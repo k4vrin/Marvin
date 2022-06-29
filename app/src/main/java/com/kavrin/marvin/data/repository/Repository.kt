@@ -1,13 +1,16 @@
 package com.kavrin.marvin.data.repository
 
 import androidx.paging.PagingData
+import com.kavrin.marvin.domain.model.movie.entities.Movie
 import com.kavrin.marvin.domain.model.movie.entities.relations.MovieAndPopular
 import com.kavrin.marvin.domain.model.movie.entities.relations.MovieAndTopRated
 import com.kavrin.marvin.domain.model.movie.entities.relations.MovieAndTrending
+import com.kavrin.marvin.domain.model.tv.entities.Tv
 import com.kavrin.marvin.domain.model.tv.entities.relations.TvAndPopular
 import com.kavrin.marvin.domain.model.tv.entities.relations.TvAndTopRated
 import com.kavrin.marvin.domain.model.tv.entities.relations.TvAndTrending
 import com.kavrin.marvin.domain.repository.DataStoreOp
+import com.kavrin.marvin.domain.repository.LocalDataSource
 import com.kavrin.marvin.domain.repository.MovieRemoteDataSource
 import com.kavrin.marvin.domain.repository.TvRemoteDataSource
 import kotlinx.coroutines.flow.Flow
@@ -16,7 +19,8 @@ import javax.inject.Inject
 class Repository @Inject constructor(
 	private val dataStore: DataStoreOp,
 	private val movieRemote: MovieRemoteDataSource,
-	private val tvRemote: TvRemoteDataSource
+	private val tvRemote: TvRemoteDataSource,
+	private val localDataSource: LocalDataSource
 ) {
 
 	///////////////////////////////////////////////////////////////////////////
@@ -56,6 +60,15 @@ class Repository @Inject constructor(
 		return movieRemote.getHomeTrendingMovies()
 	}
 
+	//// Detail ////
+	suspend fun getMovie(id: Int): Movie {
+		return localDataSource.getMovie(movieId = id)
+	}
+
+	suspend fun getMovieGenres(ids: List<Int>): List<String> {
+		return localDataSource.getMovieGenres(ids)
+	}
+
 	///////////////////////////////////////////////////////////////////////////
 	// Tv
 	///////////////////////////////////////////////////////////////////////////
@@ -89,6 +102,15 @@ class Repository @Inject constructor(
 
 	fun getHomeTrendingTvs(): Flow<PagingData<TvAndTrending>> {
 		return tvRemote.getHomeTrendingTvs()
+	}
+
+	//// Detail ////
+	suspend fun getTv(id: Int): Tv {
+		return localDataSource.getTv(tvId = id)
+	}
+
+	suspend fun getTvGenres(ids: List<Int>): List<String> {
+		return localDataSource.getTvGenres(ids)
 	}
 
 	///////////////////////////////////////////////////////////////////////////
