@@ -2,7 +2,6 @@ package com.kavrin.marvin.presentation.component
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.ContentAlpha
 import androidx.compose.material.Icon
@@ -30,7 +29,6 @@ fun PosterWithIcon(
 	itemId: Int?,
 	modifier: Modifier = Modifier,
 	onMenuIconClicked: (Int) -> Unit,
-	onItemClicked: (Int) -> Unit,
 ) {
 
 	val painter = rememberAsyncImagePainter(
@@ -47,12 +45,7 @@ fun PosterWithIcon(
 
 		Image(
 			modifier = Modifier
-				.fillMaxSize()
-				.clickable {
-					itemId?.let {
-						onItemClicked(it)
-					}
-				},
+				.fillMaxSize(),
 			painter = painter,
 			contentDescription = stringResource(R.string.movie_poster),
 			contentScale = ContentScale.Crop
@@ -101,8 +94,6 @@ fun PosterWithIcon(
 
 		}
 	}
-
-
 }
 
 @Preview
@@ -112,6 +103,5 @@ fun PosterWithRatingPrev() {
 		posterPath = null,
 		itemId = 1,
 		onMenuIconClicked = {},
-		onItemClicked = {}
 	)
 }

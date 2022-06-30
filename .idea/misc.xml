@@ -15,7 +15,11 @@
         <entry key="..\:/Projects/AAA/Marvin/app/src/main/java/com/kavrin/marvin/presentation/component/RatingIndicator.kt" value="0.24363636363636362" />
         <entry key="..\:/Projects/AAA/Marvin/app/src/main/java/com/kavrin/marvin/presentation/component/ShimerEffect.kt" value="0.22685185185185186" />
         <entry key="..\:/Projects/AAA/Marvin/app/src/main/java/com/kavrin/marvin/presentation/screens/detail/CollapsingToolbar.kt" value="0.264" />
+        <entry key="..\:/Projects/AAA/Marvin/app/src/main/java/com/kavrin/marvin/presentation/screens/detail/component/CastItem.kt" value="0.49748237663645517" />
         <entry key="..\:/Projects/AAA/Marvin/app/src/main/java/com/kavrin/marvin/presentation/screens/detail/component/DateTimeAge.kt" value="0.4" />
+        <entry key="..\:/Projects/AAA/Marvin/app/src/main/java/com/kavrin/marvin/presentation/screens/detail/component/Genres.kt" value="0.264" />
+        <entry key="..\:/Projects/AAA/Marvin/app/src/main/java/com/kavrin/marvin/presentation/screens/detail/component/Overview.kt" value="0.536" />
+        <entry key="..\:/Projects/AAA/Marvin/app/src/main/java/com/kavrin/marvin/presentation/screens/detail/component/Rating.kt" value="0.31203703703703706" />
         <entry key="..\:/Projects/AAA/Marvin/app/src/main/java/com/kavrin/marvin/presentation/screens/home/HomeTopBar.kt" value="0.22037037037037038" />
         <entry key="..\:/Projects/AAA/Marvin/app/src/main/java/com/kavrin/marvin/presentation/screens/splash/SplashScreen.kt" value="0.2" />
         <entry key="..\:/Projects/AAA/Marvin/app/src/main/java/com/kavrin/marvin/presentation/screens/welcome/WelcomeScreen.kt" value="0.176" />

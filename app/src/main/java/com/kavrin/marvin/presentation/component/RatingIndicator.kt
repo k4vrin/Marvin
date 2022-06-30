@@ -30,8 +30,8 @@ import java.text.DecimalFormat
 
 @Composable
 fun RatingIndicator(
-	indicatorValue: Double,
-	smallText: Int,
+	voteAvg: Double?,
+	voteCount: Int?,
 	modifier: Modifier = Modifier,
 	canvasSize: Dp = 300.dp,
 	maxIndicatorValue: Float = 10f,
@@ -43,15 +43,20 @@ fun RatingIndicator(
 	smallTextColor: Color = Color.White.copy(alpha = 0.5f),
 ) {
 
+	///// Handle null /////
+	val mVoteAvg = voteAvg ?: 0.0
+	val mVoteCount = voteCount ?: 0
+
+	///// Handle Vote Max /////
 	var allowedIndicatorValue by remember {
 		mutableStateOf(maxIndicatorValue)
 	}
-	allowedIndicatorValue = if (indicatorValue.toFloat() <= maxIndicatorValue)
-		DecimalFormat("#.#").format(indicatorValue).toFloat()
+	allowedIndicatorValue = if (mVoteAvg <= maxIndicatorValue)
+		DecimalFormat("#.#").format(mVoteAvg).toFloat()
 	else
 		maxIndicatorValue
 
-
+	///// Assign Anim Value When voteAvg change /////
 	var animIndicatorValue by remember {
 		mutableStateOf(0f)
 	}
@@ -59,20 +64,23 @@ fun RatingIndicator(
 		animIndicatorValue = allowedIndicatorValue
 	}
 
+	///// Animate Vote /////
 	val percentage = (animIndicatorValue / maxIndicatorValue) * 100
-
 	val sweepAngle by animateFloatAsState(
 		targetValue = (3.6 * percentage).toFloat(),
 		animationSpec = tween(durationMillis = 1000)
 	)
 
+	///// Foreground Color /////
 	val foregroundIndicatorColor = when (allowedIndicatorValue) {
 		in 0f..4f -> LowRate
 		in 4f..7f -> MediumRate
 		else -> HighRate
 	}
+	///// BackGround Color /////
 	val backgroundIndicatorColor = foregroundIndicatorColor.copy(alpha = 0.3f)
 
+	///// Container /////
 	Column(
 		modifier = modifier
 			.size(canvasSize)
@@ -102,7 +110,7 @@ fun RatingIndicator(
 			bigText = allowedIndicatorValue,
 			bigTextColor = bigTextColor,
 			bigTextFontSize = bigTextFontSize,
-			smallText = smallText,
+			smallText = mVoteCount,
 			smallTextColor = smallTextColor,
 			smallTextFontSize = smallTextFontSize
 		)
@@ -189,8 +197,8 @@ fun EmbeddedElements(
 @Composable
 fun RatingComponentPrev() {
 	RatingIndicator(
-		indicatorValue = 8.8,
-		smallText = 4654,
+		voteAvg = 8.8,
+		voteCount = 4654,
 		bigTextFontSize = MaterialTheme.typography.h1.fontSize,
 		smallTextFontSize = MaterialTheme.typography.h4.fontSize,
 	)

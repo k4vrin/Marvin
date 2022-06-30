@@ -19,14 +19,14 @@ import com.kavrin.marvin.data.local.dao.tv.TvTrendingDao
 import com.kavrin.marvin.data.local.dao.tv.remote_keys.TvPopularRemoteKeysDao
 import com.kavrin.marvin.data.local.dao.tv.remote_keys.TvTopRatedRemoteKeysDao
 import com.kavrin.marvin.data.local.dao.tv.remote_keys.TvTrendingRemoteKeysDao
-import com.kavrin.marvin.domain.model.Playlist
+import com.kavrin.marvin.domain.model.playlist.Playlist
 import com.kavrin.marvin.domain.model.movie.entities.*
-import com.kavrin.marvin.domain.model.movie.entities.relations.MoviePlaylistCrossRef
+import com.kavrin.marvin.domain.model.playlist.MoviePlaylistCrossRef
 import com.kavrin.marvin.domain.model.movie.entities.remote_keys.MoviePopularRemoteKeys
 import com.kavrin.marvin.domain.model.movie.entities.remote_keys.MovieTopRatedRemoteKeys
 import com.kavrin.marvin.domain.model.movie.entities.remote_keys.MovieTrendingRemoteKeys
 import com.kavrin.marvin.domain.model.tv.entities.*
-import com.kavrin.marvin.domain.model.tv.entities.relations.TvPlaylistCrossRef
+import com.kavrin.marvin.domain.model.playlist.TvPlaylistCrossRef
 import com.kavrin.marvin.domain.model.tv.entities.remote_keys.TvPopularRemoteKeys
 import com.kavrin.marvin.domain.model.tv.entities.remote_keys.TvTopRatedRemoteKeys
 import com.kavrin.marvin.domain.model.tv.entities.remote_keys.TvTrendingRemoteKeys

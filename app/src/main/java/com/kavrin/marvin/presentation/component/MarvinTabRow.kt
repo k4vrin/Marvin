@@ -21,7 +21,7 @@ fun MarvinTabRow(
 	val titles = listOf("Movie", "Series")
 	val indicator = @Composable { tabPositions: List<TabPosition> ->
 		TabIndicator(
-			color = tabIndicatorColor,
+			color = MaterialTheme.colors.tabIndicatorColor,
 			modifier = Modifier.tabIndicatorOffset(tabPositions[pagerState.currentPage])
 		)
 	}
@@ -29,8 +29,8 @@ fun MarvinTabRow(
 
 	TabRow(
 		selectedTabIndex = pagerState.currentPage,
-		backgroundColor = topBarBgColor,
-		contentColor = topBarContentColor,
+		backgroundColor = MaterialTheme.colors.topBarBgColor,
+		contentColor = MaterialTheme.colors.topBarContentColor,
 		indicator = indicator
 	) {
 		titles.forEachIndexed { index, title ->

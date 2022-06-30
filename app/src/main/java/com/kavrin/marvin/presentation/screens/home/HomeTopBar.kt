@@ -1,9 +1,6 @@
 package com.kavrin.marvin.presentation.screens.home
 
-import androidx.compose.material.Icon
-import androidx.compose.material.IconButton
-import androidx.compose.material.Text
-import androidx.compose.material.TopAppBar
+import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Search
 import androidx.compose.runtime.Composable
@@ -24,14 +21,14 @@ fun HomeTopBar(
 		//// Title ////
 		title = {
 			Text(
-				text = "Home",
+				text = stringResource(R.string.home),
 				fontFamily = fonts,
-				color = topBarContentColor
+				color = MaterialTheme.colors.topBarContentColor
 			)
 		},
 
 		//// Background Color ////
-		backgroundColor = topBarBgColor,
+		backgroundColor = MaterialTheme.colors.topBarBgColor,
 
 		actions = {
 			IconButton(
@@ -40,7 +37,7 @@ fun HomeTopBar(
 				Icon(
 					imageVector = Icons.Default.Search,
 					contentDescription = stringResource(R.string.search_icon),
-					tint = topBarContentColor
+					tint = MaterialTheme.colors.topBarContentColor
 				)
 			}
 		},

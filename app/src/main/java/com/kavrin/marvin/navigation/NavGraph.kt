@@ -10,7 +10,8 @@ import com.kavrin.marvin.presentation.screens.detail.DetailScreen
 import com.kavrin.marvin.presentation.screens.home.HomeScreen
 import com.kavrin.marvin.presentation.screens.splash.SplashScreen
 import com.kavrin.marvin.presentation.screens.welcome.WelcomeScreen
-import com.kavrin.marvin.util.Constants.DETAILS_ARGUMENT_KEY
+import com.kavrin.marvin.util.Constants.DETAILS_ARGUMENT_KEY_BOOL
+import com.kavrin.marvin.util.Constants.DETAILS_ARGUMENT_KEY_ID
 import com.kavrin.marvin.util.Constants.LIST_ARGUMENT_KEY
 
 @Composable
@@ -41,9 +42,14 @@ fun SetupNavGraph(navHostController: NavHostController) {
 		//// Detail Screen ////
 		composable(
 			route = Screen.Detail.route,
-			arguments = listOf(navArgument(DETAILS_ARGUMENT_KEY) {
+			arguments = listOf(
+				navArgument(DETAILS_ARGUMENT_KEY_ID) {
 				type = NavType.IntType
-			})
+			},
+				navArgument(DETAILS_ARGUMENT_KEY_BOOL) {
+					type = NavType.BoolType
+				}
+			)
 		) {
 			DetailScreen(navController = navHostController)
 

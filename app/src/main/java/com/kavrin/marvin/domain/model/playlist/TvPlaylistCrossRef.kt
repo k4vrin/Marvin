@@ -1,4 +1,4 @@
-package com.kavrin.marvin.domain.model.tv.entities.relations
+package com.kavrin.marvin.domain.model.playlist
 
 import androidx.room.ColumnInfo
 import androidx.room.Entity

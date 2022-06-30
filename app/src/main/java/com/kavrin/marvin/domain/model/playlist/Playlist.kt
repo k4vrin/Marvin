@@ -1,4 +1,4 @@
-package com.kavrin.marvin.domain.model
+package com.kavrin.marvin.domain.model.playlist
 
 import androidx.room.Entity
 import androidx.room.PrimaryKey

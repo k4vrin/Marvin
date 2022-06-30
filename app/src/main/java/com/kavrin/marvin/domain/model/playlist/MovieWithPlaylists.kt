@@ -1,10 +1,9 @@
-package com.kavrin.marvin.domain.model.movie.entities.relations
+package com.kavrin.marvin.domain.model.playlist
 
 import androidx.room.Embedded
 import androidx.room.Junction
 import androidx.room.Relation
 import com.kavrin.marvin.domain.model.movie.entities.Movie
-import com.kavrin.marvin.domain.model.Playlist
 
 data class MovieWithPlaylists(
 

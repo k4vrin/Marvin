@@ -1,6 +1,6 @@
 package com.kavrin.marvin.ui.theme
 
-import androidx.compose.foundation.isSystemInDarkTheme
+import androidx.compose.material.Colors
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.graphics.Color
 
@@ -36,35 +36,42 @@ val ShimmerDarkGray = Color(0xFF1D1D1D)
 val ShimmerDarkGrayVariant = Color(0xFF252525)
 val ShimmerMediumGrayVariant = Color(0xFFACACAC)
 
-val tabIndicatorColor
+val Colors.tabIndicatorColor
 	@Composable
-	get() = if (isSystemInDarkTheme()) LightGray else BrightMaroon
+	get() = if (isLight) BrightMaroon else LightGray
 
-
-val backGroundColor
+val Colors.backGroundColor
 	@Composable
-	get() = if (isSystemInDarkTheme()) BackGroundDark else BackGroundLight
+	get() = if (isLight) BackGroundLight else BackGroundDark
 
-val topBarContentColor
+val Colors.topBarContentColor
 	@Composable
-	get() = if (isSystemInDarkTheme()) LightGray else Color.Black
+	get() = if (isLight) Color.Black else LightGray
 
-val topBarBgColor
+val Colors.topBarBgColor
 	@Composable
-	get() = if (isSystemInDarkTheme()) Color.Black else Color.White
+	get() = if (isLight) Color.White else Color.Black
 
-val cardColor
+val Colors.cardColor
 	@Composable
-	get() = if (isSystemInDarkTheme()) DarkCard else LightCard
+	get() = if (isLight) LightCard else DarkCard
 
-val cardContentColor
+val Colors.cardContentColor
 	@Composable
-	get() = if (isSystemInDarkTheme()) LightGray else DarkGray
+	get() = if (isLight) DarkGray else LightGray
 
-val contentColor
+val Colors.contentColor
 	@Composable
-	get() = if (isSystemInDarkTheme()) Color.White else Color.Black
+	get() = if (isLight) Color.Black else Color.White
 
-val pagerIndicatorActiveColor
+val Colors.pagerIndicatorActiveColor
 	@Composable
-	get() = if (isSystemInDarkTheme()) DarkGray else BrightMaroon
+	get() = if (isLight) BrightMaroon else DarkGray
+
+val Colors.cardShimmerColor
+	@Composable
+	get() = if (isLight) ShimmerMediumGray else ShimmerDarkGray
+
+val Colors.ratingShimmerColor
+	@Composable
+	get() = if (isLight) ShimmerMediumGrayVariant else ShimmerDarkGrayVariant

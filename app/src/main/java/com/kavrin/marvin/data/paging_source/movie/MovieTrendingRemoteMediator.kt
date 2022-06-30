@@ -134,7 +134,7 @@ class MovieTrendingRemoteMediator(
 		}?.data?.firstOrNull()
 			?.let { movieAndTrending ->
 				movieAndTrending.movieTrending?.let { movieTrending ->
-					movieTrending.id?.let { id ->
+					movieTrending.id.let { id ->
 						movieTrendingRemoteKeysDao.getTrendingRemoteKeys(id = id)
 					}
 				}
@@ -149,7 +149,7 @@ class MovieTrendingRemoteMediator(
 		}?.data?.lastOrNull()
 			?.let { movieAndTrending ->
 				movieAndTrending.movieTrending?.let { movieTrending ->
-					movieTrending.id?.let { id ->
+					movieTrending.id.let { id ->
 						movieTrendingRemoteKeysDao.getTrendingRemoteKeys(id = id)
 					}
 				}

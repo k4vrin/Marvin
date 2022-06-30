@@ -3,6 +3,8 @@ package com.kavrin.marvin.di
 import android.app.Application
 import androidx.room.Room
 import com.kavrin.marvin.data.local.MarvinDatabase
+import com.kavrin.marvin.data.repository.impl.LocalDataSourceImpl
+import com.kavrin.marvin.domain.repository.LocalDataSource
 import com.kavrin.marvin.util.Constants.MARVIN_DB
 import dagger.Module
 import dagger.Provides
@@ -24,6 +26,16 @@ object DatabaseModule {
 			MarvinDatabase::class.java,
 			MARVIN_DB
 		).build()
+	}
+
+	@Provides
+	@Singleton
+	fun provideLocalDataSource(
+		marvinDatabase: MarvinDatabase
+	): LocalDataSource {
+		return LocalDataSourceImpl(
+			marvinDatabase = marvinDatabase
+		)
 	}
 
 }

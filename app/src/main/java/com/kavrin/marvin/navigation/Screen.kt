@@ -12,9 +12,9 @@ sealed class Screen(val route: String) {
 	object Home : Screen(route = "home_screen")
 
 	//// Detail Screen ////
-	object Detail : Screen(route = "detail_screen/{id}") {
-		fun passId(id: Int): String {
-			return "detail_screen/${id}"
+	object Detail : Screen(route = "detail_screen/{id}?isMovie={isMovie}") {
+		fun passIdAndBool(id: Int, isMovie: Boolean = true): String {
+			return "detail_screen/${id}?isMovie=$isMovie"
 		}
 	}
 

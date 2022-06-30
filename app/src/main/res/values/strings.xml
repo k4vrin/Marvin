@@ -6,4 +6,9 @@
     <string name="search_icon">Search Icon</string>
     <string name="movie_poster">Movie Poster</string>
     <string name="menu_icon">Menu Icon</string>
+    <string name="home">Home</string>
+    <string name="popular">Popular</string>
+    <string name="see_all">See All</string>
+    <string name="trending">Trending</string>
+    <string name="top_rated">Top Rated</string>
 </resources>

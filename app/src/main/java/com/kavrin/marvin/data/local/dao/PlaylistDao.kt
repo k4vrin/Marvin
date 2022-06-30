@@ -2,13 +2,13 @@ package com.kavrin.marvin.data.local.dao
 
 import androidx.paging.PagingSource
 import androidx.room.*
-import com.kavrin.marvin.domain.model.Playlist
-import com.kavrin.marvin.domain.model.movie.entities.relations.MoviePlaylistCrossRef
-import com.kavrin.marvin.domain.model.movie.entities.relations.MovieWithPlaylists
-import com.kavrin.marvin.domain.model.movie.entities.relations.PlaylistWithMovies
-import com.kavrin.marvin.domain.model.tv.entities.relations.PlaylistWithTvs
-import com.kavrin.marvin.domain.model.tv.entities.relations.TvPlaylistCrossRef
-import com.kavrin.marvin.domain.model.tv.entities.relations.TvWithPlaylists
+import com.kavrin.marvin.domain.model.playlist.Playlist
+import com.kavrin.marvin.domain.model.playlist.MoviePlaylistCrossRef
+import com.kavrin.marvin.domain.model.playlist.MovieWithPlaylists
+import com.kavrin.marvin.domain.model.playlist.PlaylistWithMovies
+import com.kavrin.marvin.domain.model.playlist.PlaylistWithTvs
+import com.kavrin.marvin.domain.model.playlist.TvPlaylistCrossRef
+import com.kavrin.marvin.domain.model.playlist.TvWithPlaylists
 
 @Dao
 interface PlaylistDao {

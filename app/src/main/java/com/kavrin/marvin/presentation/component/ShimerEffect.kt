@@ -2,10 +2,10 @@ package com.kavrin.marvin.presentation.component
 
 import androidx.compose.animation.core.*
 import androidx.compose.foundation.background
-import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Surface
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -75,7 +75,7 @@ fun ShimmerCarouselItem(
 				.fillMaxWidth(0.2f)
 				.height(CAROUSEL_ITEM_HEIGHT)
 				.background(
-					color = if (isSystemInDarkTheme()) ShimmerDarkGray else ShimmerMediumGray,
+					color = MaterialTheme.colors.cardShimmerColor,
 					shape = RoundedCornerShape(
 						topEnd = SMALL_PADDING,
 						bottomEnd = SMALL_PADDING
@@ -91,7 +91,7 @@ fun ShimmerCarouselItem(
 				.fillMaxWidth(0.6f)
 				.height(CAROUSEL_ITEM_HEIGHT)
 				.background(
-					color = if (isSystemInDarkTheme()) ShimmerDarkGray else ShimmerMediumGray,
+					color = MaterialTheme.colors.cardShimmerColor,
 					shape = RoundedCornerShape(
 						size = SMALL_PADDING
 					)
@@ -111,7 +111,7 @@ fun ShimmerCarouselItem(
 					modifier = Modifier
 						.alpha(alpha)
 						.size(48.dp),
-					color = if (isSystemInDarkTheme()) ShimmerDarkGrayVariant else ShimmerMediumGrayVariant,
+					color = MaterialTheme.colors.ratingShimmerColor,
 					shape = CircleShape
 				) {}
 
@@ -126,7 +126,7 @@ fun ShimmerCarouselItem(
 				.fillMaxWidth()
 				.height(CAROUSEL_ITEM_HEIGHT)
 				.background(
-					color = if (isSystemInDarkTheme()) ShimmerDarkGray else ShimmerMediumGray,
+					color = MaterialTheme.colors.cardShimmerColor,
 					shape = RoundedCornerShape(
 						topStart = SMALL_PADDING,
 						bottomStart = SMALL_PADDING
@@ -147,7 +147,7 @@ fun ShimmerCarouselItem(
 					modifier = Modifier
 						.alpha(alpha)
 						.size(48.dp),
-					color = if (isSystemInDarkTheme()) ShimmerDarkGrayVariant else ShimmerMediumGrayVariant,
+					color = MaterialTheme.colors.ratingShimmerColor,
 					shape = CircleShape
 				) {}
 
@@ -174,7 +174,7 @@ fun ShimmerCardListItem(
 				.width(MAIN_CARD_WIDTH * 1.1f)
 				.height(MAIN_CARD_HEIGHT)
 				.background(
-					color = if (isSystemInDarkTheme()) ShimmerDarkGray else ShimmerMediumGray,
+					color = MaterialTheme.colors.cardShimmerColor,
 					shape = RoundedCornerShape(
 						size = SMALL_PADDING
 					)
@@ -194,7 +194,7 @@ fun ShimmerCardListItem(
 					modifier = Modifier
 						.alpha(alpha)
 						.size(48.dp),
-					color = if (isSystemInDarkTheme()) ShimmerDarkGrayVariant else ShimmerMediumGrayVariant,
+					color = MaterialTheme.colors.ratingShimmerColor,
 					shape = CircleShape
 				) {}
 
@@ -209,7 +209,7 @@ fun ShimmerCardListItem(
 				.width(MAIN_CARD_WIDTH * 1.1f)
 				.height(MAIN_CARD_HEIGHT)
 				.background(
-					color = if (isSystemInDarkTheme()) ShimmerDarkGray else ShimmerMediumGray,
+					color = MaterialTheme.colors.cardShimmerColor,
 					shape = RoundedCornerShape(
 						size = SMALL_PADDING
 					)
@@ -229,7 +229,7 @@ fun ShimmerCardListItem(
 					modifier = Modifier
 						.alpha(alpha)
 						.size(48.dp),
-					color = if (isSystemInDarkTheme()) ShimmerDarkGrayVariant else ShimmerMediumGrayVariant,
+					color = MaterialTheme.colors.ratingShimmerColor,
 					shape = CircleShape
 				) {}
 
