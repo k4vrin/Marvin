@@ -25,12 +25,13 @@ class MovieTopRatedRemoteMediator(
 
     override suspend fun initialize(): InitializeAction {
         val currentTime = System.currentTimeMillis()
-        val lastUpdated = movieTopRatedRemoteKeysDao.getTopRatedRemoteKeys(id = 1)?.lastUpdated
+        val lastUpdated = movieTopRatedRemoteKeysDao.getTopRatedLastUpdate()?.lastUpdated
             ?: FIRST_REQUEST_DEFAULT
         val cacheTimeout = TWENTY_FOUR_HOURS_IN_MINUTES
 
         val diffInMinutes =
             (currentTime - lastUpdated) / ONE_SECOND_IN_MILLIS / ONE_MINUTE_IN_SECONDS
+
         return if (diffInMinutes.toInt() <= cacheTimeout)
             InitializeAction.SKIP_INITIAL_REFRESH
         else

@@ -15,7 +15,7 @@ interface TvTrendingDao {
 	suspend fun deleteAllTrending()
 
 	@Transaction
-	@Query("SELECT * FROM tv_table, tv_trending_table WHERE tvId = trendingTvId")
+	@Query("SELECT * FROM tv_table, tv_trending_table WHERE tvId = trendingTvId ORDER BY tv_trending_table.id ASC")
 	fun getTvAndTrending(): PagingSource<Int, TvAndTrending>
 
 	@Transaction
@@ -23,6 +23,6 @@ interface TvTrendingDao {
 	fun getCarouselTvs(): PagingSource<Int, TvAndTrending>
 
 	@Transaction
-	@Query("SELECT * FROM tv_table, tv_trending_table WHERE tvId = trendingTvId LIMIT 8")
+	@Query("SELECT * FROM tv_table, tv_trending_table WHERE tvId = trendingTvId ORDER BY tv_trending_table.id ASC LIMIT 8")
 	fun getHomeTvAndTrending(): PagingSource<Int, TvAndTrending>
 }

@@ -25,7 +25,7 @@ class TvTopRatedRemoteMediator(
 
     override suspend fun initialize(): InitializeAction {
         val currentTime = System.currentTimeMillis()
-        val lastUpdated = tvTopRatedRemoteKeysDao.getTopRatedRemoteKeys(id = 1)?.lastUpdated
+        val lastUpdated = tvTopRatedRemoteKeysDao.getTopRatedLastUpdate()?.lastUpdated
             ?: FIRST_REQUEST_DEFAULT
         val cacheTimeout = TWENTY_FOUR_HOURS_IN_MINUTES
 

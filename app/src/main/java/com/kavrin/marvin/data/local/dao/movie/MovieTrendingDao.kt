@@ -15,7 +15,7 @@ interface MovieTrendingDao {
 	suspend fun deleteAllTrending()
 
 	@Transaction
-	@Query("SELECT * FROM movie_table, movie_trending_table WHERE movieId = trendingMovieId")
+	@Query("SELECT * FROM movie_table, movie_trending_table WHERE movieId = trendingMovieId ORDER BY movie_trending_table.id ASC")
 	fun getMovieAndTrending(): PagingSource<Int, MovieAndTrending>
 
 	@Transaction
@@ -23,7 +23,7 @@ interface MovieTrendingDao {
 	fun getCarouselMovies(): PagingSource<Int, MovieAndTrending>
 
 	@Transaction
-	@Query("SELECT * FROM movie_table, movie_trending_table WHERE movieId = trendingMovieId LIMIT 8")
+	@Query("SELECT * FROM movie_table, movie_trending_table WHERE movieId = trendingMovieId ORDER BY movie_trending_table.id ASC LIMIT 8")
 	fun getHomeMovieAndTrending(): PagingSource<Int, MovieAndTrending>
 
 }

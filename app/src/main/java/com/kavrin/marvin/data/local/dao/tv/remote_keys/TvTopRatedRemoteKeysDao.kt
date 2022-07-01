@@ -12,6 +12,9 @@ interface TvTopRatedRemoteKeysDao {
 	@Query("SELECT * FROM tv_top_rated_remote_table WHERE id = :id")
 	suspend fun getTopRatedRemoteKeys(id: Int): TvTopRatedRemoteKeys?
 
+	@Query("SELECT * FROM tv_top_rated_remote_table ORDER BY lastUpdated ASC LIMIT 1")
+	suspend fun getTopRatedLastUpdate(): TvTopRatedRemoteKeys?
+
 	@Insert(onConflict = OnConflictStrategy.IGNORE)
 	suspend fun addTopRatedRemoteKeys(topRatedRemoteKeys: List<TvTopRatedRemoteKeys>)
 

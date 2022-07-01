@@ -12,6 +12,9 @@ interface MoviePopularRemoteKeysDao {
 	@Query("SELECT * FROM movie_popular_remote_table WHERE id = :id")
 	suspend fun getPopularRemoteKeys(id: Int): MoviePopularRemoteKeys?
 
+	@Query("SELECT * FROM movie_popular_remote_table ORDER BY lastUpdated ASC LIMIT 1")
+	suspend fun getPopularLastUpdate(): MoviePopularRemoteKeys?
+
 	@Insert(onConflict = OnConflictStrategy.IGNORE)
 	suspend fun addPopularRemoteKeys(popularRemoteKeys: List<MoviePopularRemoteKeys>)
 

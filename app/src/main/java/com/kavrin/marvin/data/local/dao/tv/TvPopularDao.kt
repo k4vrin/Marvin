@@ -15,10 +15,10 @@ interface TvPopularDao {
 	suspend fun deleteAllPopular()
 
 	@Transaction
-	@Query("SELECT * FROM tv_table, tv_popular_table WHERE tvId = popularTvId")
+	@Query("SELECT * FROM tv_table, tv_popular_table WHERE tvId = popularTvId ORDER BY tv_popular_table.id ASC")
 	fun getTvAndPopular(): PagingSource<Int, TvAndPopular>
 
 	@Transaction
-	@Query("SELECT * FROM tv_table, tv_popular_table WHERE tvId = popularTvId LIMIT 8")
+	@Query("SELECT * FROM tv_table, tv_popular_table WHERE tvId = popularTvId ORDER BY tv_popular_table.id ASC LIMIT 8")
 	fun getHomeTvAndPopular(): PagingSource<Int, TvAndPopular>
 }
