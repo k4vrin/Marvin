@@ -24,9 +24,7 @@ class SplashViewModel @Inject constructor(
 			_onBoardingCompleted.value =
 				useCases.readOnBoarding().stateIn(scope = viewModelScope).value
 		}
-	}
 
-	fun saveGenres() {
 		viewModelScope.launch(context = Dispatchers.IO) {
 			useCases.saveGenres()
 		}

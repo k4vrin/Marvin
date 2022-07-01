@@ -46,7 +46,6 @@ fun SplashScreen(
 				delayMillis = 200
 			)
 		)
-		splashViewModel.saveGenres()
 
 		navController.popBackStack()
 		if (onBoardingState.value)

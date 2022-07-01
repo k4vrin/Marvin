@@ -3,8 +3,8 @@ package com.kavrin.marvin.presentation.common
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.core.Animatable
 import androidx.compose.animation.core.tween
-import androidx.compose.animation.fadeIn
-import androidx.compose.animation.fadeOut
+import androidx.compose.animation.scaleIn
+import androidx.compose.animation.scaleOut
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -19,7 +19,6 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.scale
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
-import androidx.compose.ui.text.style.TextOverflow
 import androidx.paging.compose.LazyPagingItems
 import com.google.accompanist.pager.HorizontalPager
 import com.google.accompanist.pager.HorizontalPagerIndicator
@@ -40,7 +39,7 @@ fun <T : MarvinItem> Carousel(
 ) {
 
     val pagerState = rememberPagerState(
-        initialPage = 1
+        initialPage = 2
     )
 
     val result = handlePagingResult(item = items, isCarousel = true)
@@ -138,16 +137,19 @@ fun <T : MarvinItem> Carousel(
                         .padding(horizontal = LARGE_PADDING),
                     horizontalArrangement = Arrangement.Center
                 ) {
+
                     AnimatedVisibility(
+                        modifier = Modifier
+                            .fillMaxWidth(),
                         visible = !pagerState.isScrollInProgress,
-                        enter = fadeIn(
+                        enter = scaleIn(
                             animationSpec = tween(
                                 durationMillis = 500
                             )
                         ),
-                        exit = fadeOut(
+                        exit = scaleOut(
                             animationSpec = tween(
-                                durationMillis = 200
+                                durationMillis = 100
                             )
                         )
                     ) {
@@ -158,7 +160,6 @@ fun <T : MarvinItem> Carousel(
                             fontWeight = FontWeight.ExtraBold,
                             textAlign = TextAlign.Center,
                             maxLines = 2,
-                            overflow = TextOverflow.Ellipsis,
                             color = MaterialTheme.colors.contentColor
                         )
                     }
