@@ -4,5 +4,7 @@ data class DetailUseCases(
     val getMovie: GetMovie,
     val getTv: GetTv,
     val getMovieGenres: GetMovieGenres,
-    val getTvGenres: GetTvGenres
+    val getTvGenres: GetTvGenres,
+    val getCast: GetCast,
+    val getCrew: GetCrew
 )

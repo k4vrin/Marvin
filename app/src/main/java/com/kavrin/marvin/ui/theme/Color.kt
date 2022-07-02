@@ -26,7 +26,7 @@ val MediumRate = Color(0xFFeeef20)
 val LowRate = Color(0xFFd00000)
 
 val DarkCard = Color(0xFF212529)
-val LightCard = Color(0xFFDCEDC1)
+val LightCard = Color(0xFFfcf2f3)
 
 
 val ShimmerLightGray = Color(0xFFF1F1F1)

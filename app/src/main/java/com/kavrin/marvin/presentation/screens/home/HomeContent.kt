@@ -6,7 +6,6 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.material.MaterialTheme
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.navigation.NavHostController
@@ -30,7 +29,6 @@ import com.kavrin.marvin.presentation.component.ShimmerCarouselEffect
 import com.kavrin.marvin.ui.theme.MEDIUM_PADDING
 import com.kavrin.marvin.ui.theme.backGroundColor
 import com.kavrin.marvin.util.MarvinItem
-import kotlinx.coroutines.launch
 
 @Composable
 fun HomeContent(
@@ -47,7 +45,6 @@ fun HomeContent(
 ) {
 
     val pagerState = rememberPagerState()
-    val scope = rememberCoroutineScope()
 
     Column(
         modifier = Modifier
@@ -55,24 +52,15 @@ fun HomeContent(
             .padding(paddingValues)
     ) {
 
-        MarvinTabRow(
-            pagerState = pagerState,
-            onTabClicked = { tab ->
-                scope.launch {
-                    pagerState.scrollToPage(
-                        page = tab
-                    )
-                }
-            }
-        )
+        MarvinTabRow(pagerState = pagerState)
 
         HorizontalPager(
             count = 2,
             state = pagerState,
             userScrollEnabled = false
-        ) {
+        ) { page ->
 
-            when (pagerState.currentPage) {
+            when (page) {
                 0 -> MovieTabContent(
                     navHostController = navHostController,
                     carousel = carouselMovies,
@@ -80,7 +68,7 @@ fun HomeContent(
                     topRated = topRatedMovies,
                     trending = trendingMovies
                 )
-                else -> TvTabContent(
+                1 -> TvTabContent(
                     navHostController = navHostController,
                     carousel = carouselTvs,
                     popular = popularTvs,

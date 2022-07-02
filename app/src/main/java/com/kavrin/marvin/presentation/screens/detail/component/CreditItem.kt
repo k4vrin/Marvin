@@ -21,10 +21,10 @@ import com.kavrin.marvin.ui.theme.*
 import com.kavrin.marvin.util.Constants
 
 @Composable
-fun CastItem(
+fun CreditItem(
     name: String,
     character: String,
-    image: String,
+    image: String?,
     modifier: Modifier = Modifier
 ) {
 
@@ -112,7 +112,7 @@ fun CastItem(
 @Preview
 @Composable
 fun CastItemPreview() {
-    CastItem(
+    CreditItem(
         name = "Brad Pit",
         character = "John Doe",
         image = ""

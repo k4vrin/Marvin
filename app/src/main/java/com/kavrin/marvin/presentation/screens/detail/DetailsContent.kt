@@ -10,12 +10,11 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import com.kavrin.marvin.domain.model.movie.api.Cast
+import com.kavrin.marvin.domain.model.movie.api.Crew
 import com.kavrin.marvin.domain.model.movie.entities.Movie
 import com.kavrin.marvin.domain.model.tv.entities.Tv
-import com.kavrin.marvin.presentation.screens.detail.component.DateTimeAge
-import com.kavrin.marvin.presentation.screens.detail.component.Genres
-import com.kavrin.marvin.presentation.screens.detail.component.Overview
-import com.kavrin.marvin.presentation.screens.detail.component.Rating
+import com.kavrin.marvin.presentation.screens.detail.component.*
 import com.kavrin.marvin.ui.theme.*
 
 @Composable
@@ -26,6 +25,8 @@ fun DetailsContent(
     contentPadding: PaddingValues = PaddingValues(0.dp),
     movie: Movie? = null,
     tv: Tv? = null,
+    cast: List<Cast>,
+    crew: List<Crew>,
     genres: List<String>?
 ) {
 
@@ -59,6 +60,14 @@ fun DetailsContent(
                 rating = rating,
                 voteCount = voteCount
             )
+        }
+
+        item {
+            CastList(cast = cast)
+        }
+
+        item {
+            CrewList(crew = crew)
         }
     }
 }
@@ -139,6 +148,7 @@ private fun Section2(
     }
 
 }
+
 
 
 @Preview

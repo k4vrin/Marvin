@@ -3,6 +3,8 @@ package com.kavrin.marvin.presentation.screens.detail
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.kavrin.marvin.domain.model.movie.api.Cast
+import com.kavrin.marvin.domain.model.movie.api.Crew
 import com.kavrin.marvin.domain.model.movie.entities.Movie
 import com.kavrin.marvin.domain.model.tv.entities.Tv
 import com.kavrin.marvin.domain.use_cases.detail.DetailUseCases
@@ -30,6 +32,12 @@ class DetailViewModel @Inject constructor(
     private val _genres: MutableStateFlow<List<String>?> = MutableStateFlow(null)
     val genres: StateFlow<List<String>?> = _genres
 
+    private val _cast: MutableStateFlow<List<Cast>?> = MutableStateFlow(null)
+    val cast: StateFlow<List<Cast>?> = _cast
+
+    private val _crew: MutableStateFlow<List<Crew>?> = MutableStateFlow(null)
+    val crew: StateFlow<List<Crew>?> = _crew
+
     val id = savedStateHandle.get<Int>(DETAILS_ARGUMENT_KEY_ID)
     val isMovie = savedStateHandle.get<Boolean>(DETAILS_ARGUMENT_KEY_BOOL)
 
@@ -46,6 +54,11 @@ class DetailViewModel @Inject constructor(
                     }
                 }
             }
+        }
+
+        viewModelScope.launch(Dispatchers.IO) {
+            _cast.value = id?.let { useCases.getCast(id = it) }
+            _crew.value = id?.let { useCases.getCrew(id = it) }
         }
     }
 

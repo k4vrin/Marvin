@@ -51,6 +51,8 @@ fun DetailScreen(
 
     val movie by detailViewModel.selectedMovie.collectAsState()
     val tv by detailViewModel.selectedTv.collectAsState()
+    val cast by detailViewModel.cast.collectAsState()
+    val crew by detailViewModel.crew.collectAsState()
 
     var isMovie by remember {
         mutableStateOf(true)
@@ -114,6 +116,8 @@ fun DetailScreen(
             genres = genres,
             movie = movie,
             tv = tv,
+            cast = cast ?: emptyList(),
+            crew = crew ?: emptyList(),
             listState = listState,
             contentPadding = PaddingValues(bottom = if (toolbarState is FixedScrollFlagState) MinToolbarHeight else 0.dp),
             modifier = Modifier
