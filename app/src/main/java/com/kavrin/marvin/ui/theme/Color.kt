@@ -26,7 +26,7 @@ val MediumRate = Color(0xFFeeef20)
 val LowRate = Color(0xFFd00000)
 
 val DarkCard = Color(0xFF212529)
-val LightCard = Color(0xFFe9ecef)
+val LightCard = Color(0xFFDCEDC1)
 
 
 val ShimmerLightGray = Color(0xFFF1F1F1)
@@ -36,8 +36,7 @@ val ShimmerDarkGray = Color(0xFF1D1D1D)
 val ShimmerDarkGrayVariant = Color(0xFF252525)
 val ShimmerMediumGrayVariant = Color(0xFFACACAC)
 
-val LightFab = Color(0xFFff7480)
-val DarkFab = Color(0xFF662e33)
+val LightFab = Color(0xFFFF7480)
 
 val Colors.tabIndicatorColor
 	@Composable
@@ -82,6 +81,10 @@ val Colors.ratingShimmerColor
 val Colors.fabBgColor
 	@Composable
 	get() = if (isLight) LightFab else DarkGray
+
+val Colors.fabContentColor
+	@Composable
+	get() = if (isLight) Color.Black else Color.White
 
 val Colors.statusBarColor
 	@Composable
