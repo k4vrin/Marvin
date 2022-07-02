@@ -14,6 +14,8 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.kavrin.marvin.R
+import com.kavrin.marvin.ui.theme.SMALL_PADDING
+import com.kavrin.marvin.ui.theme.cardContentColor
 import com.kavrin.marvin.ui.theme.fonts
 import com.kavrin.marvin.util.movieGenresIcon
 import com.kavrin.marvin.util.tvGenresIcon
@@ -33,13 +35,14 @@ fun Genres(
         Text(
             text = "Genres",
             fontFamily = fonts,
-            fontSize = MaterialTheme.typography.h6.fontSize,
+            fontSize = MaterialTheme.typography.h5.fontSize,
             fontWeight = FontWeight.SemiBold,
             maxLines = 1,
-            overflow = TextOverflow.Ellipsis
+            overflow = TextOverflow.Ellipsis,
+            color = MaterialTheme.colors.cardContentColor
         )
 
-        Spacer(modifier = Modifier.height(12.dp))
+        Spacer(modifier = Modifier.height(SMALL_PADDING))
 
         genres?.windowed(size = 2, step = 2, partialWindows = true)?.forEach { listGenre ->
             Row(
@@ -64,6 +67,7 @@ fun Genres(
                                 .size(24.dp),
                             painter = painter,
                             contentDescription = "Genre Icon",
+                            tint = MaterialTheme.colors.cardContentColor
                         )
 
                         Spacer(modifier = Modifier.width(8.dp))
@@ -72,8 +76,9 @@ fun Genres(
                         Text(
                             text = genre,
                             fontFamily = fonts,
-                            fontSize = MaterialTheme.typography.body2.fontSize,
-                            fontWeight = FontWeight.Normal
+                            fontSize = MaterialTheme.typography.body1.fontSize,
+                            fontWeight = FontWeight.Normal,
+                            color = MaterialTheme.colors.cardContentColor
                         )
                     }
                 }
