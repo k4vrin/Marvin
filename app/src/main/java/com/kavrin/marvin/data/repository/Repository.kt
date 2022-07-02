@@ -1,6 +1,7 @@
 package com.kavrin.marvin.data.repository
 
 import androidx.paging.PagingData
+import com.kavrin.marvin.domain.model.movie.api.MovieCreditApiResponse
 import com.kavrin.marvin.domain.model.movie.entities.Movie
 import com.kavrin.marvin.domain.model.movie.entities.relations.MovieAndPopular
 import com.kavrin.marvin.domain.model.movie.entities.relations.MovieAndTopRated
@@ -111,6 +112,10 @@ class Repository @Inject constructor(
 
 	suspend fun getTvGenres(ids: List<Int>): List<String> {
 		return localDataSource.getTvGenres(ids)
+	}
+
+	suspend fun getMovieCredits(id: Int): MovieCreditApiResponse {
+		return movieRemote.getMovieCredits(id = id)
 	}
 
 	///////////////////////////////////////////////////////////////////////////
