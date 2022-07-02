@@ -8,10 +8,7 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.collectAsState
-import androidx.compose.runtime.remember
+import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.alpha
@@ -22,6 +19,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
+import com.google.accompanist.systemuicontroller.rememberSystemUiController
 import com.kavrin.marvin.R
 import com.kavrin.marvin.navigation.Screen
 import com.kavrin.marvin.ui.theme.AntiqueBrass
@@ -31,84 +29,100 @@ import com.kavrin.marvin.ui.theme.splashFont
 
 @Composable
 fun SplashScreen(
-	navController: NavHostController,
-	splashViewModel: SplashViewModel = hiltViewModel()
+    navController: NavHostController,
+    splashViewModel: SplashViewModel = hiltViewModel()
 ) {
 
-	val onBoardingState = splashViewModel.onBoardingCompleted.collectAsState()
+    val ui = rememberSystemUiController()
+    val statusBarColor = if (isSystemInDarkTheme()) Color.Black else SilverPink
+    val useDarkIcon = MaterialTheme.colors.isLight
 
-	val animAlpha = remember { Animatable(initialValue = 0f) }
-	LaunchedEffect(key1 = true) {
-		animAlpha.animateTo(
-			targetValue = 1f,
-			animationSpec = tween(
-				durationMillis = 1000,
-				delayMillis = 200
-			)
+    SideEffect {
+        ui.setStatusBarColor(
+			color = statusBarColor,
+			darkIcons = useDarkIcon
 		)
+    }
 
-		navController.popBackStack()
-		if (onBoardingState.value)
-			navController.navigate(route = Screen.Home.route)
-		else
-			navController.navigate(route = Screen.Welcome.route)
+    val onBoardingState = splashViewModel.onBoardingCompleted.collectAsState()
 
-	}
+    val animAlpha = remember { Animatable(initialValue = 0f) }
+    LaunchedEffect(key1 = true) {
+        animAlpha.animateTo(
+            targetValue = 1f,
+            animationSpec = tween(
+                durationMillis = 1000,
+                delayMillis = 200
+            )
+        )
 
-	Splash(animAlpha = animAlpha.value)
+        navController.popBackStack()
+        if (onBoardingState.value)
+            navController.navigate(route = Screen.Home.route)
+        else
+            navController.navigate(route = Screen.Welcome.route)
+
+    }
+
+    Splash(animAlpha = animAlpha.value)
 }
 
 @Composable
 fun Splash(animAlpha: Float = 1f) {
 
-	if (isSystemInDarkTheme()) {
-		//// Text Container ////
-		Box(
-			modifier = Modifier
+    if (isSystemInDarkTheme()) {
+        //// Text Container ////
+        Box(
+            modifier = Modifier
 				.background(color = Color.Black)
 				.fillMaxSize(),
-			contentAlignment = Alignment.Center
-		) {
-			//// Text ////
-			Text(
-				modifier = Modifier
-					.alpha(alpha = animAlpha),
-				color = Color.White,
-				text = stringResource(R.string.marvin),
-				fontFamily = splashFont,
-				fontWeight = FontWeight.Normal,
-				fontSize = MaterialTheme.typography.h3.fontSize
-			)
-		}
-	} else {
+            contentAlignment = Alignment.Center
+        ) {
+            //// Text ////
+            Text(
+                modifier = Modifier
+                    .alpha(alpha = animAlpha),
+                color = Color.White,
+                text = stringResource(R.string.marvin),
+                fontFamily = splashFont,
+                fontWeight = FontWeight.Normal,
+                fontSize = MaterialTheme.typography.h3.fontSize
+            )
+        }
+    } else {
 
-		//// Text Container ////
-		Box(
-			modifier = Modifier
+        //// Text Container ////
+        Box(
+            modifier = Modifier
 				.background(
-					brush = Brush.verticalGradient(colors = listOf(SilverPink, AntiqueBrass))
+					brush = Brush.verticalGradient(
+						colors = listOf(
+							SilverPink,
+							AntiqueBrass
+						)
+					)
 				)
 				.fillMaxSize(),
-			contentAlignment = Alignment.Center
-		) {
+            contentAlignment = Alignment.Center
+        ) {
 
-			//// Text ////
-			Text(
-				modifier = Modifier
-					.alpha(alpha = animAlpha),
-				color = BrightMaroon,
-				text = stringResource(R.string.marvin),
-				fontFamily = splashFont,
-				fontWeight = FontWeight.Normal,
-				fontSize = MaterialTheme.typography.h3.fontSize
-			)
-		}
-	}
+            //// Text ////
+            Text(
+                modifier = Modifier
+                    .alpha(alpha = animAlpha),
+                color = BrightMaroon,
+                text = stringResource(R.string.marvin),
+                fontFamily = splashFont,
+                fontWeight = FontWeight.Normal,
+                fontSize = MaterialTheme.typography.h3.fontSize
+            )
+        }
+    }
 
 }
 
 @Preview
 @Composable
 fun SplashPrev() {
-	Splash()
+    Splash()
 }

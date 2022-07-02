@@ -9,7 +9,7 @@ val Purple500 = Color(0xFF6200EE)
 val Purple700 = Color(0xFF3700B3)
 val Teal200 = Color(0xFF03DAC5)
 
-val BackGroundLight = Color(0xFFF5F5F5)
+val BackGroundLight = Color(0xFFF0F0F0)
 val BackGroundDark = Color(0xFF090909)
 
 val BrightMaroon = Color(0xFFB9314F)
@@ -36,9 +36,12 @@ val ShimmerDarkGray = Color(0xFF1D1D1D)
 val ShimmerDarkGrayVariant = Color(0xFF252525)
 val ShimmerMediumGrayVariant = Color(0xFFACACAC)
 
+val LightFab = Color(0xFFff7480)
+val DarkFab = Color(0xFF662e33)
+
 val Colors.tabIndicatorColor
 	@Composable
-	get() = if (isLight) BrightMaroon else LightGray
+	get() = if (isLight) LightFab else LightGray
 
 val Colors.backGroundColor
 	@Composable
@@ -66,7 +69,7 @@ val Colors.contentColor
 
 val Colors.pagerIndicatorActiveColor
 	@Composable
-	get() = if (isLight) BrightMaroon else DarkGray
+	get() = if (isLight) LightFab else DarkGray
 
 val Colors.cardShimmerColor
 	@Composable
@@ -75,3 +78,11 @@ val Colors.cardShimmerColor
 val Colors.ratingShimmerColor
 	@Composable
 	get() = if (isLight) ShimmerMediumGrayVariant else ShimmerDarkGrayVariant
+
+val Colors.fabBgColor
+	@Composable
+	get() = if (isLight) LightFab else DarkGray
+
+val Colors.statusBarColor
+	@Composable
+	get() = if (isLight) Color.White else Color.Black

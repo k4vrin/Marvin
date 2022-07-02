@@ -11,4 +11,7 @@
     <string name="see_all">See All</string>
     <string name="trending">Trending</string>
     <string name="top_rated">Top Rated</string>
+    <string name="back_icon">Back Icon</string>
+    <string name="share_icon">Share Icon</string>
+    <string name="add_icon">Share Icon</string>
 </resources>

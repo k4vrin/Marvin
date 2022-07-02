@@ -59,7 +59,7 @@ fun HomeContent(
             pagerState = pagerState,
             onTabClicked = { tab ->
                 scope.launch {
-                    pagerState.animateScrollToPage(
+                    pagerState.scrollToPage(
                         page = tab
                     )
                 }
