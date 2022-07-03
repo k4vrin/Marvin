@@ -8,7 +8,9 @@ import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
+import com.kavrin.marvin.R
 import com.kavrin.marvin.domain.model.movie.api.Cast
 import com.kavrin.marvin.domain.model.movie.api.Crew
 import com.kavrin.marvin.ui.theme.MEDIUM_PADDING
@@ -35,7 +37,7 @@ fun CastList(
         ) {
 
             Text(
-                text = "Cast",
+                text = stringResource(R.string.cast),
                 fontFamily = fonts,
                 fontSize = MaterialTheme.typography.h6.fontSize,
                 fontWeight = FontWeight.Bold,
@@ -53,7 +55,7 @@ fun CastList(
             items(
                 items = cast,
                 key = {
-                    it.castId
+                    it.id
                 }
             ) { cast ->
                 CreditItem(name = cast.name, character = cast.character, image = cast.profilePath)
@@ -82,7 +84,7 @@ fun CrewList(
         ) {
 
             Text(
-                text = "Crew",
+                text = stringResource(R.string.crew),
                 fontFamily = fonts,
                 fontSize = MaterialTheme.typography.h6.fontSize,
                 fontWeight = FontWeight.Bold,
@@ -100,7 +102,7 @@ fun CrewList(
             items(
                 items = crew,
                 key = {
-                    it.creditId
+                    it.id
                 }
             ) { crew ->
                 CreditItem(name = crew.name, character = crew.job, image = crew.profilePath)

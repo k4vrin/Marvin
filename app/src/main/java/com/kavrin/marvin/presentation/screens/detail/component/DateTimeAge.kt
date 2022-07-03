@@ -29,7 +29,7 @@ fun DateTimeAge(
             Text(
                 text = dateFormatter(date = date),
                 fontFamily = fonts,
-                fontSize = MaterialTheme.typography.h6.fontSize,
+                fontSize = MaterialTheme.typography.subtitle2.fontSize,
                 fontWeight = FontWeight.Bold,
                 maxLines = 1,
                 overflow = TextOverflow.Ellipsis,
@@ -42,7 +42,7 @@ fun DateTimeAge(
                 Text(
                     text = "|",
                     fontFamily = fonts,
-                    fontSize = MaterialTheme.typography.h6.fontSize,
+                    fontSize = MaterialTheme.typography.subtitle2.fontSize,
                     fontWeight = FontWeight.Normal,
                     maxLines = 1,
                     overflow = TextOverflow.Ellipsis,
@@ -54,7 +54,7 @@ fun DateTimeAge(
                 Text(
                     text = if (adult) "R" else "PG-13",
                     fontFamily = fonts,
-                    fontSize = MaterialTheme.typography.h6.fontSize,
+                    fontSize = MaterialTheme.typography.subtitle2.fontSize,
                     fontWeight = FontWeight.Bold,
                     maxLines = 1,
                     overflow = TextOverflow.Ellipsis,

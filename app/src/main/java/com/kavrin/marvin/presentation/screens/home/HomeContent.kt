@@ -295,6 +295,15 @@ fun <T : MarvinItem> handlePagingResult(
                     false
                 }
             }
+            item.itemCount < 3 -> {
+                if (isCarousel) {
+                    ShimmerCarouselEffect()
+                    false
+                } else {
+                    ShimmerCardEffect()
+                    false
+                }
+            }
             else -> true
         }
     }

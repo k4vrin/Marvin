@@ -7,6 +7,6 @@ import java.time.format.DateTimeFormatter
 @Composable
 fun dateFormatter(date: String): String {
     val parsePattern = DateTimeFormatter.ofPattern("yyyy-MM-dd")
-    val formatPattern = DateTimeFormatter.ofPattern("dd MMMM yyyy")
+    val formatPattern = DateTimeFormatter.ofPattern("dd MMM yyyy")
     return LocalDate.parse(date, parsePattern).format(formatPattern)
 }

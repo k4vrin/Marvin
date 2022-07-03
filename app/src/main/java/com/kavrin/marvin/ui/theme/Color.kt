@@ -19,14 +19,14 @@ val KombuGreen = Color(0xFF3A4F41)
 
 val LightGray = Color(0xFFadb5bd)
 val MediumGray = Color(0xFF6c757d)
-val DarkGray = Color(0xFF343a40)
+val DarkGray = Color(0xFF25232B)
 
 val HighRate = Color(0xFF008000)
 val MediumRate = Color(0xFFeeef20)
 val LowRate = Color(0xFFd00000)
 
 val DarkCard = Color(0xFF212529)
-val LightCard = Color(0xFFfcf2f3)
+val LightCard = Color(0xFFDEC9E9)
 
 
 val ShimmerLightGray = Color(0xFFF1F1F1)
@@ -36,7 +36,7 @@ val ShimmerDarkGray = Color(0xFF1D1D1D)
 val ShimmerDarkGrayVariant = Color(0xFF252525)
 val ShimmerMediumGrayVariant = Color(0xFFACACAC)
 
-val LightFab = Color(0xFFFF7480)
+val LightFab = Color(0xFF9163CB)
 
 val Colors.tabIndicatorColor
 	@Composable

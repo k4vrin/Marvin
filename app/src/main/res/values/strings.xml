@@ -14,4 +14,6 @@
     <string name="back_icon">Back Icon</string>
     <string name="share_icon">Share Icon</string>
     <string name="add_icon">Share Icon</string>
+    <string name="cast">Cast</string>
+    <string name="crew">Crew</string>
 </resources>
