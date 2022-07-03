@@ -1,7 +1,7 @@
 package com.kavrin.marvin.data.repository
 
 import androidx.paging.PagingData
-import com.kavrin.marvin.domain.model.movie.api.MovieCreditApiResponse
+import com.kavrin.marvin.domain.model.movie.api.CreditApiResponse
 import com.kavrin.marvin.domain.model.movie.entities.Movie
 import com.kavrin.marvin.domain.model.movie.entities.relations.MovieAndPopular
 import com.kavrin.marvin.domain.model.movie.entities.relations.MovieAndTopRated
@@ -70,6 +70,10 @@ class Repository @Inject constructor(
 		return localDataSource.getMovieGenres(ids)
 	}
 
+	suspend fun getMovieCredits(id: Int): CreditApiResponse {
+		return movieRemote.getMovieCredits(id = id)
+	}
+
 	///////////////////////////////////////////////////////////////////////////
 	// Tv
 	///////////////////////////////////////////////////////////////////////////
@@ -114,8 +118,8 @@ class Repository @Inject constructor(
 		return localDataSource.getTvGenres(ids)
 	}
 
-	suspend fun getMovieCredits(id: Int): MovieCreditApiResponse {
-		return movieRemote.getMovieCredits(id = id)
+	suspend fun getTvCredits(id: Int): CreditApiResponse {
+		return tvRemote.getTvCredits(id = id)
 	}
 
 	///////////////////////////////////////////////////////////////////////////

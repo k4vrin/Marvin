@@ -6,7 +6,10 @@ import com.kavrin.marvin.domain.model.movie.api.Cast
 class GetCast(
     private val repository: Repository
 ) {
-    suspend operator fun invoke(id: Int): List<Cast> {
-        return repository.getMovieCredits(id = id).cast
+    suspend operator fun invoke(id: Int, isMovie: Boolean): List<Cast> {
+        return if (isMovie)
+            repository.getMovieCredits(id = id).cast
+        else
+            repository.getTvCredits(id = id).cast
     }
 }

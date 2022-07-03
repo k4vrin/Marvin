@@ -8,7 +8,7 @@ import com.kavrin.marvin.data.paging_source.movie.MoviePopularRemoteMediator
 import com.kavrin.marvin.data.paging_source.movie.MovieTopRatedRemoteMediator
 import com.kavrin.marvin.data.paging_source.movie.MovieTrendingRemoteMediator
 import com.kavrin.marvin.data.remote.TMDBMovieService
-import com.kavrin.marvin.domain.model.movie.api.MovieCreditApiResponse
+import com.kavrin.marvin.domain.model.movie.api.CreditApiResponse
 import com.kavrin.marvin.domain.model.movie.entities.Movie
 import com.kavrin.marvin.domain.model.movie.entities.relations.MovieAndPopular
 import com.kavrin.marvin.domain.model.movie.entities.relations.MovieAndTopRated
@@ -143,7 +143,7 @@ class MovieRemoteDataSourceImpl(
 		marvinDatabase.genreDao().insertMovieGenres(genres = response.movieGenres)
 	}
 
-	override suspend fun getMovieCredits(id: Int): MovieCreditApiResponse {
+	override suspend fun getMovieCredits(id: Int): CreditApiResponse {
 		return movieService.getMovieCredits(id = id)
 	}
 }

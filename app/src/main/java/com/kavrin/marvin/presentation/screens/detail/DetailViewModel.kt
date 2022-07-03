@@ -57,8 +57,10 @@ class DetailViewModel @Inject constructor(
         }
 
         viewModelScope.launch(Dispatchers.IO) {
-            _cast.value = id?.let { useCases.getCast(id = it) }
-            _crew.value = id?.let { useCases.getCrew(id = it) }
+            if (id != null && isMovie != null) {
+                _cast.value = useCases.getCast(id = id, isMovie = isMovie)
+                _crew.value = useCases.getCrew(id = id, isMovie = isMovie)
+            }
         }
     }
 
@@ -66,9 +68,11 @@ class DetailViewModel @Inject constructor(
         viewModelScope.launch(context = Dispatchers.IO) {
             isMovie?.let {
                 if (it) {
-                    _genres.value = selectedMovie.value?.let { it1 -> useCases.getMovieGenres(it1.genreIds) }
+                    _genres.value =
+                        selectedMovie.value?.let { it1 -> useCases.getMovieGenres(it1.genreIds) }
                 } else {
-                    _genres.value = selectedTv.value?.let { it1 -> useCases.getTvGenres(it1.genreIds) }
+                    _genres.value =
+                        selectedTv.value?.let { it1 -> useCases.getTvGenres(it1.genreIds) }
                 }
             }
         }

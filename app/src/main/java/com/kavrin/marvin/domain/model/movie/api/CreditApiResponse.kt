@@ -5,7 +5,7 @@ import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
 @Serializable
-data class MovieCreditApiResponse(
+data class CreditApiResponse(
     @SerialName("cast")
     val cast: List<Cast>,
     @SerialName("crew")

@@ -6,10 +6,6 @@ import kotlinx.serialization.Serializable
 
 @Serializable
 data class Crew(
-    @SerialName("adult")
-    val adult: Boolean,
-    @SerialName("credit_id")
-    val creditId: String,
     @SerialName("department")
     val department: String,
     @SerialName("gender")
@@ -18,8 +14,6 @@ data class Crew(
     val id: Int,
     @SerialName("job")
     val job: String,
-    @SerialName("known_for_department")
-    val knownForDepartment: String,
     @SerialName("name")
     val name: String,
     @SerialName("original_name")

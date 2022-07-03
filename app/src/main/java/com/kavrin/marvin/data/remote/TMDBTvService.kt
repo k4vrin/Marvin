@@ -1,9 +1,11 @@
 package com.kavrin.marvin.data.remote
 
 import com.kavrin.marvin.BuildConfig
+import com.kavrin.marvin.domain.model.movie.api.CreditApiResponse
 import com.kavrin.marvin.domain.model.tv.api.TvApiResponse
 import com.kavrin.marvin.domain.model.tv.api.TvGenreApiResponse
 import retrofit2.http.GET
+import retrofit2.http.Path
 import retrofit2.http.Query
 
 interface TMDBTvService {
@@ -42,4 +44,10 @@ interface TMDBTvService {
 	suspend fun getTvGenres(
 		@Query("api_key") apiKey: String = BuildConfig.API_KEY
 	): TvGenreApiResponse
+
+	@GET("tv/{id}/credits")
+	suspend fun getTvCredits(
+		@Path("id") id: Int,
+		@Query("api_key") apiKey: String = BuildConfig.API_KEY
+	): CreditApiResponse
 }

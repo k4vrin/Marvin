@@ -7,11 +7,21 @@ class GetCrew(
     private val repository: Repository
 ) {
 
-    suspend operator fun invoke(id: Int): List<Crew> {
-        return repository.getMovieCredits(id = id).crew
+    suspend operator fun invoke(id: Int, isMovie: Boolean): List<Crew> {
+        val response = if (isMovie)
+            repository.getMovieCredits(id = id).crew
+        else
+            repository.getTvCredits(id = id).crew
+
+        return response
             .filter {
-            it.job == "Screenplay" || it.job == "Producer" || it.job == "Director" || it.job == "Story"
-        }
+                (it.job == "Screenplay")
+                        || (it.job == "Producer")
+                        || (it.job == "Director")
+                        || (it.job == "Story")
+                        || (it.job == "Writer")
+                        || (it.job == "Executive Producer")
+            }
             .sortedWith(
                 compareBy(
                     {
@@ -21,7 +31,13 @@ class GetCrew(
                         it.job == "Story"
                     },
                     {
+                        it.job == "Executive Producer"
+                    },
+                    {
                         it.job == "Screenplay"
+                    },
+                    {
+                        it.job == "Writer"
                     },
                     {
                         it.job == "Director"
