@@ -2,8 +2,8 @@ package com.kavrin.marvin.presentation.screens.home
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
-import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.rememberLazyListState
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
@@ -92,90 +92,84 @@ fun MovieTabContent(
     trending: LazyPagingItems<MovieAndTrending>,
 ) {
 
-    val lazyListState = rememberLazyListState()
+    val scrollState = rememberScrollState()
 
 
 
-    LazyColumn(
+    Column(
         modifier = Modifier
             .fillMaxSize()
-            .background(color = MaterialTheme.colors.backGroundColor),
+            .background(color = MaterialTheme.colors.backGroundColor)
+            .verticalScroll(
+                state = scrollState
+            ),
         verticalArrangement = Arrangement.spacedBy(MEDIUM_PADDING),
-        state = lazyListState
     ) {
 
-        item {
-            Carousel(
-                items = carousel,
-                isMovie = true,
-                onItemClicked = { id, isMovie ->
-                    navHostController.navigate(
-                        Screen.Detail.passIdAndBool(
-                            id = id,
-                            isMovie = isMovie
-                        )
+        Carousel(
+            items = carousel,
+            isMovie = true,
+            onItemClicked = { id, isMovie ->
+                navHostController.navigate(
+                    Screen.Detail.passIdAndBool(
+                        id = id,
+                        isMovie = isMovie
                     )
-                },
-                onMenuIconClicked = {}
-            )
-        }
+                )
+            },
+            onMenuIconClicked = {}
+        )
 
-        item {
-            CardList(
-                cardListTitle = stringResource(R.string.trending),
-                items = trending,
-                isMovie = true,
-                onItemClicked = { id, isMovie ->
-                    navHostController.navigate(
-                        Screen.Detail.passIdAndBool(
-                            id = id,
-                            isMovie = isMovie
-                        )
+        CardList(
+            cardListTitle = stringResource(R.string.trending),
+            items = trending,
+            isMovie = true,
+            onItemClicked = { id, isMovie ->
+                navHostController.navigate(
+                    Screen.Detail.passIdAndBool(
+                        id = id,
+                        isMovie = isMovie
                     )
-                },
-                onMenuIconClicked = {}
-            )
-        }
+                )
+            },
+            onMenuIconClicked = {}
+        )
 
-        item {
-            CardList(
-                cardListTitle = stringResource(R.string.popular),
-                items = popular,
-                isMovie = true,
-                onItemClicked = { id, isMovie ->
-                    navHostController.navigate(
-                        Screen.Detail.passIdAndBool(
-                            id = id,
-                            isMovie = isMovie
-                        )
+        CardList(
+            cardListTitle = stringResource(R.string.popular),
+            items = popular,
+            isMovie = true,
+            onItemClicked = { id, isMovie ->
+                navHostController.navigate(
+                    Screen.Detail.passIdAndBool(
+                        id = id,
+                        isMovie = isMovie
                     )
-                },
-                onMenuIconClicked = {
+                )
+            },
+            onMenuIconClicked = {
 
-                }
-            )
-        }
+            }
+        )
 
-        item {
-            CardList(
-                cardListTitle = stringResource(R.string.top_rated),
-                items = topRated,
-                isMovie = true,
-                onItemClicked = { id, isMovie ->
-                    navHostController.navigate(
-                        Screen.Detail.passIdAndBool(
-                            id = id,
-                            isMovie = isMovie
-                        )
+        CardList(
+            cardListTitle = stringResource(R.string.top_rated),
+            items = topRated,
+            isMovie = true,
+            onItemClicked = { id, isMovie ->
+                navHostController.navigate(
+                    Screen.Detail.passIdAndBool(
+                        id = id,
+                        isMovie = isMovie
                     )
-                },
-                onMenuIconClicked = {
+                )
+            },
+            onMenuIconClicked = {
 
-                }
-            )
-        }
+            }
+        )
+
     }
-
 
 }
 
@@ -188,91 +182,83 @@ fun TvTabContent(
     trending: LazyPagingItems<TvAndTrending>,
 ) {
 
-    val lazyListState = rememberLazyListState()
+    val scrollState = rememberScrollState()
 
 
-    LazyColumn(
+    Column(
         modifier = Modifier
             .fillMaxSize()
-            .background(color = MaterialTheme.colors.backGroundColor),
+            .background(color = MaterialTheme.colors.backGroundColor)
+            .verticalScroll(
+                state = scrollState,
+            ),
         verticalArrangement = Arrangement.spacedBy(MEDIUM_PADDING),
-        state = lazyListState
     ) {
 
-        item {
-            Carousel(
-                items = carousel,
-                isMovie = false,
-                onItemClicked = { id, isMovie ->
-                    navHostController.navigate(
-                        Screen.Detail.passIdAndBool(
-                            id = id,
-                            isMovie = isMovie
-                        )
+        Carousel(
+            items = carousel,
+            isMovie = false,
+            onItemClicked = { id, isMovie ->
+                navHostController.navigate(
+                    Screen.Detail.passIdAndBool(
+                        id = id,
+                        isMovie = isMovie
                     )
-                },
-                onMenuIconClicked = {
+                )
+            },
+            onMenuIconClicked = {}
+        )
 
-                }
-            )
-        }
-
-        item {
-            CardList(
-                cardListTitle = stringResource(R.string.trending),
-                items = trending,
-                isMovie = false,
-                onItemClicked = { id, isMovie ->
-                    navHostController.navigate(
-                        Screen.Detail.passIdAndBool(
-                            id = id,
-                            isMovie = isMovie
-                        )
+        CardList(
+            cardListTitle = stringResource(R.string.trending),
+            items = trending,
+            isMovie = false,
+            onItemClicked = { id, isMovie ->
+                navHostController.navigate(
+                    Screen.Detail.passIdAndBool(
+                        id = id,
+                        isMovie = isMovie
                     )
-                },
-                onMenuIconClicked = {
+                )
+            },
+            onMenuIconClicked = {
 
-                }
-            )
-        }
+            }
+        )
 
-        item {
-            CardList(
-                cardListTitle = stringResource(R.string.popular),
-                items = popular,
-                isMovie = false,
-                onItemClicked = { id, isMovie ->
-                    navHostController.navigate(
-                        Screen.Detail.passIdAndBool(
-                            id = id,
-                            isMovie = isMovie
-                        )
+        CardList(
+            cardListTitle = stringResource(R.string.popular),
+            items = popular,
+            isMovie = false,
+            onItemClicked = { id, isMovie ->
+                navHostController.navigate(
+                    Screen.Detail.passIdAndBool(
+                        id = id,
+                        isMovie = isMovie
                     )
-                },
-                onMenuIconClicked = {
+                )
+            },
+            onMenuIconClicked = {
 
-                }
-            )
-        }
+            }
+        )
 
-        item {
-            CardList(
-                cardListTitle = stringResource(R.string.top_rated),
-                items = topRated,
-                isMovie = false,
-                onItemClicked = { id, isMovie ->
-                    navHostController.navigate(
-                        Screen.Detail.passIdAndBool(
-                            id = id,
-                            isMovie = isMovie
-                        )
+        CardList(
+            cardListTitle = stringResource(R.string.top_rated),
+            items = topRated,
+            isMovie = false,
+            onItemClicked = { id, isMovie ->
+                navHostController.navigate(
+                    Screen.Detail.passIdAndBool(
+                        id = id,
+                        isMovie = isMovie
                     )
-                },
-                onMenuIconClicked = {
+                )
+            },
+            onMenuIconClicked = {
 
-                }
-            )
-        }
+            }
+        )
     }
 
 }
