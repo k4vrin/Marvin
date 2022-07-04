@@ -2,7 +2,6 @@ package com.kavrin.marvin.presentation.screens.home
 
 import androidx.compose.foundation.layout.systemBarsPadding
 import androidx.compose.material.MaterialTheme
-import androidx.compose.material.Scaffold
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.SideEffect
 import androidx.compose.ui.Modifier
@@ -11,6 +10,9 @@ import androidx.navigation.NavHostController
 import androidx.paging.compose.collectAsLazyPagingItems
 import com.google.accompanist.systemuicontroller.rememberSystemUiController
 import com.kavrin.marvin.ui.theme.statusBarColor
+import me.onebone.toolbar.CollapsingToolbarScaffold
+import me.onebone.toolbar.ScrollStrategy
+import me.onebone.toolbar.rememberCollapsingToolbarScaffoldState
 
 @Composable
 fun HomeScreen(
@@ -35,17 +37,17 @@ fun HomeScreen(
 		ui.setStatusBarColor(color = color, darkIcons = useDarkIcons)
 	}
 
-
-	Scaffold(
+	CollapsingToolbarScaffold(
 		modifier = Modifier
 			.systemBarsPadding(),
-		topBar = {
+		state = rememberCollapsingToolbarScaffoldState(),
+		scrollStrategy = ScrollStrategy.EnterAlways,
+		toolbar = {
 			HomeTopBar(
 				onSearchClicked = {}
 			)
 		}
 	) {
-
 		HomeContent(
 			navHostController = navController,
 			carouselMovies = carouselMovies,
@@ -56,7 +58,6 @@ fun HomeScreen(
 			popularTvs = popularTvs,
 			topRatedTvs = topRatedTvs,
 			trendingTvs = trendingTvs,
-			paddingValues = it
 		)
 	}
 
