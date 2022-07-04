@@ -8,7 +8,10 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
-import androidx.compose.runtime.*
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.alpha
@@ -19,7 +22,6 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
-import com.google.accompanist.systemuicontroller.rememberSystemUiController
 import com.kavrin.marvin.R
 import com.kavrin.marvin.navigation.Screen
 import com.kavrin.marvin.ui.theme.AntiqueBrass
@@ -33,16 +35,16 @@ fun SplashScreen(
     splashViewModel: SplashViewModel = hiltViewModel()
 ) {
 
-    val ui = rememberSystemUiController()
-    val statusBarColor = if (isSystemInDarkTheme()) Color.Black else SilverPink
-    val useDarkIcon = MaterialTheme.colors.isLight
-
-    SideEffect {
-        ui.setStatusBarColor(
-			color = statusBarColor,
-			darkIcons = useDarkIcon
-		)
-    }
+//    val ui = rememberSystemUiController()
+//    val statusBarColor = if (isSystemInDarkTheme()) Color.Black else SilverPink
+//    val useDarkIcon = MaterialTheme.colors.isLight
+//
+//    SideEffect {
+//        ui.setStatusBarColor(
+//			color = statusBarColor,
+//			darkIcons = useDarkIcon
+//		)
+//    }
 
     val onBoardingState = splashViewModel.onBoardingCompleted.collectAsState()
 
