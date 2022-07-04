@@ -40,7 +40,7 @@ object Constants {
 	const val PREFERENCES_KEY = "on_boarding_completed"
 
 	const val ITEMS_PER_PAGE = 10
-	const val ITEMS_IN_HOME = 10
+	const val ITEMS_IN_HOME = 4
 	const val CAROUSEL_ITEMS = 7
 
 	const val FIRST_REQUEST_DEFAULT = 0L

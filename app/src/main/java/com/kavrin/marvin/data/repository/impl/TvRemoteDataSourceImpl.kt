@@ -14,6 +14,7 @@ import com.kavrin.marvin.domain.model.tv.entities.relations.TvAndPopular
 import com.kavrin.marvin.domain.model.tv.entities.relations.TvAndTopRated
 import com.kavrin.marvin.domain.model.tv.entities.relations.TvAndTrending
 import com.kavrin.marvin.domain.repository.TvRemoteDataSource
+import com.kavrin.marvin.util.Constants.ITEMS_IN_HOME
 import com.kavrin.marvin.util.Constants.ITEMS_PER_PAGE
 import kotlinx.coroutines.flow.Flow
 
@@ -81,7 +82,10 @@ class TvRemoteDataSourceImpl(
 		}
 
 		return Pager(
-			config = PagingConfig(pageSize = ITEMS_PER_PAGE),
+			config = PagingConfig(
+				pageSize = ITEMS_IN_HOME,
+				maxSize = ITEMS_IN_HOME * 3
+			),
 			remoteMediator = TvTrendingRemoteMediator(
 				tvService = tvService,
 				marvinDatabase = marvinDatabase
@@ -96,7 +100,10 @@ class TvRemoteDataSourceImpl(
 		}
 
 		return Pager(
-			config = PagingConfig(pageSize = ITEMS_PER_PAGE),
+			config = PagingConfig(
+				pageSize = ITEMS_IN_HOME,
+				maxSize = ITEMS_IN_HOME * 3
+			),
 			remoteMediator = TvPopularRemoteMediator(
 				tvService = tvService,
 				marvinDatabase = marvinDatabase
@@ -110,7 +117,10 @@ class TvRemoteDataSourceImpl(
 		}
 
 		return Pager(
-			config = PagingConfig(pageSize = ITEMS_PER_PAGE),
+			config = PagingConfig(
+				pageSize = ITEMS_IN_HOME,
+				maxSize = ITEMS_IN_HOME * 3
+			),
 			remoteMediator = TvTopRatedRemoteMediator(
 				tvService = tvService,
 				marvinDatabase = marvinDatabase
@@ -124,7 +134,10 @@ class TvRemoteDataSourceImpl(
 		}
 
 		return Pager(
-			config = PagingConfig(pageSize = ITEMS_PER_PAGE),
+			config = PagingConfig(
+				pageSize = ITEMS_IN_HOME,
+				maxSize = ITEMS_IN_HOME * 3
+			),
 			remoteMediator = TvTrendingRemoteMediator(
 				tvService = tvService,
 				marvinDatabase = marvinDatabase

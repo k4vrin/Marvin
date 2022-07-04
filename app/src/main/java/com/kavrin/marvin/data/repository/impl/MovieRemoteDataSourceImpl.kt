@@ -14,6 +14,7 @@ import com.kavrin.marvin.domain.model.movie.entities.relations.MovieAndPopular
 import com.kavrin.marvin.domain.model.movie.entities.relations.MovieAndTopRated
 import com.kavrin.marvin.domain.model.movie.entities.relations.MovieAndTrending
 import com.kavrin.marvin.domain.repository.MovieRemoteDataSource
+import com.kavrin.marvin.util.Constants.ITEMS_IN_HOME
 import com.kavrin.marvin.util.Constants.ITEMS_PER_PAGE
 import kotlinx.coroutines.flow.Flow
 
@@ -79,7 +80,10 @@ class MovieRemoteDataSourceImpl(
 		}
 
 		return Pager(
-			config = PagingConfig(pageSize = ITEMS_PER_PAGE),
+			config = PagingConfig(
+				pageSize = ITEMS_IN_HOME,
+				maxSize = ITEMS_IN_HOME * 3
+			),
 			remoteMediator = MovieTrendingRemoteMediator(
 				movieService = movieService,
 				marvinDatabase = marvinDatabase
@@ -94,7 +98,10 @@ class MovieRemoteDataSourceImpl(
 		}
 
 		return Pager(
-			config = PagingConfig(pageSize = ITEMS_PER_PAGE),
+			config = PagingConfig(
+				pageSize = ITEMS_IN_HOME,
+				maxSize = ITEMS_IN_HOME * 3
+			),
 			remoteMediator = MoviePopularRemoteMediator(
 				movieService = movieService,
 				marvinDatabase = marvinDatabase
@@ -108,7 +115,10 @@ class MovieRemoteDataSourceImpl(
 		}
 
 		return Pager(
-			config = PagingConfig(pageSize = ITEMS_PER_PAGE),
+			config = PagingConfig(
+				pageSize = ITEMS_IN_HOME,
+				maxSize = ITEMS_IN_HOME * 3
+			),
 			remoteMediator = MovieTopRatedRemoteMediator(
 				movieService = movieService,
 				marvinDatabase = marvinDatabase
@@ -122,7 +132,10 @@ class MovieRemoteDataSourceImpl(
 		}
 
 		return Pager(
-			config = PagingConfig(pageSize = ITEMS_PER_PAGE),
+			config = PagingConfig(
+				pageSize = ITEMS_IN_HOME,
+				maxSize = ITEMS_IN_HOME * 3
+			),
 			remoteMediator = MovieTrendingRemoteMediator(
 				movieService = movieService,
 				marvinDatabase = marvinDatabase
