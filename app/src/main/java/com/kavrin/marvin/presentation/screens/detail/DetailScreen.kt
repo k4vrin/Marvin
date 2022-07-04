@@ -29,7 +29,7 @@ import kotlinx.coroutines.cancelChildren
 import kotlinx.coroutines.launch
 
 
-private val MinToolbarHeight = 96.dp
+private val MinToolbarHeight = 128.dp
 private val MaxToolbarHeight = 250.dp
 
 

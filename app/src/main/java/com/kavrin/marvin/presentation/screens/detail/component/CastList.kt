@@ -55,7 +55,7 @@ fun CastList(
             items(
                 items = cast,
                 key = {
-                    it.id
+                    it.creditId
                 }
             ) { cast ->
                 CreditItem(name = cast.name, character = cast.character, image = cast.profilePath)
@@ -102,7 +102,7 @@ fun CrewList(
             items(
                 items = crew,
                 key = {
-                    it.id
+                    it.creditId
                 }
             ) { crew ->
                 CreditItem(name = crew.name, character = crew.job, image = crew.profilePath)

@@ -79,7 +79,7 @@ fun CreditItem(
                     text = name,
                     color = MaterialTheme.colors.cardContentColor,
                     fontFamily = fonts,
-                    fontSize = MaterialTheme.typography.h6.fontSize,
+                    fontSize = MaterialTheme.typography.body1.fontSize,
                     fontWeight = FontWeight.Bold,
                     maxLines = 2,
                     overflow = TextOverflow.Ellipsis
@@ -94,7 +94,7 @@ fun CreditItem(
                     color = MaterialTheme.colors.cardContentColor,
                     fontFamily = fonts,
                     fontSize = MaterialTheme.typography.body2.fontSize,
-                    fontWeight = FontWeight.Bold,
+                    fontWeight = FontWeight.Normal,
                     maxLines = 2,
                     overflow = TextOverflow.Ellipsis
                 )
