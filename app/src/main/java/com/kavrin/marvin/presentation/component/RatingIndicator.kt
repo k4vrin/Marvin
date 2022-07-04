@@ -1,7 +1,5 @@
 package com.kavrin.marvin.presentation.component
 
-import androidx.compose.animation.core.animateFloatAsState
-import androidx.compose.animation.core.tween
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -57,19 +55,22 @@ fun RatingIndicator(
 		maxIndicatorValue
 
 	///// Assign Anim Value When voteAvg change /////
-	var animIndicatorValue by remember {
-		mutableStateOf(0f)
-	}
-	LaunchedEffect(key1 = allowedIndicatorValue) {
-		animIndicatorValue = allowedIndicatorValue
-	}
+//	var animIndicatorValue by remember {
+//		mutableStateOf(0f)
+//	}
+//	LaunchedEffect(key1 = allowedIndicatorValue) {
+//		animIndicatorValue = allowedIndicatorValue
+//	}
 
 	///// Animate Vote /////
-	val percentage = (animIndicatorValue / maxIndicatorValue) * 100
-	val sweepAngle by animateFloatAsState(
-		targetValue = (3.6 * percentage).toFloat(),
-		animationSpec = tween(durationMillis = 1000)
-	)
+	val percentage = (allowedIndicatorValue / maxIndicatorValue) * 100
+
+//	val sweepAngle by animateFloatAsState(
+//		targetValue = (3.6 * percentage).toFloat(),
+//		animationSpec = tween(durationMillis = 1000)
+//	)
+
+	val sweepAngle = (3.6 * percentage).toFloat()
 
 	///// Foreground Color /////
 	val foregroundIndicatorColor = when (allowedIndicatorValue) {
