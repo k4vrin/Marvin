@@ -16,3 +16,6 @@ local.properties
 /gradle.properties
 gradle.properties
 /app/release/app-release.aab
+
+/keystore.properties
+keystore.properties

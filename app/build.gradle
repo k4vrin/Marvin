@@ -6,13 +6,17 @@ plugins {
     id 'kotlinx-serialization'
 }
 
+def keystorePropertiesFile= rootProject.file("keystore.properties")
+def keystoreProperties = new Properties()
+keystoreProperties.load(new FileInputStream(keystorePropertiesFile))
+
 android {
     signingConfigs {
         release {
-            storeFile file('C:\\Users\\HP\\keys\\marvin-release.jks')
-            storePassword 'marvin'
-            keyPassword 'marvin'
-            keyAlias 'marvin-key'
+            storeFile file(keystoreProperties['storeFile'])
+            storePassword keystoreProperties['storePassword']
+            keyPassword keystoreProperties['keyPassword']
+            keyAlias keystoreProperties['keyAlias']
         }
     }
     namespace 'com.kavrin.marvin'
@@ -34,12 +38,12 @@ android {
     buildTypes {
         release {
             minifyEnabled true
+            shrinkResources true
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
             signingConfig signingConfigs.release
         }
         debug {
             minifyEnabled false
-            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
     }
     compileOptions {
