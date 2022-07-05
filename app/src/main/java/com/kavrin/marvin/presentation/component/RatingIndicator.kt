@@ -1,5 +1,9 @@
 package com.kavrin.marvin.presentation.component
 
+import android.util.Log
+import androidx.compose.animation.core.Spring
+import androidx.compose.animation.core.animateFloatAsState
+import androidx.compose.animation.core.spring
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -28,168 +32,179 @@ import java.text.DecimalFormat
 
 @Composable
 fun RatingIndicator(
-	voteAvg: Double?,
-	voteCount: Int?,
-	modifier: Modifier = Modifier,
-	canvasSize: Dp = 300.dp,
-	maxIndicatorValue: Float = 10f,
-	backgroundIndicatorStrokeWidth: Float = 50f,
-	foregroundIndicatorStrokeWidth: Float = 50f,
-	bigTextFontSize: TextUnit = MaterialTheme.typography.h5.fontSize,
-	bigTextColor: Color = Color.White,
-	smallTextFontSize: TextUnit = MaterialTheme.typography.overline.fontSize,
-	smallTextColor: Color = Color.White.copy(alpha = 0.5f),
+    voteAvg: Double?,
+    voteCount: Int?,
+    modifier: Modifier = Modifier,
+    enableAnimation: Boolean = false,
+    canvasSize: Dp = 300.dp,
+    maxIndicatorValue: Float = 10f,
+    backgroundIndicatorStrokeWidth: Float = 50f,
+    foregroundIndicatorStrokeWidth: Float = 50f,
+    bigTextFontSize: TextUnit = MaterialTheme.typography.h5.fontSize,
+    bigTextColor: Color = Color.White,
+    smallTextFontSize: TextUnit = MaterialTheme.typography.overline.fontSize,
+    smallTextColor: Color = Color.White.copy(alpha = 0.5f),
 ) {
+    Log.d("RatingIndicator", "call")
 
-	///// Handle null /////
-	val mVoteAvg = voteAvg ?: 0.0
-	val mVoteCount = voteCount ?: 0
+    ///// Handle null /////
+    val mVoteAvg = voteAvg ?: 0.0
+    val mVoteCount = voteCount ?: 0
 
-	///// Handle Vote Max /////
-	var allowedIndicatorValue by remember {
-		mutableStateOf(maxIndicatorValue)
-	}
-	allowedIndicatorValue = if (mVoteAvg <= maxIndicatorValue)
-		DecimalFormat("#.#").format(mVoteAvg).toFloat()
-	else
-		maxIndicatorValue
+    ///// Handle Vote Max /////
+    var allowedIndicatorValue by remember {
+        mutableStateOf(maxIndicatorValue)
+    }
+    allowedIndicatorValue = if (mVoteAvg <= maxIndicatorValue)
+        DecimalFormat("#.#").format(mVoteAvg).toFloat()
+    else
+        maxIndicatorValue
 
-	///// Assign Anim Value When voteAvg change /////
-//	var animIndicatorValue by remember {
-//		mutableStateOf(0f)
-//	}
-//	LaunchedEffect(key1 = allowedIndicatorValue) {
-//		animIndicatorValue = allowedIndicatorValue
-//	}
+    ///// Assign Anim Value When voteAvg change /////
+    var animIndicatorValue by remember {
+        mutableStateOf(0f)
+    }
+    LaunchedEffect(key1 = allowedIndicatorValue) {
+        animIndicatorValue = allowedIndicatorValue
+    }
 
-	///// Animate Vote /////
-	val percentage = (allowedIndicatorValue / maxIndicatorValue) * 100
+    ///// Animate Vote /////
+    val percentage = (animIndicatorValue / maxIndicatorValue) * 100
 
 //	val sweepAngle by animateFloatAsState(
 //		targetValue = (3.6 * percentage).toFloat(),
 //		animationSpec = tween(durationMillis = 1000)
 //	)
 
-	val sweepAngle = (3.6 * percentage).toFloat()
+    val sweepAngle by if (enableAnimation) {
+        animateFloatAsState(
+            targetValue = (3.6 * percentage).toFloat(),
+            animationSpec = spring(
+                dampingRatio = Spring.DampingRatioMediumBouncy,
+                stiffness = Spring.StiffnessVeryLow
+            )
+        )
+    } else {
+        rememberUpdatedState(newValue = (3.6 * percentage).toFloat())
+    }
+    ///// Foreground Color /////
+    val foregroundIndicatorColor = when (allowedIndicatorValue) {
+        in 0f..4f -> LowRate
+        in 4f..7f -> MediumRate
+        else -> HighRate
+    }
+    ///// BackGround Color /////
+    val backgroundIndicatorColor = foregroundIndicatorColor.copy(alpha = 0.3f)
 
-	///// Foreground Color /////
-	val foregroundIndicatorColor = when (allowedIndicatorValue) {
-		in 0f..4f -> LowRate
-		in 4f..7f -> MediumRate
-		else -> HighRate
-	}
-	///// BackGround Color /////
-	val backgroundIndicatorColor = foregroundIndicatorColor.copy(alpha = 0.3f)
+    ///// Container /////
+    Column(
+        modifier = modifier
+            .size(canvasSize)
+            .background(
+                color = ShimmerDarkGray,
+                shape = CircleShape
+            )
+            .drawBehind {
+                val componentSize = size / 1.25f
+                backgroundIndicator(
+                    componentSize = componentSize,
+                    indicatorColor = backgroundIndicatorColor,
+                    indicatorStrokeWidth = backgroundIndicatorStrokeWidth
+                )
+                foregroundIndicator(
+                    sweepAngle = sweepAngle,
+                    componentSize = componentSize,
+                    indicatorColor = foregroundIndicatorColor,
+                    indicatorStrokeWidth = foregroundIndicatorStrokeWidth
+                )
+            },
+        verticalArrangement = Arrangement.Center,
+        horizontalAlignment = Alignment.CenterHorizontally
+    ) {
 
-	///// Container /////
-	Column(
-		modifier = modifier
-			.size(canvasSize)
-			.background(
-				color = ShimmerDarkGray,
-				shape = CircleShape
-			)
-			.drawBehind {
-				val componentSize = size / 1.25f
-				backgroundIndicator(
-					componentSize = componentSize,
-					indicatorColor = backgroundIndicatorColor,
-					indicatorStrokeWidth = backgroundIndicatorStrokeWidth
-				)
-				foregroundIndicator(
-					sweepAngle = sweepAngle,
-					componentSize = componentSize,
-					indicatorColor = foregroundIndicatorColor,
-					indicatorStrokeWidth = foregroundIndicatorStrokeWidth
-				)
-			},
-		verticalArrangement = Arrangement.Center,
-		horizontalAlignment = Alignment.CenterHorizontally
-	) {
+        EmbeddedElements(
+            bigText = allowedIndicatorValue,
+            bigTextColor = bigTextColor,
+            bigTextFontSize = bigTextFontSize,
+            smallText = mVoteCount,
+            smallTextColor = smallTextColor,
+            smallTextFontSize = smallTextFontSize
+        )
 
-		EmbeddedElements(
-			bigText = allowedIndicatorValue,
-			bigTextColor = bigTextColor,
-			bigTextFontSize = bigTextFontSize,
-			smallText = mVoteCount,
-			smallTextColor = smallTextColor,
-			smallTextFontSize = smallTextFontSize
-		)
-
-	}
+    }
 }
 
 fun DrawScope.backgroundIndicator(
-	componentSize: Size,
-	indicatorColor: Color,
-	indicatorStrokeWidth: Float,
+    componentSize: Size,
+    indicatorColor: Color,
+    indicatorStrokeWidth: Float,
 ) {
-	drawArc(
-		size = componentSize,
-		color = indicatorColor,
-		startAngle = 0f,
-		sweepAngle = 360f,
-		useCenter = false,
-		style = Stroke(
-			width = indicatorStrokeWidth
-		),
-		topLeft = Offset(
-			x = (size.width - componentSize.width) / 2f,
-			y = (size.height - componentSize.height) / 2f
-		)
-	)
+    drawArc(
+        size = componentSize,
+        color = indicatorColor,
+        startAngle = 0f,
+        sweepAngle = 360f,
+        useCenter = false,
+        style = Stroke(
+            width = indicatorStrokeWidth
+        ),
+        topLeft = Offset(
+            x = (size.width - componentSize.width) / 2f,
+            y = (size.height - componentSize.height) / 2f
+        )
+    )
 }
 
 fun DrawScope.foregroundIndicator(
-	sweepAngle: Float,
-	componentSize: Size,
-	indicatorColor: Color,
-	indicatorStrokeWidth: Float,
+    sweepAngle: Float,
+    componentSize: Size,
+    indicatorColor: Color,
+    indicatorStrokeWidth: Float,
 ) {
-	drawArc(
-		size = componentSize,
-		color = indicatorColor,
-		startAngle = 270f,
-		sweepAngle = sweepAngle,
-		useCenter = false,
-		style = Stroke(
-			width = indicatorStrokeWidth,
-			cap = StrokeCap.Round
-		),
-		topLeft = Offset(
-			x = (size.width - componentSize.width) / 2f,
-			y = (size.height - componentSize.height) / 2f
-		)
-	)
+    drawArc(
+        size = componentSize,
+        color = indicatorColor,
+        startAngle = 270f,
+        sweepAngle = sweepAngle,
+        useCenter = false,
+        style = Stroke(
+            width = indicatorStrokeWidth,
+            cap = StrokeCap.Round
+        ),
+        topLeft = Offset(
+            x = (size.width - componentSize.width) / 2f,
+            y = (size.height - componentSize.height) / 2f
+        )
+    )
 }
 
 @Composable
 fun EmbeddedElements(
-	bigText: Float,
-	bigTextColor: Color,
-	bigTextFontSize: TextUnit,
-	smallText: Int,
-	smallTextColor: Color,
-	smallTextFontSize: TextUnit,
+    bigText: Float,
+    bigTextColor: Color,
+    bigTextFontSize: TextUnit,
+    smallText: Int,
+    smallTextColor: Color,
+    smallTextFontSize: TextUnit,
 ) {
 
 
-	Text(
-		text = bigText.toString(),
-		fontFamily = fonts,
-		color = bigTextColor,
-		fontSize = bigTextFontSize,
-		textAlign = TextAlign.Center,
-		fontWeight = FontWeight.Bold
-	)
+    Text(
+        text = bigText.toString(),
+        fontFamily = fonts,
+        color = bigTextColor,
+        fontSize = bigTextFontSize,
+        textAlign = TextAlign.Center,
+        fontWeight = FontWeight.Bold
+    )
 
-	Text(
-		text = smallText.toString(),
-		fontFamily = fonts,
-		color = smallTextColor,
-		fontSize = smallTextFontSize,
-		textAlign = TextAlign.Center
-	)
+    Text(
+        text = smallText.toString(),
+        fontFamily = fonts,
+        color = smallTextColor,
+        fontSize = smallTextFontSize,
+        textAlign = TextAlign.Center
+    )
 
 }
 
@@ -197,10 +212,10 @@ fun EmbeddedElements(
 @Preview()
 @Composable
 fun RatingComponentPrev() {
-	RatingIndicator(
-		voteAvg = 8.8,
-		voteCount = 4654,
-		bigTextFontSize = MaterialTheme.typography.h1.fontSize,
-		smallTextFontSize = MaterialTheme.typography.h4.fontSize,
-	)
+    RatingIndicator(
+        voteAvg = 8.8,
+        voteCount = 4654,
+        bigTextFontSize = MaterialTheme.typography.h1.fontSize,
+        smallTextFontSize = MaterialTheme.typography.h4.fontSize,
+    )
 }

@@ -64,6 +64,7 @@ fun MovieTvItem(
                         .offset(x = RATING_CAROUSEL_X_OFFSET, y = RATING_CAROUSEL_Y_OFFSET),
                     voteAvg = rating,
                     voteCount = voteCount,
+                    enableAnimation = true ,
                     canvasSize = CARD_CANVAS_SIZE,
                     backgroundIndicatorStrokeWidth = 10f,
                     foregroundIndicatorStrokeWidth = 10f,

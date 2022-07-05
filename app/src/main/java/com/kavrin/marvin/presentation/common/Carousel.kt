@@ -116,6 +116,7 @@ fun <T : MarvinItem> Carousel(
                         canvasSize = CAROUSEL_CANVAS_SIZE,
                         voteAvg = rating,
                         voteCount = voteCount,
+                        enableAnimation = true,
                         backgroundIndicatorStrokeWidth = 10f,
                         foregroundIndicatorStrokeWidth = 10f
                     )
