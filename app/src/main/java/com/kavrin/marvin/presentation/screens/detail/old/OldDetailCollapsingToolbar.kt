@@ -1,4 +1,4 @@
-package com.kavrin.marvin.presentation.screens.detail
+package com.kavrin.marvin.presentation.screens.detail.old
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
@@ -32,7 +32,7 @@ import kotlin.math.roundToInt
 import com.kavrin.marvin.util.lerp as marvinLerp
 
 @Composable
-fun CollapsingToolbar(
+fun DetailCollapsingToolbar(
     progress: Float,
     backdrop: String,
     title: String,
@@ -270,7 +270,7 @@ fun CollapsingTollBarLayout(
 @Composable
 fun CollapsingExpandedPreview() {
     MarvinTheme {
-        CollapsingToolbar(
+        DetailCollapsingToolbar(
             progress = 1f,
             onBackButtonClicked = {},
             onShareButtonClocked = {},
@@ -287,7 +287,7 @@ fun CollapsingExpandedPreview() {
 @Composable
 fun CollapsingHalfPreview() {
     MarvinTheme {
-        CollapsingToolbar(
+        DetailCollapsingToolbar(
             progress = 0.5f,
             onBackButtonClicked = {},
             onShareButtonClocked = {},
@@ -304,7 +304,7 @@ fun CollapsingHalfPreview() {
 @Composable
 fun CollapsingCollapsedPreview() {
     MarvinTheme {
-        CollapsingToolbar(
+        DetailCollapsingToolbar(
             progress = 0f,
             onBackButtonClicked = {},
             onShareButtonClocked = {},

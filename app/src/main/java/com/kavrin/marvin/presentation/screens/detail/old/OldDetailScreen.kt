@@ -22,9 +22,10 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
 import com.google.accompanist.systemuicontroller.rememberSystemUiController
-import com.kavrin.marvin.presentation.screens.detail.state.toolbar.FixedScrollFlagState
-import com.kavrin.marvin.presentation.screens.detail.state.toolbar.ToolbarState
-import com.kavrin.marvin.presentation.screens.detail.state.toolbar.scroll_flags.ExitUntilCollapsedState
+import com.kavrin.marvin.presentation.screens.detail.old.DetailCollapsingToolbar
+import com.kavrin.marvin.presentation.screens.detail.old.state.toolbar.FixedScrollFlagState
+import com.kavrin.marvin.presentation.screens.detail.old.state.toolbar.ToolbarState
+import com.kavrin.marvin.presentation.screens.detail.old.state.toolbar.scroll_flags.ExitUntilCollapsedState
 import kotlinx.coroutines.cancelChildren
 import kotlinx.coroutines.launch
 
@@ -111,7 +112,7 @@ fun DetailScreen(
             .navigationBarsPadding()
     ) {
 
-        DetailsContent(
+        OldDetailsContent(
             isMovie = isMovie,
             genres = genres,
             movie = movie,
@@ -132,7 +133,7 @@ fun DetailScreen(
                 }
         )
 
-        CollapsingToolbar(
+        DetailCollapsingToolbar(
             progress = toolbarState.progress,
             onBackButtonClicked = {
                 navController.navigateUp()
