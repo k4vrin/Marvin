@@ -15,10 +15,12 @@ interface MoviePopularDao {
     suspend fun deleteAllPopular()
 
     @Transaction
+    @RewriteQueriesToDropUnusedColumns
     @Query("SELECT * FROM movie_table, movie_popular_table WHERE movieId = popularMovieId ORDER BY movie_popular_table.id ASC")
     fun getMovieAndPopular(): PagingSource<Int, MovieAndPopular>
 
     @Transaction
+    @RewriteQueriesToDropUnusedColumns
     @Query("SELECT * FROM movie_table, movie_popular_table WHERE movieId = popularMovieId ORDER BY movie_popular_table.id ASC LIMIT 8")
     fun getHomeMovieAndPopular(): PagingSource<Int, MovieAndPopular>
 

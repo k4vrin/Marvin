@@ -15,14 +15,17 @@ interface MovieTrendingDao {
 	suspend fun deleteAllTrending()
 
 	@Transaction
+	@RewriteQueriesToDropUnusedColumns
 	@Query("SELECT * FROM movie_table, movie_trending_table WHERE movieId = trendingMovieId ORDER BY movie_trending_table.id ASC")
 	fun getMovieAndTrending(): PagingSource<Int, MovieAndTrending>
 
 	@Transaction
+	@RewriteQueriesToDropUnusedColumns
 	@Query("SELECT * FROM movie_table, movie_trending_table WHERE movieId = trendingMovieId ORDER BY popularity DESC LIMIT 5")
 	fun getCarouselMovies(): PagingSource<Int, MovieAndTrending>
 
 	@Transaction
+	@RewriteQueriesToDropUnusedColumns
 	@Query("SELECT * FROM movie_table, movie_trending_table WHERE movieId = trendingMovieId ORDER BY movie_trending_table.id ASC LIMIT 8")
 	fun getHomeMovieAndTrending(): PagingSource<Int, MovieAndTrending>
 

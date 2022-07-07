@@ -1,11 +1,12 @@
 package com.kavrin.marvin.data.repository
 
 import androidx.paging.PagingData
-import com.kavrin.marvin.domain.model.movie.api.CreditApiResponse
+import com.kavrin.marvin.domain.model.movie.api.detail.SingleMovieApiResponse
 import com.kavrin.marvin.domain.model.movie.entities.Movie
 import com.kavrin.marvin.domain.model.movie.entities.relations.MovieAndPopular
 import com.kavrin.marvin.domain.model.movie.entities.relations.MovieAndTopRated
 import com.kavrin.marvin.domain.model.movie.entities.relations.MovieAndTrending
+import com.kavrin.marvin.domain.model.tv.api.detail.SingleTvApiResponse
 import com.kavrin.marvin.domain.model.tv.entities.Tv
 import com.kavrin.marvin.domain.model.tv.entities.relations.TvAndPopular
 import com.kavrin.marvin.domain.model.tv.entities.relations.TvAndTopRated
@@ -70,8 +71,8 @@ class Repository @Inject constructor(
 		return localDataSource.getMovieGenres(ids)
 	}
 
-	suspend fun getMovieCredits(id: Int): CreditApiResponse {
-		return movieRemote.getMovieCredits(id = id)
+	suspend fun getMovieDetails(id: Int): SingleMovieApiResponse {
+		return movieRemote.getMovieDetails(id = id)
 	}
 
 	///////////////////////////////////////////////////////////////////////////
@@ -118,8 +119,8 @@ class Repository @Inject constructor(
 		return localDataSource.getTvGenres(ids)
 	}
 
-	suspend fun getTvCredits(id: Int): CreditApiResponse {
-		return tvRemote.getTvCredits(id = id)
+	suspend fun getTvDetails(id: Int): SingleTvApiResponse {
+		return tvRemote.getTvDetails(id = id)
 	}
 
 	///////////////////////////////////////////////////////////////////////////

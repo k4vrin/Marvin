@@ -8,7 +8,7 @@ import com.kavrin.marvin.data.paging_source.series.TvPopularRemoteMediator
 import com.kavrin.marvin.data.paging_source.series.TvTopRatedRemoteMediator
 import com.kavrin.marvin.data.paging_source.series.TvTrendingRemoteMediator
 import com.kavrin.marvin.data.remote.TMDBTvService
-import com.kavrin.marvin.domain.model.movie.api.CreditApiResponse
+import com.kavrin.marvin.domain.model.tv.api.detail.SingleTvApiResponse
 import com.kavrin.marvin.domain.model.tv.entities.Tv
 import com.kavrin.marvin.domain.model.tv.entities.relations.TvAndPopular
 import com.kavrin.marvin.domain.model.tv.entities.relations.TvAndTopRated
@@ -146,6 +146,14 @@ class TvRemoteDataSourceImpl(
 		).flow	}
 
 	///////////////////////////////////////////////////////////////////////////
+	// Details
+	///////////////////////////////////////////////////////////////////////////
+
+	override suspend fun getTvDetails(id: Int): SingleTvApiResponse {
+		return tvService.getTvDetails(id = id)
+	}
+
+	///////////////////////////////////////////////////////////////////////////
 	// Search
 	///////////////////////////////////////////////////////////////////////////
 
@@ -156,9 +164,5 @@ class TvRemoteDataSourceImpl(
 	override suspend fun saveTvGenres() {
 		val response = tvService.getTvGenres()
 		marvinDatabase.genreDao().insertTvGenres(genres = response.tvGenres)
-	}
-
-	override suspend fun getTvCredits(id: Int): CreditApiResponse {
-		return tvService.getTvCredits(id = id)
 	}
 }

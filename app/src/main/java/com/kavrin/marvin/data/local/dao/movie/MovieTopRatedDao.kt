@@ -15,10 +15,12 @@ interface MovieTopRatedDao {
 	suspend fun deleteAllTopRated()
 
 	@Transaction
+	@RewriteQueriesToDropUnusedColumns
 	@Query("SELECT * FROM movie_table, movie_top_rated_table WHERE movieId = topRatedMovieId ORDER BY movie_top_rated_table.id ASC")
 	fun getMovieAndTopRated(): PagingSource<Int, MovieAndTopRated>
 
 	@Transaction
+	@RewriteQueriesToDropUnusedColumns
 	@Query("SELECT * FROM movie_table, movie_top_rated_table WHERE movieId = topRatedMovieId ORDER BY movie_top_rated_table.id ASC LIMIT 8")
 	fun getHomeMovieAndTopRated(): PagingSource<Int, MovieAndTopRated>
 }

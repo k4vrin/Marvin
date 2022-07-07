@@ -65,10 +65,8 @@ object RepositoryModule {
 		return DetailUseCases(
 			getMovie = GetMovie(repository),
 			getTv = GetTv(repository),
-			getMovieGenres = GetMovieGenres(repository),
-			getTvGenres = GetTvGenres(repository),
-			getCast = GetCast(repository),
-			getCrew = GetCrew(repository)
+			getMovieDetails = GetMovieDetails(repository),
+			getTvDetails = GetTvDetails(repository)
 		)
 	}
 }

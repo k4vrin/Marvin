@@ -15,14 +15,17 @@ interface TvTrendingDao {
 	suspend fun deleteAllTrending()
 
 	@Transaction
+	@RewriteQueriesToDropUnusedColumns
 	@Query("SELECT * FROM tv_table, tv_trending_table WHERE tvId = trendingTvId ORDER BY tv_trending_table.id ASC")
 	fun getTvAndTrending(): PagingSource<Int, TvAndTrending>
 
 	@Transaction
+	@RewriteQueriesToDropUnusedColumns
 	@Query("SELECT * FROM tv_table, tv_trending_table WHERE tvId = trendingTvId ORDER BY popularity DESC LIMIT 5")
 	fun getCarouselTvs(): PagingSource<Int, TvAndTrending>
 
 	@Transaction
+	@RewriteQueriesToDropUnusedColumns
 	@Query("SELECT * FROM tv_table, tv_trending_table WHERE tvId = trendingTvId ORDER BY tv_trending_table.id ASC LIMIT 8")
 	fun getHomeTvAndTrending(): PagingSource<Int, TvAndTrending>
 }

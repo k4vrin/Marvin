@@ -1,7 +1,7 @@
 package com.kavrin.marvin.domain.repository
 
 import androidx.paging.PagingData
-import com.kavrin.marvin.domain.model.movie.api.CreditApiResponse
+import com.kavrin.marvin.domain.model.tv.api.detail.SingleTvApiResponse
 import com.kavrin.marvin.domain.model.tv.entities.Tv
 import com.kavrin.marvin.domain.model.tv.entities.relations.TvAndPopular
 import com.kavrin.marvin.domain.model.tv.entities.relations.TvAndTopRated
@@ -19,5 +19,5 @@ interface TvRemoteDataSource {
 	fun getHomeTrendingTvs(): Flow<PagingData<TvAndTrending>>
 	fun searchTvs(): Flow<PagingData<Tv>>
 	suspend fun saveTvGenres()
-	suspend fun getTvCredits(id: Int): CreditApiResponse
+	suspend fun getTvDetails(id: Int): SingleTvApiResponse
 }

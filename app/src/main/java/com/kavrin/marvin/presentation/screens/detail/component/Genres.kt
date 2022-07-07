@@ -10,11 +10,9 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.kavrin.marvin.R
-import com.kavrin.marvin.ui.theme.SMALL_PADDING
 import com.kavrin.marvin.ui.theme.cardContentColor
 import com.kavrin.marvin.ui.theme.fonts
 import com.kavrin.marvin.util.movieGenresIcon
@@ -31,18 +29,6 @@ fun Genres(
         modifier = modifier
             .fillMaxWidth()
     ) {
-
-        Text(
-            text = "Genres",
-            fontFamily = fonts,
-            fontSize = MaterialTheme.typography.h5.fontSize,
-            fontWeight = FontWeight.SemiBold,
-            maxLines = 1,
-            overflow = TextOverflow.Ellipsis,
-            color = MaterialTheme.colors.cardContentColor
-        )
-
-        Spacer(modifier = Modifier.height(SMALL_PADDING))
 
         genres?.windowed(size = 2, step = 2, partialWindows = true)?.forEach { listGenre ->
             Row(
@@ -77,7 +63,7 @@ fun Genres(
                             text = genre,
                             fontFamily = fonts,
                             fontSize = MaterialTheme.typography.body1.fontSize,
-                            fontWeight = FontWeight.Normal,
+                            fontWeight = FontWeight.SemiBold,
                             color = MaterialTheme.colors.cardContentColor
                         )
                     }

@@ -1,9 +1,9 @@
 package com.kavrin.marvin.data.remote
 
 import com.kavrin.marvin.BuildConfig
-import com.kavrin.marvin.domain.model.movie.api.CreditApiResponse
 import com.kavrin.marvin.domain.model.movie.api.MovieApiResponse
 import com.kavrin.marvin.domain.model.movie.api.MovieGenreApiResponse
+import com.kavrin.marvin.domain.model.movie.api.detail.SingleMovieApiResponse
 import retrofit2.http.GET
 import retrofit2.http.Path
 import retrofit2.http.Query
@@ -45,9 +45,10 @@ interface TMDBMovieService {
 		@Query("api_key") apiKey: String = BuildConfig.API_KEY
 	): MovieGenreApiResponse
 
-	@GET("movie/{id}/credits")
+	@GET("movie/{id}")
 	suspend fun getMovieCredits(
 		@Path("id") id: Int,
-		@Query("api_key") apiKey: String = BuildConfig.API_KEY
-	): CreditApiResponse
+		@Query("api_key") apiKey: String = BuildConfig.API_KEY,
+		@Query("append_to_response") append: String = "videos,images,credits"
+	): SingleMovieApiResponse
 }
