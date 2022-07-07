@@ -27,7 +27,7 @@ fun ShimmerCarouselEffect() {
 		animationSpec = infiniteRepeatable(
 			animation = tween(
 				durationMillis = 500,
-				easing = FastOutLinearInEasing
+				easing = LinearEasing
 			),
 			repeatMode = RepeatMode.Reverse
 		)
@@ -47,7 +47,7 @@ fun ShimmerCardEffect() {
 		animationSpec = infiniteRepeatable(
 			animation = tween(
 				durationMillis = 500,
-				easing = FastOutLinearInEasing
+				easing = LinearEasing
 			),
 			repeatMode = RepeatMode.Reverse
 		)

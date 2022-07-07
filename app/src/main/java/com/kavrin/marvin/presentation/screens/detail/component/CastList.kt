@@ -11,8 +11,8 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import com.kavrin.marvin.R
-import com.kavrin.marvin.domain.model.movie.api.Cast
-import com.kavrin.marvin.domain.model.movie.api.Crew
+import com.kavrin.marvin.domain.model.common.Cast
+import com.kavrin.marvin.domain.model.common.Crew
 import com.kavrin.marvin.ui.theme.MEDIUM_PADDING
 import com.kavrin.marvin.ui.theme.SMALL_PADDING
 import com.kavrin.marvin.ui.theme.contentColor

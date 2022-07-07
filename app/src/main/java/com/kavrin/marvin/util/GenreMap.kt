@@ -22,6 +22,7 @@ val movieGenresIcon: Map<String, Int> = mapOf(
     "TV Movie" to R.drawable.retro_tv,
     "War" to R.drawable.tank,
     "Western" to R.drawable.western,
+    "Thriller" to R.drawable.thriller
 )
 
 val tvGenresIcon: Map<String, Int> = mapOf(

@@ -6,6 +6,7 @@ import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
@@ -80,17 +81,18 @@ fun <T : MarvinItem> CardList(
                 ) { marvinItem ->
 
                     val posterPath =
-                        if (isMovie) marvinItem?.movie?.posterPath else marvinItem?.tv?.posterPath
+                        remember { if (isMovie) marvinItem?.movie?.posterPath else marvinItem?.tv?.posterPath }
                     val rating =
-                        if (isMovie) marvinItem?.movie?.voteAverage else marvinItem?.tv?.voteAverage
+                        remember { if (isMovie) marvinItem?.movie?.voteAverage else marvinItem?.tv?.voteAverage }
                     val voteCount =
-                        if (isMovie) marvinItem?.movie?.voteCount else marvinItem?.tv?.voteCount
+                        remember { if (isMovie) marvinItem?.movie?.voteCount else marvinItem?.tv?.voteCount }
                     val id =
-                        if (isMovie) marvinItem?.movie?.movieId else marvinItem?.tv?.tvId
+                        remember { if (isMovie) marvinItem?.movie?.movieId else marvinItem?.tv?.tvId }
                     val title =
-                        if (isMovie) marvinItem?.movie?.title else marvinItem?.tv?.name
+                        remember { if (isMovie) marvinItem?.movie?.title else marvinItem?.tv?.name }
                     val date =
-                        if (isMovie) marvinItem?.movie?.releaseDate else marvinItem?.tv?.firstAirDate
+                        remember { if (isMovie) marvinItem?.movie?.releaseDate else marvinItem?.tv?.firstAirDate }
+
 
                     MovieTvItem(
                         posterPath = posterPath,

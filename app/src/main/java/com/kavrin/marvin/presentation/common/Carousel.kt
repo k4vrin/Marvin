@@ -74,7 +74,7 @@ fun <T : MarvinItem> Carousel(
                     if (page == pagerState.currentPage) {
                         scale.animateTo(
                             targetValue = 1.1f,
-                            animationSpec = tween(durationMillis = 700)
+                            animationSpec = tween(durationMillis = 600)
                         )
                     } else {
                         scale.animateTo(
@@ -84,10 +84,14 @@ fun <T : MarvinItem> Carousel(
                     }
                 }
 
-                val posterPath = if (isMovie) item?.movie?.posterPath else item?.tv?.posterPath
-                val rating = if (isMovie) item?.movie?.voteAverage else item?.tv?.voteAverage
-                val voteCount = if (isMovie) item?.movie?.voteCount else item?.tv?.voteCount
-                val itemId = if (isMovie) item?.movie?.movieId else item?.tv?.tvId
+                val posterPath =
+                    remember { if (isMovie) item?.movie?.posterPath else item?.tv?.posterPath }
+                val rating =
+                    remember { if (isMovie) item?.movie?.voteAverage else item?.tv?.voteAverage }
+                val voteCount =
+                    remember { if (isMovie) item?.movie?.voteCount else item?.tv?.voteCount }
+                val itemId =
+                    remember { if (isMovie) item?.movie?.movieId else item?.tv?.tvId }
 
                 ///// Each Carousel Item Container /////
                 Box {
@@ -126,8 +130,10 @@ fun <T : MarvinItem> Carousel(
             // First Visible Carousel is number 2
             if (items.itemCount > 1) {
 
-                val title = if (isMovie) items[pagerState.currentPage]?.movie?.title
-                    ?: "" else items[pagerState.currentPage]?.tv?.name ?: ""
+                val title = remember(pagerState.currentPage) {
+                    if (isMovie) items[pagerState.currentPage]?.movie?.title
+                        ?: "" else items[pagerState.currentPage]?.tv?.name ?: ""
+                }
 
                 Spacer(modifier = Modifier.height(MEDIUM_PADDING))
 

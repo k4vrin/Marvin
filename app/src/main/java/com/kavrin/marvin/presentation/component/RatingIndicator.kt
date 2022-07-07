@@ -1,6 +1,5 @@
 package com.kavrin.marvin.presentation.component
 
-import android.util.Log
 import androidx.compose.animation.core.Spring
 import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.animation.core.spring
@@ -45,11 +44,14 @@ fun RatingIndicator(
     smallTextFontSize: TextUnit = MaterialTheme.typography.overline.fontSize,
     smallTextColor: Color = Color.White.copy(alpha = 0.5f),
 ) {
-    Log.d("RatingIndicator", "call")
 
     ///// Handle null /////
-    val mVoteAvg = voteAvg ?: 0.0
-    val mVoteCount = voteCount ?: 0
+    val mVoteAvg = remember {
+        voteAvg ?: 0.0
+    }
+    val mVoteCount = remember {
+        voteCount ?: 0
+    }
 
     ///// Handle Vote Max /////
     var allowedIndicatorValue by remember {
@@ -69,7 +71,9 @@ fun RatingIndicator(
     }
 
     ///// Animate Vote /////
-    val percentage = (animIndicatorValue / maxIndicatorValue) * 100
+    val targetValue = remember(key1 = animIndicatorValue) {
+        ((animIndicatorValue / maxIndicatorValue) * 100) * 3.6f
+    }
 
 //	val sweepAngle by animateFloatAsState(
 //		targetValue = (3.6 * percentage).toFloat(),
@@ -78,20 +82,22 @@ fun RatingIndicator(
 
     val sweepAngle by if (enableAnimation) {
         animateFloatAsState(
-            targetValue = (3.6 * percentage).toFloat(),
+            targetValue = targetValue,
             animationSpec = spring(
                 dampingRatio = Spring.DampingRatioMediumBouncy,
                 stiffness = Spring.StiffnessVeryLow
             )
         )
     } else {
-        rememberUpdatedState(newValue = (3.6 * percentage).toFloat())
+        rememberUpdatedState(newValue = targetValue)
     }
     ///// Foreground Color /////
-    val foregroundIndicatorColor = when (allowedIndicatorValue) {
-        in 0f..4f -> LowRate
-        in 4f..7f -> MediumRate
-        else -> HighRate
+    val foregroundIndicatorColor = remember {
+        when (allowedIndicatorValue) {
+            in 0f..4f -> LowRate
+            in 4f..7f -> MediumRate
+            else -> HighRate
+        }
     }
     ///// BackGround Color /////
     val backgroundIndicatorColor = foregroundIndicatorColor.copy(alpha = 0.3f)
