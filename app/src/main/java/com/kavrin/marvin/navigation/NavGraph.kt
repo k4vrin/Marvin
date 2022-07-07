@@ -51,7 +51,7 @@ fun SetupNavGraph(navHostController: NavHostController) {
 				}
 			)
 		) {
-			DetailScreen(navController = navHostController)
+			DetailScreen(navHostController = navHostController)
 
 		}
 

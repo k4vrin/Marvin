@@ -3,9 +3,9 @@ package com.kavrin.marvin.presentation.screens.detail
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.kavrin.marvin.domain.model.movie.api.Cast
-import com.kavrin.marvin.domain.model.movie.api.Crew
+import com.kavrin.marvin.domain.model.movie.api.detail.SingleMovieApiResponse
 import com.kavrin.marvin.domain.model.movie.entities.Movie
+import com.kavrin.marvin.domain.model.tv.api.detail.SingleTvApiResponse
 import com.kavrin.marvin.domain.model.tv.entities.Tv
 import com.kavrin.marvin.domain.use_cases.detail.DetailUseCases
 import com.kavrin.marvin.util.Constants.DETAILS_ARGUMENT_KEY_BOOL
@@ -29,14 +29,11 @@ class DetailViewModel @Inject constructor(
     private val _selectedTv: MutableStateFlow<Tv?> = MutableStateFlow(null)
     val selectedTv: StateFlow<Tv?> = _selectedTv
 
-    private val _genres: MutableStateFlow<List<String>?> = MutableStateFlow(null)
-    val genres: StateFlow<List<String>?> = _genres
+    private val _movieDetails: MutableStateFlow<SingleMovieApiResponse?> = MutableStateFlow(null)
+    val movieDetails: StateFlow<SingleMovieApiResponse?> = _movieDetails
 
-    private val _cast: MutableStateFlow<List<Cast>?> = MutableStateFlow(null)
-    val cast: StateFlow<List<Cast>?> = _cast
-
-    private val _crew: MutableStateFlow<List<Crew>?> = MutableStateFlow(null)
-    val crew: StateFlow<List<Crew>?> = _crew
+    private val _tvDetails: MutableStateFlow<SingleTvApiResponse?> = MutableStateFlow(null)
+    val tvDetails: StateFlow<SingleTvApiResponse?> = _tvDetails
 
     val id = savedStateHandle.get<Int>(DETAILS_ARGUMENT_KEY_ID)
     val isMovie = savedStateHandle.get<Boolean>(DETAILS_ARGUMENT_KEY_BOOL)
@@ -58,25 +55,13 @@ class DetailViewModel @Inject constructor(
 
         viewModelScope.launch(Dispatchers.IO) {
             if (id != null && isMovie != null) {
-                _cast.value = useCases.getCast(id = id, isMovie = isMovie)
-                _crew.value = useCases.getCrew(id = id, isMovie = isMovie)
-            }
-        }
-    }
-
-    fun getGenres() {
-        viewModelScope.launch(context = Dispatchers.IO) {
-            isMovie?.let {
-                if (it) {
-                    _genres.value =
-                        selectedMovie.value?.let { it1 -> useCases.getMovieGenres(it1.genreIds) }
+                if (isMovie) {
+                    _movieDetails.value = useCases.getMovieDetails(id = id)
                 } else {
-                    _genres.value =
-                        selectedTv.value?.let { it1 -> useCases.getTvGenres(it1.genreIds) }
+                    _tvDetails.value = useCases.getTvDetails(id = id)
                 }
             }
         }
     }
-
 
 }

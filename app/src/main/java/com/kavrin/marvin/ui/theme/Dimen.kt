@@ -49,5 +49,7 @@ val CARD_CANVAS_SIZE = 60.dp
 
 val ICON_SIZE = 24.dp
 
+val MIN_TOOLBAR = 44.dp
+
 val FAB_SIZE = 64.dp
-val FAB_OFFSET = FAB_SIZE / 2
+val FAB_OFFSET = (FAB_SIZE / 2)
