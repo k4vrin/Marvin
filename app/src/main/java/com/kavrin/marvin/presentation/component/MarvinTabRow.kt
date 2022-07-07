@@ -1,12 +1,12 @@
 package com.kavrin.marvin.presentation.component
 
 import androidx.compose.material.*
-import androidx.compose.material.TabRowDefaults.tabIndicatorOffset
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.font.FontWeight
 import com.google.accompanist.pager.PagerState
+import com.google.accompanist.pager.pagerTabIndicatorOffset
 import com.kavrin.marvin.ui.theme.fonts
 import com.kavrin.marvin.ui.theme.tabIndicatorColor
 import com.kavrin.marvin.ui.theme.topBarBgColor
@@ -24,7 +24,7 @@ fun MarvinTabRow(
     val indicator = @Composable { tabPositions: List<TabPosition> ->
         TabIndicator(
             color = MaterialTheme.colors.tabIndicatorColor,
-            modifier = Modifier.tabIndicatorOffset(tabPositions[pagerState.currentPage])
+            modifier = Modifier.pagerTabIndicatorOffset(pagerState, tabPositions)
         )
     }
 
@@ -40,7 +40,7 @@ fun MarvinTabRow(
                 selected = pagerState.currentPage == index,
                 onClick = {
                     scope.launch {
-                        pagerState.scrollToPage(index)
+                        pagerState.animateScrollToPage(index)
                     }
                 },
                 text = {

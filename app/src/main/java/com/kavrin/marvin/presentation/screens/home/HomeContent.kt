@@ -10,6 +10,7 @@ import androidx.compose.material.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
 import androidx.paging.LoadState
 import androidx.paging.compose.LazyPagingItems
@@ -44,7 +45,6 @@ fun HomeContent(
     topRatedTvs: LazyPagingItems<TvAndTopRated>,
     trendingTvs: LazyPagingItems<TvAndTrending>,
 ) {
-
     val pagerState = rememberPagerState()
 
     Column(
@@ -57,7 +57,8 @@ fun HomeContent(
         HorizontalPager(
             count = 2,
             state = pagerState,
-            userScrollEnabled = false
+            itemSpacing = 1.dp,
+            userScrollEnabled = false,
         ) { page ->
 
             when (page) {

@@ -1,33 +1,31 @@
 package com.kavrin.marvin.presentation.common
 
-import androidx.compose.animation.AnimatedVisibility
-import androidx.compose.animation.core.Animatable
-import androidx.compose.animation.core.tween
-import androidx.compose.animation.scaleIn
-import androidx.compose.animation.scaleOut
+import androidx.compose.animation.AnimatedContent
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
-import androidx.compose.ui.draw.scale
+import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.paging.compose.LazyPagingItems
 import com.google.accompanist.pager.HorizontalPager
 import com.google.accompanist.pager.HorizontalPagerIndicator
+import com.google.accompanist.pager.calculateCurrentOffsetForPage
 import com.google.accompanist.pager.rememberPagerState
 import com.kavrin.marvin.presentation.component.PosterWithIcon
 import com.kavrin.marvin.presentation.component.RatingIndicator
 import com.kavrin.marvin.presentation.screens.home.handlePagingResult
 import com.kavrin.marvin.ui.theme.*
 import com.kavrin.marvin.util.MarvinItem
+import com.kavrin.marvin.util.lerp
+import kotlin.math.absoluteValue
 
 
 @Composable
@@ -61,28 +59,12 @@ fun <T : MarvinItem> Carousel(
                     horizontal = CAROUSEL_HORIZONTAL_PADDING,
                     vertical = CAROUSEL_VERTICAL_PADDING
                 ),
+                key = { page ->
+                    val key = if (isMovie) items[page]?.movie?.movieId else items[page]?.tv?.tvId
+                    key!!
+                }
             ) { page ->
                 val item = items[page]
-
-                ///// Animate Scale /////
-                val scale = remember {
-                    Animatable(
-                        initialValue = 1f
-                    )
-                }
-                LaunchedEffect(key1 = pagerState.currentPage) {
-                    if (page == pagerState.currentPage) {
-                        scale.animateTo(
-                            targetValue = 1.1f,
-                            animationSpec = tween(durationMillis = 600)
-                        )
-                    } else {
-                        scale.animateTo(
-                            targetValue = 1f,
-                            animationSpec = tween(durationMillis = 200)
-                        )
-                    }
-                }
 
                 val posterPath =
                     remember { if (isMovie) item?.movie?.posterPath else item?.tv?.posterPath }
@@ -94,13 +76,33 @@ fun <T : MarvinItem> Carousel(
                     remember { if (isMovie) item?.movie?.movieId else item?.tv?.tvId }
 
                 ///// Each Carousel Item Container /////
-                Box {
+                Box(
+                    modifier = Modifier
+                        .graphicsLayer {
+                            val pageOffset = calculateCurrentOffsetForPage(page).absoluteValue
+                            lerp(
+                                start = 0.85f,
+                                stop = 1f,
+                                fraction = 1f - pageOffset.coerceIn(0f, 1f)
+                            ).also { scaleAndAlpha ->
+                                scaleX = scaleAndAlpha
+                                scaleY = scaleAndAlpha
+                            }
+                        }
+                ) {
                     ///// Poster /////
                     PosterWithIcon(
                         modifier = Modifier
                             .height(CAROUSEL_ITEM_HEIGHT)
                             .width(CAROUSEL_ITEM_WIDTH)
-                            .scale(scale.value)
+                            .graphicsLayer {
+                                val pageOffset = calculateCurrentOffsetForPage(page).absoluteValue
+                                alpha = lerp(
+                                    start = 0.85f,
+                                    stop = 1f,
+                                    fraction = 1f - pageOffset.coerceIn(0f, 1f)
+                                )
+                            }
                             .clip(shape = RoundedCornerShape(EXTRA_SMALL_PADDING))
                             .clickable {
                                 if (itemId != null)
@@ -114,9 +116,16 @@ fun <T : MarvinItem> Carousel(
                     ///// Rating /////
                     RatingIndicator(
                         modifier = Modifier
-                            .scale(scale.value)
                             .align(Alignment.BottomStart)
-                            .offset(x = RATING_CAROUSEL_X_OFFSET, y = RATING_CAROUSEL_Y_OFFSET),
+                            .offset(x = RATING_CAROUSEL_X_OFFSET, y = RATING_CAROUSEL_Y_OFFSET)
+                            .graphicsLayer {
+                                val pageOffset = calculateCurrentOffsetForPage(page).absoluteValue
+                                alpha = lerp(
+                                    start = 0.85f,
+                                    stop = 1f,
+                                    fraction = 1f - pageOffset.coerceIn(0f, 1f)
+                                )
+                            },
                         canvasSize = CAROUSEL_CANVAS_SIZE,
                         voteAvg = rating,
                         voteCount = voteCount,
@@ -145,23 +154,10 @@ fun <T : MarvinItem> Carousel(
                     horizontalArrangement = Arrangement.Center
                 ) {
 
-                    AnimatedVisibility(
-                        modifier = Modifier
-                            .fillMaxWidth(),
-                        visible = !pagerState.isScrollInProgress,
-                        enter = scaleIn(
-                            animationSpec = tween(
-                                durationMillis = 500
-                            )
-                        ),
-                        exit = scaleOut(
-                            animationSpec = tween(
-                                durationMillis = 100
-                            )
-                        )
-                    ) {
+                    AnimatedContent(targetState = title) { targetTitle ->
+
                         Text(
-                            text = title,
+                            text = targetTitle,
                             fontFamily = fonts,
                             fontSize = MaterialTheme.typography.h5.fontSize,
                             fontWeight = FontWeight.ExtraBold,
@@ -169,7 +165,9 @@ fun <T : MarvinItem> Carousel(
                             maxLines = 2,
                             color = MaterialTheme.colors.contentColor
                         )
+
                     }
+
                 }
 
             }
