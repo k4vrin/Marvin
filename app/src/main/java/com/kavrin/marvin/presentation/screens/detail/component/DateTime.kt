@@ -10,15 +10,15 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
-import androidx.compose.ui.unit.dp
+import com.kavrin.marvin.ui.theme.LARGE_PADDING
 import com.kavrin.marvin.ui.theme.cardContentColor
 import com.kavrin.marvin.ui.theme.fonts
 import com.kavrin.marvin.util.dateFormatter
 
 @Composable
-fun DateTimeAge(
+fun DateTime(
     date: String,
-    adult: Boolean?,
+    time: Int,
     modifier: Modifier = Modifier
 ) {
 
@@ -36,31 +36,29 @@ fun DateTimeAge(
                 color = MaterialTheme.colors.cardContentColor
             )
 
-            if (adult != null) {
-                Spacer(modifier = Modifier.width(24.dp))
+            Spacer(modifier = Modifier.width(LARGE_PADDING))
 
-                Text(
-                    text = "|",
-                    fontFamily = fonts,
-                    fontSize = MaterialTheme.typography.subtitle2.fontSize,
-                    fontWeight = FontWeight.Normal,
-                    maxLines = 1,
-                    overflow = TextOverflow.Ellipsis,
-                    color = MaterialTheme.colors.cardContentColor
-                )
+            Text(
+                text = "|",
+                fontFamily = fonts,
+                fontSize = MaterialTheme.typography.subtitle2.fontSize,
+                fontWeight = FontWeight.Normal,
+                maxLines = 1,
+                overflow = TextOverflow.Ellipsis,
+                color = MaterialTheme.colors.cardContentColor
+            )
 
-                Spacer(modifier = Modifier.width(24.dp))
+            Spacer(modifier = Modifier.width(LARGE_PADDING))
 
-                Text(
-                    text = if (adult) "R" else "PG-13",
-                    fontFamily = fonts,
-                    fontSize = MaterialTheme.typography.subtitle2.fontSize,
-                    fontWeight = FontWeight.Bold,
-                    maxLines = 1,
-                    overflow = TextOverflow.Ellipsis,
-                    color = MaterialTheme.colors.cardContentColor
-                )
-            }
+            Text(
+                text = "${time}min",
+                fontFamily = fonts,
+                fontSize = MaterialTheme.typography.subtitle2.fontSize,
+                fontWeight = FontWeight.Bold,
+                maxLines = 1,
+                overflow = TextOverflow.Ellipsis,
+                color = MaterialTheme.colors.cardContentColor
+            )
         }
 
 
@@ -70,5 +68,5 @@ fun DateTimeAge(
 @Preview
 @Composable
 fun DateTimeAgePreview() {
-    DateTimeAge(date = "2022-03-11", adult = false)
+    DateTime(date = "2022-03-11", time = 192)
 }
