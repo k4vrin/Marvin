@@ -3,6 +3,7 @@ package com.kavrin.marvin.presentation.screens.detail
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.kavrin.marvin.domain.model.imdb.IMDbRatingApiResponse
 import com.kavrin.marvin.domain.model.movie.api.detail.SingleMovieApiResponse
 import com.kavrin.marvin.domain.model.movie.entities.Movie
 import com.kavrin.marvin.domain.model.tv.api.detail.SingleTvApiResponse
@@ -35,6 +36,9 @@ class DetailViewModel @Inject constructor(
     private val _tvDetails: MutableStateFlow<SingleTvApiResponse?> = MutableStateFlow(null)
     val tvDetails: StateFlow<SingleTvApiResponse?> = _tvDetails
 
+    private val _ratings: MutableStateFlow<IMDbRatingApiResponse?> = MutableStateFlow(null)
+    val ratings: StateFlow<IMDbRatingApiResponse?> = _ratings
+
     val id = savedStateHandle.get<Int>(DETAILS_ARGUMENT_KEY_ID)
     val isMovie = savedStateHandle.get<Boolean>(DETAILS_ARGUMENT_KEY_BOOL)
 
@@ -61,6 +65,20 @@ class DetailViewModel @Inject constructor(
                     _tvDetails.value = useCases.getTvDetails(id = id)
                 }
             }
+        }
+    }
+
+    fun getRatings() {
+        viewModelScope.launch(Dispatchers.IO) {
+            val id =
+                if (isMovie != null) {
+                    if (isMovie)
+                        _movieDetails.value?.imdbId
+                    else
+                        _tvDetails.value?.externalIds?.imdbId
+                } else
+                    ""
+            _ratings.value = id?.let { useCases.getRatings(id = it) }
         }
     }
 

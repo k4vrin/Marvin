@@ -2,10 +2,13 @@ package com.kavrin.marvin.di
 
 import com.jakewharton.retrofit2.converter.kotlinx.serialization.asConverterFactory
 import com.kavrin.marvin.data.local.MarvinDatabase
+import com.kavrin.marvin.data.remote.IMDbService
 import com.kavrin.marvin.data.remote.TMDBMovieService
 import com.kavrin.marvin.data.remote.TMDBTvService
+import com.kavrin.marvin.data.repository.impl.IMDbDataSourceImpl
 import com.kavrin.marvin.data.repository.impl.MovieRemoteDataSourceImpl
 import com.kavrin.marvin.data.repository.impl.TvRemoteDataSourceImpl
+import com.kavrin.marvin.domain.repository.IMDbDataSource
 import com.kavrin.marvin.domain.repository.MovieRemoteDataSource
 import com.kavrin.marvin.domain.repository.TvRemoteDataSource
 import com.kavrin.marvin.util.Constants.BASE_URL
@@ -67,6 +70,14 @@ object NetworkModule {
 
 	@Provides
 	@Singleton
+	fun provideIMDbService(
+		retrofit: Retrofit
+	): IMDbService {
+		return retrofit.create(IMDbService::class.java)
+	}
+
+	@Provides
+	@Singleton
 	fun provideMovieRemoteDataSource(
 		movieService: TMDBMovieService,
 		marvinDatabase: MarvinDatabase
@@ -85,6 +96,18 @@ object NetworkModule {
 	): TvRemoteDataSource {
 		return TvRemoteDataSourceImpl(
 			tvService = tvService,
+			marvinDatabase = marvinDatabase
+		)
+	}
+
+	@Provides
+	@Singleton
+	fun provideIMDbDataSource(
+		imdbService: IMDbService,
+		marvinDatabase: MarvinDatabase
+	): IMDbDataSource {
+		return IMDbDataSourceImpl(
+			imdbService = imdbService,
 			marvinDatabase = marvinDatabase
 		)
 	}

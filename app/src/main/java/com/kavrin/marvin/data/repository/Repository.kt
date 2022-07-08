@@ -1,6 +1,7 @@
 package com.kavrin.marvin.data.repository
 
 import androidx.paging.PagingData
+import com.kavrin.marvin.domain.model.imdb.IMDbRatingApiResponse
 import com.kavrin.marvin.domain.model.movie.api.detail.SingleMovieApiResponse
 import com.kavrin.marvin.domain.model.movie.entities.Movie
 import com.kavrin.marvin.domain.model.movie.entities.relations.MovieAndPopular
@@ -11,10 +12,7 @@ import com.kavrin.marvin.domain.model.tv.entities.Tv
 import com.kavrin.marvin.domain.model.tv.entities.relations.TvAndPopular
 import com.kavrin.marvin.domain.model.tv.entities.relations.TvAndTopRated
 import com.kavrin.marvin.domain.model.tv.entities.relations.TvAndTrending
-import com.kavrin.marvin.domain.repository.DataStoreOp
-import com.kavrin.marvin.domain.repository.LocalDataSource
-import com.kavrin.marvin.domain.repository.MovieRemoteDataSource
-import com.kavrin.marvin.domain.repository.TvRemoteDataSource
+import com.kavrin.marvin.domain.repository.*
 import kotlinx.coroutines.flow.Flow
 import javax.inject.Inject
 
@@ -22,6 +20,7 @@ class Repository @Inject constructor(
 	private val dataStore: DataStoreOp,
 	private val movieRemote: MovieRemoteDataSource,
 	private val tvRemote: TvRemoteDataSource,
+	private val imdb: IMDbDataSource,
 	private val localDataSource: LocalDataSource
 ) {
 
@@ -121,6 +120,14 @@ class Repository @Inject constructor(
 
 	suspend fun getTvDetails(id: Int): SingleTvApiResponse {
 		return tvRemote.getTvDetails(id = id)
+	}
+
+	///////////////////////////////////////////////////////////////////////////
+	// IMDb
+	///////////////////////////////////////////////////////////////////////////
+
+	suspend fun getRatings(id: String): IMDbRatingApiResponse {
+		return imdb.getRatings(id = id)
 	}
 
 	///////////////////////////////////////////////////////////////////////////

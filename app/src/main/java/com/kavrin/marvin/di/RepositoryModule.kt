@@ -66,7 +66,8 @@ object RepositoryModule {
 			getMovie = GetMovie(repository),
 			getTv = GetTv(repository),
 			getMovieDetails = GetMovieDetails(repository),
-			getTvDetails = GetTvDetails(repository)
+			getTvDetails = GetTvDetails(repository),
+			getRatings = GetRatings(repository)
 		)
 	}
 }

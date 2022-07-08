@@ -1,10 +1,7 @@
 package com.kavrin.marvin.domain.model.tv.api.detail
 
 
-import com.kavrin.marvin.domain.model.common.Credits
-import com.kavrin.marvin.domain.model.common.Genre
-import com.kavrin.marvin.domain.model.common.Images
-import com.kavrin.marvin.domain.model.common.Videos
+import com.kavrin.marvin.domain.model.common.*
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
@@ -52,4 +49,6 @@ data class SingleTvApiResponse(
     val tagline: String,
     @SerialName("videos")
     val videos: Videos,
+    @SerialName("external_ids")
+    val externalIds: ExternalIds,
 )
