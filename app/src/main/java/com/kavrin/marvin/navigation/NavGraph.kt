@@ -1,11 +1,16 @@
 package com.kavrin.marvin.navigation
 
+import androidx.compose.animation.AnimatedContentScope
+import androidx.compose.animation.core.tween
+import androidx.compose.animation.expandVertically
+import androidx.compose.animation.fadeOut
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.Alignment
 import androidx.navigation.NavHostController
 import androidx.navigation.NavType
-import androidx.navigation.compose.NavHost
-import androidx.navigation.compose.composable
 import androidx.navigation.navArgument
+import com.google.accompanist.navigation.animation.AnimatedNavHost
+import com.google.accompanist.navigation.animation.composable
 import com.kavrin.marvin.presentation.screens.detail.DetailScreen
 import com.kavrin.marvin.presentation.screens.home.HomeScreen
 import com.kavrin.marvin.presentation.screens.splash.SplashScreen
@@ -17,25 +22,68 @@ import com.kavrin.marvin.util.Constants.LIST_ARGUMENT_KEY
 @Composable
 fun SetupNavGraph(navHostController: NavHostController) {
 
-	NavHost(
+	AnimatedNavHost(
 		navController = navHostController,
 		startDestination = Screen.Splash.route
 	) {
 
 		//// Splash Screen ////
-		composable(route = Screen.Splash.route) {
-
+		composable(
+			route = Screen.Splash.route,
+			exitTransition = {
+				when (targetState.destination.route) {
+					Screen.Welcome.route -> {
+						slideOutOfContainer(
+							towards = AnimatedContentScope.SlideDirection.Left,
+							animationSpec = tween(durationMillis = 500)
+						)
+					}
+					else -> {
+						slideOutOfContainer(
+							towards = AnimatedContentScope.SlideDirection.Up,
+							animationSpec = tween(durationMillis = 1000, delayMillis = 700)
+						)
+					}
+				}
+			}
+		) {
 			SplashScreen(navController = navHostController)
-
 		}
 
 		//// OnBoarding Screen ////
-		composable(route = Screen.Welcome.route) {
+		composable(
+			route = Screen.Welcome.route,
+			enterTransition = {
+				slideIntoContainer(
+					towards = AnimatedContentScope.SlideDirection.Left,
+					animationSpec = tween(durationMillis = 500)
+				)
+			},
+			exitTransition = {
+				slideOutOfContainer(
+					towards = AnimatedContentScope.SlideDirection.Up,
+					animationSpec = tween(durationMillis = 1000, delayMillis = 700)
+				)
+			}
+		) {
 			WelcomeScreen(navController = navHostController)
 		}
 
 		//// Home Screen ////
-		composable(route = Screen.Home.route) {
+		composable(
+			route = Screen.Home.route,
+			enterTransition = {
+				slideIntoContainer(
+					towards = AnimatedContentScope.SlideDirection.Up,
+					animationSpec = tween(durationMillis = 1000, delayMillis = 700)
+				)
+			},
+			exitTransition = {
+				fadeOut(
+					tween(durationMillis = 2000)
+				)
+			}
+		) {
 			HomeScreen(navController = navHostController)
 		}
 
@@ -49,7 +97,26 @@ fun SetupNavGraph(navHostController: NavHostController) {
 				navArgument(DETAILS_ARGUMENT_KEY_BOOL) {
 					type = NavType.BoolType
 				}
-			)
+			),
+			enterTransition = {
+				expandVertically(
+					animationSpec = tween(durationMillis = 500, delayMillis = 200),
+					expandFrom = Alignment.Top,
+					clip = true
+				)
+			},
+			exitTransition = {
+				slideOutOfContainer(
+					towards = AnimatedContentScope.SlideDirection.Down,
+					animationSpec = tween(durationMillis = 500)
+				)
+			},
+			popExitTransition = {
+				slideOutOfContainer(
+					towards = AnimatedContentScope.SlideDirection.Down,
+					animationSpec = tween(durationMillis = 500)
+				)
+			}
 		) {
 			DetailScreen(navHostController = navHostController)
 
