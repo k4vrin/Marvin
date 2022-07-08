@@ -17,6 +17,12 @@ val AntiqueBrass = Color(0xFFD5A18E)
 val SilverPink = Color(0xFFDEC3BE)
 val KombuGreen = Color(0xFF3A4F41)
 
+
+val PlumpPurple = Color(0xFF6247AA)
+val Amethyst = Color(0xFF9163CB)
+val LavenderFloral = Color(0xFFB185DB)
+val Thistle = Color(0xFFDEC9E9)
+
 val LightGray = Color(0xFFadb5bd)
 val MediumGray = Color(0xFF6c757d)
 val DarkGray = Color(0xFF25232B)

@@ -24,9 +24,9 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
 import com.kavrin.marvin.R
 import com.kavrin.marvin.navigation.Screen
-import com.kavrin.marvin.ui.theme.AntiqueBrass
-import com.kavrin.marvin.ui.theme.BrightMaroon
-import com.kavrin.marvin.ui.theme.SilverPink
+import com.kavrin.marvin.ui.theme.LavenderFloral
+import com.kavrin.marvin.ui.theme.PlumpPurple
+import com.kavrin.marvin.ui.theme.Thistle
 import com.kavrin.marvin.ui.theme.splashFont
 
 @Composable
@@ -99,8 +99,8 @@ fun Splash(animAlpha: Float = 1f) {
 				.background(
 					brush = Brush.verticalGradient(
 						colors = listOf(
-							SilverPink,
-							AntiqueBrass
+                            Thistle,
+                            LavenderFloral,
 						)
 					)
 				)
@@ -112,7 +112,7 @@ fun Splash(animAlpha: Float = 1f) {
             Text(
                 modifier = Modifier
                     .alpha(alpha = animAlpha),
-                color = BrightMaroon,
+                color = PlumpPurple,
                 text = stringResource(R.string.marvin),
                 fontFamily = splashFont,
                 fontWeight = FontWeight.Normal,
