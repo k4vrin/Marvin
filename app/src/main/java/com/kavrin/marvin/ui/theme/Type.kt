@@ -29,7 +29,7 @@ val Typography = Typography(
     */
 )
 
-val fonts = FontFamily(
+val nunitoTypeFace = FontFamily(
 	Font(R.font.nunito_black, weight = FontWeight.Black),
 	Font(R.font.nunito_extra_bold, weight = FontWeight.ExtraBold),
 	Font(R.font.nunito_semi_bold, weight = FontWeight.SemiBold),

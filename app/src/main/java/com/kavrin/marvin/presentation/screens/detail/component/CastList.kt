@@ -16,7 +16,7 @@ import com.kavrin.marvin.domain.model.common.Crew
 import com.kavrin.marvin.ui.theme.MEDIUM_PADDING
 import com.kavrin.marvin.ui.theme.SMALL_PADDING
 import com.kavrin.marvin.ui.theme.contentColor
-import com.kavrin.marvin.ui.theme.fonts
+import com.kavrin.marvin.ui.theme.nunitoTypeFace
 
 @Composable
 fun CastList(
@@ -38,7 +38,7 @@ fun CastList(
 
             Text(
                 text = stringResource(R.string.cast),
-                fontFamily = fonts,
+                fontFamily = nunitoTypeFace,
                 fontSize = MaterialTheme.typography.h6.fontSize,
                 fontWeight = FontWeight.Bold,
                 color = MaterialTheme.colors.contentColor
@@ -85,7 +85,7 @@ fun CrewList(
 
             Text(
                 text = stringResource(R.string.crew),
-                fontFamily = fonts,
+                fontFamily = nunitoTypeFace,
                 fontSize = MaterialTheme.typography.h6.fontSize,
                 fontWeight = FontWeight.Bold,
                 color = MaterialTheme.colors.contentColor

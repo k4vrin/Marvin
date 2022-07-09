@@ -197,7 +197,7 @@ fun EmbeddedElements(
 
     Text(
         text = bigText.toString(),
-        fontFamily = fonts,
+        fontFamily = nunitoTypeFace,
         color = bigTextColor,
         fontSize = bigTextFontSize,
         textAlign = TextAlign.Center,
@@ -206,7 +206,7 @@ fun EmbeddedElements(
 
     Text(
         text = smallText.toString(),
-        fontFamily = fonts,
+        fontFamily = nunitoTypeFace,
         color = smallTextColor,
         fontSize = smallTextFontSize,
         textAlign = TextAlign.Center

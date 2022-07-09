@@ -126,7 +126,7 @@ fun PagerScreen(
 					.padding(horizontal = MEDIUM_PADDING),
 				text = onBoardingPage.description,
 				color = Color.White,
-				fontFamily = fonts,
+				fontFamily = nunitoTypeFace,
 				fontSize = MaterialTheme.typography.h5.fontSize,
 				fontWeight = FontWeight.Bold,
 				textAlign = TextAlign.Center
@@ -171,7 +171,7 @@ fun ExploreButton(
 				//// Text In Button ////
 				Text(
 					text = stringResource(R.string.explore),
-					fontFamily = fonts,
+					fontFamily = nunitoTypeFace,
 					fontWeight = FontWeight.SemiBold,
 					fontSize = MaterialTheme.typography.subtitle1.fontSize,
 					textAlign = TextAlign.Center

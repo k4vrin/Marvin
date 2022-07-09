@@ -8,7 +8,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import com.kavrin.marvin.R
 import com.kavrin.marvin.ui.theme.HOME_TOP_BAR_ELEVATION
-import com.kavrin.marvin.ui.theme.fonts
+import com.kavrin.marvin.ui.theme.nunitoTypeFace
 import com.kavrin.marvin.ui.theme.topBarBgColor
 import com.kavrin.marvin.ui.theme.topBarContentColor
 
@@ -22,7 +22,7 @@ fun HomeTopBar(
 		title = {
 			Text(
 				text = stringResource(R.string.home),
-				fontFamily = fonts,
+				fontFamily = nunitoTypeFace,
 				color = MaterialTheme.colors.topBarContentColor
 			)
 		},

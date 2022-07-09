@@ -18,7 +18,7 @@ import com.kavrin.marvin.presentation.screens.home.handlePagingResult
 import com.kavrin.marvin.ui.theme.MEDIUM_PADDING
 import com.kavrin.marvin.ui.theme.SMALL_PADDING
 import com.kavrin.marvin.ui.theme.contentColor
-import com.kavrin.marvin.ui.theme.fonts
+import com.kavrin.marvin.ui.theme.nunitoTypeFace
 import com.kavrin.marvin.util.MarvinItem
 
 @Composable
@@ -49,7 +49,7 @@ fun <T : MarvinItem> CardList(
 
                 Text(
                     text = cardListTitle,
-                    fontFamily = fonts,
+                    fontFamily = nunitoTypeFace,
                     fontSize = MaterialTheme.typography.h6.fontSize,
                     fontWeight = FontWeight.Bold,
                     color = MaterialTheme.colors.contentColor
@@ -57,7 +57,7 @@ fun <T : MarvinItem> CardList(
 
                 Text(
                     text = stringResource(R.string.see_all),
-                    fontFamily = fonts,
+                    fontFamily = nunitoTypeFace,
                     fontSize = MaterialTheme.typography.subtitle1.fontSize,
                     fontWeight = FontWeight.Normal,
                     color = MaterialTheme.colors.contentColor

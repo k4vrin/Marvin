@@ -12,7 +12,7 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import com.kavrin.marvin.ui.theme.LARGE_PADDING
 import com.kavrin.marvin.ui.theme.cardContentColor
-import com.kavrin.marvin.ui.theme.fonts
+import com.kavrin.marvin.ui.theme.nunitoTypeFace
 import com.kavrin.marvin.util.dateFormatter
 
 @Composable
@@ -28,7 +28,7 @@ fun DateTime(
 
             Text(
                 text = dateFormatter(date = date),
-                fontFamily = fonts,
+                fontFamily = nunitoTypeFace,
                 fontSize = MaterialTheme.typography.subtitle2.fontSize,
                 fontWeight = FontWeight.Bold,
                 maxLines = 1,
@@ -40,7 +40,7 @@ fun DateTime(
 
             Text(
                 text = "|",
-                fontFamily = fonts,
+                fontFamily = nunitoTypeFace,
                 fontSize = MaterialTheme.typography.subtitle2.fontSize,
                 fontWeight = FontWeight.Normal,
                 maxLines = 1,
@@ -52,7 +52,7 @@ fun DateTime(
 
             Text(
                 text = "${time}min",
-                fontFamily = fonts,
+                fontFamily = nunitoTypeFace,
                 fontSize = MaterialTheme.typography.subtitle2.fontSize,
                 fontWeight = FontWeight.Bold,
                 maxLines = 1,

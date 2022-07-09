@@ -14,7 +14,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.kavrin.marvin.R
 import com.kavrin.marvin.ui.theme.cardContentColor
-import com.kavrin.marvin.ui.theme.fonts
+import com.kavrin.marvin.ui.theme.nunitoTypeFace
 import com.kavrin.marvin.util.movieGenresIcon
 import com.kavrin.marvin.util.tvGenresIcon
 
@@ -61,7 +61,7 @@ fun Genres(
                         ///// Genre Name /////
                         Text(
                             text = genre,
-                            fontFamily = fonts,
+                            fontFamily = nunitoTypeFace,
                             fontSize = MaterialTheme.typography.body1.fontSize,
                             fontWeight = FontWeight.SemiBold,
                             color = MaterialTheme.colors.cardContentColor

@@ -7,7 +7,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.font.FontWeight
 import com.google.accompanist.pager.PagerState
 import com.google.accompanist.pager.pagerTabIndicatorOffset
-import com.kavrin.marvin.ui.theme.fonts
+import com.kavrin.marvin.ui.theme.nunitoTypeFace
 import com.kavrin.marvin.ui.theme.tabIndicatorColor
 import com.kavrin.marvin.ui.theme.topBarBgColor
 import com.kavrin.marvin.ui.theme.topBarContentColor
@@ -46,7 +46,7 @@ fun MarvinTabRow(
                 text = {
                     Text(
                         text = title,
-                        fontFamily = fonts,
+                        fontFamily = nunitoTypeFace,
                         fontSize = MaterialTheme.typography.h6.fontSize,
                         fontWeight = FontWeight.Bold
                     )

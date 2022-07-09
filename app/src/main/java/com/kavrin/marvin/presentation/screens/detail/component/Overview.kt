@@ -10,7 +10,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.sp
 import com.kavrin.marvin.ui.theme.cardContentColor
-import com.kavrin.marvin.ui.theme.fonts
+import com.kavrin.marvin.ui.theme.nunitoTypeFace
 
 @Composable
 fun Overview(
@@ -24,7 +24,7 @@ fun Overview(
     ) {
         Text(
             text = overview,
-            fontFamily = fonts,
+            fontFamily = nunitoTypeFace,
             fontSize = MaterialTheme.typography.body1.fontSize,
             fontWeight = FontWeight.Normal,
             color = MaterialTheme.colors.cardContentColor,

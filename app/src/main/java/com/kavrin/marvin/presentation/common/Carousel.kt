@@ -158,7 +158,7 @@ fun <T : MarvinItem> Carousel(
 
                         Text(
                             text = targetTitle,
-                            fontFamily = fonts,
+                            fontFamily = nunitoTypeFace,
                             fontSize = MaterialTheme.typography.h5.fontSize,
                             fontWeight = FontWeight.ExtraBold,
                             textAlign = TextAlign.Center,
