@@ -3,6 +3,7 @@ package com.kavrin.marvin.navigation
 import androidx.compose.animation.AnimatedContentScope
 import androidx.compose.animation.core.tween
 import androidx.compose.animation.expandVertically
+import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -81,6 +82,11 @@ fun SetupNavGraph(navHostController: NavHostController) {
 			exitTransition = {
 				fadeOut(
 					tween(durationMillis = 2000)
+				)
+			},
+			popEnterTransition = {
+				fadeIn(
+					tween(durationMillis = 500)
 				)
 			}
 		) {
