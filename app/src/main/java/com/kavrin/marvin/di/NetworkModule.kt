@@ -1,5 +1,6 @@
 package com.kavrin.marvin.di
 
+import android.app.Application
 import com.jakewharton.retrofit2.converter.kotlinx.serialization.asConverterFactory
 import com.kavrin.marvin.data.local.MarvinDatabase
 import com.kavrin.marvin.data.remote.IMDbService
@@ -12,6 +13,7 @@ import com.kavrin.marvin.domain.repository.IMDbDataSource
 import com.kavrin.marvin.domain.repository.MovieRemoteDataSource
 import com.kavrin.marvin.domain.repository.TvRemoteDataSource
 import com.kavrin.marvin.util.Constants.BASE_URL
+import com.kavrin.marvin.util.NetworkListener
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -111,4 +113,10 @@ object NetworkModule {
 			marvinDatabase = marvinDatabase
 		)
 	}
+
+	@Provides
+	@Singleton
+	fun provideNetworkListener(
+		application: Application
+	) = NetworkListener(application)
 }

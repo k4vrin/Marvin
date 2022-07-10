@@ -2,6 +2,7 @@ package com.kavrin.marvin.ui.theme
 
 import androidx.compose.material.Colors
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 
 val Purple200 = Color(0xFFBB86FC)
@@ -43,6 +44,35 @@ val ShimmerDarkGrayVariant = Color(0xFF252525)
 val ShimmerMediumGrayVariant = Color(0xFFACACAC)
 
 val LightFab = Color(0xFF9163CB)
+
+val GreenRYB = Color(0xFF55A630)
+val AppleGreen = Color(0xFF80B918)
+
+val RedNCS = Color(0xFFB21E35)
+val RoseMadder = Color(0xFFE01E37)
+
+val CyberYellow = Color(0xFFFFD400)
+val MinionYellow = Color(0xFFFFE566)
+
+val EerieBlack = Color(0xFF212529)
+val DavysGrey = Color(0xFF495057)
+
+
+val RatingGreen = Brush.horizontalGradient(
+	listOf(AppleGreen, GreenRYB)
+)
+
+val RatingYellow = Brush.horizontalGradient(
+	listOf(MinionYellow, CyberYellow)
+)
+
+val RatingRed = Brush.horizontalGradient(
+	listOf(RoseMadder, RedNCS)
+)
+
+val RatingBackground = Brush.horizontalGradient(
+	listOf(DavysGrey, EerieBlack)
+)
 
 val Colors.tabIndicatorColor
 	@Composable
@@ -95,3 +125,29 @@ val Colors.fabContentColor
 val Colors.statusBarColor
 	@Composable
 	get() = if (isLight) Color.White else Color.Black
+
+val Colors.loadingCircleColor
+	@Composable
+	get() = if (isLight) LightFab else Color.White
+
+val Colors.splashText
+	@Composable
+	get() = if (isLight) PlumpPurple else Color.White
+
+val Colors.splashBackgroundBrush
+	@Composable
+	get() = if (isLight) {
+		Brush.verticalGradient(
+			colors = listOf(
+				Thistle,
+				LavenderFloral,
+			)
+		)
+	} else {
+		Brush.verticalGradient(
+			colors = listOf(
+				BackGroundDark,
+				BackGroundDark
+			)
+		)
+	}
