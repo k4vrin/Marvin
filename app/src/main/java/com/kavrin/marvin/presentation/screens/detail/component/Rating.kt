@@ -1,7 +1,5 @@
 package com.kavrin.marvin.presentation.screens.detail.component
 
-import android.util.Log
-import androidx.compose.animation.core.MutableTransitionState
 import androidx.compose.animation.core.animateFloat
 import androidx.compose.animation.core.tween
 import androidx.compose.animation.core.updateTransition
@@ -23,6 +21,7 @@ import androidx.compose.ui.graphics.drawscope.DrawScope
 import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.SpanStyle
 import androidx.compose.ui.text.buildAnnotatedString
 import androidx.compose.ui.text.font.FontWeight
@@ -32,6 +31,7 @@ import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
+import com.kavrin.marvin.R
 import com.kavrin.marvin.R.drawable
 import com.kavrin.marvin.domain.model.imdb.IMDbRatingApiResponse
 import com.kavrin.marvin.ui.theme.*
@@ -41,61 +41,83 @@ import java.text.DecimalFormat
 @Composable
 fun Rating(
     ratings: IMDbRatingApiResponse,
+    tranState: State<TransitionState>
 ) {
 
-    Log.d("Rating", "call ")
-
-    Row(
+    Column(
         modifier = Modifier
-            .fillMaxWidth(),
-        horizontalArrangement = Arrangement.SpaceEvenly
+            .fillMaxWidth()
     ) {
 
-        ratings.imDb?.let {
-            RatingItem(
-                rating = it.toDouble(),
-                isPercentage = false,
-                provider = "imDb"
-            )
-        }
-        ratings.metacritic?.let {
-            RatingItem(
-                rating = it.toDouble(),
-                isPercentage = true,
-                provider = "metacritic"
-            )
-        }
-        ratings.theMovieDb?.let {
-            RatingItem(
-                rating = it.toDouble(),
-                isPercentage = false,
-                provider = "theMovieDb"
-            )
-        }
-        ratings.rottenTomatoes?.let {
-            RatingItem(
-                rating = it.toDouble(),
-                isPercentage = true,
-                provider = "rottenTomatoes"
-            )
-        }
+        Text(
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(bottom = SMALL_PADDING),
+            text = stringResource(R.string.ratings),
+            fontFamily = nunitoTypeFace,
+            fontSize = MaterialTheme.typography.h6.fontSize,
+            fontWeight = FontWeight.Bold,
+            color = MaterialTheme.colors.contentColor
+        )
 
+        Row(
+            modifier = Modifier
+                .fillMaxWidth(),
+            horizontalArrangement = Arrangement.SpaceEvenly
+        ) {
+
+
+            RatingItem(
+                rating = ratings.imDb,
+                isPercentage = false,
+                provider = "imDb",
+                tranState = tranState
+            )
+
+
+            RatingItem(
+                rating = ratings.metacritic,
+                isPercentage = true,
+                provider = "metacritic",
+                tranState = tranState
+            )
+
+            RatingItem(
+                rating = ratings.theMovieDb,
+                isPercentage = false,
+                provider = "theMovieDb",
+                tranState = tranState
+            )
+
+
+            RatingItem(
+                rating = ratings.rottenTomatoes,
+                isPercentage = true,
+                provider = "rottenTomatoes",
+                tranState = tranState
+            )
+
+
+        }
     }
 }
 
 @Composable
 fun RatingItem(
-    rating: Double,
+    rating: String?,
     isPercentage: Boolean,
     provider: String,
     maxIndicatorHeight: Dp = 100.dp,
     maxIndicatorWidth: Dp = 24.dp,
+    tranState: State<TransitionState>
 ) {
 
     val height = with(LocalDensity.current) { maxIndicatorHeight.toPx() }
     val width = with(LocalDensity.current) { maxIndicatorWidth.toPx() }
 
-    val unifiedRate = remember(rating) { if (isPercentage) rating else rating * 10 }
+    val ratings = if (!rating.isNullOrBlank()) rating.toDouble() else 0.0
+
+    val unifiedRate = remember(rating) { if (isPercentage) ratings else ratings * 10 }
 
     val mRating = remember(unifiedRate) { (unifiedRate * height) / 100 }
 
@@ -119,22 +141,19 @@ fun RatingItem(
     val painter = painterResource(id = ratingProviderLogo[provider] ?: drawable.retro_tv)
 
     val indicatorColor = when (unifiedRate) {
-        in 0.0..40.0 -> RatingRed
+        0.0 -> RatingBackground
+        in 0.1..40.0 -> RatingRed
         in 40.0..70.0 -> RatingYellow
         else -> RatingGreen
     }
 //    val scope = rememberCoroutineScope()
-    val transitionState = remember { MutableTransitionState(TransitionState.Start) }
-    LaunchedEffect(key1 = animIndicatorValue) {
-        transitionState.targetState = TransitionState.End
-    }
-    val transition = updateTransition(targetState = transitionState, label = "rating animations")
+    val transition = updateTransition(targetState = tranState, label = "rating animations")
     val translateY by transition.animateFloat(
         transitionSpec = {
             tween(700)
         }, label = ""
     ) { state ->
-        when (state.targetState) {
+        when (state.value) {
             TransitionState.Start -> height
             TransitionState.End -> animIndicatorValue
         }
@@ -145,9 +164,9 @@ fun RatingItem(
             tween(700)
         }, label = ""
     ) { state ->
-        when (state.targetState) {
+        when (state.value) {
             TransitionState.Start -> 0f
-            TransitionState.End -> rating.toFloat()
+            TransitionState.End -> ratings.toFloat()
         }
     }
 
@@ -270,16 +289,18 @@ fun RatingText(
         }
     }
 
-    Text(
-        modifier = modifier
-            .width(42.dp)
-            .graphicsLayer {
-                translationY = translateY - (width / 2)
-                translationX = width * 1.1f
-            },
-        text = rate,
-        textAlign = TextAlign.End
-    )
+    if (content != 0f) {
+        Text(
+            modifier = modifier
+                .width(42.dp)
+                .graphicsLayer {
+                    translationY = translateY - (width / 2)
+                    translationX = width * 1.1f
+                },
+            text = rate,
+            textAlign = TextAlign.End
+        )
+    }
 }
 
 
@@ -287,7 +308,7 @@ fun RatingText(
 @Composable
 fun RatingItemPrev() {
 
-    RatingItem(rating = 5.0, isPercentage = true, provider = "imDb")
+//    RatingItem(rating = 5.0, isPercentage = true, provider = "imDb", enableAnimation = false)
 }
 
 enum class TransitionState {
