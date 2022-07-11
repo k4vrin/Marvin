@@ -13,20 +13,16 @@ import javax.inject.Inject
 
 @HiltViewModel
 class SplashViewModel @Inject constructor(
-	private val useCases: SplashWelcomeUseCases,
+    private val useCases: SplashWelcomeUseCases,
 ) : ViewModel() {
 
-	private val _onBoardingCompleted = MutableStateFlow(false)
-	val onBoardingCompleted: StateFlow<Boolean> = _onBoardingCompleted
+    private val _onBoardingCompleted = MutableStateFlow(false)
+    val onBoardingCompleted: StateFlow<Boolean> = _onBoardingCompleted
 
-	init {
-		viewModelScope.launch(context = Dispatchers.IO) {
-			_onBoardingCompleted.value =
-				useCases.readOnBoarding().stateIn(scope = viewModelScope).value
-		}
-
-		viewModelScope.launch(context = Dispatchers.IO) {
-			useCases.saveGenres()
-		}
-	}
+    init {
+        viewModelScope.launch(context = Dispatchers.IO) {
+            _onBoardingCompleted.value =
+                useCases.readOnBoarding().stateIn(scope = viewModelScope).value
+        }
+    }
 }
