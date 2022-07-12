@@ -20,7 +20,7 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
 import com.kavrin.marvin.R
 import com.kavrin.marvin.navigation.Screen
-import com.kavrin.marvin.presentation.screens.detail.component.LoadingAnimation
+import com.kavrin.marvin.presentation.component.LoadingAnimation
 import com.kavrin.marvin.ui.theme.EXTRA_LARGE_PADDING
 import com.kavrin.marvin.ui.theme.splashBackgroundBrush
 import com.kavrin.marvin.ui.theme.splashFont

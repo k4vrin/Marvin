@@ -32,4 +32,12 @@ class LocalDataSourceImpl(
         }
         return list
     }
+
+    override suspend fun deleteAllMovies() {
+        marvinDatabase.movieDao().deleteAllMovies()
+    }
+
+    override suspend fun deleteAllTvs() {
+        marvinDatabase.tvDao().deleteAllTvs()
+    }
 }

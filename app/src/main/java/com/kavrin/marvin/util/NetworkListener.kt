@@ -5,8 +5,6 @@ import android.net.ConnectivityManager
 import android.net.Network
 import android.net.NetworkCapabilities
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.State
-import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.platform.LocalContext
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -51,9 +49,9 @@ class NetworkListener(private val context: Context) : ConnectivityManager.Networ
 }
 
 @Composable
-fun connectivityState(): State<Boolean> {
+fun connectivityState(): StateFlow<Boolean> {
     val context = LocalContext.current
 
     // Creates a State<> with current connectivity state as initial value
-    return NetworkListener(context).checkNetworkAvailability().collectAsState()
+    return NetworkListener(context).checkNetworkAvailability()
 }

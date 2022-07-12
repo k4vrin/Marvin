@@ -23,11 +23,11 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
 import com.google.accompanist.pager.HorizontalPager
-import com.google.accompanist.pager.HorizontalPagerIndicator
 import com.google.accompanist.pager.PagerState
 import com.google.accompanist.pager.rememberPagerState
 import com.kavrin.marvin.R
 import com.kavrin.marvin.navigation.Screen
+import com.kavrin.marvin.presentation.component.WormHorizontalPagerIndicator
 import com.kavrin.marvin.ui.theme.*
 import com.kavrin.marvin.util.Constants.LAST_WELCOME_PAGE
 import com.kavrin.marvin.util.Constants.ON_BOARDING_PAGE_COUNT
@@ -67,10 +67,17 @@ fun WelcomeScreen(
 		) {
 
 			//// Indicator ////
-			HorizontalPagerIndicator(
+//			HorizontalPagerIndicator(
+//				pagerState = pagerState,
+//				activeColor = BrightMaroon,
+//				inactiveColor = LightGray,
+//				indicatorWidth = INDICATOR_WIDTH,
+//				spacing = INDICATOR_SPACING
+//			)
+
+			WormHorizontalPagerIndicator(
 				pagerState = pagerState,
 				activeColor = BrightMaroon,
-				inactiveColor = LightGray,
 				indicatorWidth = INDICATOR_WIDTH,
 				spacing = INDICATOR_SPACING
 			)

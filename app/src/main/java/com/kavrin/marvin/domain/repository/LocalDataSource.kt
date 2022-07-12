@@ -9,4 +9,6 @@ interface LocalDataSource {
     suspend fun getTv(tvId: Int): Tv
     suspend fun getTvGenres(ids: List<Int>): List<String>
     suspend fun getMovieGenres(ids: List<Int>): List<String>
+    suspend fun deleteAllMovies()
+    suspend fun deleteAllTvs()
 }

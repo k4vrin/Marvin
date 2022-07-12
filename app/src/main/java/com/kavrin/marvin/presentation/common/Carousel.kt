@@ -16,11 +16,11 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.paging.compose.LazyPagingItems
 import com.google.accompanist.pager.HorizontalPager
-import com.google.accompanist.pager.HorizontalPagerIndicator
 import com.google.accompanist.pager.calculateCurrentOffsetForPage
 import com.google.accompanist.pager.rememberPagerState
 import com.kavrin.marvin.presentation.component.PosterWithIcon
 import com.kavrin.marvin.presentation.component.RatingIndicator
+import com.kavrin.marvin.presentation.component.WormHorizontalPagerIndicator
 import com.kavrin.marvin.presentation.screens.home.handlePagingResult
 import com.kavrin.marvin.ui.theme.*
 import com.kavrin.marvin.util.MarvinItem
@@ -175,10 +175,9 @@ fun <T : MarvinItem> Carousel(
             Spacer(modifier = Modifier.height(LARGE_PADDING))
 
             ///// Pager Indicator /////
-            HorizontalPagerIndicator(
+            WormHorizontalPagerIndicator(
                 pagerState = pagerState,
                 activeColor = MaterialTheme.colors.pagerIndicatorActiveColor,
-                inactiveColor = LightGray,
             )
         }
 

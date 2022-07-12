@@ -14,6 +14,7 @@ import com.kavrin.marvin.domain.model.tv.entities.relations.TvAndTopRated
 import com.kavrin.marvin.domain.model.tv.entities.relations.TvAndTrending
 import com.kavrin.marvin.domain.repository.*
 import kotlinx.coroutines.flow.Flow
+import retrofit2.Response
 import javax.inject.Inject
 
 class Repository @Inject constructor(
@@ -59,6 +60,10 @@ class Repository @Inject constructor(
 
 	fun getHomeTrendingMovies(): Flow<PagingData<MovieAndTrending>> {
 		return movieRemote.getHomeTrendingMovies()
+	}
+
+	suspend fun deleteAllMovies() {
+		localDataSource.deleteAllMovies()
 	}
 
 	//// Detail ////
@@ -109,6 +114,10 @@ class Repository @Inject constructor(
 		return tvRemote.getHomeTrendingTvs()
 	}
 
+	suspend fun deleteAllTvs() {
+		localDataSource.deleteAllTvs()
+	}
+
 	//// Detail ////
 	suspend fun getTv(id: Int): Tv {
 		return localDataSource.getTv(tvId = id)
@@ -126,7 +135,7 @@ class Repository @Inject constructor(
 	// IMDb
 	///////////////////////////////////////////////////////////////////////////
 
-	suspend fun getRatings(id: String): IMDbRatingApiResponse {
+	suspend fun getRatings(id: String): Response<IMDbRatingApiResponse> {
 		return imdb.getRatings(id = id)
 	}
 

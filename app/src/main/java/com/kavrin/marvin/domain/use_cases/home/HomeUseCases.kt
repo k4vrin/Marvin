@@ -8,6 +8,7 @@ data class HomeUseCases(
 	val getCarouselTvs: GetCarouselTvs,
 	val getHomePopularTvs: GetHomePopularTvs,
 	val getHomeTopRatedTvs: GetHomeTopRatedTvs,
-	val getHomeTrendingTvs: GetHomeTrendingTvs
+	val getHomeTrendingTvs: GetHomeTrendingTvs,
+	val deleteAll: DeleteAll
 )
 

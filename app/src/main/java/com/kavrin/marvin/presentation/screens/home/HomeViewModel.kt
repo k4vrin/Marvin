@@ -4,12 +4,16 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import androidx.paging.cachedIn
 import com.kavrin.marvin.domain.use_cases.home.HomeUseCases
+import com.kavrin.marvin.util.NetworkListener
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
 class HomeViewModel @Inject constructor(
-    useCases: HomeUseCases
+    private val useCases: HomeUseCases,
+	networkListener: NetworkListener
 ) : ViewModel() {
 
 
@@ -22,4 +26,12 @@ class HomeViewModel @Inject constructor(
 	val getPopularTvs = useCases.getHomePopularTvs().cachedIn(viewModelScope)
 	val getTopRatedTvs = useCases.getHomeTopRatedTvs().cachedIn(viewModelScope)
 	val getTrendingTvs = useCases.getHomeTrendingTvs().cachedIn(viewModelScope)
+
+	val isConnected = networkListener.checkNetworkAvailability()
+
+	fun deleteAll() {
+		viewModelScope.launch(Dispatchers.IO) {
+			useCases.deleteAll()
+		}
+	}
 }

@@ -53,3 +53,5 @@ val MIN_TOOLBAR = 44.dp
 
 val FAB_SIZE = 64.dp
 val FAB_OFFSET = (FAB_SIZE / 2)
+
+val NETWORK_ERROR_ICON_HEIGHT = 120.dp

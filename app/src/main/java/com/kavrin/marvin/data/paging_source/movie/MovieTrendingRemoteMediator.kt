@@ -9,6 +9,7 @@ import com.kavrin.marvin.data.remote.TMDBMovieService
 import com.kavrin.marvin.domain.model.movie.entities.MovieTrending
 import com.kavrin.marvin.domain.model.movie.entities.relations.MovieAndTrending
 import com.kavrin.marvin.domain.model.movie.entities.remote_keys.MovieTrendingRemoteKeys
+import com.kavrin.marvin.util.Constants.DEFAULT_HOME_PREFETCH
 import com.kavrin.marvin.util.Constants.FIRST_REQUEST_DEFAULT
 import com.kavrin.marvin.util.Constants.ONE_MINUTE_IN_SECONDS
 import com.kavrin.marvin.util.Constants.ONE_SECOND_IN_MILLIS
@@ -59,6 +60,11 @@ class MovieTrendingRemoteMediator(
 					prevPage
 				}
 				LoadType.APPEND -> {
+					if (state.config.prefetchDistance == DEFAULT_HOME_PREFETCH) {
+						return MediatorResult.Success(
+							endOfPaginationReached = true
+						)
+					}
 					val remoteKeys = getRemoteKeyForLastItem(state)
 					val nextPage = remoteKeys?.nextPage
 						?: return MediatorResult.Success(

@@ -15,4 +15,7 @@ interface MovieDao {
 	@Query("SELECT * FROM movie_table WHERE movieId = :movieId")
 	suspend fun getSelectedMovie(movieId: Int): Movie
 
+	@Query("DELETE FROM movie_table")
+	suspend fun deleteAllMovies()
+
 }

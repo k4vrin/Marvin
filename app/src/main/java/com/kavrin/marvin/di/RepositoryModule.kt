@@ -53,7 +53,8 @@ object RepositoryModule {
 			getCarouselTvs = GetCarouselTvs(repository),
 			getHomePopularTvs = GetHomePopularTvs(repository),
 			getHomeTopRatedTvs = GetHomeTopRatedTvs(repository),
-			getHomeTrendingTvs = GetHomeTrendingTvs(repository)
+			getHomeTrendingTvs = GetHomeTrendingTvs(repository),
+			deleteAll = DeleteAll(repository)
 		)
 	}
 

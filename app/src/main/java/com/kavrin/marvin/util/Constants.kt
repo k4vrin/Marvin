@@ -49,4 +49,6 @@ object Constants {
 	const val ONE_MINUTE_IN_SECONDS = 60
 	const val TWENTY_FOUR_HOURS_IN_MINUTES = 1440
 
+	const val DEFAULT_HOME_PREFETCH = 0
+
 }

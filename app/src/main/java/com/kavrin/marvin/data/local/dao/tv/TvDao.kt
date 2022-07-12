@@ -14,4 +14,7 @@ interface TvDao {
 
 	@Query("SELECT * FROM tv_table WHERE tvId = :tvId")
 	suspend fun getSelectedTv(tvId: Int): Tv
+
+	@Query("DELETE FROM tv_table")
+	suspend fun deleteAllTvs()
 }
