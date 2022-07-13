@@ -20,12 +20,14 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.StrokeCap
 import androidx.compose.ui.graphics.drawscope.DrawScope
 import androidx.compose.ui.graphics.drawscope.Stroke
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.TextUnit
 import androidx.compose.ui.unit.dp
+import com.kavrin.marvin.R
 import com.kavrin.marvin.ui.theme.*
 import java.text.DecimalFormat
 
@@ -94,7 +96,8 @@ fun RatingIndicator(
     ///// Foreground Color /////
     val foregroundIndicatorColor = remember {
         when (allowedIndicatorValue) {
-            in 0f..4f -> LowRate
+            0f -> LightGray
+            in 0.1f..4f -> LowRate
             in 4f..7f -> MediumRate
             else -> HighRate
         }
@@ -196,7 +199,7 @@ fun EmbeddedElements(
 
 
     Text(
-        text = bigText.toString(),
+        text = if (bigText == 0f) stringResource(id = R.string.not_rated) else bigText.toString(),
         fontFamily = nunitoTypeFace,
         color = bigTextColor,
         fontSize = bigTextFontSize,
@@ -204,13 +207,16 @@ fun EmbeddedElements(
         fontWeight = FontWeight.Bold
     )
 
-    Text(
-        text = smallText.toString(),
-        fontFamily = nunitoTypeFace,
-        color = smallTextColor,
-        fontSize = smallTextFontSize,
-        textAlign = TextAlign.Center
-    )
+    if (bigText != 0f) {
+        Text(
+            text = smallText.toString(),
+            fontFamily = nunitoTypeFace,
+            color = smallTextColor,
+            fontSize = smallTextFontSize,
+            textAlign = TextAlign.Center
+        )
+
+    }
 
 }
 

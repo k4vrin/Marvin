@@ -1,4 +1,4 @@
-package com.kavrin.marvin.presentation.screens.detail.component
+package com.kavrin.marvin.presentation.screens.movie.component
 
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer

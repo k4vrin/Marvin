@@ -4,8 +4,11 @@ import android.app.Application
 import com.kavrin.marvin.data.repository.Repository
 import com.kavrin.marvin.data.repository.impl.DataStoreOpImpl
 import com.kavrin.marvin.domain.repository.DataStoreOp
-import com.kavrin.marvin.domain.use_cases.detail.*
 import com.kavrin.marvin.domain.use_cases.home.*
+import com.kavrin.marvin.domain.use_cases.movie.DetailUseCases
+import com.kavrin.marvin.domain.use_cases.movie.GetMovie
+import com.kavrin.marvin.domain.use_cases.movie.GetMovieDetails
+import com.kavrin.marvin.domain.use_cases.movie.GetRatings
 import com.kavrin.marvin.domain.use_cases.splash_welcome.ReadOnBoarding
 import com.kavrin.marvin.domain.use_cases.splash_welcome.SaveGenres
 import com.kavrin.marvin.domain.use_cases.splash_welcome.SaveOnBoarding
@@ -65,9 +68,7 @@ object RepositoryModule {
 	): DetailUseCases {
 		return DetailUseCases(
 			getMovie = GetMovie(repository),
-			getTv = GetTv(repository),
 			getMovieDetails = GetMovieDetails(repository),
-			getTvDetails = GetTvDetails(repository),
 			getRatings = GetRatings(repository)
 		)
 	}

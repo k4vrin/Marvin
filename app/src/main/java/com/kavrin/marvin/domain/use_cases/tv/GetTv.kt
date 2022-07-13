@@ -1,4 +1,4 @@
-package com.kavrin.marvin.domain.use_cases.detail
+package com.kavrin.marvin.domain.use_cases.tv
 
 import com.kavrin.marvin.data.repository.Repository
 import com.kavrin.marvin.domain.model.tv.entities.Tv

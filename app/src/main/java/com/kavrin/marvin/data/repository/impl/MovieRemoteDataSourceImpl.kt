@@ -18,6 +18,7 @@ import com.kavrin.marvin.util.Constants.DEFAULT_HOME_PREFETCH
 import com.kavrin.marvin.util.Constants.ITEMS_IN_HOME
 import com.kavrin.marvin.util.Constants.ITEMS_PER_PAGE
 import kotlinx.coroutines.flow.Flow
+import retrofit2.Response
 
 class MovieRemoteDataSourceImpl(
 	private val movieService: TMDBMovieService,
@@ -152,7 +153,7 @@ class MovieRemoteDataSourceImpl(
 	// Details
 	///////////////////////////////////////////////////////////////////////////
 
-	override suspend fun getMovieDetails(id: Int): SingleMovieApiResponse {
+	override suspend fun getMovieDetails(id: Int): Response<SingleMovieApiResponse> {
 		return movieService.getMovieCredits(id = id)
 	}
 

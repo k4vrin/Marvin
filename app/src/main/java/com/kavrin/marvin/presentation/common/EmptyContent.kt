@@ -1,4 +1,4 @@
-package com.kavrin.marvin.presentation.screens.detail
+package com.kavrin.marvin.presentation.screens.movie
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.isSystemInDarkTheme
@@ -14,6 +14,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import com.google.accompanist.swiperefresh.SwipeRefresh
@@ -62,7 +63,7 @@ fun EmptyContent(
                             .size(NETWORK_ERROR_ICON_HEIGHT)
                             .alpha(ContentAlpha.disabled),
                         painter = painterResource(id = R.drawable.network_error),
-                        contentDescription = "Network Error Icon",
+                        contentDescription = stringResource(R.string.network_error_icon),
                         tint = if (isSystemInDarkTheme()) LightGray else DarkGray
                     )
 

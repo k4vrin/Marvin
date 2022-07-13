@@ -7,6 +7,7 @@ import com.kavrin.marvin.domain.model.movie.entities.relations.MovieAndPopular
 import com.kavrin.marvin.domain.model.movie.entities.relations.MovieAndTopRated
 import com.kavrin.marvin.domain.model.movie.entities.relations.MovieAndTrending
 import kotlinx.coroutines.flow.Flow
+import retrofit2.Response
 
 interface MovieRemoteDataSource {
 
@@ -19,6 +20,6 @@ interface MovieRemoteDataSource {
 	fun getHomeTrendingMovies(): Flow<PagingData<MovieAndTrending>>
 	fun searchMovies(): Flow<PagingData<Movie>>
 	suspend fun saveMovieGenres()
-	suspend fun getMovieDetails(id: Int): SingleMovieApiResponse
+	suspend fun getMovieDetails(id: Int): Response<SingleMovieApiResponse>
 
 }

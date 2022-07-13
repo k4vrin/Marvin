@@ -6,6 +6,7 @@ import com.kavrin.marvin.data.remote.IMDbService
 import com.kavrin.marvin.domain.model.imdb.IMDbRatingApiResponse
 import com.kavrin.marvin.domain.repository.IMDbDataSource
 import com.kavrin.marvin.util.Constants.IMDb_BASE_URL
+import retrofit2.Response
 
 class IMDbDataSourceImpl(
     private val imdbService: IMDbService,
@@ -13,7 +14,7 @@ class IMDbDataSourceImpl(
 ) : IMDbDataSource {
 
 
-    override suspend fun getRatings(id: String): IMDbRatingApiResponse {
+    override suspend fun getRatings(id: String): Response<IMDbRatingApiResponse> {
         return imdbService.getRating(url = IMDb_BASE_URL + "Ratings/${BuildConfig.IMDb_API_KEY}/$id")
     }
 

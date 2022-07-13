@@ -6,8 +6,7 @@ object Constants {
 	const val IMAGE_BASE_URL = "https://image.tmdb.org/t/p/w500/"
 	const val IMDb_BASE_URL = "https://imdb-api.com/en/API/"
 
-	const val DETAILS_ARGUMENT_KEY_ID = "id"
-	const val DETAILS_ARGUMENT_KEY_BOOL = "isMovie"
+	const val ARGUMENT_KEY_ID = "id"
 	const val LIST_ARGUMENT_KEY = "listId"
 
 	const val MARVIN_DB = "marvin_db"

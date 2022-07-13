@@ -32,7 +32,7 @@ import kotlin.math.absoluteValue
 fun <T : MarvinItem> Carousel(
     items: LazyPagingItems<T>,
     isMovie: Boolean,
-    onItemClicked: (Int, Boolean) -> Unit,
+    onItemClicked: (Int) -> Unit,
     onMenuIconClicked: (Int) -> Unit
 ) {
 
@@ -106,7 +106,7 @@ fun <T : MarvinItem> Carousel(
                             .clip(shape = RoundedCornerShape(EXTRA_SMALL_PADDING))
                             .clickable {
                                 if (itemId != null)
-                                    onItemClicked(itemId, isMovie)
+                                    onItemClicked(itemId)
                             },
                         posterPath = posterPath,
                         itemId = itemId,

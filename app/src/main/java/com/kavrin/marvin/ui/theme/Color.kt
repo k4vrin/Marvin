@@ -57,97 +57,90 @@ val MinionYellow = Color(0xFFFFE566)
 val EerieBlack = Color(0xFF212529)
 val DavysGrey = Color(0xFF495057)
 
-
 val RatingGreen = Brush.horizontalGradient(
-	listOf(AppleGreen, GreenRYB)
+    listOf(AppleGreen, GreenRYB)
 )
 
 val RatingYellow = Brush.horizontalGradient(
-	listOf(MinionYellow, CyberYellow)
+    listOf(MinionYellow, CyberYellow)
 )
 
 val RatingRed = Brush.horizontalGradient(
-	listOf(RoseMadder, RedNCS)
+    listOf(RoseMadder, RedNCS)
 )
 
-val RatingBackground = Brush.horizontalGradient(
-	listOf(DavysGrey, EerieBlack)
-)
 
 val Colors.tabIndicatorColor
-	@Composable
-	get() = if (isLight) LightFab else LightGray
+    @Composable
+    get() = if (isLight) LightFab else LightGray
 
 val Colors.backGroundColor
-	@Composable
-	get() = if (isLight) BackGroundLight else BackGroundDark
+    @Composable
+    get() = if (isLight) BackGroundLight else BackGroundDark
 
 val Colors.topBarContentColor
-	@Composable
-	get() = if (isLight) Color.Black else LightGray
+    @Composable
+    get() = if (isLight) Color.Black else LightGray
 
 val Colors.topBarBgColor
-	@Composable
-	get() = if (isLight) Color.White else Color.Black
+    @Composable
+    get() = if (isLight) Color.White else Color.Black
 
 val Colors.cardColor
-	@Composable
-	get() = if (isLight) LightCard else DarkCard
+    @Composable
+    get() = if (isLight) LightCard else DarkCard
 
 val Colors.cardContentColor
-	@Composable
-	get() = if (isLight) DarkGray else LightGray
+    @Composable
+    get() = if (isLight) DarkGray else LightGray
 
 val Colors.contentColor
-	@Composable
-	get() = if (isLight) Color.Black else Color.White
+    @Composable
+    get() = if (isLight) Color.Black else Color.White
 
 val Colors.pagerIndicatorActiveColor
-	@Composable
-	get() = if (isLight) LightFab else DarkGray
+    @Composable
+    get() = if (isLight) LightFab else LightGray
 
 val Colors.cardShimmerColor
-	@Composable
-	get() = if (isLight) ShimmerMediumGray else ShimmerDarkGray
+    @Composable
+    get() = if (isLight) ShimmerMediumGray else ShimmerDarkGray
 
 val Colors.ratingShimmerColor
-	@Composable
-	get() = if (isLight) ShimmerMediumGrayVariant else ShimmerDarkGrayVariant
+    @Composable
+    get() = if (isLight) ShimmerMediumGrayVariant else ShimmerDarkGrayVariant
 
 val Colors.fabBgColor
-	@Composable
-	get() = if (isLight) LightFab else DarkGray
+    @Composable
+    get() = if (isLight) LightFab else LightGray
 
 val Colors.fabContentColor
-	@Composable
-	get() = if (isLight) Color.Black else Color.White
+    @Composable
+    get() = if (isLight) Color.White else Color.Black
 
 val Colors.statusBarColor
-	@Composable
-	get() = if (isLight) Color.White else Color.Black
+    @Composable
+    get() = if (isLight) Color.White else Color.Black
 
 val Colors.loadingCircleColor
-	@Composable
-	get() = if (isLight) LightFab else Color.White
+    @Composable
+    get() = if (isLight) LightFab else Color.White
 
 val Colors.splashText
-	@Composable
-	get() = if (isLight) PlumpPurple else Color.White
+    @Composable
+    get() = if (isLight) PlumpPurple else Color.White
 
 val Colors.splashBackgroundBrush
-	@Composable
-	get() = if (isLight) {
-		Brush.verticalGradient(
-			colors = listOf(
-				Thistle,
-				LavenderFloral,
-			)
-		)
-	} else {
-		Brush.verticalGradient(
-			colors = listOf(
-				BackGroundDark,
-				BackGroundDark
-			)
-		)
-	}
+    @Composable
+    get() = if (isLight)
+        Brush.verticalGradient(listOf(Thistle, LavenderFloral))
+    else
+        Brush.verticalGradient(listOf(BackGroundDark, BackGroundDark))
+
+
+val Colors.ratingBackground
+    @Composable
+    get() = if (isLight)
+        Brush.horizontalGradient(listOf(DavysGrey, EerieBlack))
+    else
+        Brush.horizontalGradient(listOf(Color.White, ShimmerLightGray))

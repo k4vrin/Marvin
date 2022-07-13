@@ -26,7 +26,7 @@ fun <T : MarvinItem> CardList(
     cardListTitle: String,
     items: LazyPagingItems<T>,
     isMovie: Boolean,
-    onItemClicked: (Int, Boolean) -> Unit,
+    onItemClicked: (Int) -> Unit,
     onMenuIconClicked: (Int) -> Unit
 ) {
 
@@ -102,7 +102,7 @@ fun <T : MarvinItem> CardList(
                         itemTitle = title,
                         releasedDate = date,
                         onCardClicked = {
-                            onItemClicked(it, isMovie)
+                            onItemClicked(it)
                         },
                         onMenuIconClicked = {
                             onMenuIconClicked(it)

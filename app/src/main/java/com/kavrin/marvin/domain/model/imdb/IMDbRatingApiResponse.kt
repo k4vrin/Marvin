@@ -7,7 +7,7 @@ import kotlinx.serialization.Serializable
 @Serializable
 data class IMDbRatingApiResponse(
     @SerialName("errorMessage")
-    val errorMessage: String?,
+    val errorMessage: String,
     @SerialName("imDb")
     val imDb: String?,
     @SerialName("metacritic")

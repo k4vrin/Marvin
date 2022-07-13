@@ -75,7 +75,7 @@ class Repository @Inject constructor(
 		return localDataSource.getMovieGenres(ids)
 	}
 
-	suspend fun getMovieDetails(id: Int): SingleMovieApiResponse {
+	suspend fun getMovieDetails(id: Int): Response<SingleMovieApiResponse> {
 		return movieRemote.getMovieDetails(id = id)
 	}
 

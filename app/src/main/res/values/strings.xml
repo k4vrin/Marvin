@@ -17,4 +17,13 @@
     <string name="cast">Cast</string>
     <string name="crew">Crew</string>
     <string name="ratings">Ratings</string>
+    <string name="not_rated">NR</string>
+    <string name="rete_logo">Rating Provider Logo</string>
+    <string name="rating_animation">rating animations</string>
+    <string name="rating_translate_y_animation">Rating TranslateY Animation</string>
+    <string name="rating_number_animation">Rating Number Animation</string>
+    <string name="fab_translate_x">Fab TranslateX</string>
+    <string name="fab_animation">Fab Animation</string>
+    <string name="fab_rotate">Fab Rotate</string>
+    <string name="network_error_icon">Network Error Icon</string>
 </resources>

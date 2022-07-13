@@ -17,6 +17,8 @@ import androidx.paging.LoadState
 import androidx.paging.compose.LazyPagingItems
 import com.google.accompanist.pager.HorizontalPager
 import com.google.accompanist.pager.rememberPagerState
+import com.google.accompanist.swiperefresh.SwipeRefresh
+import com.google.accompanist.swiperefresh.rememberSwipeRefreshState
 import com.kavrin.marvin.R
 import com.kavrin.marvin.domain.model.movie.entities.relations.MovieAndPopular
 import com.kavrin.marvin.domain.model.movie.entities.relations.MovieAndTopRated
@@ -30,7 +32,7 @@ import com.kavrin.marvin.presentation.common.Carousel
 import com.kavrin.marvin.presentation.component.MarvinTabRow
 import com.kavrin.marvin.presentation.component.ShimmerCardEffect
 import com.kavrin.marvin.presentation.component.ShimmerCarouselEffect
-import com.kavrin.marvin.presentation.screens.detail.EmptyContent
+import com.kavrin.marvin.presentation.screens.movie.EmptyContent
 import com.kavrin.marvin.ui.theme.MEDIUM_PADDING
 import com.kavrin.marvin.ui.theme.backGroundColor
 import com.kavrin.marvin.util.MarvinItem
@@ -84,31 +86,47 @@ fun HomeContent(
         if (handler) {
             MarvinTabRow(pagerState = pagerState)
 
-            HorizontalPager(
-                count = 2,
-                state = pagerState,
-                itemSpacing = 1.dp,
-                userScrollEnabled = false,
-            ) { page ->
+            SwipeRefresh(
+                state = rememberSwipeRefreshState(isRefreshing = isRefreshing),
+                onRefresh = {
+                    isRefreshing = true
+                    onRefresh()
+                    carouselMovies.refresh()
+                    popularMovies.refresh()
+                    topRatedMovies.refresh()
+                    trendingMovies.refresh()
+                    carouselTvs.refresh()
+                    popularTvs.refresh()
+                    topRatedTvs.refresh()
+                    trendingTvs.refresh()
+                    isRefreshing = false
+                }
+            ) {
+                HorizontalPager(
+                    count = 2,
+                    state = pagerState,
+                    itemSpacing = 1.dp,
+                    userScrollEnabled = false,
+                ) { page ->
 
-                when (page) {
-                    0 -> MovieTabContent(
-                        navHostController = navHostController,
-                        carousel = carouselMovies,
-                        popular = popularMovies,
-                        topRated = topRatedMovies,
-                        trending = trendingMovies
-                    )
-                    1 -> TvTabContent(
-                        navHostController = navHostController,
-                        carousel = carouselTvs,
-                        popular = popularTvs,
-                        topRated = topRatedTvs,
-                        trending = trendingTvs
-                    )
+                    when (page) {
+                        0 -> MovieTabContent(
+                            navHostController = navHostController,
+                            carousel = carouselMovies,
+                            popular = popularMovies,
+                            topRated = topRatedMovies,
+                            trending = trendingMovies
+                        )
+                        1 -> TvTabContent(
+                            navHostController = navHostController,
+                            carousel = carouselTvs,
+                            popular = popularTvs,
+                            topRated = topRatedTvs,
+                            trending = trendingTvs
+                        )
+                    }
                 }
             }
-
         }
     }
 
@@ -140,14 +158,9 @@ fun MovieTabContent(
         Carousel(
             items = carousel,
             isMovie = true,
-            onItemClicked = { id, isMovie ->
+            onItemClicked = { id ->
                 if (isConnected.value) {
-                    navHostController.navigate(
-                        Screen.Detail.passIdAndBool(
-                            id = id,
-                            isMovie = isMovie
-                        )
-                    )
+                    navHostController.navigate(Screen.Movie.passId(id = id))
                 }
             },
             onMenuIconClicked = {}
@@ -157,14 +170,9 @@ fun MovieTabContent(
             cardListTitle = stringResource(R.string.trending),
             items = trending,
             isMovie = true,
-            onItemClicked = { id, isMovie ->
+            onItemClicked = { id ->
                 if (isConnected.value) {
-                    navHostController.navigate(
-                        Screen.Detail.passIdAndBool(
-                            id = id,
-                            isMovie = isMovie
-                        )
-                    )
+                    navHostController.navigate(Screen.Movie.passId(id = id))
                 }
             },
             onMenuIconClicked = {}
@@ -174,14 +182,9 @@ fun MovieTabContent(
             cardListTitle = stringResource(R.string.popular),
             items = popular,
             isMovie = true,
-            onItemClicked = { id, isMovie ->
+            onItemClicked = { id ->
                 if (isConnected.value) {
-                    navHostController.navigate(
-                        Screen.Detail.passIdAndBool(
-                            id = id,
-                            isMovie = isMovie
-                        )
-                    )
+                    navHostController.navigate(Screen.Movie.passId(id = id))
                 }
             },
             onMenuIconClicked = {
@@ -193,14 +196,9 @@ fun MovieTabContent(
             cardListTitle = stringResource(R.string.top_rated),
             items = topRated,
             isMovie = true,
-            onItemClicked = { id, isMovie ->
+            onItemClicked = { id ->
                 if (isConnected.value) {
-                    navHostController.navigate(
-                        Screen.Detail.passIdAndBool(
-                            id = id,
-                            isMovie = isMovie
-                        )
-                    )
+                    navHostController.navigate(Screen.Movie.passId(id = id))
                 }
             },
             onMenuIconClicked = {
@@ -237,14 +235,9 @@ fun TvTabContent(
         Carousel(
             items = carousel,
             isMovie = false,
-            onItemClicked = { id, isMovie ->
+            onItemClicked = { id ->
                 if (isConnected.value) {
-                    navHostController.navigate(
-                        Screen.Detail.passIdAndBool(
-                            id = id,
-                            isMovie = isMovie
-                        )
-                    )
+                    navHostController.navigate(Screen.Tv.passId(id = id))
                 }
             },
             onMenuIconClicked = {}
@@ -254,14 +247,9 @@ fun TvTabContent(
             cardListTitle = stringResource(R.string.trending),
             items = trending,
             isMovie = false,
-            onItemClicked = { id, isMovie ->
+            onItemClicked = { id ->
                 if (isConnected.value) {
-                    navHostController.navigate(
-                        Screen.Detail.passIdAndBool(
-                            id = id,
-                            isMovie = isMovie
-                        )
-                    )
+                    navHostController.navigate(Screen.Tv.passId(id = id))
                 }
             },
             onMenuIconClicked = {
@@ -273,14 +261,9 @@ fun TvTabContent(
             cardListTitle = stringResource(R.string.popular),
             items = popular,
             isMovie = false,
-            onItemClicked = { id, isMovie ->
+            onItemClicked = { id ->
                 if (isConnected.value) {
-                    navHostController.navigate(
-                        Screen.Detail.passIdAndBool(
-                            id = id,
-                            isMovie = isMovie
-                        )
-                    )
+                    navHostController.navigate(Screen.Tv.passId(id = id))
                 }
             },
             onMenuIconClicked = {
@@ -292,14 +275,9 @@ fun TvTabContent(
             cardListTitle = stringResource(R.string.top_rated),
             items = topRated,
             isMovie = false,
-            onItemClicked = { id, isMovie ->
+            onItemClicked = { id ->
                 if (isConnected.value) {
-                    navHostController.navigate(
-                        Screen.Detail.passIdAndBool(
-                            id = id,
-                            isMovie = isMovie
-                        )
-                    )
+                    navHostController.navigate(Screen.Tv.passId(id = id))
                 }
             },
             onMenuIconClicked = {
@@ -344,13 +322,13 @@ fun <T : MarvinItem> handlePagingResult(
 
 
 @Composable
-fun <T: MarvinItem> handleError(
+fun <T : MarvinItem> handleError(
     item: LazyPagingItems<T>,
     isRefreshing: Boolean,
     onRefresh: () -> Unit,
 ): Boolean {
-    
-    item.apply { 
+
+    item.apply {
         val error = when {
             loadState.refresh is LoadState.Error -> loadState.refresh as LoadState.Error
             loadState.prepend is LoadState.Error -> loadState.prepend as LoadState.Error
@@ -371,7 +349,7 @@ fun <T: MarvinItem> handleError(
             else -> true
         }
     }
-    
+
 }
 
 

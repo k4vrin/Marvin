@@ -1,150 +1,38 @@
-package com.kavrin.marvin.presentation.screens.detail
+package com.kavrin.marvin.presentation.screens.movie
 
 import androidx.compose.foundation.background
-import androidx.compose.foundation.layout.*
-import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.CircleShape
-import androidx.compose.foundation.verticalScroll
-import androidx.compose.material.*
+import androidx.compose.material.Icon
+import androidx.compose.material.IconButton
+import androidx.compose.material.MaterialTheme
+import androidx.compose.material.Text
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Add
 import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material.icons.filled.Share
-import androidx.compose.runtime.*
+import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.drawWithContent
 import androidx.compose.ui.graphics.*
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
-import androidx.compose.ui.unit.IntOffset
 import androidx.compose.ui.unit.dp
-import androidx.hilt.navigation.compose.hiltViewModel
-import androidx.navigation.NavHostController
 import coil.compose.AsyncImage
 import coil.request.ImageRequest
-import com.google.accompanist.systemuicontroller.rememberSystemUiController
 import com.kavrin.marvin.R
 import com.kavrin.marvin.ui.theme.*
-import com.kavrin.marvin.util.Constants.IMAGE_BASE_URL
-import me.onebone.toolbar.*
-
-
-@Composable
-fun DetailScreen(
-    navHostController: NavHostController,
-    detailViewModel: DetailViewModel = hiltViewModel()
-) {
-
-    val uiController = rememberSystemUiController()
-    val useDarkIcons = MaterialTheme.colors.isLight
-    SideEffect {
-        uiController.setStatusBarColor(
-            color = Color.Transparent,
-            darkIcons = useDarkIcons
-        )
-    }
-
-
-    val movie by detailViewModel.selectedMovie.collectAsState()
-    val tv by detailViewModel.selectedTv.collectAsState()
-    val movieDetails by detailViewModel.movieDetails.collectAsState()
-    val tvDetails by detailViewModel.tvDetails.collectAsState()
-
-    var isMovie by remember {
-        mutableStateOf(true)
-    }
-    isMovie = detailViewModel.isMovie ?: true
-
-    val title = if (isMovie) movie?.title else tv?.name
-    val backdrop = if (isMovie) movie?.backdropPath else tv?.backdropPath
-
-    val collapsingToolbarState = rememberCollapsingToolbarScaffoldState()
-    val scrollState = rememberScrollState()
-
-    Box(
-        modifier = Modifier
-            .fillMaxSize()
-    ) {
-
-        CollapsingToolbarScaffold(
-            modifier = Modifier
-                .fillMaxSize()
-                .navigationBarsPadding(),
-            state = collapsingToolbarState,
-            scrollStrategy = ScrollStrategy.ExitUntilCollapsed,
-            toolbar = {
-                    ToolBar(
-                        state = collapsingToolbarState,
-                        backdrop = backdrop,
-                        title = title,
-                        onBackIconClicked = {
-                            navHostController.popBackStack()
-                        }
-                    )
-            }
-        ) {
-            Column(
-                modifier = Modifier
-                    .fillMaxSize()
-                    .background(MaterialTheme.colors.backGroundColor)
-                    .verticalScroll(scrollState),
-                verticalArrangement = Arrangement.spacedBy(SMALL_PADDING)
-            ) {
-
-                if (isMovie) {
-                    movieDetails?.let { movieDetails ->
-                        movie?.let { movie ->
-                            MovieDetailsContent(movieDetails = movieDetails, movie = movie)
-                        }
-                    }
-                }
-
-            }
-
-        }
-
-        Divider(
-            modifier = Modifier
-                .offset(
-                    y = with(LocalDensity.current) { collapsingToolbarState.toolbarState.height.toDp() }
-                )
-                .graphicsLayer {
-                    alpha = 1f - collapsingToolbarState.toolbarState.progress
-                },
-            thickness = 2.dp
-        )
-
-        FloatingActionButton(
-            modifier = Modifier
-                .align(Alignment.TopEnd)
-                .offset { IntOffset(x = 0, y = (collapsingToolbarState.toolbarState.height.toDp() - FAB_OFFSET).roundToPx()) }
-                .padding(horizontal = SMALL_PADDING)
-                .size(FAB_SIZE),
-            onClick = { },
-            backgroundColor = MaterialTheme.colors.fabBgColor,
-            contentColor = Color.White
-        ) {
-
-            Icon(
-                modifier = Modifier
-                    .fillMaxSize()
-                    .requiredSize(ICON_SIZE),
-                imageVector = Icons.Default.Add,
-                contentDescription = stringResource(R.string.add_icon)
-            )
-        }
-
-    }
-
-}
+import com.kavrin.marvin.util.Constants
+import me.onebone.toolbar.CollapsingToolbarScaffoldState
+import me.onebone.toolbar.CollapsingToolbarScope
 
 @Composable
-fun CollapsingToolbarScope.ToolBar(
+fun CollapsingToolbarScope.MovieToolbar(
     state: CollapsingToolbarScaffoldState,
     backdrop: String?,
     title: String?,
@@ -182,7 +70,7 @@ fun CollapsingToolbarScope.ToolBar(
     )
 
     val textHorizontalPad = androidx.compose.ui.unit.lerp(
-        start = 64.dp,
+        start = 80.dp,
         stop = MEDIUM_PADDING,
         fraction = state.toolbarState.progress
     )
@@ -197,7 +85,7 @@ fun CollapsingToolbarScope.ToolBar(
 
     AsyncImage(
         model = ImageRequest.Builder(LocalContext.current)
-            .data("${IMAGE_BASE_URL}${backdrop}")
+            .data("${Constants.IMAGE_BASE_URL}${backdrop}")
             .placeholder(R.drawable.placeholder_dark)
             .crossfade(true)
             .build(),
@@ -274,7 +162,7 @@ fun CollapsingToolbarScope.ToolBar(
             .padding(horizontal = textHorizontalPad, vertical = textVerticalPad)
             .fillMaxWidth(),
         text = title ?: "",
-        fontFamily = fonts,
+        fontFamily = nunitoTypeFace,
         fontSize = titleFontSize,
         fontWeight = FontWeight.SemiBold,
         color = textColor,
