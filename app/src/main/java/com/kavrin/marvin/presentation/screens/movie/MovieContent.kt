@@ -9,24 +9,34 @@ import androidx.compose.material.Divider
 import androidx.compose.material.MaterialTheme
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
-import androidx.hilt.navigation.compose.hiltViewModel
-import com.kavrin.marvin.domain.model.imdb.IMDbRatingApiResponse
-import com.kavrin.marvin.domain.model.movie.api.detail.SingleMovieApiResponse
+import com.kavrin.marvin.domain.model.common.Backdrop
+import com.kavrin.marvin.domain.model.common.Cast
+import com.kavrin.marvin.domain.model.common.Crew
+import com.kavrin.marvin.domain.model.common.Video
 import com.kavrin.marvin.domain.model.movie.entities.Movie
-import com.kavrin.marvin.presentation.screens.movie.component.DateTime
-import com.kavrin.marvin.presentation.screens.movie.component.Genres
-import com.kavrin.marvin.presentation.screens.movie.component.Overview
-import com.kavrin.marvin.presentation.screens.movie.component.Rating
+import com.kavrin.marvin.presentation.common.CastList
+import com.kavrin.marvin.presentation.common.CrewList
+import com.kavrin.marvin.presentation.screens.movie.component.*
 import com.kavrin.marvin.ui.theme.*
 import me.onebone.toolbar.CollapsingToolbarScaffoldState
 
 @Composable
 fun MovieContent(
-    movieDetails: SingleMovieApiResponse?,
-    ratings: IMDbRatingApiResponse?,
     movie: Movie?,
+    movieRuntime: Int?,
+    movieGenres: List<String>?,
+    movieRatings: Map<String, String?>?,
+    movieCast: List<Cast>?,
+    movieCrew: List<Crew>?,
+    movieTrailer: Video?,
+    movieVideos: List<Video>?,
+    trailerBackdrop: Backdrop?,
+    transitionState: State<TransitionState>,
     toolbarState: CollapsingToolbarScaffoldState,
-    movieViewModel: MovieViewModel = hiltViewModel()
+    onTransitionChange: (Boolean) -> Unit,
+    onCastClicked: (Int) -> Unit,
+    onCrewClicked: (Int) -> Unit,
+    onVideoClicked: (String) -> Unit
 ) {
 
     val listState = rememberLazyListState()
@@ -38,11 +48,8 @@ fun MovieContent(
     }
 
     LaunchedEffect(key1 = animRatings) {
-        movieViewModel.updateTransitionState(animRatings)
+        onTransitionChange(animRatings)
     }
-
-    val tranState = movieViewModel.transition
-
 
     LazyColumn(
         state = listState,
@@ -51,6 +58,7 @@ fun MovieContent(
             .background(MaterialTheme.colors.backGroundColor),
         verticalArrangement = Arrangement.spacedBy(SMALL_PADDING)
     ) {
+        ///// Date Time Genre Overview /////
         item {
             Card(
                 modifier = Modifier
@@ -66,10 +74,10 @@ fun MovieContent(
                 ) {
 
                     if (movie != null) {
-                        if (movieDetails != null) {
+                        if (movieRuntime != null) {
                             DateTime(
                                 date = movie.releaseDate,
-                                time = movieDetails.runtime,
+                                time = movieRuntime,
                             )
                         }
                     }
@@ -90,11 +98,9 @@ fun MovieContent(
                         color = MaterialTheme.colors.cardContentColor.copy(alpha = 0.2f),
                     )
 
-                    if (movieDetails != null) {
+                    if (movieGenres != null) {
                         Genres(
-                            genres = movieDetails.genres.map {
-                                it.name
-                            },
+                            genres = movieGenres,
                             isMovie = true
                         )
                     }
@@ -104,8 +110,7 @@ fun MovieContent(
             }
         }
 
-
-
+        ///// Ratings /////
         item {
             Card(
                 modifier = Modifier
@@ -118,13 +123,50 @@ fun MovieContent(
                         .fillMaxWidth()
                         .padding(all = MEDIUM_PADDING)
                 ) {
-                    if (ratings != null) {
-                        Rating(ratings = ratings, tranState = tranState)
+                    if (movieRatings != null) {
+                        Rating(ratings = movieRatings, tranState = transitionState)
                     }
                 }
 
             }
 
+        }
+
+        ///// Cast List /////
+        item {
+            if (movieCast != null) {
+                CastList(
+                    cast = movieCast,
+                    onCastClicked = {
+                        onCastClicked(it)
+                    }
+                )
+            }
+        }
+
+        ///// Crew List /////
+        item {
+            if (movieCrew != null) {
+                CrewList(
+                    crew = movieCrew,
+                    onCrewClicked = {
+                        onCrewClicked(it)
+                    }
+                )
+            }
+        }
+
+        item {
+            if (movieVideos != null) {
+                VideoSection(
+                    trailer = movieTrailer,
+                    videos = movieVideos,
+                    trailerBackdrop = trailerBackdrop,
+                    onItemClick = {
+                        onVideoClicked(it)
+                    }
+                )
+            }
         }
     }
 

@@ -26,4 +26,5 @@
     <string name="fab_animation">Fab Animation</string>
     <string name="fab_rotate">Fab Rotate</string>
     <string name="network_error_icon">Network Error Icon</string>
+    <string name="videos">Videos</string>
 </resources>

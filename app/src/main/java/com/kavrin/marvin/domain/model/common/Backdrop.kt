@@ -8,6 +8,8 @@ import kotlinx.serialization.Serializable
 data class Backdrop(
     @SerialName("aspect_ratio")
     val aspectRatio: Double,
+    @SerialName("iso_639_1")
+    val iso639: String?,
     @SerialName("file_path")
     val filePath: String,
     @SerialName("height")

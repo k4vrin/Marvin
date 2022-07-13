@@ -154,7 +154,7 @@ class MovieRemoteDataSourceImpl(
 	///////////////////////////////////////////////////////////////////////////
 
 	override suspend fun getMovieDetails(id: Int): Response<SingleMovieApiResponse> {
-		return movieService.getMovieCredits(id = id)
+		return movieService.getMovieDetails(id = id)
 	}
 
 	///////////////////////////////////////////////////////////////////////////

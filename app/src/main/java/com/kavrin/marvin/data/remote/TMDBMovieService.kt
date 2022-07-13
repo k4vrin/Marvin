@@ -47,7 +47,7 @@ interface TMDBMovieService {
 	): MovieGenreApiResponse
 
 	@GET("movie/{id}")
-	suspend fun getMovieCredits(
+	suspend fun getMovieDetails(
 		@Path("id") id: Int,
 		@Query("api_key") apiKey: String = BuildConfig.API_KEY,
 		@Query("append_to_response") append: String = "videos,images,credits"

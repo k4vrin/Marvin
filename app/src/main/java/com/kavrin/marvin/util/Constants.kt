@@ -50,4 +50,9 @@ object Constants {
 
 	const val DEFAULT_HOME_PREFETCH = 0
 
+	const val IMDB = "imDb"
+	const val META = "metacritic"
+	const val TMDB = "theMovieDb"
+	const val ROTTEN = "rottenTomatoes"
+
 }

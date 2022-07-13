@@ -1,4 +1,4 @@
-package com.kavrin.marvin.presentation.screens.movie.component
+package com.kavrin.marvin.presentation.component
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.*
@@ -24,8 +24,10 @@ import com.kavrin.marvin.util.Constants
 fun CreditItem(
     name: String,
     character: String,
+    creditId: Int,
     image: String?,
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
+    onItemClicked: (Int) -> Unit
 ) {
 
     val painter = rememberAsyncImagePainter(
@@ -44,7 +46,9 @@ fun CreditItem(
             ),
         shape = RoundedCornerShape(size = MEDIUM_PADDING),
         backgroundColor = MaterialTheme.colors.cardColor,
-        onClick = {  }
+        onClick = {
+            onItemClicked(creditId)
+        }
     ) {
 
         Column(
@@ -115,6 +119,8 @@ fun CastItemPreview() {
     CreditItem(
         name = "Brad Pit",
         character = "John Doe",
-        image = ""
+        image = "",
+        creditId = 1,
+        onItemClicked = {}
     )
 }

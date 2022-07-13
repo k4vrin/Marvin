@@ -144,3 +144,10 @@ val Colors.ratingBackground
         Brush.horizontalGradient(listOf(DavysGrey, EerieBlack))
     else
         Brush.horizontalGradient(listOf(Color.White, ShimmerLightGray))
+
+val Colors.cardGradientColor
+    @Composable
+    get() = if (isLight)
+        Brush.horizontalGradient(listOf(LightCard ,LavenderFloral))
+    else
+        Brush.horizontalGradient(listOf(DarkCard, ShimmerDarkGray))

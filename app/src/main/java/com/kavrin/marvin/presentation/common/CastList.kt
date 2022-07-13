@@ -1,4 +1,4 @@
-package com.kavrin.marvin.presentation.screens.movie.component
+package com.kavrin.marvin.presentation.common
 
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyRow
@@ -13,6 +13,7 @@ import androidx.compose.ui.text.font.FontWeight
 import com.kavrin.marvin.R
 import com.kavrin.marvin.domain.model.common.Cast
 import com.kavrin.marvin.domain.model.common.Crew
+import com.kavrin.marvin.presentation.component.CreditItem
 import com.kavrin.marvin.ui.theme.MEDIUM_PADDING
 import com.kavrin.marvin.ui.theme.SMALL_PADDING
 import com.kavrin.marvin.ui.theme.contentColor
@@ -20,7 +21,8 @@ import com.kavrin.marvin.ui.theme.nunitoTypeFace
 
 @Composable
 fun CastList(
-    cast: List<Cast>
+    cast: List<Cast>,
+    onCastClicked: (Int) -> Unit
 ) {
 
     val listState = rememberLazyListState()
@@ -58,7 +60,15 @@ fun CastList(
                     it.creditId
                 }
             ) { cast ->
-                CreditItem(name = cast.name, character = cast.character, image = cast.profilePath)
+                CreditItem(
+                    name = cast.name,
+                    character = cast.character,
+                    image = cast.profilePath,
+                    creditId = cast.id,
+                    onItemClicked = {
+                        onCastClicked(it)
+                    }
+                )
             }
         }
 
@@ -67,7 +77,8 @@ fun CastList(
 
 @Composable
 fun CrewList(
-    crew: List<Crew>
+    crew: List<Crew>,
+    onCrewClicked: (Int) -> Unit
 ) {
 
     val listState = rememberLazyListState()
@@ -105,7 +116,15 @@ fun CrewList(
                     it.creditId
                 }
             ) { crew ->
-                CreditItem(name = crew.name, character = crew.job, image = crew.profilePath)
+                CreditItem(
+                    name = crew.name,
+                    character = crew.job,
+                    image = crew.profilePath,
+                    creditId = crew.id,
+                    onItemClicked = {
+                        onCrewClicked(it)
+                    }
+                )
             }
         }
 

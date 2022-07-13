@@ -37,14 +37,17 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.zIndex
 import com.kavrin.marvin.R
 import com.kavrin.marvin.R.drawable
-import com.kavrin.marvin.domain.model.imdb.IMDbRatingApiResponse
 import com.kavrin.marvin.ui.theme.*
+import com.kavrin.marvin.util.Constants.IMDB
+import com.kavrin.marvin.util.Constants.META
+import com.kavrin.marvin.util.Constants.ROTTEN
+import com.kavrin.marvin.util.Constants.TMDB
 import com.kavrin.marvin.util.ratingProviderLogo
 import java.text.DecimalFormat
 
 @Composable
 fun Rating(
-    ratings: IMDbRatingApiResponse,
+    ratings: Map<String, String?>,
     tranState: State<TransitionState>
 ) {
 
@@ -72,32 +75,32 @@ fun Rating(
 
 
             RatingItem(
-                rating = ratings.imDb,
+                rating = ratings[IMDB],
                 isPercentage = false,
-                provider = "imDb",
+                provider = IMDB,
                 tranState = tranState,
             )
 
 
             RatingItem(
-                rating = ratings.metacritic,
+                rating = ratings[META],
                 isPercentage = true,
-                provider = "metacritic",
+                provider = META,
                 tranState = tranState,
             )
 
             RatingItem(
-                rating = ratings.theMovieDb,
+                rating = ratings[TMDB],
                 isPercentage = false,
-                provider = "theMovieDb",
+                provider = TMDB,
                 tranState = tranState,
             )
 
 
             RatingItem(
-                rating = ratings.rottenTomatoes,
+                rating = ratings[ROTTEN],
                 isPercentage = true,
-                provider = "rottenTomatoes",
+                provider = ROTTEN,
                 tranState = tranState,
             )
 
@@ -349,12 +352,11 @@ fun RatingItemPrev() {
     }
 
     Rating(
-        ratings = IMDbRatingApiResponse(
-            errorMessage = "" ,
-            imDb = "0",
-            theMovieDb = "7",
-            rottenTomatoes = "66",
-            metacritic = "88"
+        ratings = mapOf(
+            IMDB to "6.5",
+            TMDB to "4.2",
+            META to "90",
+            ROTTEN to ""
         ),
         tranState = state
     )
