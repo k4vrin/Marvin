@@ -1,10 +1,8 @@
 package com.kavrin.marvin.domain.model.movie.api.detail
 
 
-import com.kavrin.marvin.domain.model.common.Credits
-import com.kavrin.marvin.domain.model.common.Genre
-import com.kavrin.marvin.domain.model.common.Images
-import com.kavrin.marvin.domain.model.common.Videos
+import com.kavrin.marvin.domain.model.common.*
+import com.kavrin.marvin.domain.model.movie.api.MovieApiResponse
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
@@ -40,4 +38,10 @@ data class SingleMovieApiResponse(
     val tagline: String,
     @SerialName("videos")
     val videos: Videos,
+    @SerialName("reviews")
+    val reviews: Reviews?,
+    @SerialName("recommendations")
+    val recommendations: MovieApiResponse,
+    @SerialName("similar")
+    val similar: MovieApiResponse
 )

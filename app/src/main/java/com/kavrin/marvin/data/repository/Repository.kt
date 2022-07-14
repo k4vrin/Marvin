@@ -2,6 +2,7 @@ package com.kavrin.marvin.data.repository
 
 import androidx.paging.PagingData
 import com.kavrin.marvin.domain.model.imdb.IMDbRatingApiResponse
+import com.kavrin.marvin.domain.model.movie.api.collection.MovieCollection
 import com.kavrin.marvin.domain.model.movie.api.detail.SingleMovieApiResponse
 import com.kavrin.marvin.domain.model.movie.entities.Movie
 import com.kavrin.marvin.domain.model.movie.entities.relations.MovieAndPopular
@@ -79,6 +80,10 @@ class Repository @Inject constructor(
 		return movieRemote.getMovieDetails(id = id)
 	}
 
+	suspend fun getMovieCollection(id: Int): Response<MovieCollection> {
+		return movieRemote.getMovieCollection(id = id)
+	}
+
 	///////////////////////////////////////////////////////////////////////////
 	// Tv
 	///////////////////////////////////////////////////////////////////////////
@@ -154,5 +159,9 @@ class Repository @Inject constructor(
 	suspend fun saveGenres() {
 		movieRemote.saveMovieGenres()
 		tvRemote.saveTvGenres()
+	}
+
+	suspend fun saveMovies(movies: List<Movie>) {
+		localDataSource.saveMovies(movies = movies)
 	}
 }

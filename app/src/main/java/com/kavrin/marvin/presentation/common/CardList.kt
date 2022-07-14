@@ -26,6 +26,7 @@ fun <T : MarvinItem> CardList(
     cardListTitle: String,
     items: LazyPagingItems<T>,
     isMovie: Boolean,
+    seeAllEnabled: Boolean = true,
     onItemClicked: (Int) -> Unit,
     onMenuIconClicked: (Int) -> Unit
 ) {
@@ -55,13 +56,15 @@ fun <T : MarvinItem> CardList(
                     color = MaterialTheme.colors.contentColor
                 )
 
-                Text(
-                    text = stringResource(R.string.see_all),
-                    fontFamily = nunitoTypeFace,
-                    fontSize = MaterialTheme.typography.subtitle1.fontSize,
-                    fontWeight = FontWeight.Normal,
-                    color = MaterialTheme.colors.contentColor
-                )
+                if (seeAllEnabled) {
+                    Text(
+                        text = stringResource(R.string.see_all),
+                        fontFamily = nunitoTypeFace,
+                        fontSize = MaterialTheme.typography.subtitle1.fontSize,
+                        fontWeight = FontWeight.Normal,
+                        color = MaterialTheme.colors.contentColor
+                    )
+                }
             }
 
             LazyRow(

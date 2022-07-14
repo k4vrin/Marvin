@@ -26,6 +26,7 @@ import androidx.navigation.NavHostController
 import com.google.accompanist.systemuicontroller.rememberSystemUiController
 import com.kavrin.marvin.R
 import com.kavrin.marvin.domain.model.imdb.IMDbRatingApiResponse
+import com.kavrin.marvin.domain.model.movie.api.collection.MovieCollection
 import com.kavrin.marvin.domain.model.movie.api.detail.SingleMovieApiResponse
 import com.kavrin.marvin.navigation.Screen
 import com.kavrin.marvin.ui.theme.*
@@ -60,7 +61,8 @@ fun MovieScreen(
 
     val movie by movieViewModel.selectedMovie.collectAsState()
     val movieDetailsResultState by movieViewModel.movieDetails.collectAsState()
-    val ratings by movieViewModel.ratingsRes.collectAsState()
+    val movieRatingsResultState by movieViewModel.ratingsRes.collectAsState()
+    val movieCollectionResultState by movieViewModel.movieCollectionRes.collectAsState()
     val movieRuntime by movieViewModel.movieRuntime.collectAsState()
     val movieGenres by movieViewModel.movieGenre.collectAsState()
     val movieRatings by movieViewModel.movieRatings.collectAsState()
@@ -69,12 +71,19 @@ fun MovieScreen(
     val movieTrailer by movieViewModel.movieTrailer.collectAsState()
     val movieVideos by movieViewModel.movieVideos.collectAsState()
     val trailerBackdrop by movieViewModel.trailerBackdrop.collectAsState()
+    val movieReviews by movieViewModel.movieReviews.collectAsState()
+    val movieCollectionName by movieViewModel.movieCollectionName.collectAsState()
+    val movieCollection by movieViewModel.movieCollection.collectAsState()
+    val recommendation by movieViewModel.movieRecommend.collectAsState()
+    val similar by movieViewModel.movieSimilar.collectAsState()
+
 
     ///// Handle Errors /////
     var isRefreshing by remember { mutableStateOf(false) }
     val result = handleNetworkResult(
-        ratings = ratings,
+        ratings = movieRatingsResultState,
         movieDetails = movieDetailsResultState,
+        movieCollection = movieCollectionResultState,
         isRefreshing = isRefreshing,
         onRefresh = {
             isRefreshing = true
@@ -159,6 +168,11 @@ fun MovieScreen(
                     movieTrailer = movieTrailer,
                     movieVideos = movieVideos,
                     trailerBackdrop = trailerBackdrop,
+                    reviews = movieReviews,
+                    collectionName = movieCollectionName,
+                    collection = movieCollection,
+                    recommendation = recommendation,
+                    similar = similar,
                     movie = movie,
                     toolbarState = collapsingToolbarState,
                     transitionState = movieViewModel.transition,
@@ -171,9 +185,22 @@ fun MovieScreen(
                     onCrewClicked = {
                         navHostController.navigate(Screen.Person.passId(it))
                     },
+                    onMovieClicked = {
+                        navHostController.navigate(Screen.Movie.passId(it))
+                    },
+                    onMenuClicked = {
+                        /*TODO*/
+                    },
+                    onReviewClicked = {
+                        val reviewIntent = Intent(Intent.ACTION_VIEW, Uri.parse(it))
+                        context.startActivity(reviewIntent)
+                    },
                     onVideoClicked = {
                         val ytApp = Intent(Intent.ACTION_VIEW, Uri.parse("vnd.youtube:$it"))
-                        val ytWeb = Intent(Intent.ACTION_VIEW, Uri.parse("http://www.youtube.com/watch?v=$it"))
+                        val ytWeb = Intent(
+                            Intent.ACTION_VIEW,
+                            Uri.parse("http://www.youtube.com/watch?v=$it")
+                        )
                         try {
                             context.startActivity(ytApp)
                         } catch (e: ActivityNotFoundException) {
@@ -235,23 +262,28 @@ fun MovieScreen(
 fun handleNetworkResult(
     ratings: NetworkResult<IMDbRatingApiResponse>,
     movieDetails: NetworkResult<SingleMovieApiResponse>,
+    movieCollection: NetworkResult<MovieCollection>,
     isRefreshing: Boolean = false,
     onRefresh: () -> Unit
 ): Boolean {
 
     return when {
-        ratings is NetworkResult.Loading || movieDetails is NetworkResult.Loading -> {
-            EmptyContent(isLoading = true, isError = false)
-            false
-        }
-        ratings is NetworkResult.Error || movieDetails is NetworkResult.Error -> {
+        ratings is NetworkResult.Error || movieDetails is NetworkResult.Error || movieCollection is NetworkResult.Error -> {
             EmptyContent(
                 isLoading = false,
                 isError = true,
                 isRefreshing = isRefreshing,
-                errorMessage = if (ratings is NetworkResult.Error) ratings.message else movieDetails.message,
+                errorMessage = when {
+                    ratings is NetworkResult.Error -> ratings.message
+                    movieDetails is NetworkResult.Error -> movieDetails.message
+                    else -> movieCollection.message
+                },
                 onRefresh = onRefresh
             )
+            false
+        }
+        ratings is NetworkResult.Loading || movieDetails is NetworkResult.Loading -> {
+            EmptyContent(isLoading = true, isError = false)
             false
         }
         ratings is NetworkResult.Success && movieDetails is NetworkResult.Success -> true

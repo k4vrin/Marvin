@@ -5,14 +5,12 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.kavrin.marvin.domain.model.common.Backdrop
-import com.kavrin.marvin.domain.model.common.Cast
-import com.kavrin.marvin.domain.model.common.Crew
-import com.kavrin.marvin.domain.model.common.Video
+import com.kavrin.marvin.domain.model.common.*
 import com.kavrin.marvin.domain.model.imdb.IMDbRatingApiResponse
+import com.kavrin.marvin.domain.model.movie.api.collection.MovieCollection
 import com.kavrin.marvin.domain.model.movie.api.detail.SingleMovieApiResponse
 import com.kavrin.marvin.domain.model.movie.entities.Movie
-import com.kavrin.marvin.domain.use_cases.movie.DetailUseCases
+import com.kavrin.marvin.domain.use_cases.movie.MovieUseCases
 import com.kavrin.marvin.presentation.screens.movie.component.TransitionState
 import com.kavrin.marvin.util.Constants.ARGUMENT_KEY_ID
 import com.kavrin.marvin.util.NetworkResult
@@ -25,7 +23,7 @@ import javax.inject.Inject
 
 @HiltViewModel
 class MovieViewModel @Inject constructor(
-    private val useCases: DetailUseCases,
+    private val useCases: MovieUseCases,
     savedStateHandle: SavedStateHandle
 ) : ViewModel() {
 
@@ -56,6 +54,26 @@ class MovieViewModel @Inject constructor(
 
     private val _trailerBackdrop: MutableStateFlow<Backdrop?> = MutableStateFlow(null)
     val trailerBackdrop: StateFlow<Backdrop?> = _trailerBackdrop
+
+    private val _movieReviews: MutableStateFlow<List<Review>?> = MutableStateFlow(null)
+    val movieReviews: StateFlow<List<Review>?> = _movieReviews
+
+    private val _movieRecommend: MutableStateFlow<List<Movie>?> = MutableStateFlow(null)
+    val movieRecommend: StateFlow<List<Movie>?> = _movieRecommend
+
+    private val _movieSimilar: MutableStateFlow<List<Movie>?> = MutableStateFlow(null)
+    val movieSimilar: StateFlow<List<Movie>?> = _movieSimilar
+
+    private val _movieCollectionRes: MutableStateFlow<NetworkResult<MovieCollection>> =
+        MutableStateFlow(NetworkResult.Loading())
+    val movieCollectionRes: StateFlow<NetworkResult<MovieCollection>> = _movieCollectionRes
+
+    private val _movieCollectionName: MutableStateFlow<Map<String, String?>?> =
+        MutableStateFlow(null)
+    val movieCollectionName: StateFlow<Map<String, String?>?> = _movieCollectionName
+
+    private val _movieCollection: MutableStateFlow<List<Movie>?> = MutableStateFlow(null)
+    val movieCollection: StateFlow<List<Movie>?> = _movieCollection
 
     private val _ratingsRes: MutableStateFlow<NetworkResult<IMDbRatingApiResponse>> =
         MutableStateFlow(NetworkResult.Loading())
@@ -92,10 +110,19 @@ class MovieViewModel @Inject constructor(
                 _movieTrailer.value = useCases.getMovieDetails.getOfficialTrailer()
                 _movieVideos.value = useCases.getMovieDetails.getVideos()
                 _trailerBackdrop.value = useCases.getMovieDetails.getTrailerBackdrop()
+                _movieReviews.value = useCases.getMovieDetails.getReviews()
+                _movieRecommend.value = useCases.getMovieDetails.getRecommendations()
+                _movieSimilar.value = useCases.getMovieDetails.getSimilar()
                 val imdbId = useCases.getMovieDetails.getImdbId()
-                if (imdbId != null) {
+                if (!imdbId.isNullOrBlank()) {
                     _ratingsRes.value = useCases.getRatings(id = imdbId)
                     _movieRatings.value = useCases.getRatings.getRatingsValue()
+                }
+                val collectionId = useCases.getMovieDetails.getCollectionId()
+                if (collectionId != null) {
+                    _movieCollectionRes.value = useCases.getCollection(id = collectionId)
+                    _movieCollectionName.value = useCases.getCollection.getCollectionNameAndOverview()
+                    _movieCollection.value = useCases.getCollection.getCollectionMovies()
                 }
             }
         }

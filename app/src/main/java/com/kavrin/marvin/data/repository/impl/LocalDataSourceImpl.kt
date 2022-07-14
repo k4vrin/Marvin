@@ -40,4 +40,8 @@ class LocalDataSourceImpl(
     override suspend fun deleteAllTvs() {
         marvinDatabase.tvDao().deleteAllTvs()
     }
+
+    override suspend fun saveMovies(movies: List<Movie>) {
+        marvinDatabase.movieDao().insertMovie(movies)
+    }
 }

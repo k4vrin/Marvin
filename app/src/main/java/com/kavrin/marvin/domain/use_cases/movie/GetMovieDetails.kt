@@ -1,11 +1,9 @@
 package com.kavrin.marvin.domain.use_cases.movie
 
 import com.kavrin.marvin.data.repository.Repository
-import com.kavrin.marvin.domain.model.common.Backdrop
-import com.kavrin.marvin.domain.model.common.Cast
-import com.kavrin.marvin.domain.model.common.Crew
-import com.kavrin.marvin.domain.model.common.Video
+import com.kavrin.marvin.domain.model.common.*
 import com.kavrin.marvin.domain.model.movie.api.detail.SingleMovieApiResponse
+import com.kavrin.marvin.domain.model.movie.entities.Movie
 import com.kavrin.marvin.util.NetworkResult
 import kotlin.random.Random
 
@@ -16,7 +14,12 @@ class GetMovieDetails(
     private var data: SingleMovieApiResponse? = null
 
     suspend operator fun invoke(id: Int): NetworkResult<SingleMovieApiResponse> {
-        val response = repository.getMovieDetails(id = id)
+        val response =
+            try {
+                repository.getMovieDetails(id = id)
+            } catch (e: Exception) {
+                return NetworkResult.Error(message = e.message)
+            }
         return when {
             response.message().toString()
                 .contains("timeout") -> NetworkResult.Error(message = "Timeout")
@@ -24,6 +27,8 @@ class GetMovieDetails(
             response.code() == 404 -> NetworkResult.Error(message = "The resources could not be found.")
             response.isSuccessful -> {
                 data = response.body()
+                data?.similar?.movies?.let { repository.saveMovies(it) }
+                data?.recommendations?.movies?.let { repository.saveMovies(it) }
                 NetworkResult.Success()
             }
             else -> NetworkResult.Error(message = response.message())
@@ -46,7 +51,8 @@ class GetMovieDetails(
 
     fun getOfficialTrailer(): Video? {
         return data?.videos?.videos?.find {
-            it.site == "YouTube" && it.name.lowercase().contains("trailer")
+            (it.site == "YouTube" && it.name.lowercase().contains("trailer") && it.official)
+                    || (it.site == "YouTube" && it.name.lowercase().contains("trailer"))
         }
     }
 
@@ -64,6 +70,14 @@ class GetMovieDetails(
         }
     }
 
+    fun getReviews(): List<Review>? {
+        return data?.reviews?.reviews
+    }
+
+    fun getCollectionId(): Int? {
+        return data?.belongsToCollection?.id
+    }
+
     fun getCast(): List<Cast>? {
         return data?.credits?.cast
     }
@@ -74,22 +88,21 @@ class GetMovieDetails(
         }
             ?.sortedWith(
                 compareBy(
-                    {
-                        it.job == "Producer"
-                    },
-                    {
-                        it.job == "Story"
-                    },
-                    {
-                        it.job == "Screenplay"
-                    },
-                    {
-                        it.job == "Writer"
-                    },
-                    {
-                        it.job == "Director"
-                    },
+                    { it.job == "Producer" },
+                    { it.job == "Story" },
+                    { it.job == "Screenplay" },
+                    { it.job == "Writer" },
+                    { it.job == "Director" },
                 )
             )
+    }
+
+
+    fun getRecommendations(): List<Movie>? {
+        return data?.recommendations?.movies
+    }
+
+    fun getSimilar(): List<Movie>? {
+        return data?.similar?.movies
     }
 }

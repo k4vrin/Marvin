@@ -5,10 +5,7 @@ import com.kavrin.marvin.data.repository.Repository
 import com.kavrin.marvin.data.repository.impl.DataStoreOpImpl
 import com.kavrin.marvin.domain.repository.DataStoreOp
 import com.kavrin.marvin.domain.use_cases.home.*
-import com.kavrin.marvin.domain.use_cases.movie.DetailUseCases
-import com.kavrin.marvin.domain.use_cases.movie.GetMovie
-import com.kavrin.marvin.domain.use_cases.movie.GetMovieDetails
-import com.kavrin.marvin.domain.use_cases.movie.GetRatings
+import com.kavrin.marvin.domain.use_cases.movie.*
 import com.kavrin.marvin.domain.use_cases.splash_welcome.ReadOnBoarding
 import com.kavrin.marvin.domain.use_cases.splash_welcome.SaveGenres
 import com.kavrin.marvin.domain.use_cases.splash_welcome.SaveOnBoarding
@@ -65,11 +62,12 @@ object RepositoryModule {
 	@Singleton
 	fun provideDetailUseCases(
 		repository: Repository
-	): DetailUseCases {
-		return DetailUseCases(
+	): MovieUseCases {
+		return MovieUseCases(
 			getMovie = GetMovie(repository),
 			getMovieDetails = GetMovieDetails(repository),
-			getRatings = GetRatings(repository)
+			getRatings = GetRatings(repository),
+			getCollection = GetCollection(repository)
 		)
 	}
 }

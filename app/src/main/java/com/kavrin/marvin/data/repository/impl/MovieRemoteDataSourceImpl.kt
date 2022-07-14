@@ -8,6 +8,7 @@ import com.kavrin.marvin.data.paging_source.movie.MoviePopularRemoteMediator
 import com.kavrin.marvin.data.paging_source.movie.MovieTopRatedRemoteMediator
 import com.kavrin.marvin.data.paging_source.movie.MovieTrendingRemoteMediator
 import com.kavrin.marvin.data.remote.TMDBMovieService
+import com.kavrin.marvin.domain.model.movie.api.collection.MovieCollection
 import com.kavrin.marvin.domain.model.movie.api.detail.SingleMovieApiResponse
 import com.kavrin.marvin.domain.model.movie.entities.Movie
 import com.kavrin.marvin.domain.model.movie.entities.relations.MovieAndPopular
@@ -155,6 +156,10 @@ class MovieRemoteDataSourceImpl(
 
 	override suspend fun getMovieDetails(id: Int): Response<SingleMovieApiResponse> {
 		return movieService.getMovieDetails(id = id)
+	}
+
+	override suspend fun getMovieCollection(id: Int): Response<MovieCollection> {
+		return movieService.getMovieCollection(id = id)
 	}
 
 	///////////////////////////////////////////////////////////////////////////

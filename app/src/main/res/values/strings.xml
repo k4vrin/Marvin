@@ -27,4 +27,6 @@
     <string name="fab_rotate">Fab Rotate</string>
     <string name="network_error_icon">Network Error Icon</string>
     <string name="videos">Videos</string>
+    <string name="pofile_pic">Profile Picture</string>
+    <string name="open_new">Open in browser</string>
 </resources>

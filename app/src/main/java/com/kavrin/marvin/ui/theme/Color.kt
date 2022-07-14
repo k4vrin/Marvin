@@ -2,6 +2,7 @@ package com.kavrin.marvin.ui.theme
 
 import androidx.compose.material.Colors
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 
@@ -26,7 +27,7 @@ val Thistle = Color(0xFFDEC9E9)
 
 val LightGray = Color(0xFFadb5bd)
 val MediumGray = Color(0xFF6c757d)
-val DarkGray = Color(0xFF25232B)
+val DarkGray = Color(0xFF151418)
 
 val HighRate = Color(0xFF008000)
 val MediumRate = Color(0xFFeeef20)
@@ -148,6 +149,6 @@ val Colors.ratingBackground
 val Colors.cardGradientColor
     @Composable
     get() = if (isLight)
-        Brush.horizontalGradient(listOf(LightCard ,LavenderFloral))
+        Brush.linearGradient(listOf(LightCard ,LavenderFloral), start = Offset.Zero, end = Offset.Infinite)
     else
-        Brush.horizontalGradient(listOf(DarkCard, ShimmerDarkGray))
+        Brush.linearGradient(listOf(DarkCard, ShimmerDarkGray), start = Offset.Zero, end = Offset.Infinite)

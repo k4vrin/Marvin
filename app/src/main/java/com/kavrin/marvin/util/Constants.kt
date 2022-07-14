@@ -55,4 +55,8 @@ object Constants {
 	const val TMDB = "theMovieDb"
 	const val ROTTEN = "rottenTomatoes"
 
+	const val COLLECTION_NAME_KEY = "name"
+	const val COLLECTION_OVERVIEW_KEY = "overview"
+	const val COLLECTION_BACKDROP_KEY = "backdrop"
+
 }

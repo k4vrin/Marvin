@@ -30,7 +30,7 @@ fun VideoSection(
     Column(
         modifier = Modifier
             .fillMaxWidth(),
-        verticalArrangement = Arrangement.spacedBy(SMALL_PADDING)
+        verticalArrangement = Arrangement.spacedBy(MEDIUM_PADDING)
     ) {
 
         Row(

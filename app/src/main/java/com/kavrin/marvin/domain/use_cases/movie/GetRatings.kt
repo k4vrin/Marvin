@@ -15,7 +15,12 @@ class GetRatings(
     private var data: IMDbRatingApiResponse? = null
 
     suspend operator fun invoke(id: String): NetworkResult<IMDbRatingApiResponse> {
-        val response = repository.getRatings(id = id)
+        val response =
+            try {
+                repository.getRatings(id = id)
+            } catch (e: Exception) {
+                return NetworkResult.Error(message = e.message)
+            }
         return when {
             response.message().toString()
                 .contains("timeout") -> NetworkResult.Error(message = "Timeout")

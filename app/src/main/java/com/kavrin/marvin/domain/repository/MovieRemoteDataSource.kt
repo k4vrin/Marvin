@@ -1,6 +1,7 @@
 package com.kavrin.marvin.domain.repository
 
 import androidx.paging.PagingData
+import com.kavrin.marvin.domain.model.movie.api.collection.MovieCollection
 import com.kavrin.marvin.domain.model.movie.api.detail.SingleMovieApiResponse
 import com.kavrin.marvin.domain.model.movie.entities.Movie
 import com.kavrin.marvin.domain.model.movie.entities.relations.MovieAndPopular
@@ -21,5 +22,6 @@ interface MovieRemoteDataSource {
 	fun searchMovies(): Flow<PagingData<Movie>>
 	suspend fun saveMovieGenres()
 	suspend fun getMovieDetails(id: Int): Response<SingleMovieApiResponse>
+	suspend fun getMovieCollection(id: Int): Response<MovieCollection>
 
 }

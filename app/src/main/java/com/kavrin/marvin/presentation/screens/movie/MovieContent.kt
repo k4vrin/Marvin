@@ -9,15 +9,15 @@ import androidx.compose.material.Divider
 import androidx.compose.material.MaterialTheme
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
-import com.kavrin.marvin.domain.model.common.Backdrop
-import com.kavrin.marvin.domain.model.common.Cast
-import com.kavrin.marvin.domain.model.common.Crew
-import com.kavrin.marvin.domain.model.common.Video
+import com.kavrin.marvin.domain.model.common.*
 import com.kavrin.marvin.domain.model.movie.entities.Movie
 import com.kavrin.marvin.presentation.common.CastList
 import com.kavrin.marvin.presentation.common.CrewList
 import com.kavrin.marvin.presentation.screens.movie.component.*
 import com.kavrin.marvin.ui.theme.*
+import com.kavrin.marvin.util.Constants.COLLECTION_BACKDROP_KEY
+import com.kavrin.marvin.util.Constants.COLLECTION_NAME_KEY
+import com.kavrin.marvin.util.Constants.COLLECTION_OVERVIEW_KEY
 import me.onebone.toolbar.CollapsingToolbarScaffoldState
 
 @Composable
@@ -31,12 +31,20 @@ fun MovieContent(
     movieTrailer: Video?,
     movieVideos: List<Video>?,
     trailerBackdrop: Backdrop?,
+    reviews: List<Review>?,
+    collectionName: Map<String, String?>?,
+    collection: List<Movie>?,
+    recommendation: List<Movie>?,
+    similar: List<Movie>?,
     transitionState: State<TransitionState>,
     toolbarState: CollapsingToolbarScaffoldState,
     onTransitionChange: (Boolean) -> Unit,
     onCastClicked: (Int) -> Unit,
     onCrewClicked: (Int) -> Unit,
-    onVideoClicked: (String) -> Unit
+    onVideoClicked: (String) -> Unit,
+    onReviewClicked: (String) -> Unit,
+    onMovieClicked: (Int) -> Unit,
+    onMenuClicked: (Int) -> Unit
 ) {
 
     val listState = rememberLazyListState()
@@ -134,7 +142,7 @@ fun MovieContent(
 
         ///// Cast List /////
         item {
-            if (movieCast != null) {
+            if (!movieCast.isNullOrEmpty()) {
                 CastList(
                     cast = movieCast,
                     onCastClicked = {
@@ -146,7 +154,7 @@ fun MovieContent(
 
         ///// Crew List /////
         item {
-            if (movieCrew != null) {
+            if (!movieCrew.isNullOrEmpty()) {
                 CrewList(
                     crew = movieCrew,
                     onCrewClicked = {
@@ -157,7 +165,7 @@ fun MovieContent(
         }
 
         item {
-            if (movieVideos != null) {
+            if (!movieVideos.isNullOrEmpty()) {
                 VideoSection(
                     trailer = movieTrailer,
                     videos = movieVideos,
@@ -168,8 +176,52 @@ fun MovieContent(
                 )
             }
         }
+
+        item {
+            if (!reviews.isNullOrEmpty()) {
+                ReviewList(
+                    reviews = reviews,
+                    onReviewClicked = {
+                        onReviewClicked(it)
+                    }
+                )
+            }
+        }
+
+        item {
+            if (!collection.isNullOrEmpty() && !collectionName.isNullOrEmpty()) {
+                CollectionList(
+                    collectionName = collectionName[COLLECTION_NAME_KEY],
+                    collectionOverview = collectionName[COLLECTION_OVERVIEW_KEY],
+                    collectionBackdrop = collectionName[COLLECTION_BACKDROP_KEY],
+                    movies = collection,
+                    onMovieClicked = { onMovieClicked(it) },
+                    onMenuClicked = { onMenuClicked(it) }
+                )
+            }
+        }
+
+        item {
+            if (!similar.isNullOrEmpty()) {
+                MovieCardList(
+                    cardListTitle = "Similar",
+                    items = similar,
+                    onMovieClicked = { onMovieClicked(it) },
+                    onMenuClicked = { onMenuClicked(it) }
+                )
+            }
+        }
+
+        item {
+            if (!recommendation.isNullOrEmpty()) {
+                MovieCardList(
+                    cardListTitle = "Recommendation",
+                    items = recommendation,
+                    onMovieClicked = { onMovieClicked(it) },
+                    onMenuClicked = { onMenuClicked(it) }
+                )
+            }
+        }
+
     }
-
-
-
 }
