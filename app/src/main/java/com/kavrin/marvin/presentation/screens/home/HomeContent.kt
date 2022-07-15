@@ -27,11 +27,11 @@ import com.kavrin.marvin.domain.model.tv.entities.relations.TvAndPopular
 import com.kavrin.marvin.domain.model.tv.entities.relations.TvAndTopRated
 import com.kavrin.marvin.domain.model.tv.entities.relations.TvAndTrending
 import com.kavrin.marvin.navigation.Screen
-import com.kavrin.marvin.presentation.common.CardList
-import com.kavrin.marvin.presentation.common.Carousel
-import com.kavrin.marvin.presentation.component.MarvinTabRow
-import com.kavrin.marvin.presentation.component.ShimmerCardEffect
-import com.kavrin.marvin.presentation.component.ShimmerCarouselEffect
+import com.kavrin.marvin.presentation.screens.home.component.CardList
+import com.kavrin.marvin.presentation.screens.home.component.Carousel
+import com.kavrin.marvin.presentation.screens.home.component.MarvinTabRow
+import com.kavrin.marvin.presentation.screens.home.component.ShimmerCardEffect
+import com.kavrin.marvin.presentation.screens.home.component.ShimmerCarouselEffect
 import com.kavrin.marvin.presentation.screens.movie.EmptyContent
 import com.kavrin.marvin.ui.theme.MEDIUM_PADDING
 import com.kavrin.marvin.ui.theme.backGroundColor

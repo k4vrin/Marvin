@@ -67,9 +67,13 @@ class Repository @Inject constructor(
 		localDataSource.deleteAllMovies()
 	}
 
-	//// Detail ////
+	//// Movie ////
 	suspend fun getMovie(id: Int): Movie {
 		return localDataSource.getMovie(movieId = id)
+	}
+
+	suspend fun saveMovies(movies: List<Movie>) {
+		localDataSource.saveMovies(movies = movies)
 	}
 
 	suspend fun getMovieGenres(ids: List<Int>): List<String> {
@@ -123,7 +127,7 @@ class Repository @Inject constructor(
 		localDataSource.deleteAllTvs()
 	}
 
-	//// Detail ////
+	//// Tv ////
 	suspend fun getTv(id: Int): Tv {
 		return localDataSource.getTv(tvId = id)
 	}
@@ -156,12 +160,12 @@ class Repository @Inject constructor(
 		return dataStore.readOnBoardingState()
 	}
 
+	///////////////////////////////////////////////////////////////////////////
+	// General
+	///////////////////////////////////////////////////////////////////////////
+
 	suspend fun saveGenres() {
 		movieRemote.saveMovieGenres()
 		tvRemote.saveTvGenres()
-	}
-
-	suspend fun saveMovies(movies: List<Movie>) {
-		localDataSource.saveMovies(movies = movies)
 	}
 }

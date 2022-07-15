@@ -1,4 +1,4 @@
-package com.kavrin.marvin.presentation.component
+package com.kavrin.marvin.presentation.screens.home.component
 
 import androidx.compose.material.*
 import androidx.compose.runtime.Composable

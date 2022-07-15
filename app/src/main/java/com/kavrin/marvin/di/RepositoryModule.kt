@@ -60,7 +60,7 @@ object RepositoryModule {
 
 	@Provides
 	@Singleton
-	fun provideDetailUseCases(
+	fun provideMovieUseCases(
 		repository: Repository
 	): MovieUseCases {
 		return MovieUseCases(

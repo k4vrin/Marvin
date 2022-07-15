@@ -1,4 +1,4 @@
-package com.kavrin.marvin.presentation.common
+package com.kavrin.marvin.presentation.screens.home.component
 
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyRow

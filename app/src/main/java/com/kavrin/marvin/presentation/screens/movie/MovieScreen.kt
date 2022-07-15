@@ -4,23 +4,16 @@ import android.content.ActivityNotFoundException
 import android.content.Intent
 import android.net.Uri
 import androidx.compose.animation.core.*
-import androidx.compose.foundation.layout.*
-import androidx.compose.material.Divider
-import androidx.compose.material.FloatingActionButton
-import androidx.compose.material.Icon
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.navigationBarsPadding
 import androidx.compose.material.MaterialTheme
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Add
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.unit.IntOffset
-import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
 import com.google.accompanist.systemuicontroller.rememberSystemUiController
@@ -29,7 +22,8 @@ import com.kavrin.marvin.domain.model.imdb.IMDbRatingApiResponse
 import com.kavrin.marvin.domain.model.movie.api.collection.MovieCollection
 import com.kavrin.marvin.domain.model.movie.api.detail.SingleMovieApiResponse
 import com.kavrin.marvin.navigation.Screen
-import com.kavrin.marvin.ui.theme.*
+import com.kavrin.marvin.presentation.component.FabAndDivider
+import com.kavrin.marvin.presentation.component.FabState
 import com.kavrin.marvin.util.NetworkResult
 import kotlinx.coroutines.delay
 import me.onebone.toolbar.CollapsingToolbarScaffold
@@ -80,7 +74,7 @@ fun MovieScreen(
 
     ///// Handle Errors /////
     var isRefreshing by remember { mutableStateOf(false) }
-    val result = handleNetworkResult(
+    val result = handleMovieNetworkResult(
         ratings = movieRatingsResultState,
         movieDetails = movieDetailsResultState,
         movieCollection = movieCollectionResultState,
@@ -154,6 +148,9 @@ fun MovieScreen(
                         title = movie?.title,
                         onBackIconClicked = {
                             navHostController.popBackStack()
+                        },
+                        onShareClicked = {
+                            /*TODO*/
                         }
                     )
                 }
@@ -211,55 +208,20 @@ fun MovieScreen(
 
             }
 
-            Divider(
-                modifier = Modifier
-                    .offset(
-                        y = with(LocalDensity.current) { collapsingToolbarState.toolbarState.height.toDp() }
-                    )
-                    .graphicsLayer {
-                        alpha = 1f - collapsingToolbarState.toolbarState.progress
-                    },
-                thickness = 2.dp
-            )
-
-            FloatingActionButton(
+            FabAndDivider(
+                collapsingToolbarState = collapsingToolbarState,
+                animFabTranslateX = animFabTranslateX,
+                animRotate = animRotate,
                 modifier = Modifier
                     .align(Alignment.TopEnd)
-                    .offset {
-                        IntOffset(
-                            x = 0,
-                            y = (collapsingToolbarState.toolbarState.height.toDp() - FAB_OFFSET).roundToPx()
-                        )
-                    }
-                    .graphicsLayer {
-                        translationX = animFabTranslateX
-                        rotationZ = animRotate
-                    }
-                    .padding(horizontal = SMALL_PADDING)
-                    .size(FAB_SIZE),
-                onClick = { },
-                backgroundColor = MaterialTheme.colors.fabBgColor,
-                contentColor = Color.White
-            ) {
-
-                Icon(
-                    modifier = Modifier
-                        .fillMaxSize()
-                        .requiredSize(ICON_SIZE),
-                    imageVector = Icons.Default.Add,
-                    contentDescription = stringResource(R.string.add_icon),
-                    tint = MaterialTheme.colors.fabContentColor
-                )
-            }
+            )
 
         }
     }
-
-
 }
 
 @Composable
-fun handleNetworkResult(
+private fun handleMovieNetworkResult(
     ratings: NetworkResult<IMDbRatingApiResponse>,
     movieDetails: NetworkResult<SingleMovieApiResponse>,
     movieCollection: NetworkResult<MovieCollection>,
@@ -289,10 +251,4 @@ fun handleNetworkResult(
         ratings is NetworkResult.Success && movieDetails is NetworkResult.Success -> true
         else -> false
     }
-}
-
-
-enum class FabState {
-    Start,
-    End
 }

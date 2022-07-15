@@ -36,7 +36,8 @@ fun CollapsingToolbarScope.MovieToolbar(
     state: CollapsingToolbarScaffoldState,
     backdrop: String?,
     title: String?,
-    onBackIconClicked: () -> Unit
+    onBackIconClicked: () -> Unit,
+    onShareClicked: () -> Unit
 ) {
 
     val iconColor = lerp(
@@ -130,7 +131,7 @@ fun CollapsingToolbarScope.MovieToolbar(
     }
 
     IconButton(
-        onClick = {},
+        onClick = onShareClicked,
         modifier = Modifier
             .road(
                 whenExpanded = Alignment.TopEnd,

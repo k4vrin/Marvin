@@ -125,7 +125,7 @@ val Colors.statusBarColor
 
 val Colors.loadingCircleColor
     @Composable
-    get() = if (isLight) LightFab else Color.White
+    get() = if (isLight) PlumpPurple else Color.White
 
 val Colors.splashText
     @Composable

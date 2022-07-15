@@ -8,7 +8,7 @@ import com.kavrin.marvin.util.Constants.ROTTEN
 import com.kavrin.marvin.util.Constants.TMDB
 import com.kavrin.marvin.util.NetworkResult
 
-class GetRatings(
+class GetMovieRatings(
     private val repository: Repository
 ) {
 
