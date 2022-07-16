@@ -13,7 +13,7 @@ class GetTvDetails(
 
     private var data: SingleTvApiResponse? = null
 
-    suspend operator fun invoke(id: Int): NetworkResult<SingleTvApiResponse> {
+    suspend operator fun invoke(id: Int): NetworkResult {
         val response =
             try {
                 repository.getTvDetails(id = id)
@@ -40,8 +40,10 @@ class GetTvDetails(
 
     fun getRuntimeStatusDate(): Map<String, String?> {
         return mapOf(
-            TV_RUNTIME_KEY to data?.episodeRunTime?.first()?.toString(),
-            TV_STATUS_KEY to data?.status,
+            TV_RUNTIME_KEY to data?.episodeRunTime?.let {
+                if (it.isNotEmpty()) it.first().toString() else null
+            },
+            TV_STATUS_KEY to data?.status?.split(" ")?.first(),
             TV_DATE_KEY to data?.firstAirDate
         )
     }

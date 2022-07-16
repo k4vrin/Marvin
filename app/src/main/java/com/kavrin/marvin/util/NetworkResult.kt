@@ -1,9 +1,9 @@
 package com.kavrin.marvin.util
 
-sealed class NetworkResult<T>(
+sealed class NetworkResult(
     val message: String? = null
 ) {
-    class Success<T> : NetworkResult<T>()
-    class Error<T>(message: String?) : NetworkResult<T>(message = message)
-    class Loading<T> : NetworkResult<T>()
+    class Success : NetworkResult()
+    class Error(message: String?) : NetworkResult(message = message)
+    class Loading : NetworkResult()
 }

@@ -112,7 +112,7 @@ fun SetupNavGraph(navHostController: NavHostController) {
             },
             popEnterTransition = {
                 fadeIn(
-                    tween(durationMillis = 500)
+                    tween(durationMillis = 50)
                 )
             },
             popExitTransition = {
@@ -146,7 +146,7 @@ fun SetupNavGraph(navHostController: NavHostController) {
             },
             popEnterTransition = {
                 fadeIn(
-                    tween(durationMillis = 500)
+                    tween(durationMillis = 50)
                 )
             },
             popExitTransition = {

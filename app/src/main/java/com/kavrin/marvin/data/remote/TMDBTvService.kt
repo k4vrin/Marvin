@@ -50,6 +50,6 @@ interface TMDBTvService {
 	suspend fun getTvDetails(
 		@Path("id") id: Int,
 		@Query("api_key") apiKey: String = BuildConfig.API_KEY,
-		@Query("append_to_response") append: String = "videos,images,credits,external_ids"
+		@Query("append_to_response") append: String = "videos,images,credits,external_ids,recommendations,similar"
 	): Response<SingleTvApiResponse>
 }

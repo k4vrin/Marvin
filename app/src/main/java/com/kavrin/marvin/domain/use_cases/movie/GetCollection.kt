@@ -14,7 +14,7 @@ class GetCollection(
 
     private var data: MovieCollection? = null
 
-    suspend operator fun invoke(id: Int): NetworkResult<MovieCollection> {
+    suspend operator fun invoke(id: Int): NetworkResult {
         val response =
             try {
                 repository.getMovieCollection(id = id)

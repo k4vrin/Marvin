@@ -6,9 +6,6 @@ import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.kavrin.marvin.domain.model.common.*
-import com.kavrin.marvin.domain.model.imdb.IMDbRatingApiResponse
-import com.kavrin.marvin.domain.model.movie.api.collection.MovieCollection
-import com.kavrin.marvin.domain.model.movie.api.detail.SingleMovieApiResponse
 import com.kavrin.marvin.domain.model.movie.entities.Movie
 import com.kavrin.marvin.domain.use_cases.movie.MovieUseCases
 import com.kavrin.marvin.presentation.screens.movie.component.TransitionState
@@ -30,9 +27,9 @@ class MovieViewModel @Inject constructor(
     private val _selectedMovie: MutableStateFlow<Movie?> = MutableStateFlow(null)
     val selectedMovie: StateFlow<Movie?> = _selectedMovie
 
-    private val _movieDetailsResponse: MutableStateFlow<NetworkResult<SingleMovieApiResponse>> =
+    private val _movieDetailsResponse: MutableStateFlow<NetworkResult> =
         MutableStateFlow(NetworkResult.Loading())
-    val movieDetailsResponse: StateFlow<NetworkResult<SingleMovieApiResponse>> = _movieDetailsResponse
+    val movieDetailsResponse: StateFlow<NetworkResult> = _movieDetailsResponse
 
     private val _movieRuntime: MutableStateFlow<Int?> = MutableStateFlow(null)
     val movieRuntime: StateFlow<Int?> = _movieRuntime
@@ -64,9 +61,9 @@ class MovieViewModel @Inject constructor(
     private val _movieSimilar: MutableStateFlow<List<Movie>?> = MutableStateFlow(null)
     val movieSimilar: StateFlow<List<Movie>?> = _movieSimilar
 
-    private val _movieCollectionRes: MutableStateFlow<NetworkResult<MovieCollection>> =
+    private val _movieCollectionRes: MutableStateFlow<NetworkResult> =
         MutableStateFlow(NetworkResult.Loading())
-    val movieCollectionRes: StateFlow<NetworkResult<MovieCollection>> = _movieCollectionRes
+    val movieCollectionRes: StateFlow<NetworkResult> = _movieCollectionRes
 
     private val _movieCollectionName: MutableStateFlow<Map<String, String?>?> =
         MutableStateFlow(null)
@@ -75,9 +72,9 @@ class MovieViewModel @Inject constructor(
     private val _movieCollection: MutableStateFlow<List<Movie>?> = MutableStateFlow(null)
     val movieCollection: StateFlow<List<Movie>?> = _movieCollection
 
-    private val _movieRatingResponse: MutableStateFlow<NetworkResult<IMDbRatingApiResponse>> =
-        MutableStateFlow(NetworkResult.Success())
-    val movieRatingResponse: StateFlow<NetworkResult<IMDbRatingApiResponse>> = _movieRatingResponse
+    private val _movieRatingResponse: MutableStateFlow<NetworkResult> =
+        MutableStateFlow(NetworkResult.Loading())
+    val movieRatingResponse: StateFlow<NetworkResult> = _movieRatingResponse
 
     private val _movieRatings: MutableStateFlow<Map<String, String?>?> = MutableStateFlow(null)
     val movieRatings: StateFlow<Map<String, String?>?> = _movieRatings

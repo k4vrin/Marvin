@@ -13,7 +13,7 @@ class GetMovieDetails(
 
     private var data: SingleMovieApiResponse? = null
 
-    suspend operator fun invoke(id: Int): NetworkResult<SingleMovieApiResponse> {
+    suspend operator fun invoke(id: Int): NetworkResult {
         val response =
             try {
                 repository.getMovieDetails(id = id)

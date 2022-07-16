@@ -18,9 +18,6 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
 import com.google.accompanist.systemuicontroller.rememberSystemUiController
 import com.kavrin.marvin.R
-import com.kavrin.marvin.domain.model.imdb.IMDbRatingApiResponse
-import com.kavrin.marvin.domain.model.movie.api.collection.MovieCollection
-import com.kavrin.marvin.domain.model.movie.api.detail.SingleMovieApiResponse
 import com.kavrin.marvin.navigation.Screen
 import com.kavrin.marvin.presentation.component.FabAndDivider
 import com.kavrin.marvin.presentation.component.FabState
@@ -76,8 +73,8 @@ fun MovieScreen(
     var isRefreshing by remember { mutableStateOf(false) }
     val result = handleMovieNetworkResult(
         ratings = movieRatingsResultState,
-        movieDetails = movieDetailsResultState,
-        movieCollection = movieCollectionResultState,
+        details = movieDetailsResultState,
+        collection = movieCollectionResultState,
         isRefreshing = isRefreshing,
         onRefresh = {
             isRefreshing = true
@@ -222,33 +219,33 @@ fun MovieScreen(
 
 @Composable
 private fun handleMovieNetworkResult(
-    ratings: NetworkResult<IMDbRatingApiResponse>,
-    movieDetails: NetworkResult<SingleMovieApiResponse>,
-    movieCollection: NetworkResult<MovieCollection>,
+    ratings: NetworkResult,
+    details: NetworkResult,
+    collection: NetworkResult,
     isRefreshing: Boolean = false,
     onRefresh: () -> Unit
 ): Boolean {
 
     return when {
-        ratings is NetworkResult.Error || movieDetails is NetworkResult.Error || movieCollection is NetworkResult.Error -> {
+        ratings is NetworkResult.Error || details is NetworkResult.Error || collection is NetworkResult.Error -> {
             EmptyContent(
                 isLoading = false,
                 isError = true,
                 isRefreshing = isRefreshing,
                 errorMessage = when {
                     ratings is NetworkResult.Error -> ratings.message
-                    movieDetails is NetworkResult.Error -> movieDetails.message
-                    else -> movieCollection.message
+                    details is NetworkResult.Error -> details.message
+                    else -> collection.message
                 },
                 onRefresh = onRefresh
             )
             false
         }
-        ratings is NetworkResult.Loading || movieDetails is NetworkResult.Loading -> {
+        ratings is NetworkResult.Loading || details is NetworkResult.Loading -> {
             EmptyContent(isLoading = true, isError = false)
             false
         }
-        ratings is NetworkResult.Success && movieDetails is NetworkResult.Success -> true
+        ratings is NetworkResult.Success && details is NetworkResult.Success -> true
         else -> false
     }
 }

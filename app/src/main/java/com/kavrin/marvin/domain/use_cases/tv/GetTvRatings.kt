@@ -14,7 +14,7 @@ class GetTvRatings(
 
     private var data: IMDbRatingApiResponse? = null
 
-    suspend operator fun invoke(id: String): NetworkResult<IMDbRatingApiResponse> {
+    suspend operator fun invoke(id: String): NetworkResult {
         val response =
             try {
                 repository.getRatings(id = id)
