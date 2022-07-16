@@ -136,7 +136,7 @@ class Repository @Inject constructor(
 		return localDataSource.getTvGenres(ids)
 	}
 
-	suspend fun getTvDetails(id: Int): SingleTvApiResponse {
+	suspend fun getTvDetails(id: Int): Response<SingleTvApiResponse> {
 		return tvRemote.getTvDetails(id = id)
 	}
 

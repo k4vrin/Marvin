@@ -10,6 +10,10 @@ import com.kavrin.marvin.domain.use_cases.splash_welcome.ReadOnBoarding
 import com.kavrin.marvin.domain.use_cases.splash_welcome.SaveGenres
 import com.kavrin.marvin.domain.use_cases.splash_welcome.SaveOnBoarding
 import com.kavrin.marvin.domain.use_cases.splash_welcome.SplashWelcomeUseCases
+import com.kavrin.marvin.domain.use_cases.tv.GetTv
+import com.kavrin.marvin.domain.use_cases.tv.GetTvDetails
+import com.kavrin.marvin.domain.use_cases.tv.GetTvRatings
+import com.kavrin.marvin.domain.use_cases.tv.TvUseCases
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -66,8 +70,20 @@ object RepositoryModule {
 		return MovieUseCases(
 			getMovie = GetMovie(repository),
 			getMovieDetails = GetMovieDetails(repository),
-			getRatings = GetRatings(repository),
+			getMovieRatings = GetMovieRatings(repository),
 			getCollection = GetCollection(repository)
+		)
+	}
+
+	@Provides
+	@Singleton
+	fun provideTvUseCases(
+		repository: Repository
+	): TvUseCases {
+		return TvUseCases(
+			getTv = GetTv(repository),
+			getTvDetails = GetTvDetails(repository),
+			getTvRatings = GetTvRatings(repository)
 		)
 	}
 }

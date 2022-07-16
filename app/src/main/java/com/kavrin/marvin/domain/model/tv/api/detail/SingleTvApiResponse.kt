@@ -2,6 +2,7 @@ package com.kavrin.marvin.domain.model.tv.api.detail
 
 
 import com.kavrin.marvin.domain.model.common.*
+import com.kavrin.marvin.domain.model.tv.api.TvApiResponse
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
@@ -51,4 +52,8 @@ data class SingleTvApiResponse(
     val videos: Videos,
     @SerialName("external_ids")
     val externalIds: ExternalIds,
+    @SerialName("recommendations")
+    val recommendations: TvApiResponse,
+    @SerialName("similar")
+    val similar: TvApiResponse,
 )

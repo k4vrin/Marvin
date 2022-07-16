@@ -7,6 +7,7 @@ import com.kavrin.marvin.domain.model.tv.entities.relations.TvAndPopular
 import com.kavrin.marvin.domain.model.tv.entities.relations.TvAndTopRated
 import com.kavrin.marvin.domain.model.tv.entities.relations.TvAndTrending
 import kotlinx.coroutines.flow.Flow
+import retrofit2.Response
 
 interface TvRemoteDataSource {
 
@@ -19,5 +20,5 @@ interface TvRemoteDataSource {
 	fun getHomeTrendingTvs(): Flow<PagingData<TvAndTrending>>
 	fun searchTvs(): Flow<PagingData<Tv>>
 	suspend fun saveTvGenres()
-	suspend fun getTvDetails(id: Int): SingleTvApiResponse
+	suspend fun getTvDetails(id: Int): Response<SingleTvApiResponse>
 }

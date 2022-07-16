@@ -18,6 +18,7 @@ import com.kavrin.marvin.util.Constants.DEFAULT_HOME_PREFETCH
 import com.kavrin.marvin.util.Constants.ITEMS_IN_HOME
 import com.kavrin.marvin.util.Constants.ITEMS_PER_PAGE
 import kotlinx.coroutines.flow.Flow
+import retrofit2.Response
 
 class TvRemoteDataSourceImpl(
 	private val tvService: TMDBTvService,
@@ -154,7 +155,7 @@ class TvRemoteDataSourceImpl(
 	// Details
 	///////////////////////////////////////////////////////////////////////////
 
-	override suspend fun getTvDetails(id: Int): SingleTvApiResponse {
+	override suspend fun getTvDetails(id: Int): Response<SingleTvApiResponse> {
 		return tvService.getTvDetails(id = id)
 	}
 
