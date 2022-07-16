@@ -30,9 +30,9 @@ class MovieViewModel @Inject constructor(
     private val _selectedMovie: MutableStateFlow<Movie?> = MutableStateFlow(null)
     val selectedMovie: StateFlow<Movie?> = _selectedMovie
 
-    private val _movieDetails: MutableStateFlow<NetworkResult<SingleMovieApiResponse>> =
+    private val _movieDetailsResponse: MutableStateFlow<NetworkResult<SingleMovieApiResponse>> =
         MutableStateFlow(NetworkResult.Loading())
-    val movieDetails: StateFlow<NetworkResult<SingleMovieApiResponse>> = _movieDetails
+    val movieDetailsResponse: StateFlow<NetworkResult<SingleMovieApiResponse>> = _movieDetailsResponse
 
     private val _movieRuntime: MutableStateFlow<Int?> = MutableStateFlow(null)
     val movieRuntime: StateFlow<Int?> = _movieRuntime
@@ -75,9 +75,9 @@ class MovieViewModel @Inject constructor(
     private val _movieCollection: MutableStateFlow<List<Movie>?> = MutableStateFlow(null)
     val movieCollection: StateFlow<List<Movie>?> = _movieCollection
 
-    private val _ratingsRes: MutableStateFlow<NetworkResult<IMDbRatingApiResponse>> =
-        MutableStateFlow(NetworkResult.Loading())
-    val ratingsRes: StateFlow<NetworkResult<IMDbRatingApiResponse>> = _ratingsRes
+    private val _movieRatingResponse: MutableStateFlow<NetworkResult<IMDbRatingApiResponse>> =
+        MutableStateFlow(NetworkResult.Success())
+    val movieRatingResponse: StateFlow<NetworkResult<IMDbRatingApiResponse>> = _movieRatingResponse
 
     private val _movieRatings: MutableStateFlow<Map<String, String?>?> = MutableStateFlow(null)
     val movieRatings: StateFlow<Map<String, String?>?> = _movieRatings
@@ -102,28 +102,28 @@ class MovieViewModel @Inject constructor(
     fun getMovieDetails() {
         viewModelScope.launch(Dispatchers.IO) {
             if (id != null) {
-                _movieDetails.value = useCases.getMovieDetails(id = id)
+                _movieDetailsResponse.value = useCases.getMovieDetails(id = id)
                 _movieRuntime.value = useCases.getMovieDetails.getRuntime()
                 _movieGenre.value = useCases.getMovieDetails.getGenre()
+                val imdbId = useCases.getMovieDetails.getImdbId()
+                if (!imdbId.isNullOrBlank()) {
+                    _movieRatingResponse.value = useCases.getMovieRatings(id = imdbId)
+                    _movieRatings.value = useCases.getMovieRatings.getRatingsValue()
+                }
                 _movieCast.value = useCases.getMovieDetails.getCast()
                 _movieCrew.value = useCases.getMovieDetails.getCrew()
                 _movieTrailer.value = useCases.getMovieDetails.getOfficialTrailer()
                 _movieVideos.value = useCases.getMovieDetails.getVideos()
                 _trailerBackdrop.value = useCases.getMovieDetails.getTrailerBackdrop()
                 _movieReviews.value = useCases.getMovieDetails.getReviews()
-                _movieRecommend.value = useCases.getMovieDetails.getRecommendations()
-                _movieSimilar.value = useCases.getMovieDetails.getSimilar()
-                val imdbId = useCases.getMovieDetails.getImdbId()
-                if (!imdbId.isNullOrBlank()) {
-                    _ratingsRes.value = useCases.getRatings(id = imdbId)
-                    _movieRatings.value = useCases.getRatings.getRatingsValue()
-                }
                 val collectionId = useCases.getMovieDetails.getCollectionId()
                 if (collectionId != null) {
                     _movieCollectionRes.value = useCases.getCollection(id = collectionId)
                     _movieCollectionName.value = useCases.getCollection.getCollectionNameAndOverview()
                     _movieCollection.value = useCases.getCollection.getCollectionMovies()
                 }
+                _movieRecommend.value = useCases.getMovieDetails.getRecommendations()
+                _movieSimilar.value = useCases.getMovieDetails.getSimilar()
             }
         }
     }

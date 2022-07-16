@@ -18,7 +18,7 @@ import com.kavrin.marvin.ui.theme.*
 @Composable
 fun CollectionHeader(
     collectionName: String,
-    collectionOverview: String
+    collectionOverview: String?
 ) {
 
 
@@ -45,15 +45,17 @@ fun CollectionHeader(
             color = MaterialTheme.colors.contentColor
         )
 
-        Text(
-            text = collectionOverview,
-            fontFamily = nunitoTypeFace,
-            fontWeight = FontWeight.SemiBold,
-            fontSize = MaterialTheme.typography.body1.fontSize,
-            textAlign = TextAlign.Start,
-            color = MaterialTheme.colors.contentColor,
-            overflow = TextOverflow.Ellipsis
-        )
+        if (!collectionOverview.isNullOrBlank()) {
+            Text(
+                text = collectionOverview,
+                fontFamily = nunitoTypeFace,
+                fontWeight = FontWeight.SemiBold,
+                fontSize = MaterialTheme.typography.body1.fontSize,
+                textAlign = TextAlign.Start,
+                color = MaterialTheme.colors.contentColor,
+                overflow = TextOverflow.Ellipsis
+            )
+        }
 
     }
 }

@@ -54,8 +54,8 @@ fun MovieScreen(
     LaunchedEffect(key1 = true) { movieViewModel.getMovieDetails() }
 
     val movie by movieViewModel.selectedMovie.collectAsState()
-    val movieDetailsResultState by movieViewModel.movieDetails.collectAsState()
-    val movieRatingsResultState by movieViewModel.ratingsRes.collectAsState()
+    val movieDetailsResultState by movieViewModel.movieDetailsResponse.collectAsState()
+    val movieRatingsResultState by movieViewModel.movieRatingResponse.collectAsState()
     val movieCollectionResultState by movieViewModel.movieCollectionRes.collectAsState()
     val movieRuntime by movieViewModel.movieRuntime.collectAsState()
     val movieGenres by movieViewModel.movieGenre.collectAsState()

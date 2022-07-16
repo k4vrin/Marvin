@@ -63,7 +63,7 @@ class GetMovieDetails(
     }
 
     fun getTrailerBackdrop(): Backdrop? {
-        return data?.images?.backdrops?.size?.let { Random.nextInt(from = 1, until = it) }?.let {
+        return data?.images?.backdrops?.size?.let { Random.nextInt(until = it) }?.let {
             data?.images?.backdrops?.get(
                 it
             )

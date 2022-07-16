@@ -2,19 +2,18 @@ package com.kavrin.marvin.navigation
 
 import androidx.compose.animation.AnimatedContentScope
 import androidx.compose.animation.core.tween
-import androidx.compose.animation.expandVertically
 import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
 import androidx.compose.runtime.Composable
-import androidx.compose.ui.Alignment
 import androidx.navigation.NavHostController
 import androidx.navigation.NavType
 import androidx.navigation.navArgument
 import com.google.accompanist.navigation.animation.AnimatedNavHost
 import com.google.accompanist.navigation.animation.composable
-import com.kavrin.marvin.presentation.screens.movie.MovieScreen
 import com.kavrin.marvin.presentation.screens.home.HomeScreen
+import com.kavrin.marvin.presentation.screens.movie.MovieScreen
 import com.kavrin.marvin.presentation.screens.splash.SplashScreen
+import com.kavrin.marvin.presentation.screens.tv.TvScreen
 import com.kavrin.marvin.presentation.screens.welcome.WelcomeScreen
 import com.kavrin.marvin.util.Constants.ARGUMENT_KEY_ID
 import com.kavrin.marvin.util.Constants.LIST_ARGUMENT_KEY
@@ -80,7 +79,7 @@ fun SetupNavGraph(navHostController: NavHostController) {
             },
             exitTransition = {
                 fadeOut(
-                    tween(durationMillis = 2000)
+                    tween(durationMillis = 100, delayMillis = 2000)
                 )
             },
             popEnterTransition = {
@@ -101,22 +100,25 @@ fun SetupNavGraph(navHostController: NavHostController) {
                 }
             ),
             enterTransition = {
-                expandVertically(
-                    animationSpec = tween(durationMillis = 500, delayMillis = 200),
-                    expandFrom = Alignment.Top,
-                    clip = true
+                slideIntoContainer(
+                    towards = AnimatedContentScope.SlideDirection.Up,
+                    animationSpec = tween(durationMillis = 500, delayMillis = 150)
                 )
             },
             exitTransition = {
-                slideOutOfContainer(
-                    towards = AnimatedContentScope.SlideDirection.Down,
-                    animationSpec = tween(durationMillis = 500)
+                fadeOut(
+                    tween(durationMillis = 100, delayMillis = 2000)
+                )
+            },
+            popEnterTransition = {
+                fadeIn(
+                    tween(durationMillis = 500)
                 )
             },
             popExitTransition = {
                 slideOutOfContainer(
                     towards = AnimatedContentScope.SlideDirection.Down,
-                    animationSpec = tween(durationMillis = 500)
+                    animationSpec = tween(durationMillis = 700)
                 )
             }
         ) {
@@ -132,26 +134,29 @@ fun SetupNavGraph(navHostController: NavHostController) {
                 }
             ),
             enterTransition = {
-                expandVertically(
-                    animationSpec = tween(durationMillis = 500, delayMillis = 200),
-                    expandFrom = Alignment.Top,
-                    clip = true
+                slideIntoContainer(
+                    towards = AnimatedContentScope.SlideDirection.Up,
+                    animationSpec = tween(durationMillis = 500, delayMillis = 150)
                 )
             },
             exitTransition = {
-                slideOutOfContainer(
-                    towards = AnimatedContentScope.SlideDirection.Down,
-                    animationSpec = tween(durationMillis = 500)
+                fadeOut(
+                    tween(durationMillis = 100, delayMillis = 2000)
+                )
+            },
+            popEnterTransition = {
+                fadeIn(
+                    tween(durationMillis = 500)
                 )
             },
             popExitTransition = {
                 slideOutOfContainer(
                     towards = AnimatedContentScope.SlideDirection.Down,
-                    animationSpec = tween(durationMillis = 500)
+                    animationSpec = tween(durationMillis = 700)
                 )
             }
         ) {
-            /*TODO*/
+            TvScreen(navHostController = navHostController)
         }
 
         //// Person Screen ////
@@ -163,22 +168,25 @@ fun SetupNavGraph(navHostController: NavHostController) {
                 }
             ),
             enterTransition = {
-                expandVertically(
-                    animationSpec = tween(durationMillis = 500, delayMillis = 200),
-                    expandFrom = Alignment.Top,
-                    clip = true
+                slideIntoContainer(
+                    towards = AnimatedContentScope.SlideDirection.Up,
+                    animationSpec = tween(durationMillis = 500, delayMillis = 150)
                 )
             },
             exitTransition = {
-                slideOutOfContainer(
-                    towards = AnimatedContentScope.SlideDirection.Down,
-                    animationSpec = tween(durationMillis = 500)
+                fadeOut(
+                    tween(durationMillis = 100, delayMillis = 2000)
+                )
+            },
+            popEnterTransition = {
+                fadeIn(
+                    tween(durationMillis = 500)
                 )
             },
             popExitTransition = {
                 slideOutOfContainer(
                     towards = AnimatedContentScope.SlideDirection.Down,
-                    animationSpec = tween(durationMillis = 500)
+                    animationSpec = tween(durationMillis = 700)
                 )
             }
         ) {

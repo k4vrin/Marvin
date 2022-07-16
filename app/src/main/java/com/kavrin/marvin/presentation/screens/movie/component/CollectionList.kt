@@ -69,7 +69,7 @@ fun CollectionList(
         ) {
 
             item {
-                if (!collectionName.isNullOrBlank() && !collectionOverview.isNullOrBlank()) {
+                if (!collectionName.isNullOrBlank()) {
                     CollectionHeader(
                         collectionName = collectionName,
                         collectionOverview = collectionOverview
