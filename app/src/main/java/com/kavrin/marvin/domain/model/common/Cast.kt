@@ -6,8 +6,6 @@ import kotlinx.serialization.Serializable
 
 @Serializable
 data class Cast(
-    @SerialName("cast_id")
-    val castId: Int,
     @SerialName("character")
     val character: String,
     @SerialName("credit_id")

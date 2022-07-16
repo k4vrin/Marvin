@@ -15,5 +15,5 @@ data class CreatedBy(
     @SerialName("name")
     val name: String,
     @SerialName("profile_path")
-    val profilePath: String
+    val profilePath: String?
 )
