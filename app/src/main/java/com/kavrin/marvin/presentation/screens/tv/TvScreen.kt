@@ -14,8 +14,6 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
 import com.google.accompanist.systemuicontroller.rememberSystemUiController
 import com.kavrin.marvin.R
-import com.kavrin.marvin.domain.model.imdb.IMDbRatingApiResponse
-import com.kavrin.marvin.domain.model.tv.api.detail.SingleTvApiResponse
 import com.kavrin.marvin.presentation.component.FabAndDivider
 import com.kavrin.marvin.presentation.component.FabState
 import com.kavrin.marvin.presentation.screens.movie.EmptyContent
@@ -31,9 +29,14 @@ fun TvScreen(
     tvViewModel: TvViewModel = hiltViewModel()
 ) {
 
+    LaunchedEffect(key1 = true) { tvViewModel.getTvDetails() }
+
     val tv by tvViewModel.selectedTv.collectAsState()
     val tvDetailsResultState by tvViewModel.tvDetailsResponse.collectAsState()
     val tvRatingsResultState by tvViewModel.tvRatingsResponse.collectAsState()
+    val tvStatus by tvViewModel.tvRuntimeStatusDate.collectAsState()
+    val tvGenres by tvViewModel.tvGenres.collectAsState()
+    val tvRatings by tvViewModel.tvRatings.collectAsState()
 
     ///// Status Bar /////
     val uiController = rememberSystemUiController()
@@ -58,8 +61,6 @@ fun TvScreen(
             isRefreshing = false
         }
     )
-
-    LaunchedEffect(key1 = true) {  }
 
     ///// FAB Animations /////
     val fabState = remember { MutableTransitionState(FabState.Start) }
@@ -118,12 +119,26 @@ fun TvScreen(
                         state = collapsingToolbarState,
                         backdrop = tv?.backdropPath,
                         title = tv?.name,
-                        onBackIconClicked = {},
-                        onShareClicked = {}
+                        onBackIconClicked = {
+                            navHostController.popBackStack()
+                        },
+                        onShareClicked = {
+                            /*TODO*/
+                        }
                     )
                 }
             ) {
-                TvContent()
+                TvContent(
+                    tv = tv,
+                    tvRuntimeDateStatus = tvStatus,
+                    tvGenres = tvGenres,
+                    tvRatings = tvRatings,
+                    transitionState = tvViewModel.transition,
+                    toolbarState = collapsingToolbarState,
+                    onTransitionChange = {
+                        tvViewModel.updateTransitionState(it)
+                    }
+                )
             }
 
             FabAndDivider(
@@ -137,18 +152,14 @@ fun TvScreen(
         }
     }
 
-
-
-
-
 }
 
 
 
 @Composable
 private fun handleTvNetworkResult(
-    ratings: NetworkResult<IMDbRatingApiResponse>,
-    tvDetails: NetworkResult<SingleTvApiResponse>,
+    ratings: NetworkResult,
+    tvDetails: NetworkResult,
     isRefreshing: Boolean = false,
     onRefresh: () -> Unit
 ): Boolean {

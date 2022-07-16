@@ -86,7 +86,7 @@ fun CollapsingToolbarScope.TvToolbar(
 
     AsyncImage(
         model = ImageRequest.Builder(LocalContext.current)
-            .data("${Constants.IMAGE_BASE_URL}${backdrop}")
+            .data("${Constants.IMAGE_BACKDROP_BASE_URL}${backdrop}")
             .placeholder(R.drawable.placeholder_dark)
             .crossfade(true)
             .build(),
