@@ -18,8 +18,9 @@ import com.kavrin.marvin.util.dateFormatter
 @Composable
 fun DateTime(
     date: String,
-    time: Int,
-    modifier: Modifier = Modifier
+    time: Int?,
+    modifier: Modifier = Modifier,
+    status: String? = null
 ) {
 
         Row(
@@ -36,29 +37,60 @@ fun DateTime(
                 color = MaterialTheme.colors.cardContentColor
             )
 
-            Spacer(modifier = Modifier.width(LARGE_PADDING))
+            if (time != null) {
 
-            Text(
-                text = "|",
-                fontFamily = nunitoTypeFace,
-                fontSize = MaterialTheme.typography.subtitle2.fontSize,
-                fontWeight = FontWeight.Normal,
-                maxLines = 1,
-                overflow = TextOverflow.Ellipsis,
-                color = MaterialTheme.colors.cardContentColor
-            )
+                Spacer(modifier = Modifier.width(LARGE_PADDING))
 
-            Spacer(modifier = Modifier.width(LARGE_PADDING))
+                Text(
+                    text = "|",
+                    fontFamily = nunitoTypeFace,
+                    fontSize = MaterialTheme.typography.subtitle2.fontSize,
+                    fontWeight = FontWeight.Normal,
+                    maxLines = 1,
+                    overflow = TextOverflow.Ellipsis,
+                    color = MaterialTheme.colors.cardContentColor
+                )
 
-            Text(
-                text = "${time}min",
-                fontFamily = nunitoTypeFace,
-                fontSize = MaterialTheme.typography.subtitle2.fontSize,
-                fontWeight = FontWeight.Bold,
-                maxLines = 1,
-                overflow = TextOverflow.Ellipsis,
-                color = MaterialTheme.colors.cardContentColor
-            )
+                Spacer(modifier = Modifier.width(LARGE_PADDING))
+
+                Text(
+                    text = "${time}min",
+                    fontFamily = nunitoTypeFace,
+                    fontSize = MaterialTheme.typography.subtitle2.fontSize,
+                    fontWeight = FontWeight.Bold,
+                    maxLines = 1,
+                    overflow = TextOverflow.Ellipsis,
+                    color = MaterialTheme.colors.cardContentColor
+                )
+
+            }
+
+            if (!status.isNullOrBlank()) {
+
+                Spacer(modifier = Modifier.width(LARGE_PADDING))
+
+                Text(
+                    text = "|",
+                    fontFamily = nunitoTypeFace,
+                    fontSize = MaterialTheme.typography.subtitle2.fontSize,
+                    fontWeight = FontWeight.Normal,
+                    maxLines = 1,
+                    overflow = TextOverflow.Ellipsis,
+                    color = MaterialTheme.colors.cardContentColor
+                )
+
+                Spacer(modifier = Modifier.width(LARGE_PADDING))
+
+                Text(
+                    text = status,
+                    fontFamily = nunitoTypeFace,
+                    fontSize = MaterialTheme.typography.subtitle2.fontSize,
+                    fontWeight = FontWeight.Bold,
+                    maxLines = 1,
+                    overflow = TextOverflow.Ellipsis,
+                    color = MaterialTheme.colors.cardContentColor
+                )
+            }
         }
 
 

@@ -1,6 +1,5 @@
 package com.kavrin.marvin.presentation.component
 
-import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Card
@@ -10,15 +9,17 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.layout.ContentScale
-import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import coil.compose.rememberAsyncImagePainter
+import coil.compose.AsyncImage
+import coil.request.ImageRequest
 import com.kavrin.marvin.R
 import com.kavrin.marvin.ui.theme.*
-import com.kavrin.marvin.util.Constants
+import com.kavrin.marvin.util.Constants.IMAGE_PROFILE_BASE_URL
 
 @Composable
 fun CreditItem(
@@ -29,12 +30,6 @@ fun CreditItem(
     modifier: Modifier = Modifier,
     onItemClicked: (Int) -> Unit
 ) {
-
-    val painter = rememberAsyncImagePainter(
-        model = "${Constants.IMAGE_BASE_URL}${image}",
-        placeholder = painterResource(id = R.drawable.placeholder),
-        error = painterResource(id = R.drawable.placeholder)
-    )
 
     Card(
         modifier = modifier
@@ -61,11 +56,16 @@ fun CreditItem(
                     .weight(7f)
             ) {
 
-                Image(
+                AsyncImage(
                     modifier = Modifier
                         .fillMaxSize(),
-                    painter = painter,
-                    contentDescription = "Cast Image",
+                    model =ImageRequest.Builder(LocalContext.current)
+                        .data("${IMAGE_PROFILE_BASE_URL}${image}")
+                        .placeholder(R.drawable.placeholder)
+                        .error(R.drawable.placeholder)
+                        .crossfade(true)
+                        .build(),
+                    contentDescription = stringResource(R.string.cast_image),
                     contentScale = ContentScale.Crop
                 )
 

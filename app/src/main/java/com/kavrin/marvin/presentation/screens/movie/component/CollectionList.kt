@@ -11,6 +11,7 @@ import androidx.compose.ui.draw.drawWithContent
 import androidx.compose.ui.graphics.BlendMode
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import coil.compose.AsyncImage
 import coil.request.ImageRequest
@@ -20,7 +21,7 @@ import com.kavrin.marvin.presentation.component.MovieTvItem
 import com.kavrin.marvin.ui.theme.MEDIUM_PADDING
 import com.kavrin.marvin.ui.theme.SMALL_PADDING
 import com.kavrin.marvin.ui.theme.cardGradientColor
-import com.kavrin.marvin.util.Constants
+import com.kavrin.marvin.util.Constants.IMAGE_BACKDROP_BASE_URL
 
 @Composable
 fun CollectionList(
@@ -52,11 +53,12 @@ fun CollectionList(
                     )
                 },
             model = ImageRequest.Builder(LocalContext.current)
-                .data("${Constants.IMAGE_BASE_URL}${collectionBackdrop}")
+                .data("${IMAGE_BACKDROP_BASE_URL}${collectionBackdrop}")
                 .placeholder(R.drawable.placeholder_dark)
+                .error(R.drawable.placeholder_dark)
                 .crossfade(true)
                 .build(),
-            contentDescription = null,
+            contentDescription = stringResource(R.string.collection_backdrop),
             contentScale = ContentScale.Crop
         )
 

@@ -27,7 +27,7 @@ import coil.compose.AsyncImage
 import coil.request.ImageRequest
 import com.kavrin.marvin.R
 import com.kavrin.marvin.ui.theme.*
-import com.kavrin.marvin.util.Constants
+import com.kavrin.marvin.util.Constants.IMAGE_BACKDROP_BASE_URL
 import me.onebone.toolbar.CollapsingToolbarScaffoldState
 import me.onebone.toolbar.CollapsingToolbarScope
 
@@ -86,8 +86,9 @@ fun CollapsingToolbarScope.MovieToolbar(
 
     AsyncImage(
         model = ImageRequest.Builder(LocalContext.current)
-            .data("${Constants.IMAGE_BASE_URL}${backdrop}")
+            .data("${IMAGE_BACKDROP_BASE_URL}${backdrop}")
             .placeholder(R.drawable.placeholder_dark)
+            .error(R.drawable.placeholder_dark)
             .crossfade(true)
             .build(),
         contentDescription = stringResource(id = R.string.movie_poster),

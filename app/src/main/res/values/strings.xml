@@ -29,4 +29,7 @@
     <string name="videos">Videos</string>
     <string name="pofile_pic">Profile Picture</string>
     <string name="open_new">Open in browser</string>
+    <string name="cast_image">Cast Image</string>
+    <string name="collection_backdrop">Collection Backdrop</string>
+    <string name="trailer_backdrop">Trailer Backdrop</string>
 </resources>

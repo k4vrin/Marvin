@@ -17,12 +17,13 @@ import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import coil.compose.AsyncImage
 import coil.request.ImageRequest
 import com.kavrin.marvin.R
-import com.kavrin.marvin.util.Constants
+import com.kavrin.marvin.util.Constants.IMAGE_BACKDROP_BASE_URL
 
 @Composable
 fun TrailerItem(
@@ -59,11 +60,11 @@ fun TrailerItem(
                         drawRect(brush = gradient, blendMode = BlendMode.Multiply)
                     },
                 model = ImageRequest.Builder(LocalContext.current)
-                    .data("${Constants.IMAGE_BASE_URL}${backdrop}")
+                    .data("${IMAGE_BACKDROP_BASE_URL}${backdrop}")
                     .placeholder(R.drawable.placeholder_dark)
                     .crossfade(true)
                     .build(),
-                contentDescription = null,
+                contentDescription = stringResource(R.string.trailer_backdrop),
                 contentScale = ContentScale.Crop
             )
 
