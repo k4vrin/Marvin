@@ -62,7 +62,8 @@ android {
                 "-opt-in=kotlinx.coroutines.ExperimentalCoroutinesApi",
                 "-opt-in=androidx.paging.ExperimentalPagingApi",
                 "-opt-in=kotlinx.serialization.ExperimentalSerializationApi",
-                "-opt-in=androidx.constraintlayout.compose.ExperimentalMotionApi",
+                "-opt-in=androidx.lifecycle.compose.ExperimentalLifecycleComposeApi",
+                "-opt-in=androidx.compose.foundation.ExperimentalFoundationApi",
                 "-opt-in=androidx.compose.animation.ExperimentalAnimationApi"
         ]
     }
@@ -101,6 +102,12 @@ dependencies {
     debugImplementation "androidx.compose.ui:ui-tooling:$compose_version"
     debugImplementation "androidx.compose.ui:ui-test-manifest:$compose_version"
 
+    implementation 'androidx.lifecycle:lifecycle-viewmodel-compose:2.5.0'
+    implementation 'androidx.lifecycle:lifecycle-runtime-compose:2.6.0-alpha01'
+
+    // LeakCanary
+    debugImplementation 'com.squareup.leakcanary:leakcanary-android:2.9.1'
+
     // Icons
     implementation "androidx.compose.material:material-icons-extended:$compose_version"
 
@@ -120,9 +127,6 @@ dependencies {
     implementation(platform("com.squareup.okhttp3:okhttp-bom:5.0.0-alpha.10"))
     implementation("com.squareup.okhttp3:okhttp")
     implementation("com.squareup.okhttp3:logging-interceptor")
-
-    // Motion Layout
-    implementation "androidx.constraintlayout:constraintlayout-compose:1.0.1"
 
     // Paging 3.0
     implementation 'androidx.paging:paging-compose:1.0.0-alpha15'
@@ -153,9 +157,6 @@ dependencies {
     implementation "com.google.accompanist:accompanist-systemuicontroller:$accompanist_version"
     // Navigation-Animation - Accompanist
     implementation "com.google.accompanist:accompanist-navigation-animation:$accompanist_version"
-
-    // Palette API
-//    implementation "androidx.palette:palette-ktx:1.0.0"
 
     // onebone compose-collapsing-toolbar
     implementation "me.onebone:toolbar-compose:2.3.3"
