@@ -1,6 +1,5 @@
 package com.kavrin.marvin.presentation.screens.home
 
-import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.systemBarsPadding
 import androidx.compose.material.MaterialTheme
@@ -12,7 +11,6 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
 import androidx.paging.compose.collectAsLazyPagingItems
 import com.google.accompanist.systemuicontroller.rememberSystemUiController
-import com.kavrin.marvin.presentation.component.ConnectivityStatus
 import com.kavrin.marvin.ui.theme.statusBarColor
 import me.onebone.toolbar.CollapsingToolbarScaffold
 import me.onebone.toolbar.ScrollStrategy
@@ -43,20 +41,20 @@ fun HomeScreen(
         ui.setStatusBarColor(color = color, darkIcons = useDarkIcons)
     }
 
+    val collapsingToolbarState = rememberCollapsingToolbarScaffoldState()
+
     CollapsingToolbarScaffold(
         modifier = Modifier
             .fillMaxSize()
             .systemBarsPadding(),
-        state = rememberCollapsingToolbarScaffoldState(),
+        state = collapsingToolbarState,
         scrollStrategy = ScrollStrategy.EnterAlways,
         toolbar = {
-            Column {
-                ConnectivityStatus(isConnected = isConnected.value)
-                HomeTopBar(
-                    onSearchClicked = {}
-                )
-            }
-        }
+            HomeTopBar(
+                isConnected = isConnected.value,
+                onSearchClicked = { /*TODO*/ }
+            )
+        },
     ) {
         HomeContent(
             navHostController = navController,
@@ -68,6 +66,7 @@ fun HomeScreen(
             popularTvs = popularTvs,
             topRatedTvs = topRatedTvs,
             trendingTvs = trendingTvs,
+            isConnected = isConnected.value,
             onRefresh = { homeViewModel.deleteAll() }
         )
     }

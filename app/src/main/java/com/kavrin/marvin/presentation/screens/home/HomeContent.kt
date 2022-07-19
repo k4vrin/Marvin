@@ -27,16 +27,11 @@ import com.kavrin.marvin.domain.model.tv.entities.relations.TvAndPopular
 import com.kavrin.marvin.domain.model.tv.entities.relations.TvAndTopRated
 import com.kavrin.marvin.domain.model.tv.entities.relations.TvAndTrending
 import com.kavrin.marvin.navigation.Screen
-import com.kavrin.marvin.presentation.screens.home.component.CardList
-import com.kavrin.marvin.presentation.screens.home.component.Carousel
-import com.kavrin.marvin.presentation.screens.home.component.MarvinTabRow
-import com.kavrin.marvin.presentation.screens.home.component.ShimmerCardEffect
-import com.kavrin.marvin.presentation.screens.home.component.ShimmerCarouselEffect
+import com.kavrin.marvin.presentation.screens.home.component.*
 import com.kavrin.marvin.presentation.screens.movie.EmptyContent
 import com.kavrin.marvin.ui.theme.MEDIUM_PADDING
 import com.kavrin.marvin.ui.theme.backGroundColor
 import com.kavrin.marvin.util.MarvinItem
-import com.kavrin.marvin.util.connectivityState
 import java.io.InterruptedIOException
 import java.net.ConnectException
 import java.net.SocketTimeoutException
@@ -53,11 +48,11 @@ fun HomeContent(
     popularTvs: LazyPagingItems<TvAndPopular>,
     topRatedTvs: LazyPagingItems<TvAndTopRated>,
     trendingTvs: LazyPagingItems<TvAndTrending>,
+    isConnected: Boolean,
     onRefresh: () -> Unit
 ) {
 
     val pagerState = rememberPagerState()
-
     var isRefreshing by remember { mutableStateOf(false) }
 
     val handler = handleError(
@@ -115,14 +110,16 @@ fun HomeContent(
                             carousel = carouselMovies,
                             popular = popularMovies,
                             topRated = topRatedMovies,
-                            trending = trendingMovies
+                            trending = trendingMovies,
+                            isConnected = isConnected
                         )
                         1 -> TvTabContent(
                             navHostController = navHostController,
                             carousel = carouselTvs,
                             popular = popularTvs,
                             topRated = topRatedTvs,
-                            trending = trendingTvs
+                            trending = trendingTvs,
+                            isConnected = isConnected
                         )
                     }
                 }
@@ -140,30 +137,29 @@ fun MovieTabContent(
     popular: LazyPagingItems<MovieAndPopular>,
     topRated: LazyPagingItems<MovieAndTopRated>,
     trending: LazyPagingItems<MovieAndTrending>,
+    isConnected: Boolean
 ) {
 
     val scrollState = rememberScrollState()
-    val isConnected = connectivityState().collectAsState()
 
     Column(
         modifier = Modifier
             .fillMaxSize()
             .background(color = MaterialTheme.colors.backGroundColor)
-            .verticalScroll(
-                state = scrollState
-            ),
+            .verticalScroll(scrollState),
         verticalArrangement = Arrangement.spacedBy(MEDIUM_PADDING),
     ) {
+
 
         Carousel(
             items = carousel,
             isMovie = true,
             onItemClicked = { id ->
-                if (isConnected.value) {
+                if (isConnected) {
                     navHostController.navigate(Screen.Movie.passId(id = id))
                 }
             },
-            onMenuIconClicked = {}
+            onMenuIconClicked = { /*TODO*/ }
         )
 
         CardList(
@@ -171,11 +167,11 @@ fun MovieTabContent(
             items = trending,
             isMovie = true,
             onItemClicked = { id ->
-                if (isConnected.value) {
+                if (isConnected) {
                     navHostController.navigate(Screen.Movie.passId(id = id))
                 }
             },
-            onMenuIconClicked = {}
+            onMenuIconClicked = { /*TODO*/ }
         )
 
         CardList(
@@ -183,13 +179,11 @@ fun MovieTabContent(
             items = popular,
             isMovie = true,
             onItemClicked = { id ->
-                if (isConnected.value) {
+                if (isConnected) {
                     navHostController.navigate(Screen.Movie.passId(id = id))
                 }
             },
-            onMenuIconClicked = {
-
-            }
+            onMenuIconClicked = { /*TODO*/ }
         )
 
         CardList(
@@ -197,15 +191,12 @@ fun MovieTabContent(
             items = topRated,
             isMovie = true,
             onItemClicked = { id ->
-                if (isConnected.value) {
+                if (isConnected) {
                     navHostController.navigate(Screen.Movie.passId(id = id))
                 }
             },
-            onMenuIconClicked = {
-
-            }
+            onMenuIconClicked = { /*TODO*/ }
         )
-
     }
 
 }
@@ -217,18 +208,16 @@ fun TvTabContent(
     popular: LazyPagingItems<TvAndPopular>,
     topRated: LazyPagingItems<TvAndTopRated>,
     trending: LazyPagingItems<TvAndTrending>,
+    isConnected: Boolean
 ) {
 
     val scrollState = rememberScrollState()
-    val isConnected = connectivityState().collectAsState()
 
     Column(
         modifier = Modifier
             .fillMaxSize()
             .background(color = MaterialTheme.colors.backGroundColor)
-            .verticalScroll(
-                state = scrollState,
-            ),
+            .verticalScroll(scrollState),
         verticalArrangement = Arrangement.spacedBy(MEDIUM_PADDING),
     ) {
 
@@ -236,11 +225,11 @@ fun TvTabContent(
             items = carousel,
             isMovie = false,
             onItemClicked = { id ->
-                if (isConnected.value) {
+                if (isConnected) {
                     navHostController.navigate(Screen.Tv.passId(id = id))
                 }
             },
-            onMenuIconClicked = {}
+            onMenuIconClicked = { /*TODO*/ }
         )
 
         CardList(
@@ -248,13 +237,11 @@ fun TvTabContent(
             items = trending,
             isMovie = false,
             onItemClicked = { id ->
-                if (isConnected.value) {
+                if (isConnected) {
                     navHostController.navigate(Screen.Tv.passId(id = id))
                 }
             },
-            onMenuIconClicked = {
-
-            }
+            onMenuIconClicked = { /*TODO*/ }
         )
 
         CardList(
@@ -262,13 +249,11 @@ fun TvTabContent(
             items = popular,
             isMovie = false,
             onItemClicked = { id ->
-                if (isConnected.value) {
+                if (isConnected) {
                     navHostController.navigate(Screen.Tv.passId(id = id))
                 }
             },
-            onMenuIconClicked = {
-
-            }
+            onMenuIconClicked = { /*TODO*/ }
         )
 
         CardList(
@@ -276,16 +261,14 @@ fun TvTabContent(
             items = topRated,
             isMovie = false,
             onItemClicked = { id ->
-                if (isConnected.value) {
+                if (isConnected) {
                     navHostController.navigate(Screen.Tv.passId(id = id))
                 }
             },
-            onMenuIconClicked = {
-
-            }
+            onMenuIconClicked = { /*TODO*/ }
         )
-    }
 
+    }
 }
 
 @Composable
