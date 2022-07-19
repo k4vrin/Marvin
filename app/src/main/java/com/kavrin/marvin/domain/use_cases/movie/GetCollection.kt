@@ -45,6 +45,6 @@ class GetCollection(
     }
 
     fun getCollectionMovies(): List<Movie>? {
-        return data?.parts
+        return data?.parts?.sortedBy { it.releaseDate }
     }
 }

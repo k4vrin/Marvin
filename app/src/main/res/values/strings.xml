@@ -32,4 +32,5 @@
     <string name="cast_image">Cast Image</string>
     <string name="collection_backdrop">Collection Backdrop</string>
     <string name="trailer_backdrop">Trailer Backdrop</string>
+    <string name="reviews">Reviews</string>
 </resources>

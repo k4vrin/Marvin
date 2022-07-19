@@ -1,14 +1,11 @@
 package com.kavrin.marvin.presentation.screens.movie
 
-import androidx.compose.runtime.State
-import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.kavrin.marvin.domain.model.common.*
 import com.kavrin.marvin.domain.model.movie.entities.Movie
 import com.kavrin.marvin.domain.use_cases.movie.MovieUseCases
-import com.kavrin.marvin.presentation.screens.movie.component.TransitionState
 import com.kavrin.marvin.util.Constants.ARGUMENT_KEY_ID
 import com.kavrin.marvin.util.NetworkResult
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -79,14 +76,7 @@ class MovieViewModel @Inject constructor(
     private val _movieRatings: MutableStateFlow<Map<String, String?>?> = MutableStateFlow(null)
     val movieRatings: StateFlow<Map<String, String?>?> = _movieRatings
 
-    private val _transition = mutableStateOf(TransitionState.Start)
-    val transition: State<TransitionState> = _transition
-
     val id = savedStateHandle.get<Int>(ARGUMENT_KEY_ID)
-
-    fun updateTransitionState(enable: Boolean) {
-        if (enable) _transition.value = TransitionState.End
-    }
 
     init {
         viewModelScope.launch(context = Dispatchers.IO) {
@@ -98,6 +88,7 @@ class MovieViewModel @Inject constructor(
 
     fun getMovieDetails() {
         viewModelScope.launch(Dispatchers.IO) {
+            _movieDetailsResponse.value = NetworkResult.Loading()
             if (id != null) {
                 _movieDetailsResponse.value = useCases.getMovieDetails(id = id)
                 _movieRuntime.value = useCases.getMovieDetails.getRuntime()

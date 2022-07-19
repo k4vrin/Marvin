@@ -3,7 +3,6 @@ package com.kavrin.marvin.presentation.screens.movie
 import android.content.ActivityNotFoundException
 import android.content.Intent
 import android.net.Uri
-import androidx.compose.animation.core.*
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.navigationBarsPadding
@@ -13,14 +12,11 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.res.stringResource
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
 import com.google.accompanist.systemuicontroller.rememberSystemUiController
-import com.kavrin.marvin.R
 import com.kavrin.marvin.navigation.Screen
 import com.kavrin.marvin.presentation.component.FabAndDivider
-import com.kavrin.marvin.presentation.component.FabState
 import com.kavrin.marvin.util.NetworkResult
 import kotlinx.coroutines.delay
 import me.onebone.toolbar.CollapsingToolbarScaffold
@@ -38,7 +34,9 @@ fun MovieScreen(
     ///// Status Bar /////
     val uiController = rememberSystemUiController()
     val useDarkIcons = MaterialTheme.colors.isLight
-    SideEffect {
+    LaunchedEffect(key1 = true) {
+        movieViewModel.getMovieDetails()
+        delay(650)
         uiController.setStatusBarColor(
             color = Color.Transparent,
             darkIcons = useDarkIcons
@@ -46,9 +44,6 @@ fun MovieScreen(
     }
 
     val context = LocalContext.current
-
-    ///// Get Details and Rating /////
-    LaunchedEffect(key1 = true) { movieViewModel.getMovieDetails() }
 
     val movie by movieViewModel.selectedMovie.collectAsState()
     val movieDetailsResultState by movieViewModel.movieDetailsResponse.collectAsState()
@@ -83,46 +78,6 @@ fun MovieScreen(
         }
     )
 
-    ///// FAB Animations /////
-    val fabState = remember { MutableTransitionState(FabState.Start) }
-    LaunchedEffect(key1 = result) {
-        if (result) {
-            delay(450)
-            fabState.targetState = FabState.End
-        }
-    }
-    val transition =
-        updateTransition(targetState = fabState, label = stringResource(R.string.fab_animation))
-
-    val animFabTranslateX by transition.animateFloat(
-        transitionSpec = {
-            tween(
-                durationMillis = 1000,
-                easing = FastOutSlowInEasing
-            )
-        }, label = stringResource(R.string.fab_translate_x)
-    ) { state ->
-        when (state.targetState) {
-            FabState.Start -> 300f
-            FabState.End -> 0f
-        }
-    }
-
-    val animRotate by transition.animateFloat(
-        transitionSpec = {
-            tween(
-                durationMillis = 1000,
-                easing = FastOutSlowInEasing
-            )
-        },
-        label = stringResource(R.string.fab_rotate)
-    ) { state ->
-        when (state.targetState) {
-            FabState.Start -> 360f
-            FabState.End -> 0f
-        }
-    }
-
     ///// Collapsing Toolbar State /////
     val collapsingToolbarState = rememberCollapsingToolbarScaffoldState()
 
@@ -130,12 +85,12 @@ fun MovieScreen(
         Box(
             modifier = Modifier
                 .fillMaxSize()
+                .navigationBarsPadding()
         ) {
 
             CollapsingToolbarScaffold(
                 modifier = Modifier
-                    .fillMaxSize()
-                    .navigationBarsPadding(),
+                    .fillMaxSize(),
                 state = collapsingToolbarState,
                 scrollStrategy = ScrollStrategy.ExitUntilCollapsed,
                 toolbar = {
@@ -169,10 +124,6 @@ fun MovieScreen(
                     similar = similar,
                     movie = movie,
                     toolbarState = collapsingToolbarState,
-                    transitionState = movieViewModel.transition,
-                    onTransitionChange = {
-                        movieViewModel.updateTransitionState(it)
-                    },
                     onCastClicked = {
                         navHostController.navigate(Screen.Person.passId(it))
                     },
@@ -207,10 +158,9 @@ fun MovieScreen(
 
             FabAndDivider(
                 collapsingToolbarState = collapsingToolbarState,
-                animFabTranslateX = animFabTranslateX,
-                animRotate = animRotate,
                 modifier = Modifier
-                    .align(Alignment.TopEnd)
+                    .align(Alignment.TopEnd),
+                onFabClicked = { /*TODO*/ }
             )
 
         }

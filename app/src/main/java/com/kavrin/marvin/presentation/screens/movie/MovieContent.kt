@@ -2,12 +2,15 @@ package com.kavrin.marvin.presentation.screens.movie
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
-import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.rememberLazyListState
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.Card
 import androidx.compose.material.Divider
 import androidx.compose.material.MaterialTheme
-import androidx.compose.runtime.*
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.derivedStateOf
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import com.kavrin.marvin.domain.model.common.*
 import com.kavrin.marvin.domain.model.movie.entities.Movie
@@ -36,9 +39,7 @@ fun MovieContent(
     collection: List<Movie>?,
     recommendation: List<Movie>?,
     similar: List<Movie>?,
-    transitionState: State<TransitionState>,
     toolbarState: CollapsingToolbarScaffoldState,
-    onTransitionChange: (Boolean) -> Unit,
     onCastClicked: (Int) -> Unit,
     onCrewClicked: (Int) -> Unit,
     onVideoClicked: (String) -> Unit,
@@ -47,7 +48,7 @@ fun MovieContent(
     onMenuClicked: (Int) -> Unit
 ) {
 
-    val listState = rememberLazyListState()
+    val listState = rememberScrollState()
 
     val animRatings by remember {
         derivedStateOf {
@@ -55,19 +56,19 @@ fun MovieContent(
         }
     }
 
-    LaunchedEffect(key1 = animRatings) {
-        onTransitionChange(animRatings)
-    }
-
-    LazyColumn(
-        state = listState,
+    Column(
         modifier = Modifier
             .fillMaxSize()
-            .background(MaterialTheme.colors.backGroundColor),
-        verticalArrangement = Arrangement.spacedBy(SMALL_PADDING)
+            .background(MaterialTheme.colors.backGroundColor)
+            .padding(bottom = MEDIUM_PADDING)
+            .verticalScroll(state = listState),
+        verticalArrangement = Arrangement.spacedBy(LARGE_PADDING)
     ) {
-        ///// Date Time Genre Overview /////
-        item {
+
+        Column(
+            verticalArrangement = Arrangement.spacedBy(SMALL_PADDING)
+        ) {
+            ///// Date Time Genre Overview /////
             Card(
                 modifier = Modifier
                     .padding(all = EXTRA_SMALL_PADDING)
@@ -112,14 +113,10 @@ fun MovieContent(
                             isMovie = true
                         )
                     }
-
                 }
-
             }
-        }
 
-        ///// Ratings /////
-        item {
+            ///// Ratings /////
             Card(
                 modifier = Modifier
                     .padding(all = EXTRA_SMALL_PADDING)
@@ -132,96 +129,84 @@ fun MovieContent(
                         .padding(all = MEDIUM_PADDING)
                 ) {
                     if (movieRatings != null) {
-                        Rating(ratings = movieRatings, tranState = transitionState)
+                        Rating(ratings = movieRatings, animate = animRatings)
                     }
                 }
-
             }
-
         }
-
         ///// Cast List /////
-        item {
-            if (!movieCast.isNullOrEmpty()) {
-                CastList(
-                    cast = movieCast,
-                    onCastClicked = {
-                        onCastClicked(it)
-                    }
-                )
-            }
+        if (!movieCast.isNullOrEmpty()) {
+            CastList(
+                cast = movieCast,
+                onCastClicked = {
+                    onCastClicked(it)
+                }
+            )
         }
+
 
         ///// Crew List /////
-        item {
-            if (!movieCrew.isNullOrEmpty()) {
-                CrewList(
-                    crew = movieCrew,
-                    onCrewClicked = {
-                        onCrewClicked(it)
-                    }
-                )
-            }
+        if (!movieCrew.isNullOrEmpty()) {
+            CrewList(
+                crew = movieCrew,
+                onCrewClicked = {
+                    onCrewClicked(it)
+                }
+            )
         }
 
-        item {
-            if (!movieVideos.isNullOrEmpty()) {
-                VideoSection(
-                    trailer = movieTrailer,
-                    videos = movieVideos,
-                    trailerBackdrop = trailerBackdrop,
-                    onItemClick = {
-                        onVideoClicked(it)
-                    }
-                )
-            }
+
+
+        if (!movieVideos.isNullOrEmpty()) {
+            VideoSection(
+                trailer = movieTrailer,
+                videos = movieVideos,
+                trailerBackdrop = trailerBackdrop,
+                onItemClick = {
+                    onVideoClicked(it)
+                }
+            )
         }
 
-        item {
-            if (!reviews.isNullOrEmpty()) {
-                ReviewList(
-                    reviews = reviews,
-                    onReviewClicked = {
-                        onReviewClicked(it)
-                    }
-                )
-            }
+
+
+        if (!reviews.isNullOrEmpty()) {
+            ReviewList(
+                reviews = reviews,
+                onReviewClicked = {
+                    onReviewClicked(it)
+                }
+            )
         }
 
-        item {
-            if (!collection.isNullOrEmpty() && !collectionName.isNullOrEmpty()) {
-                CollectionList(
-                    collectionName = collectionName[COLLECTION_NAME_KEY],
-                    collectionOverview = collectionName[COLLECTION_OVERVIEW_KEY],
-                    collectionBackdrop = collectionName[COLLECTION_BACKDROP_KEY],
-                    movies = collection,
-                    onMovieClicked = { onMovieClicked(it) },
-                    onMenuClicked = { onMenuClicked(it) }
-                )
-            }
+        if (!collection.isNullOrEmpty() && !collectionName.isNullOrEmpty()) {
+            CollectionList(
+                collectionName = collectionName[COLLECTION_NAME_KEY],
+                collectionOverview = collectionName[COLLECTION_OVERVIEW_KEY],
+                collectionBackdrop = collectionName[COLLECTION_BACKDROP_KEY],
+                movies = collection,
+                onMovieClicked = { onMovieClicked(it) },
+                onMenuClicked = { onMenuClicked(it) }
+            )
         }
 
-        item {
-            if (!similar.isNullOrEmpty()) {
-                MovieCardList(
-                    cardListTitle = "Similar",
-                    items = similar,
-                    onMovieClicked = { onMovieClicked(it) },
-                    onMenuClicked = { onMenuClicked(it) }
-                )
-            }
+
+        if (!similar.isNullOrEmpty()) {
+            MovieCardList(
+                cardListTitle = "Similar",
+                items = similar,
+                onMovieClicked = { onMovieClicked(it) },
+                onMenuClicked = { onMenuClicked(it) }
+            )
         }
 
-        item {
-            if (!recommendation.isNullOrEmpty()) {
-                MovieCardList(
-                    cardListTitle = "Recommendation",
-                    items = recommendation,
-                    onMovieClicked = { onMovieClicked(it) },
-                    onMenuClicked = { onMenuClicked(it) }
-                )
-            }
+        if (!recommendation.isNullOrEmpty()) {
+            MovieCardList(
+                cardListTitle = "Recommendation",
+                items = recommendation,
+                onMovieClicked = { onMovieClicked(it) },
+                onMenuClicked = { onMenuClicked(it) }
+            )
         }
-
     }
 }

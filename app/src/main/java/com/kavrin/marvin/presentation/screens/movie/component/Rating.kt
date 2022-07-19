@@ -1,9 +1,6 @@
 package com.kavrin.marvin.presentation.screens.movie.component
 
-import androidx.compose.animation.core.FastOutSlowInEasing
-import androidx.compose.animation.core.animateFloat
-import androidx.compose.animation.core.tween
-import androidx.compose.animation.core.updateTransition
+import androidx.compose.animation.core.*
 import androidx.compose.foundation.Canvas
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
@@ -48,7 +45,7 @@ import java.text.DecimalFormat
 @Composable
 fun Rating(
     ratings: Map<String, String?>,
-    tranState: State<TransitionState>
+    animate: Boolean
 ) {
 
     Column(
@@ -78,7 +75,7 @@ fun Rating(
                 rating = ratings[IMDB],
                 isPercentage = false,
                 provider = IMDB,
-                tranState = tranState,
+                animate = animate
             )
 
 
@@ -86,14 +83,14 @@ fun Rating(
                 rating = ratings[META],
                 isPercentage = true,
                 provider = META,
-                tranState = tranState,
+                animate = animate
             )
 
             RatingItem(
                 rating = ratings[TMDB],
                 isPercentage = false,
                 provider = TMDB,
-                tranState = tranState,
+                animate = animate
             )
 
 
@@ -101,7 +98,7 @@ fun Rating(
                 rating = ratings[ROTTEN],
                 isPercentage = true,
                 provider = ROTTEN,
-                tranState = tranState,
+                animate = animate
             )
 
 
@@ -114,10 +111,10 @@ fun RatingItem(
     rating: String?,
     isPercentage: Boolean,
     provider: String,
+    animate: Boolean,
     maxIndicatorHeight: Dp = 100.dp,
     maxIndicatorWidth: Dp = 20.dp,
     circleSize: Dp = maxIndicatorWidth,
-    tranState: State<TransitionState>
 ) {
 
     val height = with(LocalDensity.current) { maxIndicatorHeight.toPx() }
@@ -152,7 +149,12 @@ fun RatingItem(
 
     val backgroundColor = MaterialTheme.colors.ratingBackground
 
-    val transition = updateTransition(targetState = tranState, label = stringResource(R.string.rating_animation))
+    val transitionState = remember { MutableTransitionState(TransitionState.Start) }
+    LaunchedEffect(key1 = animate) {
+        if (animate) transitionState.targetState = TransitionState.End
+    }
+
+    val transition = updateTransition(targetState = transitionState, label = stringResource(R.string.rating_animation))
     val translateY by transition.animateFloat(
         transitionSpec = {
             tween(
@@ -161,7 +163,7 @@ fun RatingItem(
             )
         }, label = stringResource(R.string.rating_translate_y_animation)
     ) { state ->
-        when (state.value) {
+        when (state.targetState) {
             TransitionState.Start -> height
             TransitionState.End -> animIndicatorValue
         }
@@ -175,7 +177,7 @@ fun RatingItem(
             )
         }, label = stringResource(R.string.rating_number_animation)
     ) { state ->
-        when (state.value) {
+        when (state.targetState) {
             TransitionState.Start -> 0f
             TransitionState.End -> ratings.toFloat()
         }
@@ -347,9 +349,6 @@ fun RatingText(
 @Preview(showBackground = true)
 @Composable
 fun RatingItemPrev() {
-    val state = remember {
-        mutableStateOf(TransitionState.End)
-    }
 
     Rating(
         ratings = mapOf(
@@ -358,7 +357,7 @@ fun RatingItemPrev() {
             META to "90",
             ROTTEN to ""
         ),
-        tranState = state
+        animate = true
     )
 }
 

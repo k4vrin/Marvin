@@ -25,7 +25,8 @@ fun MovieCardList(
 
     Column(
         modifier = Modifier
-            .fillMaxWidth()
+            .fillMaxWidth(),
+        verticalArrangement = Arrangement.spacedBy(MEDIUM_PADDING)
     ) {
 
         Row(
@@ -44,7 +45,7 @@ fun MovieCardList(
         }
 
         LazyRow(
-            contentPadding = PaddingValues(all = MEDIUM_PADDING),
+            contentPadding = PaddingValues(horizontal = MEDIUM_PADDING),
             horizontalArrangement = Arrangement.spacedBy(SMALL_PADDING)
         ) {
 

@@ -7,7 +7,9 @@ import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
+import com.kavrin.marvin.R
 import com.kavrin.marvin.domain.model.common.Review
 import com.kavrin.marvin.ui.theme.MEDIUM_PADDING
 import com.kavrin.marvin.ui.theme.SMALL_PADDING
@@ -23,7 +25,8 @@ fun ReviewList(
 
     Column(
         modifier = Modifier
-            .fillMaxWidth()
+            .fillMaxWidth(),
+        verticalArrangement = Arrangement.spacedBy(MEDIUM_PADDING)
     ) {
 
         Row(
@@ -33,7 +36,7 @@ fun ReviewList(
         ) {
 
             Text(
-                text = "Reviews",
+                text = stringResource(R.string.reviews),
                 fontFamily = nunitoTypeFace,
                 fontSize = MaterialTheme.typography.h6.fontSize,
                 fontWeight = FontWeight.Bold,
@@ -43,7 +46,7 @@ fun ReviewList(
         }
 
         LazyRow(
-            contentPadding = PaddingValues(all = MEDIUM_PADDING),
+            contentPadding = PaddingValues(horizontal = MEDIUM_PADDING),
             horizontalArrangement = Arrangement.spacedBy(SMALL_PADDING)
         ) {
 
