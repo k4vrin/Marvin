@@ -40,8 +40,7 @@ fun MovieContent(
     recommendation: List<Movie>?,
     similar: List<Movie>?,
     toolbarState: CollapsingToolbarScaffoldState,
-    onCastClicked: (Int) -> Unit,
-    onCrewClicked: (Int) -> Unit,
+    onPersonClicked: (Int) -> Unit,
     onVideoClicked: (String) -> Unit,
     onReviewClicked: (String) -> Unit,
     onMovieClicked: (Int) -> Unit,
@@ -139,7 +138,7 @@ fun MovieContent(
             CastList(
                 cast = movieCast,
                 onCastClicked = {
-                    onCastClicked(it)
+                    onPersonClicked(it)
                 }
             )
         }
@@ -150,12 +149,10 @@ fun MovieContent(
             CrewList(
                 crew = movieCrew,
                 onCrewClicked = {
-                    onCrewClicked(it)
+                    onPersonClicked(it)
                 }
             )
         }
-
-
 
         if (!movieVideos.isNullOrEmpty()) {
             VideoSection(
@@ -167,8 +164,6 @@ fun MovieContent(
                 }
             )
         }
-
-
 
         if (!reviews.isNullOrEmpty()) {
             ReviewList(

@@ -1,13 +1,12 @@
 package com.kavrin.marvin.presentation.screens.tv
 
-import androidx.compose.runtime.State
-import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.kavrin.marvin.domain.model.common.*
+import com.kavrin.marvin.domain.model.tv.api.detail.Season
 import com.kavrin.marvin.domain.model.tv.entities.Tv
 import com.kavrin.marvin.domain.use_cases.tv.TvUseCases
-import com.kavrin.marvin.presentation.screens.movie.component.TransitionState
 import com.kavrin.marvin.util.Constants
 import com.kavrin.marvin.util.NetworkResult
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -45,14 +44,26 @@ class TvViewModel @Inject constructor(
     private val _tvGenres: MutableStateFlow<List<String>?> = MutableStateFlow(null)
     val tvGenres: StateFlow<List<String>?> = _tvGenres
 
+    private val _tvCast = MutableStateFlow<List<Cast>?>(null)
+    val tvCast: StateFlow<List<Cast>?> = _tvCast
 
+    private val _tvCrew = MutableStateFlow<List<Crew>?>(null)
+    val tvCrew: StateFlow<List<Crew>?> = _tvCrew
 
-    private val _transition = mutableStateOf(TransitionState.Start)
-    val transition: State<TransitionState> = _transition
+    private val _tvReviews = MutableStateFlow<List<Review>?>(null)
+    val tvReviews: StateFlow<List<Review>?> = _tvReviews
 
-    fun updateTransitionState(enable: Boolean) {
-        if (enable) _transition.value = TransitionState.End
-    }
+    private val _tvTrailer = MutableStateFlow<Video?>(null)
+    val tvTrailer: StateFlow<Video?> = _tvTrailer
+
+    private val _tvTrailerBackdrop = MutableStateFlow<Backdrop?>(null)
+    val tvTrailerBackdrop: StateFlow<Backdrop?> = _tvTrailerBackdrop
+
+    private val _tvVideos = MutableStateFlow<List<Video>?>(null)
+    val tvVideos: StateFlow<List<Video>?> = _tvVideos
+
+    private val _tvSeasons = MutableStateFlow<List<Season>?>(null)
+    val tvSeasons: StateFlow<List<Season>?> = _tvSeasons
 
     init {
         viewModelScope.launch(context = Dispatchers.IO) {
@@ -64,6 +75,7 @@ class TvViewModel @Inject constructor(
 
     fun getTvDetails() {
         viewModelScope.launch(Dispatchers.IO) {
+            _tvDetailsResponse.value = NetworkResult.Loading()
             if (id != null) {
                 _tvDetailsResponse.value = useCases.getTvDetails(id = id)
                 val imdbId = useCases.getTvDetails.getImdbId()
@@ -73,6 +85,13 @@ class TvViewModel @Inject constructor(
                 }
                 _tvRuntimeStatusDate.value = useCases.getTvDetails.getRuntimeStatusDate()
                 _tvGenres.value = useCases.getTvDetails.getGenres()
+                _tvCast.value = useCases.getTvDetails.getCast()
+                _tvCrew.value = useCases.getTvDetails.getCrew()
+                _tvReviews.value = useCases.getTvDetails.getReviews()
+                _tvTrailer.value = useCases.getTvDetails.getOfficialTrailer()
+                _tvTrailerBackdrop.value = useCases.getTvDetails.getTrailerBackdrop()
+                _tvVideos.value = useCases.getTvDetails.getVideos()
+                _tvSeasons.value = useCases.getTvDetails.getSeasons()
             }
         }
     }

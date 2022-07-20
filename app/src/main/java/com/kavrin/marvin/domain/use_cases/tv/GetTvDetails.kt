@@ -1,11 +1,14 @@
 package com.kavrin.marvin.domain.use_cases.tv
 
 import com.kavrin.marvin.data.repository.Repository
+import com.kavrin.marvin.domain.model.common.*
+import com.kavrin.marvin.domain.model.tv.api.detail.Season
 import com.kavrin.marvin.domain.model.tv.api.detail.SingleTvApiResponse
 import com.kavrin.marvin.util.Constants.TV_DATE_KEY
 import com.kavrin.marvin.util.Constants.TV_RUNTIME_KEY
 import com.kavrin.marvin.util.Constants.TV_STATUS_KEY
 import com.kavrin.marvin.util.NetworkResult
+import kotlin.random.Random
 
 class GetTvDetails(
     private val repository: Repository
@@ -50,6 +53,54 @@ class GetTvDetails(
 
     fun getGenres(): List<String>? {
         return data?.genres?.map { it.name }
+    }
+
+    fun getCast(): List<Cast>? {
+        return data?.credits?.cast
+    }
+
+    fun getCrew(): List<Crew>? {
+        return data?.credits?.crew?.filter {
+            it.job == "Screenplay" || it.job == "Producer" || it.job == "Director" || it.job == "Story" || it.job == "Writer"
+        }
+            ?.sortedWith(
+                compareBy(
+                    { it.job == "Producer" },
+                    { it.job == "Story" },
+                    { it.job == "Screenplay" },
+                    { it.job == "Writer" },
+                    { it.job == "Director" },
+                )
+            )
+    }
+
+    fun getReviews(): List<Review>? {
+        return data?.reviews?.reviews
+    }
+
+    fun getOfficialTrailer(): Video? {
+        return data?.videos?.videos?.find {
+            (it.site == "YouTube" && it.name.lowercase().contains("trailer") && it.official)
+                    || (it.site == "YouTube" && it.name.lowercase().contains("trailer"))
+        }
+    }
+
+    fun getVideos(): List<Video>? {
+        return data?.videos?.videos?.filter {
+            it.site == "YouTube"
+        }
+    }
+
+    fun getTrailerBackdrop(): Backdrop? {
+        return data?.images?.backdrops?.size?.let { Random.nextInt(until = it) }?.let {
+            data?.images?.backdrops?.get(
+                it
+            )
+        }
+    }
+
+    fun getSeasons(): List<Season>? {
+        return data?.seasons?.sortedBy { it.seasonNumber }
     }
 
 

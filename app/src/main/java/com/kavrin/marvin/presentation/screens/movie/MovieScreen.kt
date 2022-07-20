@@ -124,10 +124,7 @@ fun MovieScreen(
                     similar = similar,
                     movie = movie,
                     toolbarState = collapsingToolbarState,
-                    onCastClicked = {
-                        navHostController.navigate(Screen.Person.passId(it))
-                    },
-                    onCrewClicked = {
+                    onPersonClicked = {
                         navHostController.navigate(Screen.Person.passId(it))
                     },
                     onMovieClicked = {

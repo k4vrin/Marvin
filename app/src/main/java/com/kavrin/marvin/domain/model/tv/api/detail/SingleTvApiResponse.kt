@@ -52,6 +52,8 @@ data class SingleTvApiResponse(
     val videos: Videos,
     @SerialName("external_ids")
     val externalIds: ExternalIds,
+    @SerialName("reviews")
+    val reviews: Reviews?,
     @SerialName("recommendations")
     val recommendations: TvApiResponse,
     @SerialName("similar")
