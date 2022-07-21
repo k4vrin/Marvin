@@ -3,6 +3,7 @@ package com.kavrin.marvin.presentation.screens.home
 import androidx.compose.foundation.layout.Column
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Menu
 import androidx.compose.material.icons.filled.Search
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.res.stringResource
@@ -42,6 +43,17 @@ fun HomeTopBar(
 				) {
 					Icon(
 						imageVector = Icons.Default.Search,
+						contentDescription = stringResource(R.string.search_icon),
+						tint = MaterialTheme.colors.topBarContentColor
+					)
+				}
+			},
+			navigationIcon = {
+				IconButton(
+					onClick = onSearchClicked
+				) {
+					Icon(
+						imageVector = Icons.Default.Menu,
 						contentDescription = stringResource(R.string.search_icon),
 						tint = MaterialTheme.colors.topBarContentColor
 					)

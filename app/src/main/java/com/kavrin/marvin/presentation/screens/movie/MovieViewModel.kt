@@ -21,6 +21,8 @@ class MovieViewModel @Inject constructor(
     savedStateHandle: SavedStateHandle
 ) : ViewModel() {
 
+    val id = savedStateHandle.get<Int>(ARGUMENT_KEY_ID)
+
     private val _selectedMovie: MutableStateFlow<Movie?> = MutableStateFlow(null)
     val selectedMovie: StateFlow<Movie?> = _selectedMovie
 
@@ -75,8 +77,6 @@ class MovieViewModel @Inject constructor(
 
     private val _movieRatings: MutableStateFlow<Map<String, String?>?> = MutableStateFlow(null)
     val movieRatings: StateFlow<Map<String, String?>?> = _movieRatings
-
-    val id = savedStateHandle.get<Int>(ARGUMENT_KEY_ID)
 
     init {
         viewModelScope.launch(context = Dispatchers.IO) {

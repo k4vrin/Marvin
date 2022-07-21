@@ -2,9 +2,7 @@ package com.kavrin.marvin.presentation.screens.home
 
 import android.util.Log
 import androidx.compose.foundation.background
-import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.MaterialTheme
@@ -26,9 +24,10 @@ import com.kavrin.marvin.domain.model.movie.entities.relations.MovieAndTrending
 import com.kavrin.marvin.domain.model.tv.entities.relations.TvAndPopular
 import com.kavrin.marvin.domain.model.tv.entities.relations.TvAndTopRated
 import com.kavrin.marvin.domain.model.tv.entities.relations.TvAndTrending
-import com.kavrin.marvin.navigation.Screen
+import com.kavrin.marvin.navigation.Graph
 import com.kavrin.marvin.presentation.screens.home.component.*
 import com.kavrin.marvin.presentation.screens.movie.EmptyContent
+import com.kavrin.marvin.ui.theme.EXTRA_LARGE_PADDING
 import com.kavrin.marvin.ui.theme.MEDIUM_PADDING
 import com.kavrin.marvin.ui.theme.backGroundColor
 import com.kavrin.marvin.util.MarvinItem
@@ -156,7 +155,7 @@ fun MovieTabContent(
             isMovie = true,
             onItemClicked = { id ->
                 if (isConnected) {
-                    navHostController.navigate(Screen.Movie.passId(id = id))
+                    navHostController.navigate(Graph.Movie.passId(id = id))
                 }
             },
             onMenuIconClicked = { /*TODO*/ }
@@ -168,7 +167,7 @@ fun MovieTabContent(
             isMovie = true,
             onItemClicked = { id ->
                 if (isConnected) {
-                    navHostController.navigate(Screen.Movie.passId(id = id))
+                    navHostController.navigate(Graph.Movie.passId(id = id))
                 }
             },
             onMenuIconClicked = { /*TODO*/ }
@@ -180,7 +179,7 @@ fun MovieTabContent(
             isMovie = true,
             onItemClicked = { id ->
                 if (isConnected) {
-                    navHostController.navigate(Screen.Movie.passId(id = id))
+                    navHostController.navigate(Graph.Movie.passId(id = id))
                 }
             },
             onMenuIconClicked = { /*TODO*/ }
@@ -192,11 +191,13 @@ fun MovieTabContent(
             isMovie = true,
             onItemClicked = { id ->
                 if (isConnected) {
-                    navHostController.navigate(Screen.Movie.passId(id = id))
+                    navHostController.navigate(Graph.Movie.passId(id = id))
                 }
             },
             onMenuIconClicked = { /*TODO*/ }
         )
+
+        Spacer(modifier = Modifier.height(EXTRA_LARGE_PADDING))
     }
 
 }
@@ -226,7 +227,7 @@ fun TvTabContent(
             isMovie = false,
             onItemClicked = { id ->
                 if (isConnected) {
-                    navHostController.navigate(Screen.Tv.passId(id = id))
+                    navHostController.navigate(Graph.Tv.passId(id = id))
                 }
             },
             onMenuIconClicked = { /*TODO*/ }
@@ -238,7 +239,7 @@ fun TvTabContent(
             isMovie = false,
             onItemClicked = { id ->
                 if (isConnected) {
-                    navHostController.navigate(Screen.Tv.passId(id = id))
+                    navHostController.navigate(Graph.Tv.passId(id = id))
                 }
             },
             onMenuIconClicked = { /*TODO*/ }
@@ -250,7 +251,7 @@ fun TvTabContent(
             isMovie = false,
             onItemClicked = { id ->
                 if (isConnected) {
-                    navHostController.navigate(Screen.Tv.passId(id = id))
+                    navHostController.navigate(Graph.Tv.passId(id = id))
                 }
             },
             onMenuIconClicked = { /*TODO*/ }
@@ -262,11 +263,13 @@ fun TvTabContent(
             isMovie = false,
             onItemClicked = { id ->
                 if (isConnected) {
-                    navHostController.navigate(Screen.Tv.passId(id = id))
+                    navHostController.navigate(Graph.Tv.passId(id = id))
                 }
             },
             onMenuIconClicked = { /*TODO*/ }
         )
+
+        Spacer(modifier = Modifier.height(EXTRA_LARGE_PADDING))
 
     }
 }

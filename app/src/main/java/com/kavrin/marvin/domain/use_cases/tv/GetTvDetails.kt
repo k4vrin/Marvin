@@ -60,18 +60,34 @@ class GetTvDetails(
     }
 
     fun getCrew(): List<Crew>? {
-        return data?.credits?.crew?.filter {
-            it.job == "Screenplay" || it.job == "Producer" || it.job == "Director" || it.job == "Story" || it.job == "Writer"
-        }
-            ?.sortedWith(
-                compareBy(
-                    { it.job == "Producer" },
-                    { it.job == "Story" },
-                    { it.job == "Screenplay" },
-                    { it.job == "Writer" },
-                    { it.job == "Director" },
+
+        return buildList {
+            data?.createdBy?.forEach { creator ->
+                add(
+                    Crew(
+                        creditId = creator.creditId,
+                        id = creator.id,
+                        name = creator.name,
+                        job = "Creator",
+                        profilePath = creator.profilePath,
+                        gender = creator.gender,
+                        department = "",
+                        popularity = 0.0
+                    )
                 )
-            )
+            }
+            data?.credits?.crew?.filter {
+                it.job == "Producer" || it.job == "Executive Producer"
+            }
+                ?.sortedWith(
+                    compareBy(
+                        { it.job == "Producer" },
+                        { it.job == "Executive Producer" },
+                    )
+                )?.let {
+                    addAll(it)
+                }
+        }
     }
 
     fun getReviews(): List<Review>? {
@@ -93,9 +109,7 @@ class GetTvDetails(
 
     fun getTrailerBackdrop(): Backdrop? {
         return data?.images?.backdrops?.size?.let { Random.nextInt(until = it) }?.let {
-            data?.images?.backdrops?.get(
-                it
-            )
+            data?.images?.backdrops?.get(it)
         }
     }
 

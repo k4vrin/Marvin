@@ -55,7 +55,6 @@ fun TvContent(
         modifier = Modifier
             .fillMaxSize()
             .background(MaterialTheme.colors.backGroundColor)
-            .padding(bottom = MEDIUM_PADDING)
             .verticalScroll(state = listState),
         verticalArrangement = Arrangement.spacedBy(LARGE_PADDING)
     ) {
@@ -168,7 +167,7 @@ fun TvContent(
         }
 
 
-
+        Spacer(modifier = Modifier.height(MEDIUM_PADDING))
     }
 
 }

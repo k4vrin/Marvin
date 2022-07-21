@@ -59,7 +59,6 @@ fun MovieContent(
         modifier = Modifier
             .fillMaxSize()
             .background(MaterialTheme.colors.backGroundColor)
-            .padding(bottom = MEDIUM_PADDING)
             .verticalScroll(state = listState),
         verticalArrangement = Arrangement.spacedBy(LARGE_PADDING)
     ) {
@@ -203,5 +202,7 @@ fun MovieContent(
                 onMenuClicked = { onMenuClicked(it) }
             )
         }
+
+        Spacer(modifier = Modifier.height(MEDIUM_PADDING))
     }
 }

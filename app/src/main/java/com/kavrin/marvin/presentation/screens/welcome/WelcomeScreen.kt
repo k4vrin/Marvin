@@ -26,7 +26,7 @@ import com.google.accompanist.pager.HorizontalPager
 import com.google.accompanist.pager.PagerState
 import com.google.accompanist.pager.rememberPagerState
 import com.kavrin.marvin.R
-import com.kavrin.marvin.navigation.Screen
+import com.kavrin.marvin.navigation.Graph
 import com.kavrin.marvin.presentation.component.WormHorizontalPagerIndicator
 import com.kavrin.marvin.ui.theme.*
 import com.kavrin.marvin.util.Constants.LAST_WELCOME_PAGE
@@ -88,7 +88,7 @@ fun WelcomeScreen(
 				onClick = {
 					welcomeViewModel.saveOnBoardingState(completed = true)
 					navController.popBackStack()
-					navController.navigate(route = Screen.Home.route)
+					navController.navigate(route = Graph.Home.route)
 				}
 			)
 		}

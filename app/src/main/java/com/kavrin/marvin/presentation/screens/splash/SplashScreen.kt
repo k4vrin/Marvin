@@ -19,7 +19,8 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
 import com.kavrin.marvin.R
-import com.kavrin.marvin.navigation.Screen
+import com.kavrin.marvin.navigation.BoardingScreens
+import com.kavrin.marvin.navigation.Graph
 import com.kavrin.marvin.presentation.component.LoadingAnimation
 import com.kavrin.marvin.ui.theme.EXTRA_LARGE_PADDING
 import com.kavrin.marvin.ui.theme.splashBackgroundBrush
@@ -46,9 +47,9 @@ fun SplashScreen(
 
         navController.popBackStack()
         if (onBoardingState.value)
-            navController.navigate(route = Screen.Home.route)
+            navController.navigate(route = Graph.Home.route)
         else
-            navController.navigate(route = Screen.Welcome.route)
+            navController.navigate(route = BoardingScreens.Welcome.route)
     }
 
     Splash(animAlpha = animAlpha.value)

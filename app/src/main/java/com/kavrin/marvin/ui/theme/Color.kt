@@ -131,6 +131,14 @@ val Colors.splashText
     @Composable
     get() = if (isLight) PlumpPurple else Color.White
 
+val Colors.bottomNavigationBackground
+    @Composable
+    get() = if (isLight) LightFab else Color.Black
+
+val Colors.bottomNavigationContent
+    @Composable
+    get() = if (isLight) Color.Black else Color.White
+
 val Colors.splashBackgroundBrush
     @Composable
     get() = if (isLight)
@@ -149,6 +157,14 @@ val Colors.ratingBackground
 val Colors.cardGradientColor
     @Composable
     get() = if (isLight)
-        Brush.linearGradient(listOf(LightCard ,LavenderFloral), start = Offset.Zero, end = Offset.Infinite)
+        Brush.linearGradient(
+            listOf(LightCard, LavenderFloral),
+            start = Offset.Zero,
+            end = Offset.Infinite
+        )
     else
-        Brush.linearGradient(listOf(DarkCard, ShimmerDarkGray), start = Offset.Zero, end = Offset.Infinite)
+        Brush.linearGradient(
+            listOf(DarkCard, ShimmerDarkGray),
+            start = Offset.Zero,
+            end = Offset.Infinite
+        )

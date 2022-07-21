@@ -1,10 +1,12 @@
 package com.kavrin.marvin.presentation.screens.home
 
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.systemBarsPadding
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.statusBarsPadding
 import androidx.compose.material.MaterialTheme
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.SideEffect
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Modifier
 import androidx.hilt.navigation.compose.hiltViewModel
@@ -12,6 +14,7 @@ import androidx.navigation.NavHostController
 import androidx.paging.compose.collectAsLazyPagingItems
 import com.google.accompanist.systemuicontroller.rememberSystemUiController
 import com.kavrin.marvin.ui.theme.statusBarColor
+import kotlinx.coroutines.delay
 import me.onebone.toolbar.CollapsingToolbarScaffold
 import me.onebone.toolbar.ScrollStrategy
 import me.onebone.toolbar.rememberCollapsingToolbarScaffoldState
@@ -19,6 +22,7 @@ import me.onebone.toolbar.rememberCollapsingToolbarScaffoldState
 @Composable
 fun HomeScreen(
     navController: NavHostController,
+    paddingValues: PaddingValues,
     homeViewModel: HomeViewModel = hiltViewModel(),
 ) {
 
@@ -37,7 +41,8 @@ fun HomeScreen(
     val ui = rememberSystemUiController()
     val color = MaterialTheme.colors.statusBarColor
     val useDarkIcons = MaterialTheme.colors.isLight
-    SideEffect {
+    LaunchedEffect(key1 = true) {
+        delay(1700)
         ui.setStatusBarColor(color = color, darkIcons = useDarkIcons)
     }
 
@@ -46,7 +51,8 @@ fun HomeScreen(
     CollapsingToolbarScaffold(
         modifier = Modifier
             .fillMaxSize()
-            .systemBarsPadding(),
+            .padding(paddingValues)
+            .statusBarsPadding(),
         state = collapsingToolbarState,
         scrollStrategy = ScrollStrategy.EnterAlways,
         toolbar = {

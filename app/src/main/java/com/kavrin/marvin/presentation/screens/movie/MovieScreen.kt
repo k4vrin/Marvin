@@ -5,7 +5,6 @@ import android.content.Intent
 import android.net.Uri
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.navigationBarsPadding
 import androidx.compose.material.MaterialTheme
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
@@ -15,7 +14,8 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
 import com.google.accompanist.systemuicontroller.rememberSystemUiController
-import com.kavrin.marvin.navigation.Screen
+import com.kavrin.marvin.navigation.Graph
+import com.kavrin.marvin.navigation.MovieScreen
 import com.kavrin.marvin.presentation.component.FabAndDivider
 import com.kavrin.marvin.util.NetworkResult
 import kotlinx.coroutines.delay
@@ -85,7 +85,6 @@ fun MovieScreen(
         Box(
             modifier = Modifier
                 .fillMaxSize()
-                .navigationBarsPadding()
         ) {
 
             CollapsingToolbarScaffold(
@@ -125,10 +124,10 @@ fun MovieScreen(
                     movie = movie,
                     toolbarState = collapsingToolbarState,
                     onPersonClicked = {
-                        navHostController.navigate(Screen.Person.passId(it))
+                        navHostController.navigate(Graph.Person.passId(it))
                     },
                     onMovieClicked = {
-                        navHostController.navigate(Screen.Movie.passId(it))
+                        navHostController.navigate(MovieScreen.Movie.passId(it))
                     },
                     onMenuClicked = {
                         /*TODO*/
