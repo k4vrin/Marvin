@@ -4,6 +4,7 @@ import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.kavrin.marvin.domain.model.common.*
+import com.kavrin.marvin.domain.model.tv.api.detail.EpisodeToAir
 import com.kavrin.marvin.domain.model.tv.api.detail.Season
 import com.kavrin.marvin.domain.model.tv.entities.Tv
 import com.kavrin.marvin.domain.use_cases.tv.TvUseCases
@@ -35,11 +36,11 @@ class TvViewModel @Inject constructor(
         MutableStateFlow(NetworkResult.Loading())
     val tvRatingsResponse: StateFlow<NetworkResult> = _tvRatingsResponse
 
-    private val _tvRatings: MutableStateFlow<Map<String, String?>?> = MutableStateFlow(null)
-    val tvRatings: StateFlow<Map<String, String?>?> = _tvRatings
+    private val _tvRatings: MutableStateFlow<Map<String, String?>> = MutableStateFlow(emptyMap())
+    val tvRatings: StateFlow<Map<String, String?>> = _tvRatings
 
-    private val _tvRuntimeStatusDate: MutableStateFlow<Map<String, String?>?> = MutableStateFlow(null)
-    val tvRuntimeStatusDate: StateFlow<Map<String, String?>?> = _tvRuntimeStatusDate
+    private val _tvRuntimeStatusDate: MutableStateFlow<Map<String, String?>> = MutableStateFlow(emptyMap())
+    val tvRuntimeStatusDate: StateFlow<Map<String, String?>> = _tvRuntimeStatusDate
 
     private val _tvGenres: MutableStateFlow<List<String>?> = MutableStateFlow(null)
     val tvGenres: StateFlow<List<String>?> = _tvGenres
@@ -65,6 +66,15 @@ class TvViewModel @Inject constructor(
     private val _tvSeasons = MutableStateFlow<List<Season>?>(null)
     val tvSeasons: StateFlow<List<Season>?> = _tvSeasons
 
+    private val _tvEpisodesToAir = MutableStateFlow<Map<String, EpisodeToAir?>>(emptyMap())
+    val tvEpisodesToAir: StateFlow<Map<String, EpisodeToAir?>> = _tvEpisodesToAir
+
+    private val _tvSimilar = MutableStateFlow<List<Tv>?>(null)
+    val tvSimilar: StateFlow<List<Tv>?> = _tvSimilar
+
+    private val _tvRecommended = MutableStateFlow<List<Tv>?>(null)
+    val tvRecommended: StateFlow<List<Tv>?> = _tvRecommended
+
     init {
         viewModelScope.launch(context = Dispatchers.IO) {
             _selectedTv.value = id?.let { tvId ->
@@ -82,8 +92,10 @@ class TvViewModel @Inject constructor(
                 if (!imdbId.isNullOrBlank()) {
                     _tvRatingsResponse.value = useCases.getTvRatings(id = imdbId)
                     _tvRatings.value = useCases.getTvRatings.getRatingsValue()
+                } else {
+                    _tvRatingsResponse.value = NetworkResult.Success()
                 }
-                _tvRuntimeStatusDate.value = useCases.getTvDetails.getRuntimeStatusDate()
+                _tvRuntimeStatusDate.value = useCases.getTvDetails.getRuntimeStatusDateTotal()
                 _tvGenres.value = useCases.getTvDetails.getGenres()
                 _tvCast.value = useCases.getTvDetails.getCast()
                 _tvCrew.value = useCases.getTvDetails.getCrew()
@@ -92,6 +104,9 @@ class TvViewModel @Inject constructor(
                 _tvTrailerBackdrop.value = useCases.getTvDetails.getTrailerBackdrop()
                 _tvVideos.value = useCases.getTvDetails.getVideos()
                 _tvSeasons.value = useCases.getTvDetails.getSeasons()
+                _tvEpisodesToAir.value = useCases.getTvDetails.getEpisodesToAir()
+                _tvSimilar.value = useCases.getTvDetails.getSimilarTvs()
+                _tvRecommended.value = useCases.getTvDetails.getRecommendedTvs()
             }
         }
     }

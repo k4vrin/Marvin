@@ -9,7 +9,7 @@ import androidx.compose.ui.Modifier
 import androidx.core.view.WindowCompat
 import com.google.accompanist.navigation.animation.rememberAnimatedNavController
 import com.kavrin.marvin.navigation.SetupNavGraph
-import com.kavrin.marvin.presentation.common.BottomBar
+import com.kavrin.marvin.presentation.component.BottomBar
 import com.kavrin.marvin.ui.theme.MarvinTheme
 import dagger.hilt.android.AndroidEntryPoint
 

@@ -2,11 +2,16 @@ package com.kavrin.marvin.domain.use_cases.tv
 
 import com.kavrin.marvin.data.repository.Repository
 import com.kavrin.marvin.domain.model.common.*
+import com.kavrin.marvin.domain.model.tv.api.detail.EpisodeToAir
 import com.kavrin.marvin.domain.model.tv.api.detail.Season
 import com.kavrin.marvin.domain.model.tv.api.detail.SingleTvApiResponse
+import com.kavrin.marvin.domain.model.tv.entities.Tv
+import com.kavrin.marvin.util.Constants.LAST_EPISODE_KEY
+import com.kavrin.marvin.util.Constants.NEXT_EPISODE_KEY
 import com.kavrin.marvin.util.Constants.TV_DATE_KEY
 import com.kavrin.marvin.util.Constants.TV_RUNTIME_KEY
 import com.kavrin.marvin.util.Constants.TV_STATUS_KEY
+import com.kavrin.marvin.util.Constants.TV_TOTAL_EPISODE_KEY
 import com.kavrin.marvin.util.NetworkResult
 import kotlin.random.Random
 
@@ -31,6 +36,8 @@ class GetTvDetails(
             response.code() == 404 -> NetworkResult.Error(message = "The resources could not be found.")
             response.isSuccessful -> {
                 data = response.body()
+                data?.similar?.tvs?.let { repository.saveTvs(tvs = it) }
+                data?.recommendations?.tvs?.let { repository.saveTvs(tvs = it) }
                 NetworkResult.Success()
             }
             else -> NetworkResult.Error(message = response.message())
@@ -41,13 +48,15 @@ class GetTvDetails(
         return data?.externalIds?.imdbId
     }
 
-    fun getRuntimeStatusDate(): Map<String, String?> {
+    fun getRuntimeStatusDateTotal(): Map<String, String?> {
+
         return mapOf(
             TV_RUNTIME_KEY to data?.episodeRunTime?.let {
                 if (it.isNotEmpty()) it.first().toString() else null
             },
             TV_STATUS_KEY to data?.status?.split(" ")?.first(),
-            TV_DATE_KEY to data?.firstAirDate
+            TV_DATE_KEY to data?.firstAirDate,
+            TV_TOTAL_EPISODE_KEY to data?.numberOfEpisodes?.toString()
         )
     }
 
@@ -59,7 +68,7 @@ class GetTvDetails(
         return data?.credits?.cast
     }
 
-    fun getCrew(): List<Crew>? {
+    fun getCrew(): List<Crew> {
 
         return buildList {
             data?.createdBy?.forEach { creator ->
@@ -108,13 +117,31 @@ class GetTvDetails(
     }
 
     fun getTrailerBackdrop(): Backdrop? {
-        return data?.images?.backdrops?.size?.let { Random.nextInt(until = it) }?.let {
-            data?.images?.backdrops?.get(it)
-        }
+        return if (!data?.images?.backdrops.isNullOrEmpty()) {
+            data?.images?.backdrops?.size?.let { Random.nextInt(until = it) }?.let {
+                data?.images?.backdrops?.get(it)
+            }
+        } else
+            null
     }
 
     fun getSeasons(): List<Season>? {
         return data?.seasons?.sortedBy { it.seasonNumber }
+    }
+
+    fun getEpisodesToAir(): Map<String, EpisodeToAir?> {
+        return buildMap {
+            put(key = LAST_EPISODE_KEY, value = data?.lastEpisodeToAir)
+            put(key = NEXT_EPISODE_KEY, value = data?.nextEpisodeToAir)
+        }
+    }
+
+    fun getSimilarTvs(): List<Tv>? {
+        return data?.similar?.tvs
+    }
+
+    fun getRecommendedTvs(): List<Tv>? {
+        return data?.recommendations?.tvs
     }
 
 

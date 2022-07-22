@@ -16,6 +16,7 @@ import androidx.navigation.NavHostController
 import com.google.accompanist.systemuicontroller.rememberSystemUiController
 import com.kavrin.marvin.navigation.Graph
 import com.kavrin.marvin.navigation.MovieScreen
+import com.kavrin.marvin.presentation.component.EmptyContent
 import com.kavrin.marvin.presentation.component.FabAndDivider
 import com.kavrin.marvin.util.NetworkResult
 import kotlinx.coroutines.delay

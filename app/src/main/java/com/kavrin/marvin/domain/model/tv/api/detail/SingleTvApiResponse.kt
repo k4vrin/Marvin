@@ -29,7 +29,7 @@ data class SingleTvApiResponse(
     @SerialName("last_air_date")
     val lastAirDate: String,
     @SerialName("last_episode_to_air")
-    val episodeToAir: EpisodeToAir?,
+    val lastEpisodeToAir: EpisodeToAir?,
     @SerialName("name")
     val name: String,
     @SerialName("next_episode_to_air")

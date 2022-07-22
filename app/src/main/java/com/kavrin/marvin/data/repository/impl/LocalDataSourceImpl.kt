@@ -44,4 +44,8 @@ class LocalDataSourceImpl(
     override suspend fun saveMovies(movies: List<Movie>) {
         marvinDatabase.movieDao().insertMovie(movies)
     }
+
+    override suspend fun saveTvs(tvs: List<Tv>) {
+        marvinDatabase.tvDao().insertTv(tvs)
+    }
 }

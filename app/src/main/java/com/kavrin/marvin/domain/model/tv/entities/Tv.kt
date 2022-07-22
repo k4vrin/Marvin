@@ -30,9 +30,6 @@ data class Tv(
 	@SerialName("name")
 	val name: String,
 
-	@SerialName("origin_country")
-	val originCountry: List<String>,
-
 	@SerialName("original_language")
 	val originalLanguage: String,
 

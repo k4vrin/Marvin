@@ -59,10 +59,10 @@ fun <T : MarvinItem> Carousel(
                     horizontal = CAROUSEL_HORIZONTAL_PADDING,
                     vertical = CAROUSEL_VERTICAL_PADDING
                 ),
-                key = { page ->
-                    val key = if (isMovie) items[page]?.movie?.movieId else items[page]?.tv?.tvId
-                    key!!
-                }
+//                key = { page ->
+//                    val key = if (isMovie) items[page]?.movie?.movieId else items[page]?.tv?.tvId
+//                    key!!
+//                }
             ) { page ->
                 val item = items[page]
 

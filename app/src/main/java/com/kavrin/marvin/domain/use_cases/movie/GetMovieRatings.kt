@@ -24,6 +24,16 @@ class GetMovieRatings(
         return when {
             response.message().toString()
                 .contains("timeout") -> NetworkResult.Error(message = "Timeout")
+            response.body()!!.errorMessage.lowercase().contains("max usage") -> {
+                data = IMDbRatingApiResponse(
+                    errorMessage = "",
+                    imDb = "",
+                    theMovieDb = "",
+                    rottenTomatoes = "",
+                    metacritic = ""
+                )
+                NetworkResult.Success()
+            }
             response.body()!!.errorMessage.isNotBlank() -> NetworkResult.Error(message = response.body()!!.errorMessage)
             response.isSuccessful -> {
                 data = response.body()

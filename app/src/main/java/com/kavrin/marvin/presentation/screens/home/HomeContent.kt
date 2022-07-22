@@ -26,7 +26,7 @@ import com.kavrin.marvin.domain.model.tv.entities.relations.TvAndTopRated
 import com.kavrin.marvin.domain.model.tv.entities.relations.TvAndTrending
 import com.kavrin.marvin.navigation.Graph
 import com.kavrin.marvin.presentation.screens.home.component.*
-import com.kavrin.marvin.presentation.screens.movie.EmptyContent
+import com.kavrin.marvin.presentation.component.EmptyContent
 import com.kavrin.marvin.ui.theme.EXTRA_LARGE_PADDING
 import com.kavrin.marvin.ui.theme.MEDIUM_PADDING
 import com.kavrin.marvin.ui.theme.backGroundColor

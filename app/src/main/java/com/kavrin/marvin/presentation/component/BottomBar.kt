@@ -1,4 +1,4 @@
-package com.kavrin.marvin.presentation.common
+package com.kavrin.marvin.presentation.component
 
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.core.tween

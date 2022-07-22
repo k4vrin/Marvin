@@ -1,4 +1,4 @@
-package com.kavrin.marvin.presentation.screens.movie.component
+package com.kavrin.marvin.presentation.component
 
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth

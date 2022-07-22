@@ -9,7 +9,7 @@ data class ExternalIds(
     @SerialName("facebook_id")
     val facebookId: String?,
     @SerialName("imdb_id")
-    val imdbId: String,
+    val imdbId: String?,
     @SerialName("instagram_id")
     val instagramId: String?,
     @SerialName("tvdb_id")

@@ -13,22 +13,25 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import com.kavrin.marvin.domain.model.common.*
+import com.kavrin.marvin.domain.model.tv.api.detail.EpisodeToAir
 import com.kavrin.marvin.domain.model.tv.api.detail.Season
 import com.kavrin.marvin.domain.model.tv.entities.Tv
-import com.kavrin.marvin.presentation.common.CastList
-import com.kavrin.marvin.presentation.common.CrewList
-import com.kavrin.marvin.presentation.screens.movie.component.*
+import com.kavrin.marvin.presentation.component.*
+import com.kavrin.marvin.presentation.screens.tv.components.EpisodeToAirCard
+import com.kavrin.marvin.presentation.screens.tv.components.SeasonList
+import com.kavrin.marvin.presentation.screens.tv.components.TvCardList
 import com.kavrin.marvin.ui.theme.*
 import com.kavrin.marvin.util.Constants.TV_RUNTIME_KEY
 import com.kavrin.marvin.util.Constants.TV_STATUS_KEY
+import com.kavrin.marvin.util.Constants.TV_TOTAL_EPISODE_KEY
 import me.onebone.toolbar.CollapsingToolbarScaffoldState
 
 @Composable
 fun TvContent(
     tv: Tv?,
-    tvRuntimeDateStatus: Map<String, String?>?,
+    tvRuntimeDateStatus: Map<String, String?>,
     tvGenres: List<String>?,
-    tvRatings: Map<String, String?>?,
+    tvRatings: Map<String, String?>,
     tvCast: List<Cast>?,
     tvCrew: List<Crew>?,
     tvReviews: List<Review>?,
@@ -36,10 +39,17 @@ fun TvContent(
     tvTrailerBackdrop: Backdrop?,
     tvVideos: List<Video>?,
     tvSeasons: List<Season>?,
+    tvRecommended: List<Tv>?,
+    tvSimilar: List<Tv>?,
+    tvEpisodesToAir: Map<String, EpisodeToAir?>,
     toolbarState: CollapsingToolbarScaffoldState,
     onPersonClicked: (Int) -> Unit,
     onReviewClicked: (String) -> Unit,
-    onVideoClicked: (String) -> Unit
+    onVideoClicked: (String) -> Unit,
+    onEpisodeClicked: (Int?) -> Unit,
+    onSeasonClicked: (Int) -> Unit,
+    onTvClicked: (Int) -> Unit,
+    onMenuClicked: (Int) -> Unit
 ) {
 
     val listState = rememberScrollState()
@@ -75,29 +85,30 @@ fun TvContent(
                 ) {
 
                     if (tv != null) {
-                        if (tvRuntimeDateStatus != null) {
-                            DateTime(
-                                date = tv.firstAirDate,
-                                time = tvRuntimeDateStatus[TV_RUNTIME_KEY]?.toInt(),
-                                status = tvRuntimeDateStatus[TV_STATUS_KEY]
-                            )
-                        }
+                        DateTime(
+                            modifier = Modifier
+                                .fillMaxWidth(0.8f),
+                            date = tv.firstAirDate,
+                            time = tvRuntimeDateStatus[TV_RUNTIME_KEY]?.toInt(),
+                            status = tvRuntimeDateStatus[TV_STATUS_KEY]
+                        )
+
+                        Divider(
+                            modifier = Modifier
+                                .padding(vertical = MEDIUM_PADDING),
+                            color = MaterialTheme.colors.cardContentColor.copy(alpha = 0.2f),
+                        )
                     }
 
-                    Divider(
-                        modifier = Modifier
-                            .padding(vertical = MEDIUM_PADDING),
-                        color = MaterialTheme.colors.cardContentColor.copy(alpha = 0.2f),
-                    )
-                    if (tv != null) {
+                    if (tv != null && tv.overview.isNotBlank()) {
                         Overview(overview = tv.overview)
-                    }
 
-                    Divider(
-                        modifier = Modifier
-                            .padding(vertical = MEDIUM_PADDING),
-                        color = MaterialTheme.colors.cardContentColor.copy(alpha = 0.2f),
-                    )
+                        Divider(
+                            modifier = Modifier
+                                .padding(vertical = MEDIUM_PADDING),
+                            color = MaterialTheme.colors.cardContentColor.copy(alpha = 0.2f),
+                        )
+                    }
 
                     if (tvGenres != null) {
                         Genres(
@@ -107,19 +118,20 @@ fun TvContent(
                     }
                 }
             }
-            ///// Ratings /////
-            Card(
-                modifier = Modifier
-                    .padding(all = EXTRA_SMALL_PADDING)
-                    .wrapContentHeight(),
-                backgroundColor = MaterialTheme.colors.cardColor
-            ) {
-                Column(
+
+            if (tvRatings.isNotEmpty()) {
+                ///// Ratings /////
+                Card(
                     modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(all = MEDIUM_PADDING)
+                        .padding(all = EXTRA_SMALL_PADDING)
+                        .wrapContentHeight(),
+                    backgroundColor = MaterialTheme.colors.cardColor
                 ) {
-                    if (!tvRatings.isNullOrEmpty()) {
+                    Column(
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .padding(all = MEDIUM_PADDING)
+                    ) {
                         Rating(ratings = tvRatings, animate = animRatings)
                     }
                 }
@@ -146,6 +158,25 @@ fun TvContent(
             )
         }
 
+        if (tvEpisodesToAir.isNotEmpty()) {
+            EpisodeToAirCard(
+                episodes = tvEpisodesToAir,
+                totalEpisodes = tvRuntimeDateStatus[TV_TOTAL_EPISODE_KEY]?.toInt(),
+                onEpisodeClicked = {
+                    onEpisodeClicked(it)
+                }
+            )
+        }
+
+        if (!tvSeasons.isNullOrEmpty()) {
+            SeasonList(
+                seasons = tvSeasons,
+                onSeasonClicked = {
+                    onSeasonClicked(it)
+                }
+            )
+        }
+
         if (!tvVideos.isNullOrEmpty()) {
             VideoSection(
                 trailer = tvTrailer,
@@ -163,6 +194,24 @@ fun TvContent(
                 onReviewClicked = {
                     onReviewClicked(it)
                 }
+            )
+        }
+
+        if (!tvSimilar.isNullOrEmpty()) {
+            TvCardList(
+                cardListTitle = "Similar",
+                items = tvSimilar,
+                onTvClicked = { onTvClicked(it) },
+                onMenuClicked = { onMenuClicked(it) }
+            )
+        }
+
+        if (!tvRecommended.isNullOrEmpty()) {
+            TvCardList(
+                cardListTitle = "Recommendation",
+                items = tvRecommended,
+                onTvClicked = { onTvClicked(it) },
+                onMenuClicked = { onMenuClicked(it) }
             )
         }
 

@@ -1,4 +1,4 @@
-package com.kavrin.marvin.presentation.common
+package com.kavrin.marvin.presentation.component
 
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyRow
@@ -13,7 +13,6 @@ import androidx.compose.ui.text.font.FontWeight
 import com.kavrin.marvin.R
 import com.kavrin.marvin.domain.model.common.Cast
 import com.kavrin.marvin.domain.model.common.Crew
-import com.kavrin.marvin.presentation.component.CreditItem
 import com.kavrin.marvin.ui.theme.MEDIUM_PADDING
 import com.kavrin.marvin.ui.theme.SMALL_PADDING
 import com.kavrin.marvin.ui.theme.contentColor

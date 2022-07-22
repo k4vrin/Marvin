@@ -1,4 +1,4 @@
-package com.kavrin.marvin.presentation.screens.movie
+package com.kavrin.marvin.presentation.component
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.isSystemInDarkTheme
@@ -20,7 +20,6 @@ import androidx.compose.ui.text.style.TextAlign
 import com.google.accompanist.swiperefresh.SwipeRefresh
 import com.google.accompanist.swiperefresh.rememberSwipeRefreshState
 import com.kavrin.marvin.R
-import com.kavrin.marvin.presentation.component.LoadingAnimation
 import com.kavrin.marvin.ui.theme.*
 
 @Composable

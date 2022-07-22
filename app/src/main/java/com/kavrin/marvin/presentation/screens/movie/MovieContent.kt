@@ -14,8 +14,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import com.kavrin.marvin.domain.model.common.*
 import com.kavrin.marvin.domain.model.movie.entities.Movie
-import com.kavrin.marvin.presentation.common.CastList
-import com.kavrin.marvin.presentation.common.CrewList
+import com.kavrin.marvin.presentation.component.*
 import com.kavrin.marvin.presentation.screens.movie.component.*
 import com.kavrin.marvin.ui.theme.*
 import com.kavrin.marvin.util.Constants.COLLECTION_BACKDROP_KEY

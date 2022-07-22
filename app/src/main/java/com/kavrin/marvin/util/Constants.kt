@@ -6,6 +6,7 @@ object Constants {
 	const val IMAGE_BACKDROP_BASE_URL = "https://image.tmdb.org/t/p/w780/"
 	const val IMAGE_POSTER_BASE_URL = "https://image.tmdb.org/t/p/w500/"
 	const val IMAGE_PROFILE_BASE_URL = "https://image.tmdb.org/t/p/w185/"
+	const val IMAGE_STILL_BASE_URL = "https://image.tmdb.org/t/p/w185/"
 	const val IMDb_BASE_URL = "https://imdb-api.com/en/API/"
 
 	const val ARGUMENT_KEY_ID = "id"
@@ -64,5 +65,9 @@ object Constants {
 	const val TV_RUNTIME_KEY = "runtime"
 	const val TV_STATUS_KEY = "status"
 	const val TV_DATE_KEY = "date"
+	const val TV_TOTAL_EPISODE_KEY = "total_episode"
+
+	const val LAST_EPISODE_KEY = "last_episode"
+	const val NEXT_EPISODE_KEY = "next_episode"
 
 }

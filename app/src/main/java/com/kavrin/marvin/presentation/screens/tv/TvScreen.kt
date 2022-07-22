@@ -1,5 +1,8 @@
 package com.kavrin.marvin.presentation.screens.tv
 
+import android.content.ActivityNotFoundException
+import android.content.Intent
+import android.net.Uri
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material.MaterialTheme
@@ -12,8 +15,10 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavHostController
 import com.google.accompanist.systemuicontroller.rememberSystemUiController
+import com.kavrin.marvin.navigation.Graph
+import com.kavrin.marvin.navigation.TvScreen
 import com.kavrin.marvin.presentation.component.FabAndDivider
-import com.kavrin.marvin.presentation.screens.movie.EmptyContent
+import com.kavrin.marvin.presentation.component.EmptyContent
 import com.kavrin.marvin.util.NetworkResult
 import kotlinx.coroutines.delay
 import me.onebone.toolbar.CollapsingToolbarScaffold
@@ -53,6 +58,9 @@ fun TvScreen(
     val tvTrailer by tvViewModel.tvTrailer.collectAsStateWithLifecycle()
     val tvVideos by tvViewModel.tvVideos.collectAsStateWithLifecycle()
     val tvSeasons by tvViewModel.tvSeasons.collectAsStateWithLifecycle()
+    val tvEpisodesToAir by tvViewModel.tvEpisodesToAir.collectAsStateWithLifecycle()
+    val tvSimilar by tvViewModel.tvSimilar.collectAsStateWithLifecycle()
+    val tvRecommended by tvViewModel.tvRecommended.collectAsStateWithLifecycle()
 
     ///// Handle Errors /////
     var isRefreshing by remember { mutableStateOf(false) }
@@ -105,10 +113,41 @@ fun TvScreen(
                     tvTrailer = tvTrailer,
                     tvVideos = tvVideos,
                     tvSeasons = tvSeasons,
+                    tvEpisodesToAir = tvEpisodesToAir,
+                    tvSimilar = tvSimilar,
+                    tvRecommended = tvRecommended,
                     toolbarState = collapsingToolbarState,
-                    onReviewClicked = {},
-                    onVideoClicked = {},
-                    onPersonClicked = {},
+                    onReviewClicked = {
+                        val reviewIntent = Intent(Intent.ACTION_VIEW, Uri.parse(it))
+                        context.startActivity(reviewIntent)
+                    },
+                    onVideoClicked = {
+                        val ytApp = Intent(Intent.ACTION_VIEW, Uri.parse("vnd.youtube:$it"))
+                        val ytWeb = Intent(
+                            Intent.ACTION_VIEW,
+                            Uri.parse("http://www.youtube.com/watch?v=$it")
+                        )
+                        try {
+                            context.startActivity(ytApp)
+                        } catch (e: ActivityNotFoundException) {
+                            context.startActivity(ytWeb)
+                        }
+                    },
+                    onPersonClicked = {
+                        navHostController.navigate(Graph.Person.passId(it))
+                    },
+                    onSeasonClicked = {
+                        /*TODO*/
+                    },
+                    onEpisodeClicked = {
+                        /*TODO*/
+                    },
+                    onTvClicked = {
+                        navHostController.navigate(TvScreen.Tv.passId(it))
+                    },
+                    onMenuClicked = {
+                        /*TODO*/
+                    }
                 )
             }
 

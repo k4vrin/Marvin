@@ -1,4 +1,4 @@
-package com.kavrin.marvin.presentation.screens.movie.component
+package com.kavrin.marvin.presentation.component
 
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.background
@@ -85,7 +85,7 @@ fun ReviewItem(
                                     .error(R.drawable.ic_profile_placeholder)
                                     .crossfade(true)
                                     .build(),
-                                contentDescription = stringResource(R.string.pofile_pic),
+                                contentDescription = stringResource(R.string.profile_pic),
                                 contentScale = ContentScale.Crop
                             )
 

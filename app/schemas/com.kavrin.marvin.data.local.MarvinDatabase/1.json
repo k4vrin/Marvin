@@ -2,7 +2,7 @@
   "formatVersion": 1,
   "database": {
     "version": 1,
-    "identityHash": "35f60e37d58dfb49e424bc45b3914a00",
+    "identityHash": "b917d2c3f49f644c14c75724df19a6d9",
     "entities": [
       {
         "tableName": "playlist_table",
@@ -505,7 +505,7 @@
       },
       {
         "tableName": "tv_table",
-        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`localId` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `backdropPath` TEXT, `firstAirDate` TEXT NOT NULL, `genreIds` TEXT NOT NULL, `tvId` INTEGER NOT NULL, `name` TEXT NOT NULL, `originCountry` TEXT NOT NULL, `originalLanguage` TEXT NOT NULL, `originalName` TEXT NOT NULL, `overview` TEXT NOT NULL, `popularity` REAL NOT NULL, `posterPath` TEXT, `voteAverage` REAL NOT NULL, `voteCount` INTEGER NOT NULL)",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`localId` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `backdropPath` TEXT, `firstAirDate` TEXT NOT NULL, `genreIds` TEXT NOT NULL, `tvId` INTEGER NOT NULL, `name` TEXT NOT NULL, `originalLanguage` TEXT NOT NULL, `originalName` TEXT NOT NULL, `overview` TEXT NOT NULL, `popularity` REAL NOT NULL, `posterPath` TEXT, `voteAverage` REAL NOT NULL, `voteCount` INTEGER NOT NULL)",
         "fields": [
           {
             "fieldPath": "localId",
@@ -540,12 +540,6 @@
           {
             "fieldPath": "name",
             "columnName": "name",
-            "affinity": "TEXT",
-            "notNull": true
-          },
-          {
-            "fieldPath": "originCountry",
-            "columnName": "originCountry",
             "affinity": "TEXT",
             "notNull": true
           },
@@ -922,7 +916,7 @@
     "views": [],
     "setupQueries": [
       "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
-      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, '35f60e37d58dfb49e424bc45b3914a00')"
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, 'b917d2c3f49f644c14c75724df19a6d9')"
     ]
   }
 }
