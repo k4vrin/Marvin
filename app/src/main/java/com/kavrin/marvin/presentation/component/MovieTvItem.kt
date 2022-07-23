@@ -9,6 +9,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.shadow
+import androidx.compose.ui.graphics.Shape
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
@@ -23,6 +24,7 @@ fun MovieTvItem(
     voteCount: Int?,
     itemId: Int?,
     itemTitle: String?,
+    shape: Shape = RoundedCornerShape(size = MEDIUM_PADDING),
     releasedDate: String?,
     onCardClicked: (Int) -> Unit,
     onMenuIconClicked: (Int) -> Unit,
@@ -33,10 +35,10 @@ fun MovieTvItem(
             .height(MAIN_CARD_HEIGHT)
             .width(MAIN_CARD_WIDTH)
             .shadow(
-                shape = RoundedCornerShape(size = MEDIUM_PADDING),
+                shape = shape,
                 elevation = 2.dp
             ),
-        shape = RoundedCornerShape(size = MEDIUM_PADDING),
+        shape = shape,
         backgroundColor = MaterialTheme.colors.cardColor,
         onClick = {
             itemId?.let(onCardClicked)

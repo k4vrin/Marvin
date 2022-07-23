@@ -7,6 +7,7 @@ import androidx.compose.material.icons.filled.Menu
 import androidx.compose.material.icons.filled.Search
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import com.kavrin.marvin.R
 import com.kavrin.marvin.presentation.component.ConnectivityStatus
@@ -30,6 +31,7 @@ fun HomeTopBar(
 				Text(
 					text = stringResource(R.string.home),
 					fontFamily = nunitoTypeFace,
+					fontWeight = FontWeight.Bold,
 					color = MaterialTheme.colors.topBarContentColor
 				)
 			},

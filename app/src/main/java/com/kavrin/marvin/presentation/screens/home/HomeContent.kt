@@ -8,7 +8,6 @@ import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.MaterialTheme
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
 import androidx.paging.LoadState
@@ -17,7 +16,6 @@ import com.google.accompanist.pager.HorizontalPager
 import com.google.accompanist.pager.rememberPagerState
 import com.google.accompanist.swiperefresh.SwipeRefresh
 import com.google.accompanist.swiperefresh.rememberSwipeRefreshState
-import com.kavrin.marvin.R
 import com.kavrin.marvin.domain.model.movie.entities.relations.MovieAndPopular
 import com.kavrin.marvin.domain.model.movie.entities.relations.MovieAndTopRated
 import com.kavrin.marvin.domain.model.movie.entities.relations.MovieAndTrending
@@ -25,11 +23,13 @@ import com.kavrin.marvin.domain.model.tv.entities.relations.TvAndPopular
 import com.kavrin.marvin.domain.model.tv.entities.relations.TvAndTopRated
 import com.kavrin.marvin.domain.model.tv.entities.relations.TvAndTrending
 import com.kavrin.marvin.navigation.Graph
-import com.kavrin.marvin.presentation.screens.home.component.*
+import com.kavrin.marvin.navigation.HomeScreen
 import com.kavrin.marvin.presentation.component.EmptyContent
+import com.kavrin.marvin.presentation.screens.home.component.*
 import com.kavrin.marvin.ui.theme.EXTRA_LARGE_PADDING
 import com.kavrin.marvin.ui.theme.MEDIUM_PADDING
 import com.kavrin.marvin.ui.theme.backGroundColor
+import com.kavrin.marvin.util.Constants
 import com.kavrin.marvin.util.MarvinItem
 import java.io.InterruptedIOException
 import java.net.ConnectException
@@ -162,7 +162,7 @@ fun MovieTabContent(
         )
 
         CardList(
-            cardListTitle = stringResource(R.string.trending),
+            cardListTitle = Constants.TRENDING,
             items = trending,
             isMovie = true,
             onItemClicked = { id ->
@@ -170,11 +170,19 @@ fun MovieTabContent(
                     navHostController.navigate(Graph.Movie.passId(id = id))
                 }
             },
+            onSeeAllClicked = {
+                navHostController.navigate(
+                    HomeScreen.List.passListName(
+                        listName = Constants.TRENDING,
+                        isMovie = true
+                    )
+                )
+            },
             onMenuIconClicked = { /*TODO*/ }
         )
 
         CardList(
-            cardListTitle = stringResource(R.string.popular),
+            cardListTitle = Constants.POPULAR,
             items = popular,
             isMovie = true,
             onItemClicked = { id ->
@@ -182,17 +190,33 @@ fun MovieTabContent(
                     navHostController.navigate(Graph.Movie.passId(id = id))
                 }
             },
+            onSeeAllClicked = {
+                navHostController.navigate(
+                    HomeScreen.List.passListName(
+                        listName = Constants.POPULAR,
+                        isMovie = true
+                    )
+                )
+            },
             onMenuIconClicked = { /*TODO*/ }
         )
 
         CardList(
-            cardListTitle = stringResource(R.string.top_rated),
+            cardListTitle = Constants.TOP_RATED,
             items = topRated,
             isMovie = true,
             onItemClicked = { id ->
                 if (isConnected) {
                     navHostController.navigate(Graph.Movie.passId(id = id))
                 }
+            },
+            onSeeAllClicked = {
+                navHostController.navigate(
+                    HomeScreen.List.passListName(
+                        listName = Constants.TOP_RATED,
+                        isMovie = true
+                    )
+                )
             },
             onMenuIconClicked = { /*TODO*/ }
         )
@@ -234,7 +258,7 @@ fun TvTabContent(
         )
 
         CardList(
-            cardListTitle = stringResource(R.string.trending),
+            cardListTitle = Constants.TRENDING,
             items = trending,
             isMovie = false,
             onItemClicked = { id ->
@@ -242,11 +266,19 @@ fun TvTabContent(
                     navHostController.navigate(Graph.Tv.passId(id = id))
                 }
             },
+            onSeeAllClicked = {
+                navHostController.navigate(
+                    HomeScreen.List.passListName(
+                        listName = Constants.TRENDING,
+                        isMovie = false
+                    )
+                )
+            },
             onMenuIconClicked = { /*TODO*/ }
         )
 
         CardList(
-            cardListTitle = stringResource(R.string.popular),
+            cardListTitle = Constants.POPULAR,
             items = popular,
             isMovie = false,
             onItemClicked = { id ->
@@ -254,17 +286,33 @@ fun TvTabContent(
                     navHostController.navigate(Graph.Tv.passId(id = id))
                 }
             },
+            onSeeAllClicked = {
+                navHostController.navigate(
+                    HomeScreen.List.passListName(
+                        listName = Constants.POPULAR,
+                        isMovie = false
+                    )
+                )
+            },
             onMenuIconClicked = { /*TODO*/ }
         )
 
         CardList(
-            cardListTitle = stringResource(R.string.top_rated),
+            cardListTitle = Constants.TOP_RATED,
             items = topRated,
             isMovie = false,
             onItemClicked = { id ->
                 if (isConnected) {
                     navHostController.navigate(Graph.Tv.passId(id = id))
                 }
+            },
+            onSeeAllClicked = {
+                navHostController.navigate(
+                    HomeScreen.List.passListName(
+                        listName = Constants.TOP_RATED,
+                        isMovie = false
+                    )
+                )
             },
             onMenuIconClicked = { /*TODO*/ }
         )

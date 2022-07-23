@@ -75,8 +75,8 @@ class MovieViewModel @Inject constructor(
         MutableStateFlow(NetworkResult.Loading())
     val movieRatingResponse: StateFlow<NetworkResult> = _movieRatingResponse
 
-    private val _movieRatings: MutableStateFlow<Map<String, String?>?> = MutableStateFlow(null)
-    val movieRatings: StateFlow<Map<String, String?>?> = _movieRatings
+    private val _movieRatings: MutableStateFlow<Map<String, String?>> = MutableStateFlow(emptyMap())
+    val movieRatings: StateFlow<Map<String, String?>> = _movieRatings
 
     init {
         viewModelScope.launch(context = Dispatchers.IO) {
@@ -97,6 +97,8 @@ class MovieViewModel @Inject constructor(
                 if (!imdbId.isNullOrBlank()) {
                     _movieRatingResponse.value = useCases.getMovieRatings(id = imdbId)
                     _movieRatings.value = useCases.getMovieRatings.getRatingsValue()
+                } else {
+                    _movieRatingResponse.value = NetworkResult.Success()
                 }
                 _movieCast.value = useCases.getMovieDetails.getCast()
                 _movieCrew.value = useCases.getMovieDetails.getCrew()

@@ -15,9 +15,6 @@ val BackGroundLight = Color(0xFFF0F0F0)
 val BackGroundDark = Color(0xFF090909)
 
 val BrightMaroon = Color(0xFFB9314F)
-val AntiqueBrass = Color(0xFFD5A18E)
-val SilverPink = Color(0xFFDEC3BE)
-val KombuGreen = Color(0xFF3A4F41)
 
 
 val PlumpPurple = Color(0xFF6247AA)
@@ -133,7 +130,7 @@ val Colors.splashText
 
 val Colors.bottomNavigationBackground
     @Composable
-    get() = if (isLight) LightFab else Color.Black
+    get() = if (isLight) Color.White else Color.Black
 
 val Colors.bottomNavigationContent
     @Composable

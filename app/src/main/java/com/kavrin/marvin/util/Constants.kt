@@ -4,13 +4,14 @@ object Constants {
 
 	const val BASE_URL = "https://api.themoviedb.org/3/"
 	const val IMAGE_BACKDROP_BASE_URL = "https://image.tmdb.org/t/p/w780/"
-	const val IMAGE_POSTER_BASE_URL = "https://image.tmdb.org/t/p/w500/"
+	const val IMAGE_POSTER_BASE_URL = "https://image.tmdb.org/t/p/w342/"
 	const val IMAGE_PROFILE_BASE_URL = "https://image.tmdb.org/t/p/w185/"
 	const val IMAGE_STILL_BASE_URL = "https://image.tmdb.org/t/p/w185/"
 	const val IMDb_BASE_URL = "https://imdb-api.com/en/API/"
 
 	const val ARGUMENT_KEY_ID = "id"
-	const val LIST_ARGUMENT_KEY = "listId"
+	const val LIST_ARGUMENT_KEY_NAME = "listName"
+	const val LIST_ARGUMENT_KEY_IS_MOVIE = "isMovie"
 
 	const val MARVIN_DB = "marvin_db"
 
@@ -34,6 +35,10 @@ object Constants {
 	const val TV_TRENDING_REMOTE_TABLE = "tv_trending_remote_table"
 	const val TV_TOP_RATED_REMOTE_TABLE = "tv_top_rated_remote_table"
 
+	const val POPULAR = "Popular"
+	const val TOP_RATED = "Top Rated"
+	const val TRENDING = "Trending"
+
 	const val PLAYLIST_TABLE = "playlist_table"
 
 	const val ON_BOARDING_PAGE_COUNT = 2
@@ -42,7 +47,7 @@ object Constants {
 	const val PREFERENCES_NAME = "marvin_preferences"
 	const val PREFERENCES_KEY = "on_boarding_completed"
 
-	const val ITEMS_PER_PAGE = 10
+	const val ITEMS_PER_PAGE = 20
 	const val ITEMS_IN_HOME = 4
 	const val CAROUSEL_ITEMS = 7
 

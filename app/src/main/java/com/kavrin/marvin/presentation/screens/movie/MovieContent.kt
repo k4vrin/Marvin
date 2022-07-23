@@ -15,7 +15,8 @@ import androidx.compose.ui.Modifier
 import com.kavrin.marvin.domain.model.common.*
 import com.kavrin.marvin.domain.model.movie.entities.Movie
 import com.kavrin.marvin.presentation.component.*
-import com.kavrin.marvin.presentation.screens.movie.component.*
+import com.kavrin.marvin.presentation.screens.movie.component.CollectionList
+import com.kavrin.marvin.presentation.screens.movie.component.MovieCardList
 import com.kavrin.marvin.ui.theme.*
 import com.kavrin.marvin.util.Constants.COLLECTION_BACKDROP_KEY
 import com.kavrin.marvin.util.Constants.COLLECTION_NAME_KEY
@@ -27,7 +28,7 @@ fun MovieContent(
     movie: Movie?,
     movieRuntime: Int?,
     movieGenres: List<String>?,
-    movieRatings: Map<String, String?>?,
+    movieRatings: Map<String, String?>,
     movieCast: List<Cast>?,
     movieCrew: List<Crew>?,
     movieTrailer: Video?,
@@ -59,7 +60,7 @@ fun MovieContent(
             .fillMaxSize()
             .background(MaterialTheme.colors.backGroundColor)
             .verticalScroll(state = listState),
-        verticalArrangement = Arrangement.spacedBy(LARGE_PADDING)
+        verticalArrangement = Arrangement.spacedBy(MEDIUM_PADDING)
     ) {
 
         Column(
@@ -88,23 +89,23 @@ fun MovieContent(
                         }
                     }
 
-                    Divider(
-                        modifier = Modifier
-                            .padding(vertical = MEDIUM_PADDING),
-                        color = MaterialTheme.colors.cardContentColor.copy(alpha = 0.2f),
-                    )
+                    if (movie != null && movie.overview.isNotBlank()) {
+                        Divider(
+                            modifier = Modifier
+                                .padding(vertical = MEDIUM_PADDING),
+                            color = MaterialTheme.colors.cardContentColor.copy(alpha = 0.2f),
+                        )
 
-                    if (movie != null) {
                         Overview(overview = movie.overview)
                     }
 
-                    Divider(
-                        modifier = Modifier
-                            .padding(vertical = MEDIUM_PADDING),
-                        color = MaterialTheme.colors.cardContentColor.copy(alpha = 0.2f),
-                    )
+                    if (!movieGenres.isNullOrEmpty()) {
+                        Divider(
+                            modifier = Modifier
+                                .padding(vertical = MEDIUM_PADDING),
+                            color = MaterialTheme.colors.cardContentColor.copy(alpha = 0.2f),
+                        )
 
-                    if (movieGenres != null) {
                         Genres(
                             genres = movieGenres,
                             isMovie = true
@@ -113,6 +114,7 @@ fun MovieContent(
                 }
             }
 
+            if (movieRatings.isNotEmpty()) {
             ///// Ratings /////
             Card(
                 modifier = Modifier
@@ -125,7 +127,7 @@ fun MovieContent(
                         .fillMaxWidth()
                         .padding(all = MEDIUM_PADDING)
                 ) {
-                    if (movieRatings != null) {
+
                         Rating(ratings = movieRatings, animate = animRatings)
                     }
                 }

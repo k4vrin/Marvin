@@ -27,7 +27,7 @@ class MovieRemoteDataSourceImpl(
 ) : MovieRemoteDataSource {
 
 	///////////////////////////////////////////////////////////////////////////
-	// All
+	// List
 	///////////////////////////////////////////////////////////////////////////
 	override fun getPopularMovies(): Flow<PagingData<MovieAndPopular>> {
 		val pagingSourceFactory = {
@@ -35,7 +35,10 @@ class MovieRemoteDataSourceImpl(
 		}
 
 		return Pager(
-			config = PagingConfig(pageSize = ITEMS_PER_PAGE),
+			config = PagingConfig(
+				pageSize = ITEMS_PER_PAGE,
+				prefetchDistance = ITEMS_PER_PAGE * 2
+			),
 			remoteMediator = MoviePopularRemoteMediator(
 				movieService = movieService,
 				marvinDatabase = marvinDatabase
@@ -50,7 +53,10 @@ class MovieRemoteDataSourceImpl(
 		}
 
 		return Pager(
-			config = PagingConfig(pageSize = ITEMS_PER_PAGE),
+			config = PagingConfig(
+				pageSize = ITEMS_PER_PAGE,
+				prefetchDistance = ITEMS_PER_PAGE * 2
+			),
 			remoteMediator = MovieTopRatedRemoteMediator(
 				movieService = movieService,
 				marvinDatabase = marvinDatabase
@@ -65,7 +71,10 @@ class MovieRemoteDataSourceImpl(
 		}
 
 		return Pager(
-			config = PagingConfig(pageSize = ITEMS_PER_PAGE),
+			config = PagingConfig(
+				pageSize = ITEMS_PER_PAGE,
+				prefetchDistance = ITEMS_PER_PAGE * 2
+			),
 			remoteMediator = MovieTrendingRemoteMediator(
 				movieService = movieService,
 				marvinDatabase = marvinDatabase

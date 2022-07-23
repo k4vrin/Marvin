@@ -8,7 +8,7 @@ import kotlinx.serialization.Serializable
 @Serializable
 data class MovieCollection(
     @SerialName("backdrop_path")
-    val backdropPath: String,
+    val backdropPath: String?,
     @SerialName("id")
     val id: Int,
     @SerialName("name")
@@ -18,5 +18,5 @@ data class MovieCollection(
     @SerialName("parts")
     val parts: List<Movie>,
     @SerialName("poster_path")
-    val posterPath: String
+    val posterPath: String?
 )

@@ -63,11 +63,15 @@ class GetMovieDetails(
     }
 
     fun getTrailerBackdrop(): Backdrop? {
-        return data?.images?.backdrops?.size?.let { Random.nextInt(until = it) }?.let {
-            data?.images?.backdrops?.get(
-                it
-            )
-        }
+        return if (!data?.images?.backdrops.isNullOrEmpty()) {
+            data?.images?.backdrops?.size?.let { Random.nextInt(until = it) }?.let {
+                data?.images?.backdrops?.get(
+                    it
+                )
+            }
+        } else
+            null
+
     }
 
     fun getReviews(): List<Review>? {

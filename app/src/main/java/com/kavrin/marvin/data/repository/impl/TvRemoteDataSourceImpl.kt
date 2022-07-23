@@ -26,7 +26,7 @@ class TvRemoteDataSourceImpl(
 ) : TvRemoteDataSource {
 
 	///////////////////////////////////////////////////////////////////////////
-	// All
+	// list
 	///////////////////////////////////////////////////////////////////////////
 
 	override fun getPopularTvs(): Flow<PagingData<TvAndPopular>> {
@@ -35,7 +35,10 @@ class TvRemoteDataSourceImpl(
 		}
 
 		return Pager(
-			config = PagingConfig(pageSize = ITEMS_PER_PAGE),
+			config = PagingConfig(
+				pageSize = ITEMS_PER_PAGE,
+				prefetchDistance = ITEMS_PER_PAGE * 2
+			),
 			remoteMediator = TvPopularRemoteMediator(
 				tvService = tvService,
 				marvinDatabase = marvinDatabase
@@ -50,7 +53,10 @@ class TvRemoteDataSourceImpl(
 		}
 
 		return Pager(
-			config = PagingConfig(pageSize = ITEMS_PER_PAGE),
+			config = PagingConfig(
+				pageSize = ITEMS_PER_PAGE,
+				prefetchDistance = ITEMS_PER_PAGE * 2
+			),
 			remoteMediator = TvTopRatedRemoteMediator(
 				tvService = tvService,
 				marvinDatabase = marvinDatabase
@@ -65,7 +71,10 @@ class TvRemoteDataSourceImpl(
 		}
 
 		return Pager(
-			config = PagingConfig(pageSize = ITEMS_PER_PAGE),
+			config = PagingConfig(
+				pageSize = ITEMS_PER_PAGE,
+				prefetchDistance = ITEMS_PER_PAGE * 2
+			),
 			remoteMediator = TvTrendingRemoteMediator(
 				tvService = tvService,
 				marvinDatabase = marvinDatabase

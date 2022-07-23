@@ -2,10 +2,12 @@ package com.kavrin.marvin.presentation.screens.tv.components
 
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
@@ -51,7 +53,8 @@ fun SeasonItem(
 
             AsyncImage(
                 modifier = Modifier
-                    .fillMaxSize(),
+                    .fillMaxSize()
+                    .clip(RoundedCornerShape(EXTRA_SMALL_PADDING)),
                 model = ImageRequest.Builder(LocalContext.current)
                     .data("${Constants.IMAGE_POSTER_BASE_URL}${season.posterPath}")
                     .placeholder(R.drawable.placeholder)

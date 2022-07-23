@@ -24,7 +24,7 @@ class GetMovieRatings(
         return when {
             response.message().toString()
                 .contains("timeout") -> NetworkResult.Error(message = "Timeout")
-            response.body()!!.errorMessage.lowercase().contains("max usage") -> {
+            response.body()!!.errorMessage.lowercase().contains("maximum usage") -> {
                 data = IMDbRatingApiResponse(
                     errorMessage = "",
                     imDb = "",

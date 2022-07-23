@@ -1,5 +1,6 @@
 package com.kavrin.marvin.presentation.screens.home.component
 
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.rememberLazyListState
@@ -14,6 +15,7 @@ import androidx.paging.compose.LazyPagingItems
 import androidx.paging.compose.items
 import com.kavrin.marvin.R
 import com.kavrin.marvin.presentation.component.MovieTvItem
+import com.kavrin.marvin.presentation.component.SeeAllCard
 import com.kavrin.marvin.presentation.screens.home.handlePagingResult
 import com.kavrin.marvin.ui.theme.MEDIUM_PADDING
 import com.kavrin.marvin.ui.theme.SMALL_PADDING
@@ -28,7 +30,8 @@ fun <T : MarvinItem> CardList(
     isMovie: Boolean,
     seeAllEnabled: Boolean = true,
     onItemClicked: (Int) -> Unit,
-    onMenuIconClicked: (Int) -> Unit
+    onMenuIconClicked: (Int) -> Unit,
+    onSeeAllClicked: ((String) -> Unit)? = null
 ) {
 
     val listState = rememberLazyListState()
@@ -58,6 +61,12 @@ fun <T : MarvinItem> CardList(
 
                 if (seeAllEnabled) {
                     Text(
+                        modifier = Modifier
+                            .clickable {
+                                if (onSeeAllClicked != null) {
+                                    onSeeAllClicked(cardListTitle)
+                                }
+                            },
                         text = stringResource(R.string.see_all),
                         fontFamily = nunitoTypeFace,
                         fontSize = MaterialTheme.typography.subtitle1.fontSize,
@@ -113,6 +122,16 @@ fun <T : MarvinItem> CardList(
                     )
 
                 }
+
+                item {
+                    SeeAllCard {
+                        if (onSeeAllClicked != null) {
+                            onSeeAllClicked(cardListTitle)
+                        }
+                    }
+                }
+
+
             }
 
         }

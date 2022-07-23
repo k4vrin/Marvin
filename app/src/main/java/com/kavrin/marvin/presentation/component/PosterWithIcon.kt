@@ -44,6 +44,7 @@ fun PosterWithIcon(
                 .placeholder(R.drawable.placeholder)
                 .error(R.drawable.placeholder)
                 .crossfade(true)
+                .allowHardware(true)
                 .build(),
             contentDescription = stringResource(R.string.movie_poster),
             contentScale = ContentScale.Crop

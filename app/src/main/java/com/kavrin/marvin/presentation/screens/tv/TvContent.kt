@@ -66,7 +66,7 @@ fun TvContent(
             .fillMaxSize()
             .background(MaterialTheme.colors.backGroundColor)
             .verticalScroll(state = listState),
-        verticalArrangement = Arrangement.spacedBy(LARGE_PADDING)
+        verticalArrangement = Arrangement.spacedBy(MEDIUM_PADDING)
     ) {
 
         Column(
@@ -92,25 +92,25 @@ fun TvContent(
                             time = tvRuntimeDateStatus[TV_RUNTIME_KEY]?.toInt(),
                             status = tvRuntimeDateStatus[TV_STATUS_KEY]
                         )
-
-                        Divider(
-                            modifier = Modifier
-                                .padding(vertical = MEDIUM_PADDING),
-                            color = MaterialTheme.colors.cardContentColor.copy(alpha = 0.2f),
-                        )
                     }
 
                     if (tv != null && tv.overview.isNotBlank()) {
-                        Overview(overview = tv.overview)
-
                         Divider(
                             modifier = Modifier
                                 .padding(vertical = MEDIUM_PADDING),
                             color = MaterialTheme.colors.cardContentColor.copy(alpha = 0.2f),
                         )
+
+                        Overview(overview = tv.overview)
                     }
 
-                    if (tvGenres != null) {
+                    if (!tvGenres.isNullOrEmpty()) {
+                        Divider(
+                            modifier = Modifier
+                                .padding(vertical = MEDIUM_PADDING),
+                            color = MaterialTheme.colors.cardContentColor.copy(alpha = 0.2f),
+                        )
+
                         Genres(
                             genres = tvGenres,
                             isMovie = false

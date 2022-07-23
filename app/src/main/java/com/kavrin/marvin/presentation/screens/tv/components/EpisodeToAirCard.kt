@@ -25,7 +25,7 @@ fun EpisodeToAirCard(
 
     Card(
         modifier = Modifier
-            .padding(all = EXTRA_SMALL_PADDING)
+            .padding(horizontal = EXTRA_SMALL_PADDING)
             .wrapContentHeight(),
         backgroundColor = MaterialTheme.colors.cardColor
     ) {

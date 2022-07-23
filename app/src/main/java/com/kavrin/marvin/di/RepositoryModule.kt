@@ -5,6 +5,7 @@ import com.kavrin.marvin.data.repository.Repository
 import com.kavrin.marvin.data.repository.impl.DataStoreOpImpl
 import com.kavrin.marvin.domain.repository.DataStoreOp
 import com.kavrin.marvin.domain.use_cases.home.*
+import com.kavrin.marvin.domain.use_cases.list.*
 import com.kavrin.marvin.domain.use_cases.movie.*
 import com.kavrin.marvin.domain.use_cases.splash_welcome.ReadOnBoarding
 import com.kavrin.marvin.domain.use_cases.splash_welcome.SaveGenres
@@ -84,6 +85,21 @@ object RepositoryModule {
 			getTv = GetTv(repository),
 			getTvDetails = GetTvDetails(repository),
 			getTvRatings = GetTvRatings(repository)
+		)
+	}
+
+	@Provides
+	@Singleton
+	fun provideListUseCases(
+		repository: Repository
+	): ListUseCases {
+		return ListUseCases(
+			getPopularMoviesUseCase = GetPopularMoviesUseCase(repository),
+			getTopRatedMoviesUseCase = GetTopRatedMoviesUseCase(repository),
+			getTrendingMoviesUseCase = GetTrendingMoviesUseCase(repository),
+			getPopularTvsUseCase = GetPopularTvsUseCase(repository),
+			getTopRatedTvsUseCase = GetTopRatedTvsUseCase(repository),
+			getTrendingTvsUseCase = GetTrendingTvsUseCase(repository)
 		)
 	}
 }

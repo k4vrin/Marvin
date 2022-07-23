@@ -1,9 +1,9 @@
 package com.kavrin.marvin.presentation.screens.tv.components
 
-import androidx.compose.animation.animateContentSize
-import androidx.compose.animation.core.LinearOutSlowInEasing
+import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.core.animateFloatAsState
-import androidx.compose.animation.core.tween
+import androidx.compose.animation.expandVertically
+import androidx.compose.animation.shrinkVertically
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
@@ -32,13 +32,7 @@ fun SeasonList(
 
     Card(
         modifier = Modifier
-            .padding(all = EXTRA_SMALL_PADDING)
-            .animateContentSize(
-                animationSpec = tween(
-                    durationMillis = 300,
-                    easing = LinearOutSlowInEasing
-                )
-            ),
+            .padding(horizontal = EXTRA_SMALL_PADDING),
         backgroundColor = MaterialTheme.colors.cardColor,
         onClick = { expandedState = !expandedState }
     ) {
@@ -79,29 +73,38 @@ fun SeasonList(
 
             }
 
-            if (expandedState) {
+            AnimatedVisibility(
+                visible = expandedState,
+                enter = expandVertically(
+                    expandFrom = Alignment.Top
+                ),
+                exit = shrinkVertically(
+                    shrinkTowards = Alignment.Top
+                )
+            ) {
                 Spacer(modifier = Modifier.height(MEDIUM_PADDING))
 
-                seasons.forEach { season ->
+                Column {
+                    seasons.forEach { season ->
 
-                    SeasonItem(
-                        season = season,
-                        onSeasonClicked = {
-                            onSeasonClicked(it)
-                        }
-                    )
-
-                    if (season != seasons.last()) {
-                        Divider(
-                            modifier = Modifier
-                                .padding(vertical = EXTRA_SMALL_PADDING),
-                            color = MaterialTheme.colors.cardContentColor.copy(alpha = 0.2f),
+                        SeasonItem(
+                            season = season,
+                            onSeasonClicked = {
+                                onSeasonClicked(it)
+                            }
                         )
-                    }
 
+                        if (season != seasons.last()) {
+                            Divider(
+                                modifier = Modifier
+                                    .padding(vertical = EXTRA_SMALL_PADDING),
+                                color = MaterialTheme.colors.cardContentColor.copy(alpha = 0.2f),
+                            )
+                        }
+
+                    }
                 }
             }
-
 
         }
 
