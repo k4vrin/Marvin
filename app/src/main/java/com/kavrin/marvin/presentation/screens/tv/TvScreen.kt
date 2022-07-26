@@ -5,6 +5,7 @@ import android.content.Intent
 import android.net.Uri
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.rememberScrollState
 import androidx.compose.material.MaterialTheme
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
@@ -17,8 +18,8 @@ import androidx.navigation.NavHostController
 import com.google.accompanist.systemuicontroller.rememberSystemUiController
 import com.kavrin.marvin.navigation.Graph
 import com.kavrin.marvin.navigation.TvScreen
-import com.kavrin.marvin.presentation.component.FabAndDivider
 import com.kavrin.marvin.presentation.component.EmptyContent
+import com.kavrin.marvin.presentation.component.FabAndDivider
 import com.kavrin.marvin.util.NetworkResult
 import kotlinx.coroutines.delay
 import me.onebone.toolbar.CollapsingToolbarScaffold
@@ -76,6 +77,7 @@ fun TvScreen(
     )
 
     val collapsingToolbarState = rememberCollapsingToolbarScaffoldState()
+    val scrollState = rememberScrollState()
 
     if (result) {
         Box(
@@ -117,6 +119,7 @@ fun TvScreen(
                     tvSimilar = tvSimilar,
                     tvRecommended = tvRecommended,
                     toolbarState = collapsingToolbarState,
+                    scrollState = scrollState,
                     onReviewClicked = {
                         val reviewIntent = Intent(Intent.ACTION_VIEW, Uri.parse(it))
                         context.startActivity(reviewIntent)

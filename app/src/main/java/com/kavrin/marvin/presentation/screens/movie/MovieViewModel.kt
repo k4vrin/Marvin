@@ -72,7 +72,7 @@ class MovieViewModel @Inject constructor(
     val movieCollection: StateFlow<List<Movie>?> = _movieCollection
 
     private val _movieRatingResponse: MutableStateFlow<NetworkResult> =
-        MutableStateFlow(NetworkResult.Loading())
+        MutableStateFlow(NetworkResult.Success())
     val movieRatingResponse: StateFlow<NetworkResult> = _movieRatingResponse
 
     private val _movieRatings: MutableStateFlow<Map<String, String?>> = MutableStateFlow(emptyMap())
@@ -94,12 +94,12 @@ class MovieViewModel @Inject constructor(
                 _movieRuntime.value = useCases.getMovieDetails.getRuntime()
                 _movieGenre.value = useCases.getMovieDetails.getGenre()
                 val imdbId = useCases.getMovieDetails.getImdbId()
-                if (!imdbId.isNullOrBlank()) {
-                    _movieRatingResponse.value = useCases.getMovieRatings(id = imdbId)
-                    _movieRatings.value = useCases.getMovieRatings.getRatingsValue()
-                } else {
-                    _movieRatingResponse.value = NetworkResult.Success()
-                }
+//                if (!imdbId.isNullOrBlank()) {
+//                    _movieRatingResponse.value = useCases.getMovieRatings(id = imdbId)
+//                    _movieRatings.value = useCases.getMovieRatings.getRatingsValue()
+//                } else {
+//                    _movieRatingResponse.value = NetworkResult.Success()
+//                }
                 _movieCast.value = useCases.getMovieDetails.getCast()
                 _movieCrew.value = useCases.getMovieDetails.getCrew()
                 _movieTrailer.value = useCases.getMovieDetails.getOfficialTrailer()

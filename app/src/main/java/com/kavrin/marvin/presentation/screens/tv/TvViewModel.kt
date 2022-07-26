@@ -33,7 +33,7 @@ class TvViewModel @Inject constructor(
     val tvDetailsResponse: StateFlow<NetworkResult> = _tvDetailsResponse
 
     private val _tvRatingsResponse: MutableStateFlow<NetworkResult> =
-        MutableStateFlow(NetworkResult.Loading())
+        MutableStateFlow(NetworkResult.Success())
     val tvRatingsResponse: StateFlow<NetworkResult> = _tvRatingsResponse
 
     private val _tvRatings: MutableStateFlow<Map<String, String?>> = MutableStateFlow(emptyMap())
@@ -88,13 +88,13 @@ class TvViewModel @Inject constructor(
             _tvDetailsResponse.value = NetworkResult.Loading()
             if (id != null) {
                 _tvDetailsResponse.value = useCases.getTvDetails(id = id)
-                val imdbId = useCases.getTvDetails.getImdbId()
-                if (!imdbId.isNullOrBlank()) {
-                    _tvRatingsResponse.value = useCases.getTvRatings(id = imdbId)
-                    _tvRatings.value = useCases.getTvRatings.getRatingsValue()
-                } else {
-                    _tvRatingsResponse.value = NetworkResult.Success()
-                }
+//                val imdbId = useCases.getTvDetails.getImdbId()
+//                if (!imdbId.isNullOrBlank()) {
+//                    _tvRatingsResponse.value = useCases.getTvRatings(id = imdbId)
+//                    _tvRatings.value = useCases.getTvRatings.getRatingsValue()
+//                } else {
+//                    _tvRatingsResponse.value = NetworkResult.Success()
+//                }
                 _tvRuntimeStatusDate.value = useCases.getTvDetails.getRuntimeStatusDateTotal()
                 _tvGenres.value = useCases.getTvDetails.getGenres()
                 _tvCast.value = useCases.getTvDetails.getCast()

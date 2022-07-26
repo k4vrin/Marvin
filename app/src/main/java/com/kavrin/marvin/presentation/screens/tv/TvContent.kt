@@ -1,8 +1,8 @@
 package com.kavrin.marvin.presentation.screens.tv
 
+import androidx.compose.foundation.ScrollState
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
-import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.Card
 import androidx.compose.material.Divider
@@ -43,6 +43,7 @@ fun TvContent(
     tvSimilar: List<Tv>?,
     tvEpisodesToAir: Map<String, EpisodeToAir?>,
     toolbarState: CollapsingToolbarScaffoldState,
+    scrollState: ScrollState,
     onPersonClicked: (Int) -> Unit,
     onReviewClicked: (String) -> Unit,
     onVideoClicked: (String) -> Unit,
@@ -51,8 +52,6 @@ fun TvContent(
     onTvClicked: (Int) -> Unit,
     onMenuClicked: (Int) -> Unit
 ) {
-
-    val listState = rememberScrollState()
 
     val animRatings by remember {
         derivedStateOf {
@@ -65,7 +64,7 @@ fun TvContent(
         modifier = Modifier
             .fillMaxSize()
             .background(MaterialTheme.colors.backGroundColor)
-            .verticalScroll(state = listState),
+            .verticalScroll(state = scrollState),
         verticalArrangement = Arrangement.spacedBy(MEDIUM_PADDING)
     ) {
 

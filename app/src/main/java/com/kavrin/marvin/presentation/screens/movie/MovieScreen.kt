@@ -5,6 +5,7 @@ import android.content.Intent
 import android.net.Uri
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.rememberScrollState
 import androidx.compose.material.MaterialTheme
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
@@ -81,6 +82,7 @@ fun MovieScreen(
 
     ///// Collapsing Toolbar State /////
     val collapsingToolbarState = rememberCollapsingToolbarScaffoldState()
+    val scrollState = rememberScrollState()
 
     if (result) {
         Box(
@@ -121,6 +123,7 @@ fun MovieScreen(
                     collectionName = movieCollectionName,
                     collection = movieCollection,
                     recommendation = recommendation,
+                    scrollState = scrollState,
                     similar = similar,
                     movie = movie,
                     toolbarState = collapsingToolbarState,

@@ -1,8 +1,8 @@
 package com.kavrin.marvin.presentation.screens.movie
 
+import androidx.compose.foundation.ScrollState
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
-import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.Card
 import androidx.compose.material.Divider
@@ -39,6 +39,7 @@ fun MovieContent(
     collection: List<Movie>?,
     recommendation: List<Movie>?,
     similar: List<Movie>?,
+    scrollState: ScrollState,
     toolbarState: CollapsingToolbarScaffoldState,
     onPersonClicked: (Int) -> Unit,
     onVideoClicked: (String) -> Unit,
@@ -46,8 +47,6 @@ fun MovieContent(
     onMovieClicked: (Int) -> Unit,
     onMenuClicked: (Int) -> Unit
 ) {
-
-    val listState = rememberScrollState()
 
     val animRatings by remember {
         derivedStateOf {
@@ -59,7 +58,7 @@ fun MovieContent(
         modifier = Modifier
             .fillMaxSize()
             .background(MaterialTheme.colors.backGroundColor)
-            .verticalScroll(state = listState),
+            .verticalScroll(state = scrollState),
         verticalArrangement = Arrangement.spacedBy(MEDIUM_PADDING)
     ) {
 
