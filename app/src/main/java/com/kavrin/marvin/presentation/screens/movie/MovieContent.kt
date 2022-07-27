@@ -25,7 +25,8 @@ import me.onebone.toolbar.CollapsingToolbarScaffoldState
 
 @Composable
 fun MovieContent(
-    movie: Movie?,
+    movieOverview: String?,
+    movieReleaseDate: String?,
     movieRuntime: Int?,
     movieGenres: List<String>?,
     movieRatings: Map<String, String?>,
@@ -79,23 +80,21 @@ fun MovieContent(
                         .padding(all = SMALL_PADDING)
                 ) {
 
-                    if (movie != null) {
                         if (movieRuntime != null) {
                             DateTime(
-                                date = movie.releaseDate,
+                                date = movieReleaseDate,
                                 time = movieRuntime,
                             )
                         }
-                    }
 
-                    if (movie != null && movie.overview.isNotBlank()) {
+                    if (!movieOverview.isNullOrBlank()) {
                         Divider(
                             modifier = Modifier
                                 .padding(vertical = MEDIUM_PADDING),
                             color = MaterialTheme.colors.cardContentColor.copy(alpha = 0.2f),
                         )
 
-                        Overview(overview = movie.overview)
+                        Overview(overview = movieOverview)
                     }
 
                     if (!movieGenres.isNullOrEmpty()) {

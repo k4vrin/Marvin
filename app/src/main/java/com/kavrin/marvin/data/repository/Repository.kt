@@ -88,6 +88,12 @@ class Repository @Inject constructor(
 		return movieRemote.getMovieCollection(id = id)
 	}
 
+	///// Search /////
+
+	fun searchMovies(query: String): Flow<PagingData<Movie>> {
+		return movieRemote.searchMovies(query = query)
+	}
+
 	///////////////////////////////////////////////////////////////////////////
 	// Tv
 	///////////////////////////////////////////////////////////////////////////

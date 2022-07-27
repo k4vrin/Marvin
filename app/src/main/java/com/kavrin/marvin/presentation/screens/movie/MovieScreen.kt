@@ -37,7 +37,6 @@ fun MovieScreen(
     val uiController = rememberSystemUiController()
     val useDarkIcons = MaterialTheme.colors.isLight
     LaunchedEffect(key1 = true) {
-        movieViewModel.getMovieDetails()
         delay(650)
         uiController.setStatusBarColor(
             color = Color.Transparent,
@@ -47,10 +46,13 @@ fun MovieScreen(
 
     val context = LocalContext.current
 
-    val movie by movieViewModel.selectedMovie.collectAsState()
     val movieDetailsResultState by movieViewModel.movieDetailsResponse.collectAsState()
     val movieRatingsResultState by movieViewModel.movieRatingResponse.collectAsState()
     val movieCollectionResultState by movieViewModel.movieCollectionRes.collectAsState()
+    val movieBackdrop by movieViewModel.movieBackdrop.collectAsState()
+    val movieTitle by movieViewModel.movieTitle.collectAsState()
+    val movieOverview by movieViewModel.movieOverview.collectAsState()
+    val movieRelease by movieViewModel.movieRelease.collectAsState()
     val movieRuntime by movieViewModel.movieRuntime.collectAsState()
     val movieGenres by movieViewModel.movieGenre.collectAsState()
     val movieRatings by movieViewModel.movieRatings.collectAsState()
@@ -98,8 +100,8 @@ fun MovieScreen(
                 toolbar = {
                     MovieToolbar(
                         state = collapsingToolbarState,
-                        backdrop = movie?.backdropPath,
-                        title = movie?.title,
+                        backdrop = movieBackdrop,
+                        title = movieTitle,
                         onBackIconClicked = {
                             navHostController.popBackStack()
                         },
@@ -111,6 +113,8 @@ fun MovieScreen(
             ) {
 
                 MovieContent(
+                    movieOverview = movieOverview,
+                    movieReleaseDate = movieRelease,
                     movieRatings = movieRatings,
                     movieRuntime = movieRuntime,
                     movieGenres = movieGenres,
@@ -125,7 +129,6 @@ fun MovieScreen(
                     recommendation = recommendation,
                     scrollState = scrollState,
                     similar = similar,
-                    movie = movie,
                     toolbarState = collapsingToolbarState,
                     onPersonClicked = {
                         navHostController.navigate(Graph.Person.passId(it))

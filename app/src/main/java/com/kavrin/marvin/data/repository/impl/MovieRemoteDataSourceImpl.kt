@@ -7,6 +7,7 @@ import com.kavrin.marvin.data.local.MarvinDatabase
 import com.kavrin.marvin.data.paging_source.movie.MoviePopularRemoteMediator
 import com.kavrin.marvin.data.paging_source.movie.MovieTopRatedRemoteMediator
 import com.kavrin.marvin.data.paging_source.movie.MovieTrendingRemoteMediator
+import com.kavrin.marvin.data.paging_source.movie.SearchMovieSource
 import com.kavrin.marvin.data.remote.TMDBMovieService
 import com.kavrin.marvin.domain.model.movie.api.collection.MovieCollection
 import com.kavrin.marvin.domain.model.movie.api.detail.SingleMovieApiResponse
@@ -175,8 +176,19 @@ class MovieRemoteDataSourceImpl(
 	// Search
 	///////////////////////////////////////////////////////////////////////////
 
-	override fun searchMovies(): Flow<PagingData<Movie>> {
-		TODO("Not yet implemented")
+	override fun searchMovies(query: String): Flow<PagingData<Movie>> {
+		return Pager(
+			config = PagingConfig(
+				pageSize = ITEMS_PER_PAGE,
+				enablePlaceholders = false
+			),
+			pagingSourceFactory = {
+				SearchMovieSource(
+					movieService = movieService,
+					query = query
+				)
+			}
+		).flow
 	}
 
 	override suspend fun saveMovieGenres() {

@@ -7,6 +7,8 @@ import com.kavrin.marvin.domain.repository.DataStoreOp
 import com.kavrin.marvin.domain.use_cases.home.*
 import com.kavrin.marvin.domain.use_cases.list.*
 import com.kavrin.marvin.domain.use_cases.movie.*
+import com.kavrin.marvin.domain.use_cases.search.SearchMovies
+import com.kavrin.marvin.domain.use_cases.search.SearchUseCases
 import com.kavrin.marvin.domain.use_cases.splash_welcome.ReadOnBoarding
 import com.kavrin.marvin.domain.use_cases.splash_welcome.SaveGenres
 import com.kavrin.marvin.domain.use_cases.splash_welcome.SaveOnBoarding
@@ -100,6 +102,16 @@ object RepositoryModule {
 			getPopularTvsUseCase = GetPopularTvsUseCase(repository),
 			getTopRatedTvsUseCase = GetTopRatedTvsUseCase(repository),
 			getTrendingTvsUseCase = GetTrendingTvsUseCase(repository)
+		)
+	}
+
+	@Provides
+	@Singleton
+	fun provideSearchUseCases(
+		repository: Repository
+	): SearchUseCases {
+		return SearchUseCases(
+			searchMovies = SearchMovies(repository)
 		)
 	}
 }

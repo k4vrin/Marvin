@@ -17,7 +17,7 @@ import com.kavrin.marvin.util.dateFormatter
 
 @Composable
 fun DateTime(
-    date: String,
+    date: String?,
     time: Int?,
     modifier: Modifier = Modifier,
     status: String? = null
@@ -27,15 +27,18 @@ fun DateTime(
             modifier = modifier
         ) {
 
-            Text(
-                text = dateFormatter(date = date),
-                fontFamily = nunitoTypeFace,
-                fontSize = MaterialTheme.typography.subtitle2.fontSize,
-                fontWeight = FontWeight.Bold,
-                maxLines = 1,
-                overflow = TextOverflow.Ellipsis,
-                color = MaterialTheme.colors.cardContentColor
-            )
+            if (!date.isNullOrBlank()) {
+                Text(
+                    text = dateFormatter(date = date),
+                    fontFamily = nunitoTypeFace,
+                    fontSize = MaterialTheme.typography.subtitle2.fontSize,
+                    fontWeight = FontWeight.Bold,
+                    maxLines = 1,
+                    overflow = TextOverflow.Ellipsis,
+                    color = MaterialTheme.colors.cardContentColor
+                )
+
+            }
 
             if (time != null) {
 

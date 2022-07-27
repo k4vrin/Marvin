@@ -17,6 +17,7 @@ import com.google.accompanist.navigation.animation.composable
 import com.google.accompanist.navigation.animation.navigation
 import com.kavrin.marvin.presentation.screens.home.HomeScreen
 import com.kavrin.marvin.presentation.screens.list.ListScreen
+import com.kavrin.marvin.presentation.screens.search.SearchScreen
 import com.kavrin.marvin.util.Constants
 
 
@@ -62,8 +63,39 @@ fun NavGraphBuilder.homeNavGraph(
         }
 
         //// Search Screen ////
-        composable(route = HomeScreen.Search.route) {
+        composable(
+            route = HomeScreen.Search.route,
+            enterTransition = {
+                slideIntoContainer(
+                    towards = AnimatedContentScope.SlideDirection.Left,
+                    animationSpec = tween(durationMillis = 500, delayMillis = 500)
+                )
+            },
+            exitTransition = {
+                when (targetState.destination.route) {
+                    BottomBarScreen.Home.route -> {
+                        slideOutOfContainer(
+                            towards = AnimatedContentScope.SlideDirection.Right,
+                            animationSpec = tween(durationMillis = 500, delayMillis = 500)
+                        )
+                    }
+                    else -> {
+                        fadeOut(animationSpec = tween(durationMillis = 100, delayMillis = 2000))
+                    }
+                }
+            },
+            popEnterTransition = {
+                fadeIn(animationSpec = tween(durationMillis = 100))
+            },
+            popExitTransition = {
+                slideOutOfContainer(
+                    towards = AnimatedContentScope.SlideDirection.Right,
+                    animationSpec = tween(durationMillis = 500, delayMillis = 500)
+                )
+            }
 
+        ) {
+            SearchScreen(navHostController = navHostController)
         }
 
         //// List Screen ////

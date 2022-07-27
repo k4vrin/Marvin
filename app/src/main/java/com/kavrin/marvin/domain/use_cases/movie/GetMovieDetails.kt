@@ -35,6 +35,22 @@ class GetMovieDetails(
         }
     }
 
+    fun getTitle(): String? {
+        return data?.title
+    }
+
+    fun getRelease(): String? {
+        return data?.releaseDate
+    }
+
+    fun getBackdrop(): String? {
+        return data?.backdrop
+    }
+
+    fun getOverview(): String? {
+        return data?.overview
+    }
+
     fun getRuntime(): Int? {
         return data?.runtime
     }

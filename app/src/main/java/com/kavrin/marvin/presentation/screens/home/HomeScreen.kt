@@ -13,6 +13,7 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
 import androidx.paging.compose.collectAsLazyPagingItems
 import com.google.accompanist.systemuicontroller.rememberSystemUiController
+import com.kavrin.marvin.navigation.HomeScreen
 import com.kavrin.marvin.ui.theme.statusBarColor
 import kotlinx.coroutines.delay
 import me.onebone.toolbar.CollapsingToolbarScaffold
@@ -58,7 +59,7 @@ fun HomeScreen(
         toolbar = {
             HomeTopBar(
                 isConnected = isConnected.value,
-                onSearchClicked = { /*TODO*/ }
+                onSearchClicked = { navController.navigate(HomeScreen.Search.route) }
             )
         },
     ) {

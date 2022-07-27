@@ -23,12 +23,24 @@ class MovieViewModel @Inject constructor(
 
     val id = savedStateHandle.get<Int>(ARGUMENT_KEY_ID)
 
-    private val _selectedMovie: MutableStateFlow<Movie?> = MutableStateFlow(null)
-    val selectedMovie: StateFlow<Movie?> = _selectedMovie
+//    private val _selectedMovie: MutableStateFlow<Movie?> = MutableStateFlow(null)
+//    val selectedMovie: StateFlow<Movie?> = _selectedMovie
 
     private val _movieDetailsResponse: MutableStateFlow<NetworkResult> =
         MutableStateFlow(NetworkResult.Loading())
     val movieDetailsResponse: StateFlow<NetworkResult> = _movieDetailsResponse
+
+    private val _movieBackdrop = MutableStateFlow<String?>(null)
+    val movieBackdrop: StateFlow<String?> = _movieBackdrop
+
+    private val _movieOverview = MutableStateFlow<String?>(null)
+    val movieOverview: StateFlow<String?> = _movieOverview
+
+    private val _movieTitle = MutableStateFlow<String?>(null)
+    val movieTitle: StateFlow<String?> = _movieTitle
+
+    private val _movieRelease = MutableStateFlow<String?>(null)
+    val movieRelease: StateFlow<String?> = _movieRelease
 
     private val _movieRuntime: MutableStateFlow<Int?> = MutableStateFlow(null)
     val movieRuntime: StateFlow<Int?> = _movieRuntime
@@ -79,11 +91,7 @@ class MovieViewModel @Inject constructor(
     val movieRatings: StateFlow<Map<String, String?>> = _movieRatings
 
     init {
-        viewModelScope.launch(context = Dispatchers.IO) {
-            _selectedMovie.value = id?.let { movieId ->
-                useCases.getMovie(movieId = movieId)
-            }
-        }
+        getMovieDetails()
     }
 
     fun getMovieDetails() {
@@ -93,6 +101,10 @@ class MovieViewModel @Inject constructor(
                 _movieDetailsResponse.value = useCases.getMovieDetails(id = id)
                 _movieRuntime.value = useCases.getMovieDetails.getRuntime()
                 _movieGenre.value = useCases.getMovieDetails.getGenre()
+                _movieBackdrop.value = useCases.getMovieDetails.getBackdrop()
+                _movieOverview.value = useCases.getMovieDetails.getOverview()
+                _movieTitle.value = useCases.getMovieDetails.getTitle()
+                _movieRelease.value = useCases.getMovieDetails.getRelease()
                 val imdbId = useCases.getMovieDetails.getImdbId()
 //                if (!imdbId.isNullOrBlank()) {
 //                    _movieRatingResponse.value = useCases.getMovieRatings(id = imdbId)

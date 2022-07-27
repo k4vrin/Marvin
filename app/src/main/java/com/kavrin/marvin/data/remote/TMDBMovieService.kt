@@ -38,7 +38,7 @@ interface TMDBMovieService {
 		@Query("api_key") apiKey: String = BuildConfig.API_KEY,
 		@Query("query") query: String,
 		@Query("page") page: Int = 1,
-		@Query("include_adult") includeAdult: Boolean = true
+		@Query("include_adult") includeAdult: Boolean = false
 	): MovieApiResponse
 
 

@@ -32,6 +32,12 @@ data class SingleMovieApiResponse(
     val popularity: Double,
     @SerialName("poster_path")
     val posterPath: String,
+    @SerialName("release_date")
+    val releaseDate: String,
+    @SerialName("backdrop_path")
+    val backdrop: String,
+    @SerialName("title")
+    val title: String,
     @SerialName("runtime")
     val runtime: Int,
     @SerialName("tagline")
