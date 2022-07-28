@@ -23,7 +23,10 @@ fun SearchScreen(
     val text by searchViewModel.searchQuery
     val searchType by searchViewModel.searchType
     val radioButtonState by searchViewModel.radioButtonState
+    val isErrorVisible by searchViewModel.errorStatus
+    val errorMessage by searchViewModel.errorMessage
     val movie = searchViewModel.movie.collectAsLazyPagingItems()
+    val tv = searchViewModel.tv.collectAsLazyPagingItems()
 
     val gridState = rememberLazyGridState()
     val scaffoldState = rememberScaffoldState()
@@ -31,7 +34,10 @@ fun SearchScreen(
     LaunchedEffect(key1 = true) {
         searchViewModel.eventFlow.collectLatest { event ->
             when (event) {
-                is UiEvent.ShowSnackbar -> scaffoldState.snackbarHostState.showSnackbar(message = event.message)
+                is UiEvent.ShowErrorStatus -> {
+                    searchViewModel.updateErrorStatus(showError = true, errorMessage = event.message)
+                }
+                is UiEvent.ShowSnackbar -> {}
             }
         }
     }
@@ -45,27 +51,34 @@ fun SearchScreen(
                 text = text,
                 radioButtonState = radioButtonState,
                 onTextChange = { searchViewModel.updateSearchQuery(it) },
-                onSearchClicked = { query, searchType ->
+                onSearchClicked = { query ->
                     searchViewModel.search(
                         query = query,
                         searchType = searchType
                     )
                 },
                 onCloseClicked = { navHostController.popBackStack() },
-                onTypeClicked = { searchViewModel.updateRadioButton(it) }
+                onTypeClicked = { searchType ->
+                    searchViewModel.updateRadioButton(searchType)
+                    searchViewModel.updateSearchType(searchType)
+                }
             )
-        },
-        snackbarHost = { snackbarHostState ->
-
         }
     ) {
         SearchContent(
             movie = movie,
+            tv = tv,
             searchType = searchType,
             gridState = gridState,
+            errorMessage = errorMessage,
+            isErrorVisible = isErrorVisible,
             paddingValues = it,
             onCardClicked = { id ->
-                            navHostController.navigate(Graph.Movie.passId(id = id))
+                when (searchType) {
+                    is SearchType.MovieType -> navHostController.navigate(Graph.Movie.passId(id = id))
+                    is SearchType.TvType -> navHostController.navigate(Graph.Tv.passId(id = id))
+                    is SearchType.PersonType -> {}
+                }
             },
             onMenuClicked = {}
         )

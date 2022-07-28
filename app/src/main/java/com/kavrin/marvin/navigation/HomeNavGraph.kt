@@ -68,7 +68,7 @@ fun NavGraphBuilder.homeNavGraph(
             enterTransition = {
                 slideIntoContainer(
                     towards = AnimatedContentScope.SlideDirection.Left,
-                    animationSpec = tween(durationMillis = 500, delayMillis = 500)
+                    animationSpec = tween(durationMillis = 500)
                 )
             },
             exitTransition = {

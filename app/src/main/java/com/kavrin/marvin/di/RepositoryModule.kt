@@ -8,6 +8,7 @@ import com.kavrin.marvin.domain.use_cases.home.*
 import com.kavrin.marvin.domain.use_cases.list.*
 import com.kavrin.marvin.domain.use_cases.movie.*
 import com.kavrin.marvin.domain.use_cases.search.SearchMovies
+import com.kavrin.marvin.domain.use_cases.search.SearchTvs
 import com.kavrin.marvin.domain.use_cases.search.SearchUseCases
 import com.kavrin.marvin.domain.use_cases.splash_welcome.ReadOnBoarding
 import com.kavrin.marvin.domain.use_cases.splash_welcome.SaveGenres
@@ -111,7 +112,8 @@ object RepositoryModule {
 		repository: Repository
 	): SearchUseCases {
 		return SearchUseCases(
-			searchMovies = SearchMovies(repository)
+			searchMovies = SearchMovies(repository),
+			searchTvs = SearchTvs(repository)
 		)
 	}
 }

@@ -7,10 +7,11 @@ import androidx.lifecycle.viewModelScope
 import androidx.paging.PagingData
 import androidx.paging.cachedIn
 import com.kavrin.marvin.domain.model.movie.entities.Movie
-import com.kavrin.marvin.domain.use_cases.search.InvalidQueryException
+import com.kavrin.marvin.domain.model.tv.entities.Tv
 import com.kavrin.marvin.domain.use_cases.search.SearchUseCases
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -41,11 +42,35 @@ class SearchViewModel @Inject constructor(
     private val _movie = MutableStateFlow<PagingData<Movie>>(PagingData.empty())
     val movie: StateFlow<PagingData<Movie>> = _movie
 
+    private val _tv = MutableStateFlow<PagingData<Tv>>(PagingData.empty())
+    val tv: StateFlow<PagingData<Tv>> = _tv
+
     private val _eventFlow = MutableSharedFlow<UiEvent>()
     val eventFlow = _eventFlow.asSharedFlow()
 
+    private val _errorStatus = mutableStateOf(false)
+    val errorStatus: State<Boolean> = _errorStatus
+
+    private val _errorMessage = mutableStateOf("")
+    val errorMessage: State<String> = _errorMessage
+
     fun updateSearchQuery(query: String) {
         _searchQuery.value = query
+    }
+
+    fun updateSearchType(searchType: SearchType) {
+        _searchType.value = searchType
+    }
+
+    fun updateErrorStatus(showError: Boolean, errorMessage: String) {
+        viewModelScope.launch {
+            if (showError) {
+                _errorStatus.value = true
+                _errorMessage.value = errorMessage
+                delay(2000)
+                _errorStatus.value = false
+            }
+        }
     }
 
     fun updateRadioButton(searchType: SearchType) {
@@ -77,13 +102,17 @@ class SearchViewModel @Inject constructor(
                             _movie.value = it
                         }
                     }
-                    is SearchType.TvType -> {}
+                    is SearchType.TvType -> {
+                        useCases.searchTvs(query = query).cachedIn(viewModelScope).collect {
+                            _tv.value = it
+                        }
+                    }
                     is SearchType.PersonType -> {}
                 }
 
-            } catch (e: InvalidQueryException) {
+            } catch (e: IllegalArgumentException) {
                 _eventFlow.emit(
-                    UiEvent.ShowSnackbar(
+                    UiEvent.ShowErrorStatus(
                         message = e.message ?: "Couldn't find."
                     )
                 )
@@ -102,4 +131,5 @@ data class RadioButtonState(
 
 sealed class UiEvent {
     data class ShowSnackbar(val message: String) : UiEvent()
+    data class ShowErrorStatus(val message: String) : UiEvent()
 }

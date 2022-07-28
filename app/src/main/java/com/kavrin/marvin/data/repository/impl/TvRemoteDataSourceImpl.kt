@@ -4,6 +4,7 @@ import androidx.paging.Pager
 import androidx.paging.PagingConfig
 import androidx.paging.PagingData
 import com.kavrin.marvin.data.local.MarvinDatabase
+import com.kavrin.marvin.data.paging_source.series.SearchTvSource
 import com.kavrin.marvin.data.paging_source.series.TvPopularRemoteMediator
 import com.kavrin.marvin.data.paging_source.series.TvTopRatedRemoteMediator
 import com.kavrin.marvin.data.paging_source.series.TvTrendingRemoteMediator
@@ -172,8 +173,19 @@ class TvRemoteDataSourceImpl(
 	// Search
 	///////////////////////////////////////////////////////////////////////////
 
-	override fun searchTvs(): Flow<PagingData<Tv>> {
-		TODO("Not yet implemented")
+	override fun searchTvs(query: String): Flow<PagingData<Tv>> {
+			return Pager(
+				config = PagingConfig(
+					pageSize = ITEMS_PER_PAGE,
+					enablePlaceholders = false
+				),
+				pagingSourceFactory = {
+					SearchTvSource(
+						tvService = tvService,
+						query = query
+					)
+				}
+			).flow
 	}
 
 	override suspend fun saveTvGenres() {

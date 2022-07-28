@@ -1,9 +1,6 @@
 package com.kavrin.marvin.domain.use_cases.search
 
 data class SearchUseCases(
-    val searchMovies: SearchMovies
+    val searchMovies: SearchMovies,
+    val searchTvs: SearchTvs
 )
-
-
-
-class InvalidQueryException(message: String) : Exception()

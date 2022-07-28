@@ -9,6 +9,7 @@ import androidx.compose.material.icons.rounded.Close
 import androidx.compose.material.icons.rounded.MoreVert
 import androidx.compose.material.icons.rounded.Search
 import androidx.compose.runtime.*
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.graphics.Color
@@ -23,7 +24,7 @@ fun SearchTopBar(
     text: String,
     radioButtonState: RadioButtonState,
     onTextChange: (String) -> Unit,
-    onSearchClicked: (String, SearchType) -> Unit,
+    onSearchClicked: (String) -> Unit,
     onCloseClicked: () -> Unit,
     onTypeClicked: (SearchType) -> Unit
 ) {
@@ -45,12 +46,15 @@ fun SearchTopBar(
                 Text(
                     modifier = Modifier
                         .alpha(ContentAlpha.medium),
+                    fontFamily = nunitoTypeFace,
+                    fontSize = MaterialTheme.typography.h6.fontSize,
                     text = "Search",
                     color = MaterialTheme.colors.topBarContentColor
                 )
             },
             textStyle = TextStyle(
                 fontFamily = nunitoTypeFace,
+                fontSize = MaterialTheme.typography.h6.fontSize,
                 color = MaterialTheme.colors.topBarContentColor
             ),
             singleLine = true,
@@ -100,7 +104,7 @@ fun SearchTopBar(
             ),
             keyboardActions = KeyboardActions(
                 onSearch = {
-                    onSearchClicked(text, SearchType.MovieType)
+                    onSearchClicked(text)
                 }
             ),
             colors = TextFieldDefaults.textFieldColors(
@@ -197,25 +201,17 @@ fun SearchTypeItem(
     Row(
         modifier = Modifier
             .fillMaxWidth(),
-        horizontalArrangement = Arrangement.SpaceAround
+        horizontalArrangement = Arrangement.SpaceBetween,
+        verticalAlignment = Alignment.CenterVertically
     ) {
 
-        val selected = remember {
+        val selected =
             when (searchType) {
                 is SearchType.MovieType -> radioButtonState.movieType
                 is SearchType.TvType -> radioButtonState.tvType
                 is SearchType.PersonType -> radioButtonState.personType
             }
-        }
 
-        RadioButton(
-            selected = selected,
-            onClick = onRadioButtonClicked,
-            colors = RadioButtonDefaults.colors(
-                selectedColor = MaterialTheme.colors.fabBgColor,
-                unselectedColor = MaterialTheme.colors.topBarContentColor
-            )
-        )
 
         val text = remember {
             when (searchType) {
@@ -226,10 +222,22 @@ fun SearchTypeItem(
         }
 
         Text(
+            modifier = Modifier
+                .width(80.dp),
             text = text,
             fontFamily = nunitoTypeFace,
             fontWeight = FontWeight.SemiBold,
             fontSize = MaterialTheme.typography.h6.fontSize
+        )
+
+
+        RadioButton(
+            selected = selected,
+            onClick = onRadioButtonClicked,
+            colors = RadioButtonDefaults.colors(
+                selectedColor = MaterialTheme.colors.fabBgColor,
+                unselectedColor = MaterialTheme.colors.topBarContentColor
+            )
         )
 
     }

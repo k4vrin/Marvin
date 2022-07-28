@@ -35,11 +35,11 @@ fun ConnectivityStatus(isConnected: Boolean) {
     }
 
     LaunchedEffect(key1 = isConnected) {
-        if (!isConnected) {
-            visibility = true
+        visibility = if (!isConnected) {
+            true
         } else {
             delay(1000)
-            visibility = false
+            false
         }
     }
 
@@ -50,9 +50,16 @@ fun ConnectivityStatus(isConnected: Boolean) {
 fun ConnectivityStatusBox(isConnected: Boolean) {
 
     val backgroundColor by animateColorAsState(targetValue = if (isConnected) GreenRYB else RoseMadder)
-    val message = if (isConnected) "Back Online!" else "No Internet Connection"
+    val message =
+        if (isConnected)
+            "Back Online!"
+        else
+            "No Internet Connection"
     val icon =
-        if (isConnected) R.drawable.ic_connectivity_available else R.drawable.ic_connectivity_unavailable
+        if (isConnected)
+            R.drawable.ic_connectivity_available
+        else
+            R.drawable.ic_connectivity_unavailable
 
     Box(
         modifier = Modifier

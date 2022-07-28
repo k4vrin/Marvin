@@ -150,6 +150,12 @@ class Repository @Inject constructor(
 		localDataSource.saveTvs(tvs = tvs)
 	}
 
+	///// Search /////
+
+	fun searchTvs(query: String): Flow<PagingData<Tv>> {
+		return tvRemote.searchTvs(query = query)
+	}
+
 	///////////////////////////////////////////////////////////////////////////
 	// IMDb
 	///////////////////////////////////////////////////////////////////////////
