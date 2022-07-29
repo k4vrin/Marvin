@@ -8,6 +8,7 @@ import com.kavrin.marvin.domain.model.movie.entities.Movie
 import com.kavrin.marvin.domain.model.movie.entities.relations.MovieAndPopular
 import com.kavrin.marvin.domain.model.movie.entities.relations.MovieAndTopRated
 import com.kavrin.marvin.domain.model.movie.entities.relations.MovieAndTrending
+import com.kavrin.marvin.domain.model.person.PersonApiResponse
 import com.kavrin.marvin.domain.model.tv.api.detail.SingleTvApiResponse
 import com.kavrin.marvin.domain.model.tv.entities.Tv
 import com.kavrin.marvin.domain.model.tv.entities.relations.TvAndPopular
@@ -22,6 +23,7 @@ class Repository @Inject constructor(
 	private val dataStore: DataStoreOp,
 	private val movieRemote: MovieRemoteDataSource,
 	private val tvRemote: TvRemoteDataSource,
+	private val personRemote: PersonRemoteDataSource,
 	private val imdb: IMDbDataSource,
 	private val localDataSource: LocalDataSource
 ) {
@@ -154,6 +156,14 @@ class Repository @Inject constructor(
 
 	fun searchTvs(query: String): Flow<PagingData<Tv>> {
 		return tvRemote.searchTvs(query = query)
+	}
+
+	///////////////////////////////////////////////////////////////////////////
+	// Person
+	///////////////////////////////////////////////////////////////////////////
+
+	suspend fun getPerson(id: Int): Response<PersonApiResponse> {
+		return personRemote.getPerson(id = id)
 	}
 
 	///////////////////////////////////////////////////////////////////////////
