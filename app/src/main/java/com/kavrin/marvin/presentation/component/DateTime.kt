@@ -1,8 +1,7 @@
 package com.kavrin.marvin.presentation.component
 
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.width
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
@@ -10,7 +9,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
-import com.kavrin.marvin.ui.theme.LARGE_PADDING
 import com.kavrin.marvin.ui.theme.cardContentColor
 import com.kavrin.marvin.ui.theme.nunitoTypeFace
 import com.kavrin.marvin.util.dateFormatter
@@ -24,7 +22,8 @@ fun DateTime(
 ) {
 
         Row(
-            modifier = modifier
+            modifier = modifier,
+            horizontalArrangement = Arrangement.SpaceBetween
         ) {
 
             if (!date.isNullOrBlank()) {
@@ -42,8 +41,6 @@ fun DateTime(
 
             if (time != null) {
 
-                Spacer(modifier = Modifier.width(LARGE_PADDING))
-
                 Text(
                     text = "|",
                     fontFamily = nunitoTypeFace,
@@ -54,7 +51,6 @@ fun DateTime(
                     color = MaterialTheme.colors.cardContentColor
                 )
 
-                Spacer(modifier = Modifier.width(LARGE_PADDING))
 
                 Text(
                     text = "${time}min",
@@ -70,8 +66,6 @@ fun DateTime(
 
             if (!status.isNullOrBlank()) {
 
-                Spacer(modifier = Modifier.width(LARGE_PADDING))
-
                 Text(
                     text = "|",
                     fontFamily = nunitoTypeFace,
@@ -81,8 +75,6 @@ fun DateTime(
                     overflow = TextOverflow.Ellipsis,
                     color = MaterialTheme.colors.cardContentColor
                 )
-
-                Spacer(modifier = Modifier.width(LARGE_PADDING))
 
                 Text(
                     text = status,

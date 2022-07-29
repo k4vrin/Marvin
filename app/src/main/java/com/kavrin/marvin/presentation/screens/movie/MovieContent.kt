@@ -82,6 +82,8 @@ fun MovieContent(
 
                         if (movieRuntime != null) {
                             DateTime(
+                                modifier = Modifier
+                                    .fillMaxWidth(0.8f),
                                 date = movieReleaseDate,
                                 time = movieRuntime,
                             )

@@ -13,6 +13,7 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
 import androidx.paging.compose.collectAsLazyPagingItems
 import com.google.accompanist.systemuicontroller.rememberSystemUiController
+import com.kavrin.marvin.navigation.DurationConstants
 import com.kavrin.marvin.navigation.HomeScreen
 import com.kavrin.marvin.ui.theme.statusBarColor
 import kotlinx.coroutines.delay
@@ -43,7 +44,9 @@ fun HomeScreen(
     val color = MaterialTheme.colors.statusBarColor
     val useDarkIcons = MaterialTheme.colors.isLight
     LaunchedEffect(key1 = true) {
-        delay(1700)
+        delay(
+            timeMillis = ((DurationConstants.MEDIUM + DurationConstants.EXTRA_LONG) * 0.9).toLong()
+        )
         ui.setStatusBarColor(color = color, darkIcons = useDarkIcons)
     }
 

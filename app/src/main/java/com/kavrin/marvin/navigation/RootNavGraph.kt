@@ -42,3 +42,13 @@ sealed class Graph(val route: String) {
         }
     }
 }
+
+object DurationConstants {
+
+    const val EXTRA_SHORT = 100
+    const val SHORT = 300
+    const val MEDIUM = 500
+    const val LONG = 700
+    const val EXTRA_LONG = 1000
+
+}

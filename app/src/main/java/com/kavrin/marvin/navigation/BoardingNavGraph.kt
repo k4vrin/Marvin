@@ -23,13 +23,16 @@ fun NavGraphBuilder.boardingNavGraph(navHostController: NavHostController) {
                     BoardingScreens.Welcome.route -> {
                         slideOutOfContainer(
                             towards = AnimatedContentScope.SlideDirection.Left,
-                            animationSpec = tween(durationMillis = 500)
+                            animationSpec = tween(durationMillis = DurationConstants.SHORT)
                         )
                     }
                     else -> {
                         slideOutOfContainer(
                             towards = AnimatedContentScope.SlideDirection.Up,
-                            animationSpec = tween(durationMillis = 1000, delayMillis = 700)
+                            animationSpec = tween(
+                                durationMillis = DurationConstants.MEDIUM,
+                                delayMillis = DurationConstants.EXTRA_LONG
+                            )
                         )
                     }
                 }
@@ -44,13 +47,16 @@ fun NavGraphBuilder.boardingNavGraph(navHostController: NavHostController) {
             enterTransition = {
                 slideIntoContainer(
                     towards = AnimatedContentScope.SlideDirection.Left,
-                    animationSpec = tween(durationMillis = 500)
+                    animationSpec = tween(durationMillis = DurationConstants.SHORT)
                 )
             },
             exitTransition = {
                 slideOutOfContainer(
                     towards = AnimatedContentScope.SlideDirection.Up,
-                    animationSpec = tween(durationMillis = 1000, delayMillis = 700)
+                    animationSpec = tween(
+                        durationMillis = DurationConstants.MEDIUM,
+                        delayMillis = DurationConstants.EXTRA_LONG
+                    )
                 )
             }
         ) {

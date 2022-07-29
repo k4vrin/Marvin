@@ -36,24 +36,58 @@ fun NavGraphBuilder.movieNavGraph(navHostController: NavHostController) {
             enterTransition = {
                 slideIntoContainer(
                     towards = AnimatedContentScope.SlideDirection.Up,
-                    animationSpec = tween(durationMillis = 500, delayMillis = 150)
+                    animationSpec = tween(
+                        durationMillis = DurationConstants.MEDIUM,
+                        delayMillis = DurationConstants.LONG
+                    )
                 )
             },
             exitTransition = {
-                fadeOut(
-                    tween(durationMillis = 100, delayMillis = 2000)
-                )
+                when (targetState.destination.route) {
+                    BottomBarScreen.Home.route -> {
+                        slideOutOfContainer(
+                            towards = AnimatedContentScope.SlideDirection.Down,
+                            animationSpec = tween(
+                                durationMillis = DurationConstants.MEDIUM,
+                                delayMillis = DurationConstants.LONG
+                            )
+                        )
+                    }
+                    else -> {
+                        fadeOut(
+                            tween(
+                                durationMillis = DurationConstants.EXTRA_SHORT,
+                                delayMillis = DurationConstants.EXTRA_LONG * 2
+                            )
+                        )
+                    }
+                }
             },
             popEnterTransition = {
                 fadeIn(
-                    tween(durationMillis = 50)
+                    tween(durationMillis = DurationConstants.EXTRA_SHORT)
                 )
             },
             popExitTransition = {
-                slideOutOfContainer(
-                    towards = AnimatedContentScope.SlideDirection.Down,
-                    animationSpec = tween(durationMillis = 700)
-                )
+                when (targetState.destination.route) {
+                    BottomBarScreen.Home.route -> {
+                        slideOutOfContainer(
+                            towards = AnimatedContentScope.SlideDirection.Down,
+                            animationSpec = tween(
+                                durationMillis = DurationConstants.MEDIUM,
+                                delayMillis = DurationConstants.LONG
+                            )
+                        )
+                    }
+                    else -> {
+                        slideOutOfContainer(
+                            towards = AnimatedContentScope.SlideDirection.Down,
+                            animationSpec = tween(
+                                durationMillis = DurationConstants.SHORT
+                            )
+                        )
+                    }
+                }
             }
         ) {
             MovieScreen(navHostController = navHostController)

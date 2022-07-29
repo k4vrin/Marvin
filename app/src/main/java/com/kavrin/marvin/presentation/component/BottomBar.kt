@@ -14,6 +14,7 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.currentBackStackEntryAsState
 import com.kavrin.marvin.R
 import com.kavrin.marvin.navigation.BottomBarScreen
+import com.kavrin.marvin.navigation.DurationConstants
 import com.kavrin.marvin.ui.theme.bottomNavigationBackground
 import com.kavrin.marvin.ui.theme.bottomNavigationContent
 
@@ -32,7 +33,12 @@ fun BottomBar(navHostController: NavHostController) {
 
     AnimatedVisibility(
         visible = bottomBarDestination,
-        enter = expandVertically(animationSpec = tween(200, 1700))
+        enter = expandVertically(
+            animationSpec = tween(
+                durationMillis = DurationConstants.SHORT,
+                delayMillis = DurationConstants.MEDIUM + DurationConstants.LONG
+            )
+        )
     ) {
         BottomNavigation(
             backgroundColor = MaterialTheme.colors.bottomNavigationBackground,

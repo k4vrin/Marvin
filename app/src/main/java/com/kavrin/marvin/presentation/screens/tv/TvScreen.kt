@@ -16,6 +16,7 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavHostController
 import com.google.accompanist.systemuicontroller.rememberSystemUiController
+import com.kavrin.marvin.navigation.DurationConstants
 import com.kavrin.marvin.navigation.Graph
 import com.kavrin.marvin.navigation.TvScreen
 import com.kavrin.marvin.presentation.component.EmptyContent
@@ -39,7 +40,9 @@ fun TvScreen(
     val useDarkIcons = MaterialTheme.colors.isLight
     LaunchedEffect(key1 = true) {
         tvViewModel.getTvDetails()
-        delay(650)
+        delay(
+            ((DurationConstants.MEDIUM + DurationConstants.LONG) * 0.9).toLong()
+        )
         uiController.setStatusBarColor(
             color = Color.Transparent,
             darkIcons = useDarkIcons
