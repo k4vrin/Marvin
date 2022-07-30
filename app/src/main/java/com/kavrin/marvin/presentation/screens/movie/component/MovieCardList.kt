@@ -1,6 +1,7 @@
 package com.kavrin.marvin.presentation.screens.movie.component
 
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.lazy.LazyListState
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material.MaterialTheme
@@ -19,6 +20,7 @@ import com.kavrin.marvin.ui.theme.nunitoTypeFace
 fun MovieCardList(
     cardListTitle: String,
     items: List<Movie>,
+    lazyRowState: LazyListState,
     onMovieClicked: (Int) -> Unit,
     onMenuClicked: (Int) -> Unit
 ) {
@@ -45,6 +47,7 @@ fun MovieCardList(
         }
 
         LazyRow(
+            state = lazyRowState,
             contentPadding = PaddingValues(horizontal = MEDIUM_PADDING),
             horizontalArrangement = Arrangement.spacedBy(SMALL_PADDING)
         ) {

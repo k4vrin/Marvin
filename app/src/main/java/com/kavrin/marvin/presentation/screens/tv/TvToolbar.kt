@@ -1,9 +1,7 @@
 package com.kavrin.marvin.presentation.screens.tv
 
 import androidx.compose.foundation.background
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.Icon
 import androidx.compose.material.IconButton
@@ -36,6 +34,7 @@ fun CollapsingToolbarScope.TvToolbar(
     state: CollapsingToolbarScaffoldState,
     backdrop: String?,
     title: String?,
+    subtitle: String?,
     onBackIconClicked: () -> Unit,
     onShareClicked: () -> Unit,
 ) {
@@ -61,6 +60,12 @@ fun CollapsingToolbarScope.TvToolbar(
     val titleFontSize = androidx.compose.ui.unit.lerp(
         MaterialTheme.typography.body1.fontSize,
         MaterialTheme.typography.h6.fontSize,
+        state.toolbarState.progress
+    )
+
+    val subtitleFontSize = androidx.compose.ui.unit.lerp(
+        MaterialTheme.typography.body2.fontSize,
+        MaterialTheme.typography.body1.fontSize,
         state.toolbarState.progress
     )
 
@@ -154,20 +159,40 @@ fun CollapsingToolbarScope.TvToolbar(
         )
     }
 
-    Text(
+    Column(
         modifier = Modifier
             .road(
                 whenExpanded = Alignment.BottomStart,
-                whenCollapsed = Alignment.CenterStart
+                whenCollapsed = Alignment.TopCenter
             )
             .padding(horizontal = textHorizontalPad, vertical = textVerticalPad)
-            .fillMaxWidth(),
-        text = title ?: "",
-        fontFamily = nunitoTypeFace,
-        fontSize = titleFontSize,
-        fontWeight = FontWeight.SemiBold,
-        color = textColor,
-        maxLines = 2,
-        overflow = TextOverflow.Ellipsis
-    )
+            .fillMaxWidth()
+    ) {
+
+        Text(
+            text = title ?: "",
+            fontFamily = nunitoTypeFace,
+            fontSize = titleFontSize,
+            fontWeight = FontWeight.Black,
+            color = textColor,
+            maxLines = 2,
+            overflow = TextOverflow.Ellipsis
+        )
+        subtitle?.let {
+
+            Spacer(modifier = Modifier.height(SMALL_PADDING))
+
+            Text(
+                text = "Created by $it",
+                fontFamily = nunitoTypeFace,
+                fontSize = subtitleFontSize,
+                fontWeight = FontWeight.Bold,
+                color = textColor,
+                maxLines = 2,
+                overflow = TextOverflow.Ellipsis
+            )
+
+        }
+
+    }
 }

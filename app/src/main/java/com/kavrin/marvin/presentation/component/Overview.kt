@@ -35,7 +35,7 @@ fun Overview(
 
 }
 
-@Preview
+@Preview(showBackground = true)
 @Composable
 fun OverviewPrev() {
     Overview(overview = "lorem ipsum dolor sit amet lorem ipsum dolor sit amet lorem ipsum dolor sit amet lorem ipsum dolor sit amet lorem ipsum dolor sit amet")

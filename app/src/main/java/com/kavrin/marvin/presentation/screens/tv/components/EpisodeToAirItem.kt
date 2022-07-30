@@ -77,7 +77,7 @@ fun EpisodeToAirItem(
                     style = SpanStyle(
                         fontFamily = nunitoTypeFace,
                         fontSize = MaterialTheme.typography.h6.fontSize,
-                        fontWeight = FontWeight.Bold,
+                        fontWeight = FontWeight.SemiBold,
                         color = MaterialTheme.colors.cardContentColor
                     )
                 ) {
@@ -88,7 +88,7 @@ fun EpisodeToAirItem(
                         style = SpanStyle(
                             fontFamily = nunitoTypeFace,
                             fontSize = MaterialTheme.typography.body1.fontSize,
-                            fontWeight = FontWeight.Bold,
+                            fontWeight = FontWeight.ExtraBold,
                             color = MaterialTheme.colors.cardContentColor
                         )
                     ) {

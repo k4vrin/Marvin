@@ -58,4 +58,6 @@ data class SingleTvApiResponse(
     val recommendations: TvApiResponse,
     @SerialName("similar")
     val similar: TvApiResponse,
+    @SerialName("backdrop_path")
+    val backdrop: String?,
 )

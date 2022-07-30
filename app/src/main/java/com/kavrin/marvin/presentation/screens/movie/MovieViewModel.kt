@@ -23,38 +23,29 @@ class MovieViewModel @Inject constructor(
 
     val id = savedStateHandle.get<Int>(ARGUMENT_KEY_ID)
 
-//    private val _selectedMovie: MutableStateFlow<Movie?> = MutableStateFlow(null)
-//    val selectedMovie: StateFlow<Movie?> = _selectedMovie
-
-    private val _movieDetailsResponse: MutableStateFlow<NetworkResult> =
-        MutableStateFlow(NetworkResult.Loading())
+    private val _movieDetailsResponse =
+        MutableStateFlow<NetworkResult>(NetworkResult.Loading())
     val movieDetailsResponse: StateFlow<NetworkResult> = _movieDetailsResponse
 
-    private val _movieBackdrop = MutableStateFlow<String?>(null)
-    val movieBackdrop: StateFlow<String?> = _movieBackdrop
+    private val _toolbarInfo = MutableStateFlow<Map<String, String?>>(emptyMap())
+    val toolbarInfo: StateFlow<Map<String, String?>> = _toolbarInfo
+
+    private val _releaseRuntimeStatus = MutableStateFlow<Map<String, String?>>(emptyMap())
+    val releaseRuntimeStatus: StateFlow<Map<String, String?>> = _releaseRuntimeStatus
 
     private val _movieOverview = MutableStateFlow<String?>(null)
     val movieOverview: StateFlow<String?> = _movieOverview
 
-    private val _movieTitle = MutableStateFlow<String?>(null)
-    val movieTitle: StateFlow<String?> = _movieTitle
-
-    private val _movieRelease = MutableStateFlow<String?>(null)
-    val movieRelease: StateFlow<String?> = _movieRelease
-
-    private val _movieRuntime: MutableStateFlow<Int?> = MutableStateFlow(null)
-    val movieRuntime: StateFlow<Int?> = _movieRuntime
-
-    private val _movieGenre: MutableStateFlow<List<String>?> = MutableStateFlow(null)
+    private val _movieGenre = MutableStateFlow<List<String>?>(null)
     val movieGenre: StateFlow<List<String>?> = _movieGenre
 
-    private val _movieCast: MutableStateFlow<List<Cast>?> = MutableStateFlow(null)
+    private val _movieCast = MutableStateFlow<List<Cast>?>(null)
     val movieCast: StateFlow<List<Cast>?> = _movieCast
 
-    private val _movieCrew: MutableStateFlow<List<Crew>?> = MutableStateFlow(null)
+    private val _movieCrew = MutableStateFlow<List<Crew>?>(null)
     val movieCrew: StateFlow<List<Crew>?> = _movieCrew
 
-    private val _movieTrailer: MutableStateFlow<Video?> = MutableStateFlow(null)
+    private val _movieTrailer = MutableStateFlow<Video?>(null)
     val movieTrailer: StateFlow<Video?> = _movieTrailer
 
     private val _movieVideos: MutableStateFlow<List<Video>?> = MutableStateFlow(null)
@@ -76,9 +67,9 @@ class MovieViewModel @Inject constructor(
         MutableStateFlow(NetworkResult.Loading())
     val movieCollectionRes: StateFlow<NetworkResult> = _movieCollectionRes
 
-    private val _movieCollectionName: MutableStateFlow<Map<String, String?>?> =
+    private val _movieCollectionInfo: MutableStateFlow<Map<String, String?>?> =
         MutableStateFlow(null)
-    val movieCollectionName: StateFlow<Map<String, String?>?> = _movieCollectionName
+    val movieCollectionInfo: StateFlow<Map<String, String?>?> = _movieCollectionInfo
 
     private val _movieCollection: MutableStateFlow<List<Movie>?> = MutableStateFlow(null)
     val movieCollection: StateFlow<List<Movie>?> = _movieCollection
@@ -90,42 +81,41 @@ class MovieViewModel @Inject constructor(
     private val _movieRatings: MutableStateFlow<Map<String, String?>> = MutableStateFlow(emptyMap())
     val movieRatings: StateFlow<Map<String, String?>> = _movieRatings
 
-    init {
-        getMovieDetails()
-    }
-
     fun getMovieDetails() {
         viewModelScope.launch(Dispatchers.IO) {
             _movieDetailsResponse.value = NetworkResult.Loading()
-            if (id != null) {
+            id?.let { id ->
+
                 _movieDetailsResponse.value = useCases.getMovieDetails(id = id)
-                _movieRuntime.value = useCases.getMovieDetails.getRuntime()
-                _movieGenre.value = useCases.getMovieDetails.getGenre()
-                _movieBackdrop.value = useCases.getMovieDetails.getBackdrop()
+                _toolbarInfo.value = useCases.getMovieDetails.getMovieToolbar()
+                _releaseRuntimeStatus.value = useCases.getMovieDetails.getReleaseRuntimeStatus()
+                _movieGenre.value = useCases.getMovieDetails.getGenres()
                 _movieOverview.value = useCases.getMovieDetails.getOverview()
-                _movieTitle.value = useCases.getMovieDetails.getTitle()
-                _movieRelease.value = useCases.getMovieDetails.getRelease()
-                val imdbId = useCases.getMovieDetails.getImdbId()
-//                if (!imdbId.isNullOrBlank()) {
-//                    _movieRatingResponse.value = useCases.getMovieRatings(id = imdbId)
-//                    _movieRatings.value = useCases.getMovieRatings.getRatingsValue()
-//                } else {
-//                    _movieRatingResponse.value = NetworkResult.Success()
-//                }
                 _movieCast.value = useCases.getMovieDetails.getCast()
                 _movieCrew.value = useCases.getMovieDetails.getCrew()
                 _movieTrailer.value = useCases.getMovieDetails.getOfficialTrailer()
                 _movieVideos.value = useCases.getMovieDetails.getVideos()
                 _trailerBackdrop.value = useCases.getMovieDetails.getTrailerBackdrop()
                 _movieReviews.value = useCases.getMovieDetails.getReviews()
+                _movieRecommend.value = useCases.getMovieDetails.getRecommendations()
+                _movieSimilar.value = useCases.getMovieDetails.getSimilar()
+
+                val imdbId = useCases.getMovieDetails.getImdbId()
+                if (!imdbId.isNullOrBlank()) {
+                    _movieRatingResponse.value = useCases.getMovieRatings(id = imdbId)
+                    _movieRatings.value = useCases.getMovieRatings.getRatingsValue()
+                } else {
+                    _movieRatingResponse.value = NetworkResult.Success()
+                }
+
                 val collectionId = useCases.getMovieDetails.getCollectionId()
                 if (collectionId != null) {
                     _movieCollectionRes.value = useCases.getCollection(id = collectionId)
-                    _movieCollectionName.value = useCases.getCollection.getCollectionNameAndOverview()
+                    _movieCollectionInfo.value =
+                        useCases.getCollection.getCollectionNameAndOverview()
                     _movieCollection.value = useCases.getCollection.getCollectionMovies()
                 }
-                _movieRecommend.value = useCases.getMovieDetails.getRecommendations()
-                _movieSimilar.value = useCases.getMovieDetails.getSimilar()
+
             }
         }
     }

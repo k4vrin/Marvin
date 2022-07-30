@@ -2,7 +2,7 @@
   "formatVersion": 1,
   "database": {
     "version": 1,
-    "identityHash": "b917d2c3f49f644c14c75724df19a6d9",
+    "identityHash": "5ae9ff01bb24f78fa07796928287edf3",
     "entities": [
       {
         "tableName": "playlist_table",
@@ -84,7 +84,7 @@
       },
       {
         "tableName": "movie_table",
-        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`localId` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `adult` INTEGER NOT NULL, `backdropPath` TEXT, `genreIds` TEXT NOT NULL, `movieId` INTEGER NOT NULL, `originalLanguage` TEXT NOT NULL, `originalTitle` TEXT NOT NULL, `overview` TEXT NOT NULL, `popularity` REAL NOT NULL, `posterPath` TEXT, `releaseDate` TEXT NOT NULL, `title` TEXT NOT NULL, `video` INTEGER NOT NULL, `voteAverage` REAL NOT NULL, `voteCount` INTEGER NOT NULL)",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`localId` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `adult` INTEGER NOT NULL, `backdropPath` TEXT, `genreIds` TEXT NOT NULL, `movieId` INTEGER NOT NULL, `originalLanguage` TEXT NOT NULL, `originalTitle` TEXT NOT NULL, `overview` TEXT NOT NULL, `popularity` REAL NOT NULL, `posterPath` TEXT, `releaseDate` TEXT, `title` TEXT NOT NULL, `video` INTEGER NOT NULL, `voteAverage` REAL NOT NULL, `voteCount` INTEGER NOT NULL)",
         "fields": [
           {
             "fieldPath": "localId",
@@ -150,7 +150,7 @@
             "fieldPath": "releaseDate",
             "columnName": "releaseDate",
             "affinity": "TEXT",
-            "notNull": true
+            "notNull": false
           },
           {
             "fieldPath": "title",
@@ -505,7 +505,7 @@
       },
       {
         "tableName": "tv_table",
-        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`localId` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `backdropPath` TEXT, `firstAirDate` TEXT NOT NULL, `genreIds` TEXT NOT NULL, `tvId` INTEGER NOT NULL, `name` TEXT NOT NULL, `originalLanguage` TEXT NOT NULL, `originalName` TEXT NOT NULL, `overview` TEXT NOT NULL, `popularity` REAL NOT NULL, `posterPath` TEXT, `voteAverage` REAL NOT NULL, `voteCount` INTEGER NOT NULL)",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`localId` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `backdropPath` TEXT, `firstAirDate` TEXT, `genreIds` TEXT NOT NULL, `tvId` INTEGER NOT NULL, `name` TEXT NOT NULL, `originalLanguage` TEXT NOT NULL, `originalName` TEXT NOT NULL, `overview` TEXT NOT NULL, `popularity` REAL NOT NULL, `posterPath` TEXT, `voteAverage` REAL NOT NULL, `voteCount` INTEGER NOT NULL)",
         "fields": [
           {
             "fieldPath": "localId",
@@ -523,7 +523,7 @@
             "fieldPath": "firstAirDate",
             "columnName": "firstAirDate",
             "affinity": "TEXT",
-            "notNull": true
+            "notNull": false
           },
           {
             "fieldPath": "genreIds",
@@ -916,7 +916,7 @@
     "views": [],
     "setupQueries": [
       "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
-      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, 'b917d2c3f49f644c14c75724df19a6d9')"
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, '5ae9ff01bb24f78fa07796928287edf3')"
     ]
   }
 }

@@ -22,8 +22,8 @@ class SearchTvSource(
             if (tvs.isNotEmpty()) {
                 LoadResult.Page(
                     data = tvs,
-                    prevKey = page - 1,
-                    nextKey = page + 1
+                    prevKey = if (page == 1) null else page - 1,
+                    nextKey = if (page == apiResponse.totalPages) null else page + 1
                 )
             } else {
                 LoadResult.Page(

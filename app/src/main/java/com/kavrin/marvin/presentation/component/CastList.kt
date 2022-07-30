@@ -1,9 +1,9 @@
 package com.kavrin.marvin.presentation.component
 
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.lazy.LazyListState
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
-import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
@@ -20,11 +20,10 @@ import com.kavrin.marvin.ui.theme.nunitoTypeFace
 
 @Composable
 fun CastList(
+    lazyRowState: LazyListState,
     cast: List<Cast>,
     onCastClicked: (Int) -> Unit
 ) {
-
-    val listState = rememberLazyListState()
 
     Column(
         modifier = Modifier
@@ -49,7 +48,7 @@ fun CastList(
         }
 
         LazyRow(
-            state = listState,
+            state = lazyRowState,
             contentPadding = PaddingValues(horizontal = MEDIUM_PADDING),
             horizontalArrangement = Arrangement.spacedBy(SMALL_PADDING)
         ) {
@@ -77,11 +76,10 @@ fun CastList(
 
 @Composable
 fun CrewList(
+    lazyRowState: LazyListState,
     crew: List<Crew>,
     onCrewClicked: (Int) -> Unit
 ) {
-
-    val listState = rememberLazyListState()
 
     Column(
         modifier = Modifier
@@ -106,7 +104,7 @@ fun CrewList(
         }
 
         LazyRow(
-            state = listState,
+            state = lazyRowState,
             contentPadding = PaddingValues(horizontal = MEDIUM_PADDING),
             horizontalArrangement = Arrangement.spacedBy(SMALL_PADDING)
         ) {

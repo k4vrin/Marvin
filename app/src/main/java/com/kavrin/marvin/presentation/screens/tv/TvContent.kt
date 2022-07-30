@@ -3,6 +3,7 @@ package com.kavrin.marvin.presentation.screens.tv
 import androidx.compose.foundation.ScrollState
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.lazy.LazyListState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.Card
 import androidx.compose.material.Divider
@@ -12,24 +13,23 @@ import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.RectangleShape
 import com.kavrin.marvin.domain.model.common.*
 import com.kavrin.marvin.domain.model.tv.api.detail.EpisodeToAir
 import com.kavrin.marvin.domain.model.tv.api.detail.Season
 import com.kavrin.marvin.domain.model.tv.entities.Tv
+import com.kavrin.marvin.domain.use_cases.tv.TvUseCaseKeys
 import com.kavrin.marvin.presentation.component.*
 import com.kavrin.marvin.presentation.screens.tv.components.EpisodeToAirCard
 import com.kavrin.marvin.presentation.screens.tv.components.SeasonList
 import com.kavrin.marvin.presentation.screens.tv.components.TvCardList
 import com.kavrin.marvin.ui.theme.*
-import com.kavrin.marvin.util.Constants.TV_RUNTIME_KEY
-import com.kavrin.marvin.util.Constants.TV_STATUS_KEY
-import com.kavrin.marvin.util.Constants.TV_TOTAL_EPISODE_KEY
 import me.onebone.toolbar.CollapsingToolbarScaffoldState
 
 @Composable
 fun TvContent(
-    tv: Tv?,
     tvRuntimeDateStatus: Map<String, String?>,
+    overviewTotal: Map<String, String?>,
     tvGenres: List<String>?,
     tvRatings: Map<String, String?>,
     tvCast: List<Cast>?,
@@ -44,6 +44,12 @@ fun TvContent(
     tvEpisodesToAir: Map<String, EpisodeToAir?>,
     toolbarState: CollapsingToolbarScaffoldState,
     scrollState: ScrollState,
+    reviewState: LazyListState,
+    castState: LazyListState,
+    crewState: LazyListState,
+    similarState: LazyListState,
+    recommendState: LazyListState,
+    videosState: LazyListState,
     onPersonClicked: (Int) -> Unit,
     onReviewClicked: (String) -> Unit,
     onVideoClicked: (String) -> Unit,
@@ -72,10 +78,8 @@ fun TvContent(
             verticalArrangement = Arrangement.spacedBy(SMALL_PADDING)
         ) {
             Card(
-                modifier = Modifier
-                    .padding(all = EXTRA_SMALL_PADDING)
-                    .wrapContentHeight(),
-                backgroundColor = MaterialTheme.colors.cardColor
+                backgroundColor = MaterialTheme.colors.primaryCardColor,
+                shape = RectangleShape
             ) {
                 Column(
                     modifier = Modifier
@@ -83,24 +87,26 @@ fun TvContent(
                         .padding(all = SMALL_PADDING)
                 ) {
 
-                    if (tv != null) {
+                    if (tvRuntimeDateStatus.isNotEmpty()) {
                         DateTime(
                             modifier = Modifier
                                 .fillMaxWidth(0.8f),
-                            date = tv.firstAirDate,
-                            time = tvRuntimeDateStatus[TV_RUNTIME_KEY]?.toInt(),
-                            status = tvRuntimeDateStatus[TV_STATUS_KEY]
+                            date = tvRuntimeDateStatus[TvUseCaseKeys.DATE],
+                            time = tvRuntimeDateStatus[TvUseCaseKeys.RUNTIME]?.toInt(),
+                            status = tvRuntimeDateStatus[TvUseCaseKeys.STATUS]
                         )
                     }
 
-                    if (tv != null && tv.overview.isNotBlank()) {
-                        Divider(
-                            modifier = Modifier
-                                .padding(vertical = MEDIUM_PADDING),
-                            color = MaterialTheme.colors.cardContentColor.copy(alpha = 0.2f),
-                        )
+                    if (!overviewTotal[TvUseCaseKeys.OVERVIEW].isNullOrEmpty()) {
+                        overviewTotal[TvUseCaseKeys.OVERVIEW]?.let {
+                            Divider(
+                                modifier = Modifier
+                                    .padding(vertical = MEDIUM_PADDING),
+                                color = MaterialTheme.colors.cardContentColor.copy(alpha = 0.2f),
+                            )
 
-                        Overview(overview = tv.overview)
+                            Overview(overview = it)
+                        }
                     }
 
                     if (!tvGenres.isNullOrEmpty()) {
@@ -121,10 +127,8 @@ fun TvContent(
             if (tvRatings.isNotEmpty()) {
                 ///// Ratings /////
                 Card(
-                    modifier = Modifier
-                        .padding(all = EXTRA_SMALL_PADDING)
-                        .wrapContentHeight(),
-                    backgroundColor = MaterialTheme.colors.cardColor
+                    backgroundColor = MaterialTheme.colors.primaryCardColor,
+                    shape = RectangleShape
                 ) {
                     Column(
                         modifier = Modifier
@@ -139,28 +143,53 @@ fun TvContent(
 
         ///// Cast List /////
         if (!tvCast.isNullOrEmpty()) {
-            CastList(
-                cast = tvCast,
-                onCastClicked = {
-                    onPersonClicked(it)
+            Card(
+                backgroundColor = MaterialTheme.colors.primaryCardColor,
+                shape = RectangleShape
+            ) {
+                Column(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(vertical = MEDIUM_PADDING)
+                ) {
+                    CastList(
+                        lazyRowState = castState,
+                        cast = tvCast,
+                        onCastClicked = {
+                            onPersonClicked(it)
+                        }
+                    )
+
                 }
-            )
+            }
         }
 
         ///// Crew List /////
         if (!tvCrew.isNullOrEmpty()) {
-            CrewList(
-                crew = tvCrew,
-                onCrewClicked = {
-                    onPersonClicked(it)
+            Card(
+                backgroundColor = MaterialTheme.colors.primaryCardColor,
+                shape = RectangleShape
+            ) {
+                Column(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(vertical = MEDIUM_PADDING)
+                ) {
+                    CrewList(
+                        lazyRowState = crewState,
+                        crew = tvCrew,
+                        onCrewClicked = {
+                            onPersonClicked(it)
+                        }
+                    )
                 }
-            )
+            }
         }
 
         if (tvEpisodesToAir.isNotEmpty()) {
             EpisodeToAirCard(
                 episodes = tvEpisodesToAir,
-                totalEpisodes = tvRuntimeDateStatus[TV_TOTAL_EPISODE_KEY]?.toInt(),
+                totalEpisodes = overviewTotal[TvUseCaseKeys.TOTAL_EPISODES]?.toInt(),
                 onEpisodeClicked = {
                     onEpisodeClicked(it)
                 }
@@ -177,41 +206,89 @@ fun TvContent(
         }
 
         if (!tvVideos.isNullOrEmpty()) {
-            VideoSection(
-                trailer = tvTrailer,
-                videos = tvVideos,
-                trailerBackdrop = tvTrailerBackdrop,
-                onItemClick = {
-                    onVideoClicked(it)
+            Card(
+                backgroundColor = MaterialTheme.colors.primaryCardColor,
+                shape = RectangleShape
+            ) {
+                Column(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(vertical = MEDIUM_PADDING)
+                ) {
+                    VideoSection(
+                        lazyRowState = videosState,
+                        trailer = tvTrailer,
+                        videos = tvVideos,
+                        trailerBackdrop = tvTrailerBackdrop,
+                        onItemClick = {
+                            onVideoClicked(it)
+                        }
+                    )
                 }
-            )
+            }
         }
 
         if (!tvReviews.isNullOrEmpty()) {
-            ReviewList(
-                reviews = tvReviews,
-                onReviewClicked = {
-                    onReviewClicked(it)
+            Card(
+                backgroundColor = MaterialTheme.colors.primaryCardColor,
+                shape = RectangleShape
+            ) {
+                Column(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(vertical = MEDIUM_PADDING)
+                ) {
+                    ReviewList(
+                        lazyRowState = reviewState,
+                        reviews = tvReviews,
+                        onReviewClicked = {
+                            onReviewClicked(it)
+                        }
+                    )
                 }
-            )
+            }
         }
 
         if (!tvSimilar.isNullOrEmpty()) {
-            TvCardList(
-                cardListTitle = "Similar",
-                items = tvSimilar,
-                onTvClicked = { onTvClicked(it) },
-                onMenuClicked = { onMenuClicked(it) }
-            )
+            Card(
+                backgroundColor = MaterialTheme.colors.primaryCardColor,
+                shape = RectangleShape
+            ) {
+                Column(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(vertical = MEDIUM_PADDING)
+                ) {
+                    TvCardList(
+                        lazyListState = similarState,
+                        cardListTitle = "Similar",
+                        items = tvSimilar,
+                        onTvClicked = { onTvClicked(it) },
+                        onMenuClicked = { onMenuClicked(it) }
+                    )
+                }
+            }
         }
 
         if (!tvRecommended.isNullOrEmpty()) {
-            TvCardList(
-                cardListTitle = "Recommendation",
-                items = tvRecommended,
-                onTvClicked = { onTvClicked(it) },
-                onMenuClicked = { onMenuClicked(it) }
-            )
+            Card(
+                backgroundColor = MaterialTheme.colors.primaryCardColor,
+                shape = RectangleShape
+            ) {
+                Column(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(vertical = MEDIUM_PADDING)
+                ) {
+                    TvCardList(
+                        lazyListState = recommendState,
+                        cardListTitle = "Recommendation",
+                        items = tvRecommended,
+                        onTvClicked = { onTvClicked(it) },
+                        onMenuClicked = { onMenuClicked(it) }
+                    )
+                }
+            }
         }
 
 

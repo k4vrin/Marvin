@@ -13,6 +13,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.draw.rotate
+import androidx.compose.ui.graphics.RectangleShape
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import com.kavrin.marvin.domain.model.tv.api.detail.Season
@@ -31,9 +32,8 @@ fun SeasonList(
     )
 
     Card(
-        modifier = Modifier
-            .padding(horizontal = EXTRA_SMALL_PADDING),
-        backgroundColor = MaterialTheme.colors.cardColor,
+        backgroundColor = MaterialTheme.colors.primaryCardColor,
+        shape = RectangleShape,
         onClick = { expandedState = !expandedState }
     ) {
 
@@ -59,49 +59,69 @@ fun SeasonList(
                     color = MaterialTheme.colors.cardContentColor
                 )
 
-                IconButton(
-                    modifier = Modifier
-                        .alpha(ContentAlpha.medium)
-                        .rotate(rotationState),
-                    onClick = { expandedState = !expandedState },
-                ) {
-                    Icon(
-                        imageVector = Icons.Default.ArrowDropDown,
-                        contentDescription = "DropDow Arrow"
-                    )
+                if (seasons.size > 1) {
+                    IconButton(
+                        modifier = Modifier
+                            .alpha(ContentAlpha.medium)
+                            .rotate(rotationState),
+                        onClick = { expandedState = !expandedState },
+                    ) {
+                        Icon(
+                            imageVector = Icons.Default.ArrowDropDown,
+                            contentDescription = "DropDow Arrow"
+                        )
+                    }
                 }
 
             }
 
-            AnimatedVisibility(
-                visible = expandedState,
-                enter = expandVertically(
-                    expandFrom = Alignment.Top
-                ),
-                exit = shrinkVertically(
-                    shrinkTowards = Alignment.Top
-                )
-            ) {
-                Spacer(modifier = Modifier.height(MEDIUM_PADDING))
+            Spacer(modifier = Modifier.height(MEDIUM_PADDING))
 
-                Column {
-                    seasons.forEach { season ->
 
-                        SeasonItem(
-                            season = season,
-                            onSeasonClicked = {
-                                onSeasonClicked(it)
-                            }
+
+            SeasonItem(
+                season = seasons.first(),
+                onSeasonClicked = {
+                    onSeasonClicked(it)
+                }
+            )
+
+            if (seasons.size > 1) {
+                AnimatedVisibility(
+                    visible = expandedState,
+                    enter = expandVertically(
+                        expandFrom = Alignment.Top
+                    ),
+                    exit = shrinkVertically(
+                        shrinkTowards = Alignment.Top
+                    )
+                ) {
+                    Column {
+
+                        Divider(
+                            modifier = Modifier
+                                .padding(vertical = EXTRA_SMALL_PADDING),
+                            color = MaterialTheme.colors.cardContentColor.copy(alpha = 0.2f),
                         )
 
-                        if (season != seasons.last()) {
-                            Divider(
-                                modifier = Modifier
-                                    .padding(vertical = EXTRA_SMALL_PADDING),
-                                color = MaterialTheme.colors.cardContentColor.copy(alpha = 0.2f),
-                            )
-                        }
+                        seasons.drop(1).forEach { season ->
 
+                            SeasonItem(
+                                season = season,
+                                onSeasonClicked = {
+                                    onSeasonClicked(it)
+                                }
+                            )
+
+                            if (season != seasons.last()) {
+                                Divider(
+                                    modifier = Modifier
+                                        .padding(vertical = EXTRA_SMALL_PADDING),
+                                    color = MaterialTheme.colors.cardContentColor.copy(alpha = 0.2f),
+                                )
+                            }
+
+                        }
                     }
                 }
             }
@@ -116,6 +136,7 @@ fun SeasonList(
 @Preview
 @Composable
 fun SeasonListPreview() {
+
     SeasonList(
         seasons = listOf(
             Season(

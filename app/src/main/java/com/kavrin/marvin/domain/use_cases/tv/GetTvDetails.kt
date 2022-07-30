@@ -6,12 +6,6 @@ import com.kavrin.marvin.domain.model.tv.api.detail.EpisodeToAir
 import com.kavrin.marvin.domain.model.tv.api.detail.Season
 import com.kavrin.marvin.domain.model.tv.api.detail.SingleTvApiResponse
 import com.kavrin.marvin.domain.model.tv.entities.Tv
-import com.kavrin.marvin.util.Constants.LAST_EPISODE_KEY
-import com.kavrin.marvin.util.Constants.NEXT_EPISODE_KEY
-import com.kavrin.marvin.util.Constants.TV_DATE_KEY
-import com.kavrin.marvin.util.Constants.TV_RUNTIME_KEY
-import com.kavrin.marvin.util.Constants.TV_STATUS_KEY
-import com.kavrin.marvin.util.Constants.TV_TOTAL_EPISODE_KEY
 import com.kavrin.marvin.util.NetworkResult
 import kotlin.random.Random
 
@@ -48,16 +42,60 @@ class GetTvDetails(
         return data?.externalIds?.imdbId
     }
 
+    fun getToolbarInfo(): Map<String, String?> {
+        return buildMap {
+            put(
+                key = TvUseCaseKeys.TITLE,
+                value = data?.name
+            )
+            put(
+                key = TvUseCaseKeys.BACKDROP,
+                value = data?.backdrop
+            )
+            put(
+                key = TvUseCaseKeys.CREATORS,
+                value = data
+                    ?.createdBy
+                    ?.joinToString { it.name }
+            )
+        }
+    }
+
     fun getRuntimeStatusDateTotal(): Map<String, String?> {
 
-        return mapOf(
-            TV_RUNTIME_KEY to data?.episodeRunTime?.let {
-                if (it.isNotEmpty()) it.first().toString() else null
-            },
-            TV_STATUS_KEY to data?.status?.split(" ")?.first(),
-            TV_DATE_KEY to data?.firstAirDate,
-            TV_TOTAL_EPISODE_KEY to data?.numberOfEpisodes?.toString()
-        )
+        return buildMap {
+            put(
+                key = TvUseCaseKeys.RUNTIME,
+                value = data
+                    ?.episodeRunTime
+                    ?.let {
+                        if (it.isNotEmpty()) it.first().toString() else null
+                    }
+            )
+
+            put(
+                key = TvUseCaseKeys.STATUS,
+                value = data?.status?.split(" ")?.first()
+            )
+
+            put(
+                key = TvUseCaseKeys.DATE,
+                value = data?.firstAirDate
+            )
+        }
+    }
+
+    fun getOverviewTotalEpisodes(): Map<String, String?> {
+        return buildMap {
+            put(
+                key = TvUseCaseKeys.TOTAL_EPISODES,
+                value = data?.numberOfEpisodes?.toString()
+            )
+            put(
+                key = TvUseCaseKeys.OVERVIEW,
+                value = data?.overview
+            )
+        }
     }
 
     fun getGenres(): List<String>? {
@@ -86,12 +124,14 @@ class GetTvDetails(
                 )
             }
             data?.credits?.crew?.filter {
-                it.job == "Producer" || it.job == "Executive Producer"
+                it.job == "Producer" || it.job == "Story" || it.job == "Writer" || it.job == "Screenplay"
             }
                 ?.sortedWith(
                     compareBy(
                         { it.job == "Producer" },
-                        { it.job == "Executive Producer" },
+                        { it.job == "Writer" },
+                        { it.job == "Story" },
+                        { it.job == "Screenplay" },
                     )
                 )?.let {
                     addAll(it)
@@ -131,8 +171,8 @@ class GetTvDetails(
 
     fun getEpisodesToAir(): Map<String, EpisodeToAir?> {
         return buildMap {
-            put(key = LAST_EPISODE_KEY, value = data?.lastEpisodeToAir)
-            put(key = NEXT_EPISODE_KEY, value = data?.nextEpisodeToAir)
+            put(key = TvUseCaseKeys.LAST_EPISODES, value = data?.lastEpisodeToAir)
+            put(key = TvUseCaseKeys.NEXT_EPISODES, value = data?.nextEpisodeToAir)
         }
     }
 
@@ -145,4 +185,17 @@ class GetTvDetails(
     }
 
 
+}
+
+object TvUseCaseKeys {
+    const val TITLE = "title"
+    const val BACKDROP = "backdrop"
+    const val CREATORS = "creators"
+    const val RUNTIME = "runtime"
+    const val STATUS = "status"
+    const val DATE = "date"
+    const val OVERVIEW = "overview"
+    const val TOTAL_EPISODES = "total_episode"
+    const val LAST_EPISODES = "last_episode"
+    const val NEXT_EPISODES = "next_episode"
 }

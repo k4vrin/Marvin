@@ -29,7 +29,7 @@ fun SeeAllCard(
                 elevation = 2.dp
             ),
         shape = RoundedCornerShape(size = MEDIUM_PADDING),
-        backgroundColor = MaterialTheme.colors.cardColor,
+        backgroundColor = MaterialTheme.colors.secondaryCardColor,
         onClick = onCardClicked
     ) {
 

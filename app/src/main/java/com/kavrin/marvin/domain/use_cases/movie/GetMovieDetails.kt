@@ -35,56 +35,92 @@ class GetMovieDetails(
         }
     }
 
-    fun getTitle(): String? {
-        return data?.title
+    fun getImdbId(): String? {
+        return data?.imdbId
     }
 
-    fun getRelease(): String? {
-        return data?.releaseDate
+    fun getMovieToolbar(): Map<String, String?> {
+        return buildMap {
+            put(
+                key = MovieUseCaseKeys.TITLE,
+                value = data?.title
+            )
+            put(
+                key = MovieUseCaseKeys.DIRECTOR,
+                value = data?.credits?.crew?.filter {
+                    it.job == "Director"
+                }?.joinToString {
+                    it.name
+                }
+            )
+            put(
+                key = MovieUseCaseKeys.BACKDROP,
+                value = data?.backdrop
+            )
+        }
     }
 
-    fun getBackdrop(): String? {
-        return data?.backdrop
+    fun getReleaseRuntimeStatus(): Map<String, String?> {
+        return buildMap {
+            put(
+                key = MovieUseCaseKeys.RELEASE_DATE,
+                value = data?.releaseDate
+            )
+
+            put(
+                key = MovieUseCaseKeys.RUNTIME,
+                value = data?.runtime?.toString()
+            )
+
+            put(
+                key = MovieUseCaseKeys.STATUS,
+                value = data?.status
+            )
+        }
     }
 
     fun getOverview(): String? {
         return data?.overview
     }
 
-    fun getRuntime(): Int? {
-        return data?.runtime
-    }
-
-    fun getGenre(): List<String>? {
+    fun getGenres(): List<String>? {
         return data?.genres?.map {
             it.name
         }
     }
 
-    fun getImdbId(): String? {
-        return data?.imdbId
-    }
-
     fun getOfficialTrailer(): Video? {
-        return data?.videos?.videos?.find {
-            (it.site == "YouTube" && it.name.lowercase().contains("trailer") && it.official)
-                    || (it.site == "YouTube" && it.name.lowercase().contains("trailer"))
-        }
+        return data
+            ?.videos
+            ?.videos
+            ?.find {
+                (it.site == "YouTube" && it.name.lowercase().contains("trailer") && it.official)
+                        || (it.site == "YouTube" && it.name.lowercase().contains("trailer"))
+            }
     }
 
     fun getVideos(): List<Video>? {
-        return data?.videos?.videos?.filter {
-            it.site == "YouTube"
-        }
+        return data
+            ?.videos
+            ?.videos
+            ?.filter {
+                it.site == "YouTube"
+            }
     }
 
     fun getTrailerBackdrop(): Backdrop? {
         return if (!data?.images?.backdrops.isNullOrEmpty()) {
-            data?.images?.backdrops?.size?.let { Random.nextInt(until = it) }?.let {
-                data?.images?.backdrops?.get(
-                    it
-                )
-            }
+            data
+                ?.images
+                ?.backdrops
+                ?.size
+                ?.let { size -> Random.nextInt(until = size) }
+                ?.let { index ->
+                    data
+                        ?.images
+                        ?.backdrops
+                        ?.get(index)
+                }
         } else
             null
 
@@ -125,4 +161,13 @@ class GetMovieDetails(
     fun getSimilar(): List<Movie>? {
         return data?.similar?.movies
     }
+}
+
+object MovieUseCaseKeys {
+    const val TITLE = "title"
+    const val DIRECTOR = "director"
+    const val BACKDROP = "backdrop"
+    const val RELEASE_DATE = "release"
+    const val RUNTIME = "runtime"
+    const val STATUS = "status"
 }

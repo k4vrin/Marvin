@@ -1,6 +1,7 @@
 package com.kavrin.marvin.presentation.screens.tv.components
 
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.lazy.LazyListState
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material.MaterialTheme
@@ -17,6 +18,7 @@ import com.kavrin.marvin.ui.theme.nunitoTypeFace
 
 @Composable
 fun TvCardList(
+    lazyListState: LazyListState,
     cardListTitle: String,
     items: List<Tv>,
     onTvClicked: (Int) -> Unit,
@@ -45,6 +47,7 @@ fun TvCardList(
         }
 
         LazyRow(
+            state = lazyListState,
             contentPadding = PaddingValues(horizontal = MEDIUM_PADDING),
             horizontalArrangement = Arrangement.spacedBy(SMALL_PADDING)
         ) {

@@ -28,6 +28,7 @@ fun SearchScreen(
     val movie = searchViewModel.movie.collectAsLazyPagingItems()
     val tv = searchViewModel.tv.collectAsLazyPagingItems()
 
+
     val gridState = rememberLazyGridState()
     val scaffoldState = rememberScaffoldState()
 
@@ -35,7 +36,10 @@ fun SearchScreen(
         searchViewModel.eventFlow.collectLatest { event ->
             when (event) {
                 is UiEvent.ShowErrorStatus -> {
-                    searchViewModel.updateErrorStatus(showError = true, errorMessage = event.message)
+                    searchViewModel.updateErrorStatus(
+                        showError = true,
+                        errorMessage = event.message
+                    )
                 }
                 is UiEvent.ShowSnackbar -> {}
             }
@@ -65,6 +69,7 @@ fun SearchScreen(
             )
         }
     ) {
+
         SearchContent(
             movie = movie,
             tv = tv,
@@ -82,6 +87,7 @@ fun SearchScreen(
             },
             onMenuClicked = {}
         )
+
     }
 
 }

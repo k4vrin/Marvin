@@ -5,6 +5,7 @@ import android.content.Intent
 import android.net.Uri
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.material.MaterialTheme
 import androidx.compose.runtime.*
@@ -13,8 +14,10 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavHostController
 import com.google.accompanist.systemuicontroller.rememberSystemUiController
+import com.kavrin.marvin.domain.use_cases.movie.MovieUseCaseKeys
 import com.kavrin.marvin.navigation.DurationConstants
 import com.kavrin.marvin.navigation.Graph
 import com.kavrin.marvin.navigation.MovieScreen
@@ -33,11 +36,13 @@ fun MovieScreen(
     movieViewModel: MovieViewModel = hiltViewModel()
 ) {
 
+    val context = LocalContext.current
 
     ///// Status Bar /////
     val uiController = rememberSystemUiController()
     val useDarkIcons = MaterialTheme.colors.isLight
     LaunchedEffect(key1 = true) {
+        movieViewModel.getMovieDetails()
         delay(
             ((DurationConstants.MEDIUM + DurationConstants.LONG) * 0.9).toLong()
         )
@@ -47,28 +52,25 @@ fun MovieScreen(
         )
     }
 
-    val context = LocalContext.current
 
-    val movieDetailsResultState by movieViewModel.movieDetailsResponse.collectAsState()
-    val movieRatingsResultState by movieViewModel.movieRatingResponse.collectAsState()
-    val movieCollectionResultState by movieViewModel.movieCollectionRes.collectAsState()
-    val movieBackdrop by movieViewModel.movieBackdrop.collectAsState()
-    val movieTitle by movieViewModel.movieTitle.collectAsState()
-    val movieOverview by movieViewModel.movieOverview.collectAsState()
-    val movieRelease by movieViewModel.movieRelease.collectAsState()
-    val movieRuntime by movieViewModel.movieRuntime.collectAsState()
-    val movieGenres by movieViewModel.movieGenre.collectAsState()
-    val movieRatings by movieViewModel.movieRatings.collectAsState()
-    val movieCast by movieViewModel.movieCast.collectAsState()
-    val movieCrew by movieViewModel.movieCrew.collectAsState()
-    val movieTrailer by movieViewModel.movieTrailer.collectAsState()
-    val movieVideos by movieViewModel.movieVideos.collectAsState()
-    val trailerBackdrop by movieViewModel.trailerBackdrop.collectAsState()
-    val movieReviews by movieViewModel.movieReviews.collectAsState()
-    val movieCollectionName by movieViewModel.movieCollectionName.collectAsState()
-    val movieCollection by movieViewModel.movieCollection.collectAsState()
-    val recommendation by movieViewModel.movieRecommend.collectAsState()
-    val similar by movieViewModel.movieSimilar.collectAsState()
+    val movieDetailsResultState by movieViewModel.movieDetailsResponse.collectAsStateWithLifecycle()
+    val movieRatingsResultState by movieViewModel.movieRatingResponse.collectAsStateWithLifecycle()
+    val movieCollectionResultState by movieViewModel.movieCollectionRes.collectAsStateWithLifecycle()
+    val movieToolbarInfo by movieViewModel.toolbarInfo.collectAsStateWithLifecycle()
+    val movieReleaseRuntimeStatus by movieViewModel.releaseRuntimeStatus.collectAsStateWithLifecycle()
+    val movieOverview by movieViewModel.movieOverview.collectAsStateWithLifecycle()
+    val movieGenres by movieViewModel.movieGenre.collectAsStateWithLifecycle()
+    val movieRatings by movieViewModel.movieRatings.collectAsStateWithLifecycle()
+    val movieCast by movieViewModel.movieCast.collectAsStateWithLifecycle()
+    val movieCrew by movieViewModel.movieCrew.collectAsStateWithLifecycle()
+    val movieTrailer by movieViewModel.movieTrailer.collectAsStateWithLifecycle()
+    val movieVideos by movieViewModel.movieVideos.collectAsStateWithLifecycle()
+    val trailerBackdrop by movieViewModel.trailerBackdrop.collectAsStateWithLifecycle()
+    val movieReviews by movieViewModel.movieReviews.collectAsStateWithLifecycle()
+    val movieCollectionName by movieViewModel.movieCollectionInfo.collectAsStateWithLifecycle()
+    val movieCollection by movieViewModel.movieCollection.collectAsStateWithLifecycle()
+    val recommendation by movieViewModel.movieRecommend.collectAsStateWithLifecycle()
+    val similar by movieViewModel.movieSimilar.collectAsStateWithLifecycle()
 
 
     ///// Handle Errors /////
@@ -89,6 +91,14 @@ fun MovieScreen(
     val collapsingToolbarState = rememberCollapsingToolbarScaffoldState()
     val scrollState = rememberScrollState()
 
+    val reviewState = rememberLazyListState()
+    val recommendState = rememberLazyListState()
+    val similarState = rememberLazyListState()
+    val videosState = rememberLazyListState()
+    val castState = rememberLazyListState()
+    val crewState = rememberLazyListState()
+    val collectionState = rememberLazyListState()
+
     if (result) {
         Box(
             modifier = Modifier
@@ -96,15 +106,15 @@ fun MovieScreen(
         ) {
 
             CollapsingToolbarScaffold(
-                modifier = Modifier
-                    .fillMaxSize(),
+                modifier = Modifier,
                 state = collapsingToolbarState,
                 scrollStrategy = ScrollStrategy.ExitUntilCollapsed,
                 toolbar = {
                     MovieToolbar(
                         state = collapsingToolbarState,
-                        backdrop = movieBackdrop,
-                        title = movieTitle,
+                        backdrop = movieToolbarInfo[MovieUseCaseKeys.BACKDROP],
+                        title = movieToolbarInfo[MovieUseCaseKeys.TITLE],
+                        subtitle = movieToolbarInfo[MovieUseCaseKeys.DIRECTOR],
                         onBackIconClicked = {
                             navHostController.popBackStack()
                         },
@@ -116,10 +126,9 @@ fun MovieScreen(
             ) {
 
                 MovieContent(
+                    movieReleaseRuntimeStatus = movieReleaseRuntimeStatus,
                     movieOverview = movieOverview,
-                    movieReleaseDate = movieRelease,
                     movieRatings = movieRatings,
-                    movieRuntime = movieRuntime,
                     movieGenres = movieGenres,
                     movieCast = movieCast,
                     movieCrew = movieCrew,
@@ -133,6 +142,13 @@ fun MovieScreen(
                     scrollState = scrollState,
                     similar = similar,
                     toolbarState = collapsingToolbarState,
+                    recommendState = recommendState,
+                    similarState = similarState,
+                    reviewState = reviewState,
+                    castState = castState,
+                    crewState = crewState,
+                    videosState = videosState,
+                    collectionState = collectionState,
                     onPersonClicked = {
                         navHostController.navigate(Graph.Person.passId(it))
                     },

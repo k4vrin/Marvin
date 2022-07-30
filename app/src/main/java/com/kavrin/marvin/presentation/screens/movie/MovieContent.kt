@@ -3,6 +3,7 @@ package com.kavrin.marvin.presentation.screens.movie
 import androidx.compose.foundation.ScrollState
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.lazy.LazyListState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.Card
 import androidx.compose.material.Divider
@@ -12,8 +13,10 @@ import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.RectangleShape
 import com.kavrin.marvin.domain.model.common.*
 import com.kavrin.marvin.domain.model.movie.entities.Movie
+import com.kavrin.marvin.domain.use_cases.movie.MovieUseCaseKeys
 import com.kavrin.marvin.presentation.component.*
 import com.kavrin.marvin.presentation.screens.movie.component.CollectionList
 import com.kavrin.marvin.presentation.screens.movie.component.MovieCardList
@@ -26,8 +29,7 @@ import me.onebone.toolbar.CollapsingToolbarScaffoldState
 @Composable
 fun MovieContent(
     movieOverview: String?,
-    movieReleaseDate: String?,
-    movieRuntime: Int?,
+    movieReleaseRuntimeStatus: Map<String, String?>,
     movieGenres: List<String>?,
     movieRatings: Map<String, String?>,
     movieCast: List<Cast>?,
@@ -42,6 +44,13 @@ fun MovieContent(
     similar: List<Movie>?,
     scrollState: ScrollState,
     toolbarState: CollapsingToolbarScaffoldState,
+    reviewState: LazyListState,
+    castState: LazyListState,
+    crewState: LazyListState,
+    similarState: LazyListState,
+    recommendState: LazyListState,
+    videosState: LazyListState,
+    collectionState: LazyListState,
     onPersonClicked: (Int) -> Unit,
     onVideoClicked: (String) -> Unit,
     onReviewClicked: (String) -> Unit,
@@ -68,10 +77,8 @@ fun MovieContent(
         ) {
             ///// Date Time Genre Overview /////
             Card(
-                modifier = Modifier
-                    .padding(all = EXTRA_SMALL_PADDING)
-                    .wrapContentHeight(),
-                backgroundColor = MaterialTheme.colors.cardColor
+                backgroundColor = MaterialTheme.colors.primaryCardColor,
+                shape = RectangleShape
             ) {
 
                 Column(
@@ -80,12 +87,13 @@ fun MovieContent(
                         .padding(all = SMALL_PADDING)
                 ) {
 
-                        if (movieRuntime != null) {
+                        if (movieReleaseRuntimeStatus.isNotEmpty()) {
                             DateTime(
                                 modifier = Modifier
                                     .fillMaxWidth(0.8f),
-                                date = movieReleaseDate,
-                                time = movieRuntime,
+                                date = movieReleaseRuntimeStatus[MovieUseCaseKeys.RELEASE_DATE],
+                                time = movieReleaseRuntimeStatus[MovieUseCaseKeys.RUNTIME]?.toInt(),
+                                status = movieReleaseRuntimeStatus[MovieUseCaseKeys.STATUS]
                             )
                         }
 
@@ -117,10 +125,8 @@ fun MovieContent(
             if (movieRatings.isNotEmpty()) {
             ///// Ratings /////
             Card(
-                modifier = Modifier
-                    .padding(all = EXTRA_SMALL_PADDING)
-                    .wrapContentHeight(),
-                backgroundColor = MaterialTheme.colors.cardColor
+                backgroundColor = MaterialTheme.colors.primaryCardColor,
+                shape = RectangleShape
             ) {
                 Column(
                     modifier = Modifier
@@ -135,47 +141,101 @@ fun MovieContent(
         }
         ///// Cast List /////
         if (!movieCast.isNullOrEmpty()) {
-            CastList(
-                cast = movieCast,
-                onCastClicked = {
-                    onPersonClicked(it)
+            Card(
+                backgroundColor = MaterialTheme.colors.primaryCardColor,
+                shape = RectangleShape
+            ) {
+                Column(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(vertical = MEDIUM_PADDING)
+                ) {
+                    CastList(
+                        lazyRowState = castState,
+                        cast = movieCast,
+                        onCastClicked = {
+                            onPersonClicked(it)
+                        }
+                    )
+
                 }
-            )
+            }
+
         }
 
 
         ///// Crew List /////
         if (!movieCrew.isNullOrEmpty()) {
-            CrewList(
-                crew = movieCrew,
-                onCrewClicked = {
-                    onPersonClicked(it)
+            Card(
+                backgroundColor = MaterialTheme.colors.primaryCardColor,
+                shape = RectangleShape
+            ) {
+                Column(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(vertical = MEDIUM_PADDING)
+                ) {
+                    CrewList(
+                        lazyRowState = crewState,
+                        crew = movieCrew,
+                        onCrewClicked = {
+                            onPersonClicked(it)
+                        }
+                    )
                 }
-            )
+            }
+
         }
 
         if (!movieVideos.isNullOrEmpty()) {
-            VideoSection(
-                trailer = movieTrailer,
-                videos = movieVideos,
-                trailerBackdrop = trailerBackdrop,
-                onItemClick = {
-                    onVideoClicked(it)
+            Card(
+                backgroundColor = MaterialTheme.colors.primaryCardColor,
+                shape = RectangleShape
+            ) {
+                Column(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(vertical = MEDIUM_PADDING)
+                ) {
+                    VideoSection(
+                        lazyRowState = videosState,
+                        trailer = movieTrailer,
+                        videos = movieVideos,
+                        trailerBackdrop = trailerBackdrop,
+                        onItemClick = {
+                            onVideoClicked(it)
+                        }
+                    )
+
                 }
-            )
+            }
         }
 
         if (!reviews.isNullOrEmpty()) {
-            ReviewList(
-                reviews = reviews,
-                onReviewClicked = {
-                    onReviewClicked(it)
+            Card(
+                backgroundColor = MaterialTheme.colors.primaryCardColor,
+                shape = RectangleShape
+            ) {
+                Column(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(vertical = MEDIUM_PADDING)
+                ) {
+                    ReviewList(
+                        lazyRowState = reviewState,
+                        reviews = reviews,
+                        onReviewClicked = {
+                            onReviewClicked(it)
+                        }
+                    )
+
                 }
-            )
+            }
         }
 
         if (!collection.isNullOrEmpty() && !collectionName.isNullOrEmpty()) {
             CollectionList(
+                lazyListState = collectionState,
                 collectionName = collectionName[COLLECTION_NAME_KEY],
                 collectionOverview = collectionName[COLLECTION_OVERVIEW_KEY],
                 collectionBackdrop = collectionName[COLLECTION_BACKDROP_KEY],
@@ -187,21 +247,47 @@ fun MovieContent(
 
 
         if (!similar.isNullOrEmpty()) {
-            MovieCardList(
-                cardListTitle = "Similar",
-                items = similar,
-                onMovieClicked = { onMovieClicked(it) },
-                onMenuClicked = { onMenuClicked(it) }
-            )
+            Card(
+                backgroundColor = MaterialTheme.colors.primaryCardColor,
+                shape = RectangleShape
+            ) {
+                Column(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(vertical = MEDIUM_PADDING)
+                ) {
+                    MovieCardList(
+                        lazyRowState = similarState,
+                        cardListTitle = "Similar",
+                        items = similar,
+                        onMovieClicked = { onMovieClicked(it) },
+                        onMenuClicked = { onMenuClicked(it) }
+                    )
+
+                }
+            }
         }
 
         if (!recommendation.isNullOrEmpty()) {
-            MovieCardList(
-                cardListTitle = "Recommendation",
-                items = recommendation,
-                onMovieClicked = { onMovieClicked(it) },
-                onMenuClicked = { onMenuClicked(it) }
-            )
+            Card(
+                backgroundColor = MaterialTheme.colors.primaryCardColor,
+                shape = RectangleShape
+            ) {
+                Column(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(vertical = MEDIUM_PADDING)
+                ) {
+                    MovieCardList(
+                        lazyRowState = recommendState,
+                        cardListTitle = "Recommendation",
+                        items = recommendation,
+                        onMovieClicked = { onMovieClicked(it) },
+                        onMenuClicked = { onMenuClicked(it) }
+                    )
+
+                }
+            }
         }
 
         Spacer(modifier = Modifier.height(MEDIUM_PADDING))

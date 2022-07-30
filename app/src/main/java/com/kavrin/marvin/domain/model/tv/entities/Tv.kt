@@ -19,7 +19,7 @@ data class Tv(
 	val backdropPath: String?,
 
 	@SerialName("first_air_date")
-	val firstAirDate: String,
+	val firstAirDate: String? = null,
 
 	@SerialName("genre_ids")
 	val genreIds: List<Int>,

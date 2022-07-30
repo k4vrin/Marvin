@@ -68,12 +68,4 @@ object Constants {
 	const val COLLECTION_OVERVIEW_KEY = "overview"
 	const val COLLECTION_BACKDROP_KEY = "backdrop"
 
-	const val TV_RUNTIME_KEY = "runtime"
-	const val TV_STATUS_KEY = "status"
-	const val TV_DATE_KEY = "date"
-	const val TV_TOTAL_EPISODE_KEY = "total_episode"
-
-	const val LAST_EPISODE_KEY = "last_episode"
-	const val NEXT_EPISODE_KEY = "next_episode"
-
 }

@@ -35,7 +35,7 @@ data class SingleMovieApiResponse(
     @SerialName("release_date")
     val releaseDate: String,
     @SerialName("backdrop_path")
-    val backdrop: String,
+    val backdrop: String?,
     @SerialName("title")
     val title: String,
     @SerialName("runtime")
@@ -49,5 +49,7 @@ data class SingleMovieApiResponse(
     @SerialName("recommendations")
     val recommendations: MovieApiResponse,
     @SerialName("similar")
-    val similar: MovieApiResponse
+    val similar: MovieApiResponse,
+    @SerialName("status")
+    val status: String?,
 )

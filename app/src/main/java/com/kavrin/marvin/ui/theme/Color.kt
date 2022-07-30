@@ -11,16 +11,21 @@ val Purple500 = Color(0xFF6200EE)
 val Purple700 = Color(0xFF3700B3)
 val Teal200 = Color(0xFF03DAC5)
 
-val BackGroundLight = Color(0xFFF0F0F0)
+val BackGroundLight = Color(0xFFEDF6F9)
 val BackGroundDark = Color(0xFF090909)
 
 val BrightMaroon = Color(0xFFB9314F)
 
 
-val PlumpPurple = Color(0xFF6247AA)
-val Amethyst = Color(0xFF9163CB)
-val LavenderFloral = Color(0xFFB185DB)
-val Thistle = Color(0xFFDEC9E9)
+val Ming = Color(0xFF006D77)
+val MingLighter = Color(0xFF66a7ad)
+val MingDarker = Color(0xFF004147)
+val MiddleBlueGreen = Color(0xFF83C5BE)
+val MingLightCard = Color(0xFF99c5c9)
+val MingDarkCard = Color(0xFF002c30)
+val MingLightBackground = Color(0xFFcce2e4)
+val MingDarkBackground = Color(0xFF001618)
+val MingLightBarColor = Color(0xFFf6fbfc)
 
 val LightGray = Color(0xFFadb5bd)
 val MediumGray = Color(0xFF6c757d)
@@ -30,9 +35,6 @@ val HighRate = Color(0xFF008000)
 val MediumRate = Color(0xFFeeef20)
 val LowRate = Color(0xFFd00000)
 
-val DarkCard = Color(0xFF212529)
-val LightCard = Color(0xFFDEC9E9)
-
 
 val ShimmerLightGray = Color(0xFFF1F1F1)
 val ShimmerMediumGray = Color(0xFFE3E3E3)
@@ -40,8 +42,6 @@ val ShimmerDarkGray = Color(0xFF1D1D1D)
 
 val ShimmerDarkGrayVariant = Color(0xFF252525)
 val ShimmerMediumGrayVariant = Color(0xFFACACAC)
-
-val LightFab = Color(0xFF9163CB)
 
 val GreenRYB = Color(0xFF55A630)
 val AppleGreen = Color(0xFF80B918)
@@ -70,7 +70,7 @@ val RatingRed = Brush.horizontalGradient(
 
 val Colors.tabIndicatorColor
     @Composable
-    get() = if (isLight) LightFab else LightGray
+    get() = if (isLight) Ming else MingLighter
 
 val Colors.backGroundColor
     @Composable
@@ -82,11 +82,15 @@ val Colors.topBarContentColor
 
 val Colors.topBarBgColor
     @Composable
-    get() = if (isLight) Color.White else Color.Black
+    get() = if (isLight) MingLightBarColor else Color.Black
 
-val Colors.cardColor
+val Colors.secondaryCardColor
     @Composable
-    get() = if (isLight) LightCard else DarkCard
+    get() = if (isLight) MingLightCard else MingDarkCard
+
+val Colors.primaryCardColor
+    @Composable
+    get() = if (isLight) MingLightBackground else MingDarkBackground
 
 val Colors.cardContentColor
     @Composable
@@ -98,7 +102,7 @@ val Colors.contentColor
 
 val Colors.pagerIndicatorActiveColor
     @Composable
-    get() = if (isLight) LightFab else LightGray
+    get() = if (isLight) Ming else MingLighter
 
 val Colors.cardShimmerColor
     @Composable
@@ -110,7 +114,7 @@ val Colors.ratingShimmerColor
 
 val Colors.fabBgColor
     @Composable
-    get() = if (isLight) LightFab else LightGray
+    get() = if (isLight) Ming else MingLighter
 
 val Colors.fabContentColor
     @Composable
@@ -118,19 +122,19 @@ val Colors.fabContentColor
 
 val Colors.statusBarColor
     @Composable
-    get() = if (isLight) Color.White else Color.Black
+    get() = topBarBgColor
 
 val Colors.loadingCircleColor
     @Composable
-    get() = if (isLight) PlumpPurple else Color.White
+    get() = if (isLight) MingLighter else Color.White
 
 val Colors.splashText
     @Composable
-    get() = if (isLight) PlumpPurple else Color.White
+    get() = if (isLight) Color.White else Color.White
 
 val Colors.bottomNavigationBackground
     @Composable
-    get() = if (isLight) Color.White else Color.Black
+    get() = if (isLight) MingLightBarColor else Color.Black
 
 val Colors.bottomNavigationContent
     @Composable
@@ -139,7 +143,7 @@ val Colors.bottomNavigationContent
 val Colors.splashBackgroundBrush
     @Composable
     get() = if (isLight)
-        Brush.verticalGradient(listOf(Thistle, LavenderFloral))
+        Brush.verticalGradient(listOf(MingLighter, MingDarker))
     else
         Brush.verticalGradient(listOf(BackGroundDark, BackGroundDark))
 
@@ -155,13 +159,13 @@ val Colors.cardGradientColor
     @Composable
     get() = if (isLight)
         Brush.linearGradient(
-            listOf(LightCard, LavenderFloral),
+            listOf(MingLighter, MingLightCard),
             start = Offset.Zero,
             end = Offset.Infinite
         )
     else
         Brush.linearGradient(
-            listOf(DarkCard, ShimmerDarkGray),
+            listOf(MingDarkCard, Ming),
             start = Offset.Zero,
             end = Offset.Infinite
         )

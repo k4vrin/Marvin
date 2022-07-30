@@ -5,6 +5,7 @@ import android.content.Intent
 import android.net.Uri
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.material.MaterialTheme
 import androidx.compose.runtime.*
@@ -16,6 +17,7 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavHostController
 import com.google.accompanist.systemuicontroller.rememberSystemUiController
+import com.kavrin.marvin.domain.use_cases.tv.TvUseCaseKeys
 import com.kavrin.marvin.navigation.DurationConstants
 import com.kavrin.marvin.navigation.Graph
 import com.kavrin.marvin.navigation.TvScreen
@@ -49,9 +51,10 @@ fun TvScreen(
         )
     }
 
-    val tv by tvViewModel.selectedTv.collectAsState()
     val tvDetailsResultState by tvViewModel.tvDetailsResponse.collectAsStateWithLifecycle()
     val tvRatingsResultState by tvViewModel.tvRatingsResponse.collectAsStateWithLifecycle()
+    val toolbarInfo by tvViewModel.toolbarInfo.collectAsStateWithLifecycle()
+    val overviewTotal by tvViewModel.overviewTotalEpisodes.collectAsStateWithLifecycle()
     val tvStatus by tvViewModel.tvRuntimeStatusDate.collectAsStateWithLifecycle()
     val tvGenres by tvViewModel.tvGenres.collectAsStateWithLifecycle()
     val tvRatings by tvViewModel.tvRatings.collectAsStateWithLifecycle()
@@ -82,6 +85,13 @@ fun TvScreen(
     val collapsingToolbarState = rememberCollapsingToolbarScaffoldState()
     val scrollState = rememberScrollState()
 
+    val reviewState = rememberLazyListState()
+    val recommendState = rememberLazyListState()
+    val similarState = rememberLazyListState()
+    val videosState = rememberLazyListState()
+    val castState = rememberLazyListState()
+    val crewState = rememberLazyListState()
+
     if (result) {
         Box(
             modifier = Modifier
@@ -95,8 +105,9 @@ fun TvScreen(
                 toolbar = {
                     TvToolbar(
                         state = collapsingToolbarState,
-                        backdrop = tv?.backdropPath,
-                        title = tv?.name,
+                        backdrop = toolbarInfo[TvUseCaseKeys.BACKDROP],
+                        title = toolbarInfo[TvUseCaseKeys.TITLE],
+                        subtitle = toolbarInfo[TvUseCaseKeys.CREATORS],
                         onBackIconClicked = {
                             navHostController.popBackStack()
                         },
@@ -107,8 +118,8 @@ fun TvScreen(
                 }
             ) {
                 TvContent(
-                    tv = tv,
                     tvRuntimeDateStatus = tvStatus,
+                    overviewTotal = overviewTotal,
                     tvGenres = tvGenres,
                     tvRatings = tvRatings,
                     tvCast = tvCast,
@@ -123,6 +134,12 @@ fun TvScreen(
                     tvRecommended = tvRecommended,
                     toolbarState = collapsingToolbarState,
                     scrollState = scrollState,
+                    recommendState = recommendState,
+                    similarState = similarState,
+                    reviewState = reviewState,
+                    castState = castState,
+                    crewState = crewState,
+                    videosState = videosState,
                     onReviewClicked = {
                         val reviewIntent = Intent(Intent.ACTION_VIEW, Uri.parse(it))
                         context.startActivity(reviewIntent)

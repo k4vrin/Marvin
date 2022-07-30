@@ -1,6 +1,7 @@
 package com.kavrin.marvin.presentation.screens.movie.component
 
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.lazy.LazyListState
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material.MaterialTheme
@@ -25,6 +26,7 @@ import com.kavrin.marvin.util.Constants.IMAGE_BACKDROP_BASE_URL
 
 @Composable
 fun CollectionList(
+    lazyListState: LazyListState,
     collectionName: String?,
     collectionOverview: String?,
     collectionBackdrop: String?,
@@ -49,7 +51,7 @@ fun CollectionList(
                     drawRect(
                         brush = gradient,
                         blendMode = BlendMode.Multiply,
-                        alpha = 0.5f
+                        alpha = 0.25f
                     )
                 },
             model = ImageRequest.Builder(LocalContext.current)
@@ -65,6 +67,7 @@ fun CollectionList(
         LazyRow(
             modifier = Modifier
                 .fillMaxSize(),
+            state = lazyListState,
             contentPadding = PaddingValues(all = MEDIUM_PADDING),
             horizontalArrangement = Arrangement.spacedBy(SMALL_PADDING),
             verticalAlignment = Alignment.CenterVertically

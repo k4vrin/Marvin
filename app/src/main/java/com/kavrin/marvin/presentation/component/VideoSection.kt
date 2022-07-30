@@ -1,6 +1,7 @@
 package com.kavrin.marvin.presentation.component
 
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.lazy.LazyListState
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material.MaterialTheme
@@ -20,6 +21,7 @@ import com.kavrin.marvin.ui.theme.nunitoTypeFace
 
 @Composable
 fun VideoSection(
+    lazyRowState: LazyListState,
     trailer: Video?,
     trailerBackdrop: Backdrop?,
     videos: List<Video>,
@@ -62,6 +64,7 @@ fun VideoSection(
         }
 
         LazyRow(
+            state = lazyRowState,
             contentPadding = PaddingValues(horizontal = MEDIUM_PADDING),
             horizontalArrangement = Arrangement.spacedBy(SMALL_PADDING)
         ) {

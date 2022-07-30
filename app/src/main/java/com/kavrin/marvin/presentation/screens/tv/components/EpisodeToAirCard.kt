@@ -1,20 +1,23 @@
 package com.kavrin.marvin.presentation.screens.tv.components
 
-import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.padding
 import androidx.compose.material.Card
 import androidx.compose.material.Divider
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.RectangleShape
 import androidx.compose.ui.text.SpanStyle
 import androidx.compose.ui.text.buildAnnotatedString
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.withStyle
 import com.kavrin.marvin.domain.model.tv.api.detail.EpisodeToAir
+import com.kavrin.marvin.domain.use_cases.tv.TvUseCaseKeys
 import com.kavrin.marvin.ui.theme.*
-import com.kavrin.marvin.util.Constants.LAST_EPISODE_KEY
-import com.kavrin.marvin.util.Constants.NEXT_EPISODE_KEY
 
 @Composable
 fun EpisodeToAirCard(
@@ -24,15 +27,13 @@ fun EpisodeToAirCard(
 ) {
 
     Card(
-        modifier = Modifier
-            .padding(horizontal = EXTRA_SMALL_PADDING)
-            .wrapContentHeight(),
-        backgroundColor = MaterialTheme.colors.cardColor
+        backgroundColor = MaterialTheme.colors.primaryCardColor,
+        shape = RectangleShape
     ) {
         Column(
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(MEDIUM_PADDING)
+                .padding(all = MEDIUM_PADDING)
         ) {
 
             Row(
@@ -75,7 +76,7 @@ fun EpisodeToAirCard(
             }
 
 
-            episodes[LAST_EPISODE_KEY]?.let { episode ->
+            episodes[TvUseCaseKeys.LAST_EPISODES]?.let { episode ->
                 EpisodeToAirItem(
                     episodeToAir = episode,
                     title = "Last",
@@ -85,7 +86,7 @@ fun EpisodeToAirCard(
                 )
             }
 
-            episodes[NEXT_EPISODE_KEY]?.let { episode ->
+            episodes[TvUseCaseKeys.NEXT_EPISODES]?.let { episode ->
 
                 Divider(
                     modifier = Modifier

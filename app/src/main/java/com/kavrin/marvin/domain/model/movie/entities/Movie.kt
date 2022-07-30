@@ -43,7 +43,7 @@ data class Movie(
 	val posterPath: String?,
 
 	@SerialName("release_date")
-	val releaseDate: String,
+	val releaseDate: String? = null,
 
 	@SerialName("title")
 	val title: String,

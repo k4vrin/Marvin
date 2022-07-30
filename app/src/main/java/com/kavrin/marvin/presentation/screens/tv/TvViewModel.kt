@@ -25,9 +25,6 @@ class TvViewModel @Inject constructor(
 
     val id = savedStateHandle.get<Int>(Constants.ARGUMENT_KEY_ID)
 
-    private val _selectedTv: MutableStateFlow<Tv?> = MutableStateFlow(null)
-    val selectedTv: StateFlow<Tv?> = _selectedTv
-
     private val _tvDetailsResponse: MutableStateFlow<NetworkResult> =
         MutableStateFlow(NetworkResult.Loading())
     val tvDetailsResponse: StateFlow<NetworkResult> = _tvDetailsResponse
@@ -35,6 +32,12 @@ class TvViewModel @Inject constructor(
     private val _tvRatingsResponse: MutableStateFlow<NetworkResult> =
         MutableStateFlow(NetworkResult.Success())
     val tvRatingsResponse: StateFlow<NetworkResult> = _tvRatingsResponse
+
+    private val _toolbarInfo = MutableStateFlow<Map<String, String?>>(emptyMap())
+    val toolbarInfo: StateFlow<Map<String, String?>> = _toolbarInfo
+
+    private val _overviewTotalEpisodes = MutableStateFlow<Map<String, String?>>(emptyMap())
+    val overviewTotalEpisodes: StateFlow<Map<String, String?>> = _overviewTotalEpisodes
 
     private val _tvRatings: MutableStateFlow<Map<String, String?>> = MutableStateFlow(emptyMap())
     val tvRatings: StateFlow<Map<String, String?>> = _tvRatings
@@ -75,26 +78,13 @@ class TvViewModel @Inject constructor(
     private val _tvRecommended = MutableStateFlow<List<Tv>?>(null)
     val tvRecommended: StateFlow<List<Tv>?> = _tvRecommended
 
-    init {
-        viewModelScope.launch(context = Dispatchers.IO) {
-            _selectedTv.value = id?.let { tvId ->
-                useCases.getTv(tvId = tvId)
-            }
-        }
-    }
-
     fun getTvDetails() {
         viewModelScope.launch(Dispatchers.IO) {
             _tvDetailsResponse.value = NetworkResult.Loading()
-            if (id != null) {
+            id?.let { id ->
                 _tvDetailsResponse.value = useCases.getTvDetails(id = id)
-//                val imdbId = useCases.getTvDetails.getImdbId()
-//                if (!imdbId.isNullOrBlank()) {
-//                    _tvRatingsResponse.value = useCases.getTvRatings(id = imdbId)
-//                    _tvRatings.value = useCases.getTvRatings.getRatingsValue()
-//                } else {
-//                    _tvRatingsResponse.value = NetworkResult.Success()
-//                }
+                _toolbarInfo.value = useCases.getTvDetails.getToolbarInfo()
+                _overviewTotalEpisodes.value = useCases.getTvDetails.getOverviewTotalEpisodes()
                 _tvRuntimeStatusDate.value = useCases.getTvDetails.getRuntimeStatusDateTotal()
                 _tvGenres.value = useCases.getTvDetails.getGenres()
                 _tvCast.value = useCases.getTvDetails.getCast()
@@ -107,6 +97,14 @@ class TvViewModel @Inject constructor(
                 _tvEpisodesToAir.value = useCases.getTvDetails.getEpisodesToAir()
                 _tvSimilar.value = useCases.getTvDetails.getSimilarTvs()
                 _tvRecommended.value = useCases.getTvDetails.getRecommendedTvs()
+
+                val imdbId = useCases.getTvDetails.getImdbId()
+                if (!imdbId.isNullOrBlank()) {
+                    _tvRatingsResponse.value = useCases.getTvRatings(id = imdbId)
+                    _tvRatings.value = useCases.getTvRatings.getRatingsValue()
+                } else {
+                    _tvRatingsResponse.value = NetworkResult.Success()
+                }
             }
         }
     }

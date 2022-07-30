@@ -5,12 +5,15 @@ import com.jakewharton.retrofit2.converter.kotlinx.serialization.asConverterFact
 import com.kavrin.marvin.data.local.MarvinDatabase
 import com.kavrin.marvin.data.remote.IMDbService
 import com.kavrin.marvin.data.remote.TMDBMovieService
+import com.kavrin.marvin.data.remote.TMDBPersonService
 import com.kavrin.marvin.data.remote.TMDBTvService
 import com.kavrin.marvin.data.repository.impl.IMDbDataSourceImpl
 import com.kavrin.marvin.data.repository.impl.MovieRemoteDataSourceImpl
+import com.kavrin.marvin.data.repository.impl.PersonRemoteDataSourceImpl
 import com.kavrin.marvin.data.repository.impl.TvRemoteDataSourceImpl
 import com.kavrin.marvin.domain.repository.IMDbDataSource
 import com.kavrin.marvin.domain.repository.MovieRemoteDataSource
+import com.kavrin.marvin.domain.repository.PersonRemoteDataSource
 import com.kavrin.marvin.domain.repository.TvRemoteDataSource
 import com.kavrin.marvin.util.Constants.BASE_URL
 import com.kavrin.marvin.util.NetworkListener
@@ -79,6 +82,14 @@ object NetworkModule {
 
 	@Provides
 	@Singleton
+	fun provideTMDBPersonService(
+		retrofit: Retrofit
+	): TMDBPersonService {
+		return retrofit.create(TMDBPersonService::class.java)
+	}
+
+	@Provides
+	@Singleton
 	fun provideIMDbService(
 		retrofit: Retrofit
 	): IMDbService {
@@ -106,6 +117,16 @@ object NetworkModule {
 		return TvRemoteDataSourceImpl(
 			tvService = tvService,
 			marvinDatabase = marvinDatabase
+		)
+	}
+
+	@Provides
+	@Singleton
+	fun providePersonRemoteDataSource(
+		personService: TMDBPersonService,
+	): PersonRemoteDataSource {
+		return PersonRemoteDataSourceImpl(
+			personService = personService
 		)
 	}
 
