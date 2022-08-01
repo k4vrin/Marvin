@@ -1,5 +1,6 @@
 package com.kavrin.marvin.domain.use_cases.tv
 
+import android.util.Log
 import com.kavrin.marvin.data.repository.Repository
 import com.kavrin.marvin.domain.model.imdb.IMDbRatingApiResponse
 import com.kavrin.marvin.util.Constants.IMDB
@@ -15,32 +16,61 @@ class GetTvRatings(
     private var data: IMDbRatingApiResponse? = null
 
     suspend operator fun invoke(id: String): NetworkResult {
-        val response =
-            try {
-                repository.getRatings(id = id)
-            } catch (e: Exception) {
-                return NetworkResult.Error(message = e.message)
+        return if (data == null) {
+            val response =
+                try {
+                    repository.getRatings(id = id)
+                } catch (e: Exception) {
+                    return NetworkResult.Error(message = e.message)
+                }
+            when {
+                response.message().toString()
+                    .contains("timeout") -> {
+                        data = null
+                        NetworkResult.Success()
+                    }
+                response.body()!!.errorMessage.lowercase().contains("maximum usage") -> {
+                    data = IMDbRatingApiResponse(
+                        errorMessage = "",
+                        imDb = "",
+                        theMovieDb = "",
+                        rottenTomatoes = "",
+                        metacritic = ""
+                    )
+                    NetworkResult.Success()
+                }
+                response.body()!!.errorMessage.lowercase().contains("year") -> {
+                    response.body()?.let { res ->
+                        data = IMDbRatingApiResponse(
+                            errorMessage = "",
+                            imDb = res.imDb,
+                            theMovieDb = res.theMovieDb,
+                            rottenTomatoes = res.rottenTomatoes,
+                            metacritic = res.metacritic
+                        )
+                    }
+                    NetworkResult.Success()
+                }
+                response.isSuccessful -> {
+                    data = response.body()
+                    NetworkResult.Success()
+                }
+                else -> {
+                    Log.d("GetTvRatings", "invoke: $response.body()!!.errorMessage")
+                    data = IMDbRatingApiResponse(
+                        errorMessage = "",
+                        imDb = "",
+                        theMovieDb = "",
+                        rottenTomatoes = "",
+                        metacritic = ""
+                    )
+                    NetworkResult.Success()
+                }
             }
-        return when {
-            response.message().toString()
-                .contains("timeout") -> NetworkResult.Error(message = "Timeout")
-            response.body()!!.errorMessage.lowercase().contains("maximum usage") -> {
-                data = IMDbRatingApiResponse(
-                    errorMessage = "",
-                    imDb = "",
-                    theMovieDb = "",
-                    rottenTomatoes = "",
-                    metacritic = ""
-                )
-                NetworkResult.Success()
-            }
-            response.body()!!.errorMessage.isNotBlank() -> NetworkResult.Error(message = response.body()!!.errorMessage)
-            response.isSuccessful -> {
-                data = response.body()
-                NetworkResult.Success()
-            }
-            else -> NetworkResult.Error(message = response.message())
+        } else {
+            NetworkResult.Success()
         }
+
     }
 
     fun getRatingsValue(): Map<String, String?> {

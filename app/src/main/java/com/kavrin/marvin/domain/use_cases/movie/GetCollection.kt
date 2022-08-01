@@ -15,25 +15,28 @@ class GetCollection(
     private var data: MovieCollection? = null
 
     suspend operator fun invoke(id: Int): NetworkResult {
-        val response =
-            try {
-                repository.getMovieCollection(id = id)
-            } catch (e: Exception) {
-                return NetworkResult.Error(message = e.message)
-            }
+        return if (data == null) {
+            val response =
+                try {
+                    repository.getMovieCollection(id = id)
+                } catch (e: Exception) {
+                    return NetworkResult.Error(message = e.message)
+                }
 
-        return when {
-            response.message().toString()
-                .contains("timeout") -> NetworkResult.Error(message = "Timeout")
-            response.code() == 401 -> NetworkResult.Error(message = "Invalid API key.")
-            response.code() == 404 -> NetworkResult.Error(message = "The resources could not be found.")
-            response.isSuccessful -> {
-                data = response.body()
-                data?.parts?.let { repository.saveMovies(movies = it) }
-                NetworkResult.Success()
+            when {
+                response.message().toString()
+                    .contains("timeout") -> NetworkResult.Error(message = "Timeout")
+                response.code() == 401 -> NetworkResult.Error(message = "Invalid API key.")
+                response.code() == 404 -> NetworkResult.Error(message = "The resources could not be found.")
+                response.isSuccessful -> {
+                    data = response.body()
+                    data?.parts?.let { repository.saveMovies(movies = it) }
+                    NetworkResult.Success()
+                }
+                else -> NetworkResult.Error(message = response.message())
             }
-            else -> NetworkResult.Error(message = response.message())
-        }
+        } else
+            NetworkResult.Success()
     }
 
     fun getCollectionNameAndOverview(): Map<String, String?> {

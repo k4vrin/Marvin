@@ -14,23 +14,28 @@ class GetPersonDetails(
     private var data: PersonApiResponse? = null
 
     suspend operator fun invoke(id: Int): NetworkResult {
-        val response =
-            try {
-                repository.getPerson(id = id)
-            } catch (e: Exception) {
-                return NetworkResult.Error(message = e.message)
+        return if (data == null) {
+            val response =
+                try {
+                    repository.getPerson(id = id)
+                } catch (e: Exception) {
+                    return NetworkResult.Error(message = e.message)
+                }
+            when {
+                response.message().toString()
+                    .contains("timeout") -> NetworkResult.Error(message = "Timeout")
+                response.code() == 401 -> NetworkResult.Error(message = "Invalid API key.")
+                response.code() == 404 -> NetworkResult.Error(message = "The resources could not be found.")
+                response.isSuccessful -> {
+                    data = response.body()
+                    NetworkResult.Success()
+                }
+                else -> NetworkResult.Error(message = response.message())
             }
-        return when {
-            response.message().toString()
-                .contains("timeout") -> NetworkResult.Error(message = "Timeout")
-            response.code() == 401 -> NetworkResult.Error(message = "Invalid API key.")
-            response.code() == 404 -> NetworkResult.Error(message = "The resources could not be found.")
-            response.isSuccessful -> {
-                data = response.body()
-                NetworkResult.Success()
-            }
-            else -> NetworkResult.Error(message = response.message())
+        } else {
+            NetworkResult.Success()
         }
+
     }
 
     fun getToolbarDetails(): Map<String, String?> {
@@ -44,9 +49,11 @@ class GetPersonDetails(
     fun getInfoDetails(): Map<String, Int?> {
         return buildMap {
             val age = data?.birthday?.let { calcAge(it) }
-            val totalMovies = (data?.movieCredits?.personMovieCast?.size ?: 0) + (data?.movieCredits?.personMovieCrew?.size ?: 0)
-            val totalTvs = (data?.tvCredits?.personTvCast?.size ?: 0) + (data?.tvCredits?.personTvCrew?.size ?: 0)
-            val bio = data?.biography
+            val totalMovies = (data?.movieCredits?.personMovieCast?.size
+                ?: 0) + (data?.movieCredits?.personMovieCrew?.size ?: 0)
+            val totalTvs =
+                (data?.tvCredits?.personTvCast?.size ?: 0) + (data?.tvCredits?.personTvCrew?.size
+                    ?: 0)
 
             put(key = PersonConstants.AGE, value = age)
             put(key = PersonConstants.TOTAL_MOVIES, value = totalMovies)

@@ -16,26 +16,31 @@ class GetTvDetails(
     private var data: SingleTvApiResponse? = null
 
     suspend operator fun invoke(id: Int): NetworkResult {
-        val response =
-            try {
-                repository.getTvDetails(id = id)
-            } catch (e: Exception) {
-                return NetworkResult.Error(message = e.message)
-            }
+        return if (data == null) {
+            val response =
+                try {
+                    repository.getTvDetails(id = id)
+                } catch (e: Exception) {
+                    return NetworkResult.Error(message = e.message)
+                }
 
-        return when {
-            response.message().toString()
-                .contains("timeout") -> NetworkResult.Error(message = "Timeout")
-            response.code() == 401 -> NetworkResult.Error(message = "Invalid API key.")
-            response.code() == 404 -> NetworkResult.Error(message = "The resources could not be found.")
-            response.isSuccessful -> {
-                data = response.body()
-                data?.similar?.tvs?.let { repository.saveTvs(tvs = it) }
-                data?.recommendations?.tvs?.let { repository.saveTvs(tvs = it) }
-                NetworkResult.Success()
+            when {
+                response.message().toString()
+                    .contains("timeout") -> NetworkResult.Error(message = "Timeout")
+                response.code() == 401 -> NetworkResult.Error(message = "Invalid API key.")
+                response.code() == 404 -> NetworkResult.Error(message = "The resources could not be found.")
+                response.isSuccessful -> {
+                    data = response.body()
+                    data?.similar?.tvs?.let { repository.saveTvs(tvs = it) }
+                    data?.recommendations?.tvs?.let { repository.saveTvs(tvs = it) }
+                    NetworkResult.Success()
+                }
+                else -> NetworkResult.Error(message = response.message())
             }
-            else -> NetworkResult.Error(message = response.message())
+        } else {
+            NetworkResult.Success()
         }
+
     }
 
     fun getImdbId(): String? {
