@@ -1,4 +1,4 @@
-package com.kavrin.marvin.presentation.screens.welcome
+package com.kavrin.marvin.presentation.screens.boarding.welcome
 
 import androidx.annotation.DrawableRes
 import com.kavrin.marvin.R
