@@ -1,4 +1,4 @@
-package com.kavrin.marvin.presentation.screens.splash
+package com.kavrin.marvin.presentation.screens.boarding
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -12,8 +12,8 @@ import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
-class SplashViewModel @Inject constructor(
-    private val useCases: SplashWelcomeUseCases,
+class BoardingViewModel @Inject constructor(
+    private val useCases: SplashWelcomeUseCases
 ) : ViewModel() {
 
     private val _onBoardingCompleted = MutableStateFlow(false)
@@ -25,4 +25,11 @@ class SplashViewModel @Inject constructor(
                 useCases.readOnBoarding().stateIn(scope = viewModelScope).value
         }
     }
+
+    fun saveOnBoardingState(completed: Boolean) {
+        viewModelScope.launch(context = Dispatchers.IO) {
+            useCases.saveOnBoarding(completed = completed)
+        }
+    }
+
 }

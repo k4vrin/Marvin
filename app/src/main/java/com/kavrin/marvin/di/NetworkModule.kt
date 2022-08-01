@@ -40,9 +40,9 @@ object NetworkModule {
 		loggingInterceptor.setLevel(HttpLoggingInterceptor.Level.BODY)
 		return OkHttpClient.Builder()
 			.addInterceptor(loggingInterceptor)
-			.retryOnConnectionFailure(true)
+
 			.connectTimeout(20, TimeUnit.SECONDS)
-			.callTimeout(20, TimeUnit.SECONDS)
+//			.callTimeout(20, TimeUnit.SECONDS)
 			.writeTimeout(20, TimeUnit.SECONDS)
 			.readTimeout(20, TimeUnit.SECONDS)
 			.build()

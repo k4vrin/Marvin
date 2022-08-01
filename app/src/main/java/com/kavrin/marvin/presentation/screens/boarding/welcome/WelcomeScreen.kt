@@ -1,4 +1,4 @@
-package com.kavrin.marvin.presentation.screens.welcome
+package com.kavrin.marvin.presentation.screens.boarding.welcome
 
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.foundation.Image
@@ -19,15 +19,14 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
-import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
-import androidx.navigation.compose.rememberNavController
 import com.google.accompanist.pager.HorizontalPager
 import com.google.accompanist.pager.PagerState
 import com.google.accompanist.pager.rememberPagerState
 import com.kavrin.marvin.R
 import com.kavrin.marvin.navigation.Graph
 import com.kavrin.marvin.presentation.component.WormHorizontalPagerIndicator
+import com.kavrin.marvin.presentation.screens.boarding.BoardingViewModel
 import com.kavrin.marvin.ui.theme.*
 import com.kavrin.marvin.util.Constants.LAST_WELCOME_PAGE
 import com.kavrin.marvin.util.Constants.ON_BOARDING_PAGE_COUNT
@@ -35,12 +34,12 @@ import com.kavrin.marvin.util.Constants.ON_BOARDING_PAGE_COUNT
 @Composable
 fun WelcomeScreen(
 	navController: NavHostController,
-	welcomeViewModel: WelcomeViewModel = hiltViewModel()
+	welcomeViewModel: BoardingViewModel
 ) {
 	//// List Of Pages ////
 	val pages = listOf(
-		OnBoardingPage.First,
-		OnBoardingPage.Second
+        OnBoardingPage.First,
+        OnBoardingPage.Second
 	)
 	//// Pager State ////
 	val pagerState = rememberPagerState()
@@ -98,7 +97,7 @@ fun WelcomeScreen(
 
 @Composable
 fun PagerScreen(
-	onBoardingPage: OnBoardingPage,
+    onBoardingPage: OnBoardingPage,
 ) {
 
 	Box {
@@ -194,10 +193,4 @@ fun ExploreButton(
 @Composable
 fun PagerScreenPreview() {
 	PagerScreen(onBoardingPage = OnBoardingPage.Second)
-}
-
-@Preview
-@Composable
-fun WelcomeScreenPreview() {
-	WelcomeScreen(navController = rememberNavController())
 }

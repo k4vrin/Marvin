@@ -1,4 +1,4 @@
-package com.kavrin.marvin.presentation.screens.splash
+package com.kavrin.marvin.presentation.screens.boarding.splash
 
 import androidx.compose.animation.core.Animatable
 import androidx.compose.animation.core.tween
@@ -16,12 +16,12 @@ import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
-import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
 import com.kavrin.marvin.R
 import com.kavrin.marvin.navigation.BoardingScreens
 import com.kavrin.marvin.navigation.Graph
 import com.kavrin.marvin.presentation.component.LoadingAnimation
+import com.kavrin.marvin.presentation.screens.boarding.BoardingViewModel
 import com.kavrin.marvin.ui.theme.EXTRA_LARGE_PADDING
 import com.kavrin.marvin.ui.theme.splashBackgroundBrush
 import com.kavrin.marvin.ui.theme.splashFont
@@ -30,7 +30,7 @@ import com.kavrin.marvin.ui.theme.splashText
 @Composable
 fun SplashScreen(
     navController: NavHostController,
-    splashViewModel: SplashViewModel = hiltViewModel()
+    splashViewModel: BoardingViewModel
 ) {
 
     val onBoardingState = splashViewModel.onBoardingCompleted.collectAsState()

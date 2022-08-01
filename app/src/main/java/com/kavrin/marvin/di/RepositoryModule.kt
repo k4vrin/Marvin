@@ -1,9 +1,6 @@
 package com.kavrin.marvin.di
 
-import android.app.Application
 import com.kavrin.marvin.data.repository.Repository
-import com.kavrin.marvin.data.repository.impl.DataStoreOpImpl
-import com.kavrin.marvin.domain.repository.DataStoreOp
 import com.kavrin.marvin.domain.use_cases.home.*
 import com.kavrin.marvin.domain.use_cases.list.*
 import com.kavrin.marvin.domain.use_cases.movie.*
@@ -23,23 +20,15 @@ import com.kavrin.marvin.domain.use_cases.tv.TvUseCases
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
-import dagger.hilt.components.SingletonComponent
-import javax.inject.Singleton
+import dagger.hilt.android.components.ViewModelComponent
+import dagger.hilt.android.scopes.ViewModelScoped
 
 @Module
-@InstallIn(SingletonComponent::class)
+@InstallIn(ViewModelComponent::class)
 object RepositoryModule {
 
 	@Provides
-	@Singleton
-	fun provideDataStoreOp(
-		app: Application,
-	): DataStoreOp {
-		return DataStoreOpImpl(context = app)
-	}
-
-	@Provides
-	@Singleton
+	@ViewModelScoped
 	fun provideSplashAndWelcomeUseCases(
 		repository: Repository
 	): SplashWelcomeUseCases {
@@ -51,7 +40,7 @@ object RepositoryModule {
 	}
 
 	@Provides
-	@Singleton
+	@ViewModelScoped
 	fun provideHomeUseCases(
 		repository: Repository
 	): HomeUseCases {
@@ -69,7 +58,7 @@ object RepositoryModule {
 	}
 
 	@Provides
-	@Singleton
+	@ViewModelScoped
 	fun provideMovieUseCases(
 		repository: Repository
 	): MovieUseCases {
@@ -82,7 +71,7 @@ object RepositoryModule {
 	}
 
 	@Provides
-	@Singleton
+	@ViewModelScoped
 	fun provideTvUseCases(
 		repository: Repository
 	): TvUseCases {
@@ -94,7 +83,7 @@ object RepositoryModule {
 	}
 
 	@Provides
-	@Singleton
+	@ViewModelScoped
 	fun provideListUseCases(
 		repository: Repository
 	): ListUseCases {
@@ -109,7 +98,7 @@ object RepositoryModule {
 	}
 
 	@Provides
-	@Singleton
+	@ViewModelScoped
 	fun providePersonUseCases(
 		repository: Repository
 	): PersonUseCases {
@@ -119,7 +108,7 @@ object RepositoryModule {
 	}
 
 	@Provides
-	@Singleton
+	@ViewModelScoped
 	fun provideSearchUseCases(
 		repository: Repository
 	): SearchUseCases {

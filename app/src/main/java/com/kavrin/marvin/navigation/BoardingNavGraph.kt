@@ -2,12 +2,15 @@ package com.kavrin.marvin.navigation
 
 import androidx.compose.animation.AnimatedContentScope
 import androidx.compose.animation.core.tween
+import androidx.compose.runtime.remember
+import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.NavHostController
 import com.google.accompanist.navigation.animation.composable
 import com.google.accompanist.navigation.animation.navigation
-import com.kavrin.marvin.presentation.screens.splash.SplashScreen
-import com.kavrin.marvin.presentation.screens.welcome.WelcomeScreen
+import com.kavrin.marvin.presentation.screens.boarding.BoardingViewModel
+import com.kavrin.marvin.presentation.screens.boarding.splash.SplashScreen
+import com.kavrin.marvin.presentation.screens.boarding.welcome.WelcomeScreen
 
 fun NavGraphBuilder.boardingNavGraph(navHostController: NavHostController) {
 
@@ -37,8 +40,15 @@ fun NavGraphBuilder.boardingNavGraph(navHostController: NavHostController) {
                     }
                 }
             }
-        ) {
-            SplashScreen(navController = navHostController)
+        ) { navBackStack ->
+            val parentEntry = remember(navBackStack) {
+                navHostController.getBackStackEntry(route = Graph.Boarding.route)
+            }
+            val viewModel = hiltViewModel<BoardingViewModel>(parentEntry)
+            SplashScreen(
+                navController = navHostController,
+                splashViewModel = viewModel
+            )
         }
 
         //// Welcome Screen ////
@@ -59,8 +69,15 @@ fun NavGraphBuilder.boardingNavGraph(navHostController: NavHostController) {
                     )
                 )
             }
-        ) {
-            WelcomeScreen(navController = navHostController)
+        ) {navBackStack ->
+            val parentEntry = remember(navBackStack) {
+                navHostController.getBackStackEntry(route = Graph.Boarding.route)
+            }
+            val viewModel = hiltViewModel<BoardingViewModel>(parentEntry)
+            WelcomeScreen(
+                navController = navHostController,
+                welcomeViewModel = viewModel
+            )
         }
     }
 }
