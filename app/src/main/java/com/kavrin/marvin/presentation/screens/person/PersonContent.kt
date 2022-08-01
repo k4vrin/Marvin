@@ -8,9 +8,11 @@ import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.Card
 import androidx.compose.material.Divider
 import androidx.compose.material.MaterialTheme
+import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.RectangleShape
+import androidx.compose.ui.text.font.FontWeight
 import com.kavrin.marvin.domain.model.person.PersonMovieCast
 import com.kavrin.marvin.domain.model.person.PersonMovieCrew
 import com.kavrin.marvin.domain.model.person.PersonTvCast
@@ -46,7 +48,7 @@ fun PersonContent(
     ) {
 
         Card(
-            backgroundColor = MaterialTheme.colors.cardColor,
+            backgroundColor = MaterialTheme.colors.secondaryCardColor,
             shape = RectangleShape
         ) {
 
@@ -80,36 +82,103 @@ fun PersonContent(
 
         }
 
-        if (!personMovieCast.isNullOrEmpty()) {
-            CreditList(
-                movieCast = personMovieCast,
-                lazyRowState = movieCastLazyListState,
-                onItemClicked = onMovieClicked
-            )
+        if (!personMovieCast.isNullOrEmpty() || !personMovieCrew.isNullOrEmpty()) {
+            Card(
+                backgroundColor = MaterialTheme.colors.primaryCardColor,
+                shape = RectangleShape
+            ) {
+                Column(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(vertical = MEDIUM_PADDING)
+                ) {
+
+                    Row(
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .padding(horizontal = MEDIUM_PADDING),
+                    ) {
+
+                        Text(
+                            text = "Movies",
+                            fontFamily = nunitoTypeFace,
+                            fontSize = MaterialTheme.typography.h6.fontSize,
+                            fontWeight = FontWeight.Bold,
+                            color = MaterialTheme.colors.contentColor
+                        )
+                    }
+                    
+                    Spacer(modifier = Modifier.height(SMALL_PADDING))
+
+                    if (!personMovieCast.isNullOrEmpty()) {
+                        CreditList(
+                            movieCast = personMovieCast,
+                            lazyRowState = movieCastLazyListState,
+                            onItemClicked = onMovieClicked
+                        )
+                    }
+
+                    if (!personMovieCrew.isNullOrEmpty()) {
+                        Spacer(modifier = Modifier.height(MEDIUM_PADDING))
+
+                        CreditList(
+                            movieCrew = personMovieCrew,
+                            lazyRowState = movieCrewLazyListState,
+                            onItemClicked = onMovieClicked
+                        )
+                    }
+
+                }
+            }
         }
 
-        if (!personMovieCrew.isNullOrEmpty()) {
-            CreditList(
-                movieCrew = personMovieCrew,
-                lazyRowState = movieCrewLazyListState,
-                onItemClicked = onMovieClicked
-            )
-        }
+        if (!personTvCast.isNullOrEmpty() || !personTvCrew.isNullOrEmpty()) {
+            Card(
+                backgroundColor = MaterialTheme.colors.primaryCardColor,
+                shape = RectangleShape
+            ) {
+                Column(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(vertical = MEDIUM_PADDING)
+                ) {
 
-        if (!personTvCast.isNullOrEmpty()) {
-            CreditList(
-                tvCast = personTvCast,
-                tvCastLazyListState,
-                onItemClicked = onTvClicked
-            )
-        }
+                    Row(
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .padding(horizontal = MEDIUM_PADDING),
+                    ) {
 
-        if (!personTvCrew.isNullOrEmpty()) {
-            CreditList(
-                tvCrew = personTvCrew,
-                tvCrewLazyListState,
-                onItemClicked = onTvClicked
-            )
+                        Text(
+                            text = "Tv Shows",
+                            fontFamily = nunitoTypeFace,
+                            fontSize = MaterialTheme.typography.h6.fontSize,
+                            fontWeight = FontWeight.Bold,
+                            color = MaterialTheme.colors.contentColor
+                        )
+                    }
+
+                    Spacer(modifier = Modifier.height(SMALL_PADDING))
+
+                    if (!personTvCast.isNullOrEmpty()) {
+                        CreditList(
+                            tvCast = personTvCast,
+                            tvCastLazyListState,
+                            onItemClicked = onTvClicked
+                        )
+                    }
+                    if (!personTvCrew.isNullOrEmpty()) {
+                        Spacer(modifier = Modifier.height(MEDIUM_PADDING))
+
+                        CreditList(
+                            tvCrew = personTvCrew,
+                            tvCrewLazyListState,
+                            onItemClicked = onTvClicked
+                        )
+
+                    }
+                }
+            }
         }
 
         Spacer(modifier = Modifier.height(MEDIUM_PADDING))

@@ -85,7 +85,7 @@ private fun customString(
             style = SpanStyle(
                 fontFamily = nunitoTypeFace,
                 fontSize = MaterialTheme.typography.subtitle2.fontSize,
-                fontWeight = FontWeight.Normal,
+                fontWeight = FontWeight.SemiBold,
                 color = MaterialTheme.colors.cardContentColor
             )
         ) {

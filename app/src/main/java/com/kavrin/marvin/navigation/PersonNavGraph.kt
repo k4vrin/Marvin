@@ -10,6 +10,7 @@ import androidx.navigation.NavType
 import androidx.navigation.navArgument
 import com.google.accompanist.navigation.animation.composable
 import com.google.accompanist.navigation.animation.navigation
+import com.kavrin.marvin.presentation.screens.person.PersonScreen
 import com.kavrin.marvin.util.Constants
 
 fun NavGraphBuilder.personNavGraph(navHostController: NavHostController) {
@@ -35,27 +36,33 @@ fun NavGraphBuilder.personNavGraph(navHostController: NavHostController) {
             enterTransition = {
                 slideIntoContainer(
                     towards = AnimatedContentScope.SlideDirection.Up,
-                    animationSpec = tween(durationMillis = 500, delayMillis = 150)
+                    animationSpec = tween(
+                        durationMillis = DurationConstants.MEDIUM,
+                        delayMillis = DurationConstants.LONG
+                    )
                 )
             },
             exitTransition = {
                 fadeOut(
-                    tween(durationMillis = 100, delayMillis = 2000)
+                    tween(
+                        durationMillis = DurationConstants.EXTRA_SHORT,
+                        delayMillis = DurationConstants.EXTRA_LONG * 2
+                    )
                 )
             },
             popEnterTransition = {
                 fadeIn(
-                    tween(durationMillis = 500)
+                    tween(durationMillis = DurationConstants.EXTRA_SHORT)
                 )
             },
             popExitTransition = {
                 slideOutOfContainer(
                     towards = AnimatedContentScope.SlideDirection.Down,
-                    animationSpec = tween(durationMillis = 700)
+                    animationSpec = tween(durationMillis = DurationConstants.SHORT)
                 )
             }
         ) {
-            /*TODO*/
+            PersonScreen(navHostController = navHostController)
         }
 
     }

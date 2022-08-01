@@ -45,7 +45,7 @@ fun PersonCreditItem(
                 elevation = 2.dp
             ),
         shape = shape,
-        backgroundColor = MaterialTheme.colors.cardColor,
+        backgroundColor = MaterialTheme.colors.secondaryCardColor,
         onClick = {
             itemId?.let(onItemClicked)
         }
