@@ -37,11 +37,10 @@ val LowRate = Color(0xFFd00000)
 
 
 val ShimmerLightGray = Color(0xFFF1F1F1)
-val ShimmerMediumGray = Color(0xFFE3E3E3)
+val ShimmerMediumGray = Color(0xFFACACAC)
 val ShimmerDarkGray = Color(0xFF1D1D1D)
 
 val ShimmerDarkGrayVariant = Color(0xFF252525)
-val ShimmerMediumGrayVariant = Color(0xFFACACAC)
 
 val GreenRYB = Color(0xFF55A630)
 val AppleGreen = Color(0xFF80B918)
@@ -110,7 +109,7 @@ val Colors.cardShimmerColor
 
 val Colors.ratingShimmerColor
     @Composable
-    get() = if (isLight) ShimmerMediumGrayVariant else ShimmerDarkGrayVariant
+    get() = if (isLight) ShimmerLightGray else ShimmerDarkGrayVariant
 
 val Colors.fabBgColor
     @Composable

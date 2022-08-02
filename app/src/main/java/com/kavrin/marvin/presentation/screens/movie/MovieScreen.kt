@@ -27,7 +27,6 @@ import com.kavrin.marvin.util.NetworkResult
 import kotlinx.coroutines.delay
 import me.onebone.toolbar.CollapsingToolbarScaffold
 import me.onebone.toolbar.ScrollStrategy
-import me.onebone.toolbar.rememberCollapsingToolbarScaffoldState
 
 
 @Composable
@@ -71,6 +70,7 @@ fun MovieScreen(
     val movieCollection by movieViewModel.movieCollection.collectAsStateWithLifecycle()
     val recommendation by movieViewModel.movieRecommend.collectAsStateWithLifecycle()
     val similar by movieViewModel.movieSimilar.collectAsStateWithLifecycle()
+    val collapsingToolbarState by movieViewModel.collapsingToolbar
 
 
     ///// Handle Errors /////
@@ -87,10 +87,7 @@ fun MovieScreen(
         }
     )
 
-    ///// Collapsing Toolbar State /////
-    val collapsingToolbarState = rememberCollapsingToolbarScaffoldState()
     val scrollState = rememberScrollState()
-
     val reviewState = rememberLazyListState()
     val recommendState = rememberLazyListState()
     val similarState = rememberLazyListState()

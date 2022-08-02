@@ -180,7 +180,5 @@ fun PersonContent(
                 }
             }
         }
-
-        Spacer(modifier = Modifier.height(MEDIUM_PADDING))
     }
 }

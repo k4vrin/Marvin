@@ -66,6 +66,7 @@ fun ShimmerCarouselItem(
 	Row(
 		modifier = Modifier
 			.fillMaxWidth()
+			.height(CAROUSEL_ITEM_HEIGHT * 1.3f)
 			.padding(vertical = MEDIUM_PADDING)
 	) {
 
@@ -83,7 +84,7 @@ fun ShimmerCarouselItem(
 				)
 		) {}
 
-		Spacer(modifier = Modifier.width(MEDIUM_PADDING))
+		Spacer(modifier = Modifier.width(EXTRA_LARGE_PADDING))
 
 		Box(
 			modifier = Modifier
@@ -118,7 +119,7 @@ fun ShimmerCarouselItem(
 			}
 		}
 
-		Spacer(modifier = Modifier.width(MEDIUM_PADDING))
+		Spacer(modifier = Modifier.width(EXTRA_LARGE_PADDING))
 
 		Box(
 			modifier = Modifier
@@ -166,6 +167,8 @@ fun ShimmerCardListItem(
 	Row(
 		modifier = Modifier
 			.fillMaxWidth()
+			.height(MAIN_CARD_HEIGHT * 1.3f),
+		verticalAlignment = Alignment.CenterVertically
 	) {
 
 		Box(

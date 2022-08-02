@@ -289,7 +289,5 @@ fun MovieContent(
                 }
             }
         }
-
-        Spacer(modifier = Modifier.height(MEDIUM_PADDING))
     }
 }

@@ -163,8 +163,8 @@ dependencies {
     // Navigation-Animation - Accompanist
     implementation "com.google.accompanist:accompanist-navigation-animation:$accompanist_version"
     // PlaceHolder
-    implementation "com.google.accompanist:accompanist-placeholder:$accompanist_version"
+//    implementation "com.google.accompanist:accompanist-placeholder:$accompanist_version"
 
     // onebone compose-collapsing-toolbar
-    implementation "me.onebone:toolbar-compose:2.3.3"
+    implementation "me.onebone:toolbar-compose:2.3.4"
 }

@@ -27,7 +27,6 @@ import com.kavrin.marvin.util.NetworkResult
 import kotlinx.coroutines.delay
 import me.onebone.toolbar.CollapsingToolbarScaffold
 import me.onebone.toolbar.ScrollStrategy
-import me.onebone.toolbar.rememberCollapsingToolbarScaffoldState
 
 @Composable
 fun TvScreen(
@@ -68,6 +67,7 @@ fun TvScreen(
     val tvEpisodesToAir by tvViewModel.tvEpisodesToAir.collectAsStateWithLifecycle()
     val tvSimilar by tvViewModel.tvSimilar.collectAsStateWithLifecycle()
     val tvRecommended by tvViewModel.tvRecommended.collectAsStateWithLifecycle()
+    val collapsingToolbarState by tvViewModel.collapsingToolbar
 
     ///// Handle Errors /////
     var isRefreshing by remember { mutableStateOf(false) }
@@ -82,9 +82,8 @@ fun TvScreen(
         }
     )
 
-    val collapsingToolbarState = rememberCollapsingToolbarScaffoldState()
-    val scrollState = rememberScrollState()
 
+    val scrollState = rememberScrollState()
     val reviewState = rememberLazyListState()
     val recommendState = rememberLazyListState()
     val similarState = rememberLazyListState()

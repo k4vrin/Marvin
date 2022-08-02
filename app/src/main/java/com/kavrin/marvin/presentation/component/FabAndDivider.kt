@@ -40,6 +40,7 @@ fun FabAndDivider(
         transitionSpec = {
             tween(
                 durationMillis = 800,
+                delayMillis = 800,
                 easing = FastOutSlowInEasing
             )
         }, label = stringResource(R.string.fab_translate_x)
@@ -54,6 +55,7 @@ fun FabAndDivider(
         transitionSpec = {
             tween(
                 durationMillis = 800,
+                delayMillis = 800,
                 easing = FastOutSlowInEasing
             )
         },

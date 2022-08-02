@@ -1,5 +1,7 @@
 package com.kavrin.marvin.presentation.screens.movie
 
+import androidx.compose.runtime.State
+import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -13,6 +15,8 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
+import me.onebone.toolbar.CollapsingToolbarScaffoldState
+import me.onebone.toolbar.CollapsingToolbarState
 import javax.inject.Inject
 
 @HiltViewModel
@@ -22,6 +26,13 @@ class MovieViewModel @Inject constructor(
 ) : ViewModel() {
 
     val id = savedStateHandle.get<Int>(ARGUMENT_KEY_ID)
+
+    private val _collapsingToolbar = mutableStateOf(
+        CollapsingToolbarScaffoldState(
+            CollapsingToolbarState()
+        )
+    )
+    val collapsingToolbar: State<CollapsingToolbarScaffoldState> = _collapsingToolbar
 
     private val _movieDetailsResponse =
         MutableStateFlow<NetworkResult>(NetworkResult.Loading())

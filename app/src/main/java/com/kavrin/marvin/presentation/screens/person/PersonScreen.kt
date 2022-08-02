@@ -14,7 +14,6 @@ import com.kavrin.marvin.presentation.component.EmptyContent
 import com.kavrin.marvin.util.NetworkResult
 import me.onebone.toolbar.CollapsingToolbarScaffold
 import me.onebone.toolbar.ScrollStrategy
-import me.onebone.toolbar.rememberCollapsingToolbarScaffoldState
 
 @Composable
 fun PersonScreen(
@@ -34,6 +33,7 @@ fun PersonScreen(
     val personMovieCrew by personViewModel.personMovieCrew.collectAsStateWithLifecycle()
     val personTvCast by personViewModel.personTvCast.collectAsStateWithLifecycle()
     val personTvCrew by personViewModel.personTvCrew.collectAsStateWithLifecycle()
+    val collapsingToolbarState by personViewModel.collapsingToolbar
 
 
     ///// Handle Errors /////
@@ -49,8 +49,6 @@ fun PersonScreen(
     )
 
 
-    ///// Collapsing Toolbar State /////
-    val collapsingToolbarState = rememberCollapsingToolbarScaffoldState()
     val scrollState = rememberScrollState()
     val movieCastLazyRow = rememberLazyListState()
     val movieCrewLazyRow = rememberLazyListState()

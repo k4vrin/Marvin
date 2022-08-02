@@ -290,9 +290,6 @@ fun TvContent(
                 }
             }
         }
-
-
-        Spacer(modifier = Modifier.height(MEDIUM_PADDING))
     }
 
 }
