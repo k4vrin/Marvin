@@ -14,8 +14,10 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.draw.rotate
 import androidx.compose.ui.graphics.RectangleShape
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
+import com.kavrin.marvin.R
 import com.kavrin.marvin.domain.model.tv.api.detail.Season
 import com.kavrin.marvin.ui.theme.*
 
@@ -68,7 +70,7 @@ fun SeasonList(
                     ) {
                         Icon(
                             imageVector = Icons.Default.ArrowDropDown,
-                            contentDescription = "DropDow Arrow"
+                            contentDescription = stringResource(R.string.drop_down_icon)
                         )
                     }
                 }

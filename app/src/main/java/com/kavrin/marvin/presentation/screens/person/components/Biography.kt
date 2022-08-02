@@ -6,8 +6,13 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.text.InlineTextContent
+import androidx.compose.foundation.text.appendInlineContent
+import androidx.compose.material.Icon
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.ArrowDropDown
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -15,11 +20,13 @@ import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.geometry.Rect
 import androidx.compose.ui.platform.LocalDensity
-import androidx.compose.ui.text.TextLayoutResult
+import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.*
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.IntSize
 import androidx.compose.ui.unit.sp
+import com.kavrin.marvin.R
 import com.kavrin.marvin.ui.theme.SMALL_PADDING
 import com.kavrin.marvin.ui.theme.cardContentColor
 import com.kavrin.marvin.ui.theme.fabBgColor
@@ -80,13 +87,53 @@ fun Biography(
 
             if (!expanded) {
                 val density = LocalDensity.current
+
+                val iconId = "inlineIcon"
+                val text = buildAnnotatedString {
+                    withStyle(
+                        SpanStyle(
+                            color = MaterialTheme.colors.cardContentColor,
+                            fontWeight = FontWeight.Normal,
+                        )
+                    ) {
+                        append(text = "... ")
+                    }
+
+                    withStyle(
+                        SpanStyle(
+                            color = MaterialTheme.colors.fabBgColor,
+                            fontWeight = FontWeight.ExtraBold,
+                        )
+                    ) {
+                        append(text = "Read more")
+                        appendInlineContent(iconId, "[icon]")
+                    }
+                }
+                val inlineContent = mapOf(
+                    Pair(
+                        first = iconId,
+                        second = InlineTextContent(
+                            placeholder = Placeholder(
+                                width = 16.sp,
+                                height = 16.sp,
+                                placeholderVerticalAlign = PlaceholderVerticalAlign.Center
+                            )
+                        ) {
+                            Icon(
+                                imageVector = Icons.Default.ArrowDropDown,
+                                contentDescription = stringResource(R.string.drop_down_icon),
+                                tint = MaterialTheme.colors.fabBgColor
+                            )
+                        }
+                    )
+                )
+
                 Text(
-                    text = "... Read more",
+                    text = text,
+                    inlineContent = inlineContent,
                     onTextLayout = { seeMoreSizeState.value = it.size },
                     fontFamily = nunitoTypeFace,
                     fontSize = MaterialTheme.typography.body1.fontSize,
-                    fontWeight = FontWeight.ExtraBold,
-                    color = MaterialTheme.colors.fabBgColor,
                     modifier = Modifier
                         .then(
                             if (seeMoreOffset != null)

@@ -165,7 +165,7 @@ val Colors.cardGradientColor
         )
     else
         Brush.linearGradient(
-            listOf(MingDarkCard, Ming),
+            listOf(MingDarkCard, MingDarker),
             start = Offset.Zero,
             end = Offset.Infinite
         )

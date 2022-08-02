@@ -35,4 +35,5 @@
     <string name="reviews">Reviews</string>
     <string name="navigation_icon">Navigation Icon</string>
     <string name="episode_pic">Episode Still</string>
+    <string name="drop_down_icon">DropDown Arrow</string>
 </resources>
