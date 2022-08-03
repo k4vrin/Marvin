@@ -178,12 +178,12 @@ fun CollapsingToolbarScope.TvToolbar(
             maxLines = 2,
             overflow = TextOverflow.Ellipsis
         )
-        subtitle?.let {
+        if (!subtitle.isNullOrBlank()) {
 
             Spacer(modifier = Modifier.height(SMALL_PADDING))
 
             Text(
-                text = "Created by $it",
+                text = "Created by $subtitle",
                 fontFamily = nunitoTypeFace,
                 fontSize = subtitleFontSize,
                 fontWeight = FontWeight.Bold,

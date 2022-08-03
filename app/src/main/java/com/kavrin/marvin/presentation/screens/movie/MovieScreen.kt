@@ -71,6 +71,8 @@ fun MovieScreen(
     val recommendation by movieViewModel.movieRecommend.collectAsStateWithLifecycle()
     val similar by movieViewModel.movieSimilar.collectAsStateWithLifecycle()
     val collapsingToolbarState by movieViewModel.collapsingToolbar
+    val fabState by movieViewModel.fabState
+    val ratingState by movieViewModel.ratingAnimationState
 
 
     ///// Handle Errors /////
@@ -146,6 +148,7 @@ fun MovieScreen(
                     crewState = crewState,
                     videosState = videosState,
                     collectionState = collectionState,
+                    ratingAnimationState = ratingState,
                     onPersonClicked = {
                         navHostController.navigate(Graph.Person.passId(it))
                     },
@@ -177,6 +180,7 @@ fun MovieScreen(
 
             FabAndDivider(
                 collapsingToolbarState = collapsingToolbarState,
+                fabState = fabState,
                 modifier = Modifier
                     .align(Alignment.TopEnd),
                 onFabClicked = { /*TODO*/ }

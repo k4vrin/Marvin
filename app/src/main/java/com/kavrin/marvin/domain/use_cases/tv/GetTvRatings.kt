@@ -26,12 +26,12 @@ class GetTvRatings(
             when {
                 response.message().toString()
                     .contains("timeout") -> {
-                        data = null
-                        NetworkResult.Success()
-                    }
+                    data = null
+                    NetworkResult.Success()
+                }
                 response.body()!!.errorMessage.lowercase().contains("maximum usage") -> {
                     data = IMDbRatingApiResponse(
-                        errorMessage = "",
+                        errorMessage = "marvin",
                         imDb = "",
                         theMovieDb = "",
                         rottenTomatoes = "",
@@ -58,7 +58,7 @@ class GetTvRatings(
                 else -> {
                     Log.d("GetTvRatings", "invoke: $response.body()!!.errorMessage")
                     data = IMDbRatingApiResponse(
-                        errorMessage = "",
+                        errorMessage = "marvin",
                         imDb = "",
                         theMovieDb = "",
                         rottenTomatoes = "",
@@ -74,11 +74,14 @@ class GetTvRatings(
     }
 
     fun getRatingsValue(): Map<String, String?> {
-        return mapOf(
-            IMDB to data?.imDb,
-            TMDB to data?.theMovieDb,
-            META to data?.metacritic,
-            ROTTEN to data?.rottenTomatoes
-        )
+        return if (data != null && data!!.errorMessage.contains("marvin"))
+            emptyMap()
+        else
+            mapOf(
+                IMDB to data?.imDb,
+                TMDB to data?.theMovieDb,
+                META to data?.metacritic,
+                ROTTEN to data?.rottenTomatoes
+            )
     }
 }

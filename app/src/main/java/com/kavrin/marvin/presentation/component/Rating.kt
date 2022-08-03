@@ -8,7 +8,11 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
-import androidx.compose.runtime.*
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.geometry.Offset
@@ -45,7 +49,7 @@ import java.text.DecimalFormat
 @Composable
 fun Rating(
     ratings: Map<String, String?>,
-    animate: Boolean
+    ratingState: MutableTransitionState<RatingState>
 ) {
 
     Column(
@@ -75,7 +79,7 @@ fun Rating(
                 rating = ratings[IMDB],
                 isPercentage = false,
                 provider = IMDB,
-                animate = animate
+                ratingState = ratingState
             )
 
 
@@ -83,14 +87,14 @@ fun Rating(
                 rating = ratings[META],
                 isPercentage = true,
                 provider = META,
-                animate = animate
+                ratingState = ratingState
             )
 
             RatingItem(
                 rating = ratings[TMDB],
                 isPercentage = false,
                 provider = TMDB,
-                animate = animate
+                ratingState = ratingState
             )
 
 
@@ -98,7 +102,7 @@ fun Rating(
                 rating = ratings[ROTTEN],
                 isPercentage = true,
                 provider = ROTTEN,
-                animate = animate
+                ratingState = ratingState
             )
 
 
@@ -111,7 +115,7 @@ fun RatingItem(
     rating: String?,
     isPercentage: Boolean,
     provider: String,
-    animate: Boolean,
+    ratingState: MutableTransitionState<RatingState>,
     maxIndicatorHeight: Dp = 100.dp,
     maxIndicatorWidth: Dp = 20.dp,
     circleSize: Dp = maxIndicatorWidth,
@@ -123,20 +127,20 @@ fun RatingItem(
 
     val ratings = if (!rating.isNullOrBlank()) rating.toDouble() else -0.1
 
-    val unifiedRate = remember(rating) { if (isPercentage) ratings else ratings * 10 }
-
-    val ratingPercentage = remember(unifiedRate) { (unifiedRate * height) / 100 }
-
-    var allowedIndicator by remember { mutableStateOf(height) }
-
-    allowedIndicator =
-        ratingPercentage.toFloat().coerceIn(minimumValue = 0f, maximumValue = height)
-
-    var animIndicatorValue by remember { mutableStateOf(height) }
-
-    LaunchedEffect(key1 = allowedIndicator) {
-        animIndicatorValue -= allowedIndicator
+    val unifiedRate = remember(rating) {
+        if (isPercentage)
+            (ratings * height) / 100
+        else
+            (ratings * height) / 10
     }
+
+    val allowedIndicator by rememberSaveable {
+        mutableStateOf(
+            unifiedRate.toFloat().coerceIn(minimumValue = 0f, maximumValue = height)
+        )
+    }
+
+    val animIndicatorValue by rememberSaveable { mutableStateOf(height - allowedIndicator) }
 
     val painter = painterResource(id = ratingProviderLogo[provider] ?: drawable.retro_tv)
 
@@ -149,12 +153,10 @@ fun RatingItem(
 
     val backgroundColor = MaterialTheme.colors.ratingBackground
 
-    val transitionState = remember { MutableTransitionState(TransitionState.Start) }
-    LaunchedEffect(key1 = animate) {
-        if (animate) transitionState.targetState = TransitionState.End
-    }
-
-    val transition = updateTransition(targetState = transitionState, label = stringResource(R.string.rating_animation))
+    val transition = updateTransition(
+        targetState = ratingState,
+        label = stringResource(R.string.rating_animation)
+    )
     val translateY by transition.animateFloat(
         transitionSpec = {
             tween(
@@ -164,8 +166,8 @@ fun RatingItem(
         }, label = stringResource(R.string.rating_translate_y_animation)
     ) { state ->
         when (state.targetState) {
-            TransitionState.Start -> height
-            TransitionState.End -> animIndicatorValue
+            RatingState.Start -> height
+            RatingState.End -> animIndicatorValue
         }
     }
 
@@ -178,8 +180,8 @@ fun RatingItem(
         }, label = stringResource(R.string.rating_number_animation)
     ) { state ->
         when (state.targetState) {
-            TransitionState.Start -> 0f
-            TransitionState.End -> ratings.toFloat()
+            RatingState.Start -> 0f
+            RatingState.End -> ratings.toFloat()
         }
     }
 
@@ -357,11 +359,11 @@ fun RatingItemPrev() {
             META to "90",
             ROTTEN to ""
         ),
-        animate = true
+        ratingState = MutableTransitionState(RatingState.Start)
     )
 }
 
-enum class TransitionState {
+enum class RatingState {
     Start,
     End
 }

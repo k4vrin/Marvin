@@ -1,6 +1,5 @@
 package com.kavrin.marvin.domain.use_cases.movie
 
-import android.util.Log
 import com.kavrin.marvin.data.repository.Repository
 import com.kavrin.marvin.domain.model.imdb.IMDbRatingApiResponse
 import com.kavrin.marvin.util.Constants.IMDB
@@ -31,11 +30,11 @@ class GetMovieRatings(
                 }
                 response.body()!!.errorMessage.lowercase().contains("maximum usage") -> {
                     data = IMDbRatingApiResponse(
-                        errorMessage = "",
-                        imDb = "",
-                        theMovieDb = "",
-                        rottenTomatoes = "",
-                        metacritic = ""
+                        errorMessage = "marvin",
+                        imDb = null,
+                        theMovieDb = null,
+                        rottenTomatoes = null,
+                        metacritic = null
                     )
                     NetworkResult.Success()
                 }
@@ -56,13 +55,12 @@ class GetMovieRatings(
                     NetworkResult.Success()
                 }
                 else -> {
-                    Log.d("GetTvRatings", "invoke: $response.body()!!.errorMessage")
                     data = IMDbRatingApiResponse(
-                        errorMessage = "",
-                        imDb = "",
-                        theMovieDb = "",
-                        rottenTomatoes = "",
-                        metacritic = ""
+                        errorMessage = "marvin",
+                        imDb = null,
+                        theMovieDb = null,
+                        rottenTomatoes = null,
+                        metacritic = null
                     )
                     NetworkResult.Success()
                 }
@@ -73,11 +71,14 @@ class GetMovieRatings(
     }
 
     fun getRatingsValue(): Map<String, String?> {
-        return mapOf(
-            IMDB to data?.imDb,
-            TMDB to data?.theMovieDb,
-            META to data?.metacritic,
-            ROTTEN to data?.rottenTomatoes
-        )
+        return if (data != null && data!!.errorMessage.contains("marvin"))
+            emptyMap()
+        else
+            mapOf(
+                IMDB to data?.imDb,
+                TMDB to data?.theMovieDb,
+                META to data?.metacritic,
+                ROTTEN to data?.rottenTomatoes
+            )
     }
 }

@@ -181,11 +181,11 @@ fun CollapsingToolbarScope.PersonToolbar(
             overflow = TextOverflow.Ellipsis
         )
 
-        birthdate?.let {
+        if (!birthdate.isNullOrBlank()) {
             Spacer(modifier = Modifier.height(SMALL_PADDING))
 
             Text(
-                text = "Born on ${dateFormatter(date = it)}",
+                text = "Born on ${dateFormatter(date = birthdate)}",
                 fontFamily = nunitoTypeFace,
                 fontSize = subtitleFontSize,
                 fontWeight = FontWeight.Bold,

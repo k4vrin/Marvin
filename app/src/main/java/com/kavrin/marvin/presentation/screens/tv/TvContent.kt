@@ -1,5 +1,6 @@
 package com.kavrin.marvin.presentation.screens.tv
 
+import androidx.compose.animation.core.MutableTransitionState
 import androidx.compose.foundation.ScrollState
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
@@ -8,10 +9,7 @@ import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.Card
 import androidx.compose.material.Divider
 import androidx.compose.material.MaterialTheme
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.derivedStateOf
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.remember
+import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.RectangleShape
 import com.kavrin.marvin.domain.model.common.*
@@ -50,6 +48,7 @@ fun TvContent(
     similarState: LazyListState,
     recommendState: LazyListState,
     videosState: LazyListState,
+    ratingAnimationState: MutableTransitionState<RatingState>,
     onPersonClicked: (Int) -> Unit,
     onReviewClicked: (String) -> Unit,
     onVideoClicked: (String) -> Unit,
@@ -65,6 +64,10 @@ fun TvContent(
         }
     }
 
+    LaunchedEffect(key1 = animRatings) {
+        if (animRatings)
+            ratingAnimationState.targetState = RatingState.End
+    }
 
     Column(
         modifier = Modifier
@@ -135,7 +138,10 @@ fun TvContent(
                             .fillMaxWidth()
                             .padding(all = MEDIUM_PADDING)
                     ) {
-                        Rating(ratings = tvRatings, animate = animRatings)
+                        Rating(
+                            ratings = tvRatings,
+                            ratingState = ratingAnimationState
+                        )
                     }
                 }
             }

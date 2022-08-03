@@ -1,5 +1,6 @@
 package com.kavrin.marvin.presentation.screens.movie
 
+import androidx.compose.animation.core.MutableTransitionState
 import androidx.compose.foundation.ScrollState
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
@@ -8,10 +9,7 @@ import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.Card
 import androidx.compose.material.Divider
 import androidx.compose.material.MaterialTheme
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.derivedStateOf
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.remember
+import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.RectangleShape
 import com.kavrin.marvin.domain.model.common.*
@@ -51,6 +49,7 @@ fun MovieContent(
     recommendState: LazyListState,
     videosState: LazyListState,
     collectionState: LazyListState,
+    ratingAnimationState: MutableTransitionState<RatingState>,
     onPersonClicked: (Int) -> Unit,
     onVideoClicked: (String) -> Unit,
     onReviewClicked: (String) -> Unit,
@@ -62,6 +61,11 @@ fun MovieContent(
         derivedStateOf {
             toolbarState.toolbarState.height == toolbarState.toolbarState.minHeight
         }
+    }
+
+    LaunchedEffect(key1 = animRatings) {
+        if (animRatings)
+            ratingAnimationState.targetState = RatingState.End
     }
 
     Column(
@@ -134,7 +138,10 @@ fun MovieContent(
                         .padding(all = MEDIUM_PADDING)
                 ) {
 
-                        Rating(ratings = movieRatings, animate = animRatings)
+                        Rating(
+                            ratings = movieRatings,
+                            ratingState = ratingAnimationState
+                        )
                     }
                 }
             }

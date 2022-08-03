@@ -179,12 +179,12 @@ fun CollapsingToolbarScope.MovieToolbar(
             maxLines = 2,
             overflow = TextOverflow.Ellipsis
         )
-        subtitle?.let {
+        if (!subtitle.isNullOrBlank()) {
 
             Spacer(modifier = Modifier.height(SMALL_PADDING))
 
             Text(
-                text = "Directed by $it",
+                text = "Directed by $subtitle",
                 fontFamily = nunitoTypeFace,
                 fontSize = subtitleFontSize,
                 fontWeight = FontWeight.Bold,

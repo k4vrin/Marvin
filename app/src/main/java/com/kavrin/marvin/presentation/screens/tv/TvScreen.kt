@@ -68,6 +68,8 @@ fun TvScreen(
     val tvSimilar by tvViewModel.tvSimilar.collectAsStateWithLifecycle()
     val tvRecommended by tvViewModel.tvRecommended.collectAsStateWithLifecycle()
     val collapsingToolbarState by tvViewModel.collapsingToolbar
+    val fabState by tvViewModel.fabState
+    val ratingState by tvViewModel.ratingAnimationState
 
     ///// Handle Errors /////
     var isRefreshing by remember { mutableStateOf(false) }
@@ -139,6 +141,7 @@ fun TvScreen(
                     castState = castState,
                     crewState = crewState,
                     videosState = videosState,
+                    ratingAnimationState = ratingState,
                     onReviewClicked = {
                         val reviewIntent = Intent(Intent.ACTION_VIEW, Uri.parse(it))
                         context.startActivity(reviewIntent)
@@ -175,6 +178,7 @@ fun TvScreen(
 
             FabAndDivider(
                 collapsingToolbarState = collapsingToolbarState,
+                fabState = fabState,
                 modifier = Modifier
                     .align(Alignment.TopEnd),
                 onFabClicked = { /*TODO*/ }

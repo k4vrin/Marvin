@@ -1,5 +1,6 @@
 package com.kavrin.marvin.presentation.screens.movie
 
+import androidx.compose.animation.core.MutableTransitionState
 import androidx.compose.runtime.State
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.SavedStateHandle
@@ -8,6 +9,8 @@ import androidx.lifecycle.viewModelScope
 import com.kavrin.marvin.domain.model.common.*
 import com.kavrin.marvin.domain.model.movie.entities.Movie
 import com.kavrin.marvin.domain.use_cases.movie.MovieUseCases
+import com.kavrin.marvin.presentation.component.FabState
+import com.kavrin.marvin.presentation.component.RatingState
 import com.kavrin.marvin.util.Constants.ARGUMENT_KEY_ID
 import com.kavrin.marvin.util.NetworkResult
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -26,6 +29,14 @@ class MovieViewModel @Inject constructor(
 ) : ViewModel() {
 
     val id = savedStateHandle.get<Int>(ARGUMENT_KEY_ID)
+
+    private val _ratingAnimationState = mutableStateOf(
+        MutableTransitionState(RatingState.Start)
+    )
+    val ratingAnimationState: State<MutableTransitionState<RatingState>> = _ratingAnimationState
+
+    private val _fabState = mutableStateOf(MutableTransitionState(FabState.Start))
+    val fabState: State<MutableTransitionState<FabState>> = _fabState
 
     private val _collapsingToolbar = mutableStateOf(
         CollapsingToolbarScaffoldState(
