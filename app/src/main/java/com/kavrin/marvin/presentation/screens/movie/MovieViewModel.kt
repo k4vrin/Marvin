@@ -111,8 +111,8 @@ class MovieViewModel @Inject constructor(
                 _movieDetailsResponse.value = useCases.getMovieDetails(id = id)
                 _toolbarInfo.value = useCases.getMovieDetails.getMovieToolbar()
                 _releaseRuntimeStatus.value = useCases.getMovieDetails.getReleaseRuntimeStatus()
-                _movieGenre.value = useCases.getMovieDetails.getGenres()
                 _movieOverview.value = useCases.getMovieDetails.getOverview()
+                _movieGenre.value = useCases.getMovieDetails.getGenres()
                 _movieCast.value = useCases.getMovieDetails.getCast()
                 _movieCrew.value = useCases.getMovieDetails.getCrew()
                 _movieTrailer.value = useCases.getMovieDetails.getOfficialTrailer()
@@ -122,14 +122,6 @@ class MovieViewModel @Inject constructor(
                 _movieRecommend.value = useCases.getMovieDetails.getRecommendations()
                 _movieSimilar.value = useCases.getMovieDetails.getSimilar()
 
-                val imdbId = useCases.getMovieDetails.getImdbId()
-                if (!imdbId.isNullOrBlank()) {
-                    _movieRatingResponse.value = useCases.getMovieRatings(id = imdbId)
-                    _movieRatings.value = useCases.getMovieRatings.getRatingsValue()
-                } else {
-                    _movieRatingResponse.value = NetworkResult.Success()
-                }
-
                 val collectionId = useCases.getMovieDetails.getCollectionId()
                 if (collectionId != null) {
                     _movieCollectionRes.value = useCases.getCollection(id = collectionId)
@@ -137,6 +129,14 @@ class MovieViewModel @Inject constructor(
                         useCases.getCollection.getCollectionNameAndOverview()
                     _movieCollection.value = useCases.getCollection.getCollectionMovies()
                 }
+
+//                val imdbId = useCases.getMovieDetails.getImdbId()
+//                if (!imdbId.isNullOrBlank()) {
+//                    _movieRatingResponse.value = useCases.getMovieRatings(id = imdbId)
+//                    _movieRatings.value = useCases.getMovieRatings.getRatingsValue()
+//                } else {
+//                    _movieRatingResponse.value = NetworkResult.Success()
+//                }
 
             }
         }

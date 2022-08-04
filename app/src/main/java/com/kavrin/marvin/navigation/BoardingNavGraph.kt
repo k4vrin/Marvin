@@ -8,6 +8,9 @@ import androidx.navigation.NavGraphBuilder
 import androidx.navigation.NavHostController
 import com.google.accompanist.navigation.animation.composable
 import com.google.accompanist.navigation.animation.navigation
+import com.kavrin.marvin.navigation.util.BoardingScreens
+import com.kavrin.marvin.navigation.util.Durations
+import com.kavrin.marvin.navigation.util.Graph
 import com.kavrin.marvin.presentation.screens.boarding.BoardingViewModel
 import com.kavrin.marvin.presentation.screens.boarding.splash.SplashScreen
 import com.kavrin.marvin.presentation.screens.boarding.welcome.WelcomeScreen
@@ -26,15 +29,15 @@ fun NavGraphBuilder.boardingNavGraph(navHostController: NavHostController) {
                     BoardingScreens.Welcome.route -> {
                         slideOutOfContainer(
                             towards = AnimatedContentScope.SlideDirection.Left,
-                            animationSpec = tween(durationMillis = DurationConstants.SHORT)
+                            animationSpec = tween(durationMillis = Durations.SHORT)
                         )
                     }
                     else -> {
                         slideOutOfContainer(
                             towards = AnimatedContentScope.SlideDirection.Up,
                             animationSpec = tween(
-                                durationMillis = DurationConstants.MEDIUM,
-                                delayMillis = DurationConstants.EXTRA_LONG
+                                durationMillis = Durations.MEDIUM,
+                                delayMillis = Durations.EXTRA_LONG
                             )
                         )
                     }
@@ -57,15 +60,15 @@ fun NavGraphBuilder.boardingNavGraph(navHostController: NavHostController) {
             enterTransition = {
                 slideIntoContainer(
                     towards = AnimatedContentScope.SlideDirection.Left,
-                    animationSpec = tween(durationMillis = DurationConstants.SHORT)
+                    animationSpec = tween(durationMillis = Durations.SHORT)
                 )
             },
             exitTransition = {
                 slideOutOfContainer(
                     towards = AnimatedContentScope.SlideDirection.Up,
                     animationSpec = tween(
-                        durationMillis = DurationConstants.MEDIUM,
-                        delayMillis = DurationConstants.EXTRA_LONG
+                        durationMillis = Durations.MEDIUM,
+                        delayMillis = Durations.EXTRA_LONG
                     )
                 )
             }
@@ -80,12 +83,4 @@ fun NavGraphBuilder.boardingNavGraph(navHostController: NavHostController) {
             )
         }
     }
-}
-
-sealed class BoardingScreens(val route: String) {
-    //// Splash Screen ////
-    object Splash : BoardingScreens(route = "splash_screen")
-
-    //// OnBoarding Screen ////
-    object Welcome : BoardingScreens(route = "welcome_screen")
 }

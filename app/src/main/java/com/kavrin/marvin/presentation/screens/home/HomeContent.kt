@@ -14,18 +14,18 @@ import androidx.paging.LoadState
 import androidx.paging.compose.LazyPagingItems
 import com.google.accompanist.pager.HorizontalPager
 import com.google.accompanist.pager.rememberPagerState
-import com.google.accompanist.swiperefresh.SwipeRefresh
-import com.google.accompanist.swiperefresh.rememberSwipeRefreshState
 import com.kavrin.marvin.domain.model.movie.entities.relations.MovieAndPopular
 import com.kavrin.marvin.domain.model.movie.entities.relations.MovieAndTopRated
 import com.kavrin.marvin.domain.model.movie.entities.relations.MovieAndTrending
 import com.kavrin.marvin.domain.model.tv.entities.relations.TvAndPopular
 import com.kavrin.marvin.domain.model.tv.entities.relations.TvAndTopRated
 import com.kavrin.marvin.domain.model.tv.entities.relations.TvAndTrending
-import com.kavrin.marvin.navigation.Graph
-import com.kavrin.marvin.navigation.HomeScreen
+import com.kavrin.marvin.navigation.util.Graph
+import com.kavrin.marvin.navigation.util.HomeScreens
 import com.kavrin.marvin.presentation.component.EmptyContent
-import com.kavrin.marvin.presentation.screens.home.component.*
+import com.kavrin.marvin.presentation.screens.home.component.CardList
+import com.kavrin.marvin.presentation.screens.home.component.Carousel
+import com.kavrin.marvin.presentation.screens.home.component.MarvinTabRow
 import com.kavrin.marvin.ui.theme.EXTRA_LARGE_PADDING
 import com.kavrin.marvin.ui.theme.MEDIUM_PADDING
 import com.kavrin.marvin.ui.theme.backGroundColor
@@ -77,50 +77,33 @@ fun HomeContent(
             .fillMaxSize()
     ) {
 
+        MarvinTabRow(pagerState = pagerState)
         if (handler) {
-            MarvinTabRow(pagerState = pagerState)
 
-            SwipeRefresh(
-                state = rememberSwipeRefreshState(isRefreshing = isRefreshing),
-                onRefresh = {
-                    isRefreshing = true
-                    onRefresh()
-                    carouselMovies.refresh()
-                    popularMovies.refresh()
-                    topRatedMovies.refresh()
-                    trendingMovies.refresh()
-                    carouselTvs.refresh()
-                    popularTvs.refresh()
-                    topRatedTvs.refresh()
-                    trendingTvs.refresh()
-                    isRefreshing = false
-                }
-            ) {
-                HorizontalPager(
-                    count = 2,
-                    state = pagerState,
-                    itemSpacing = 1.dp,
-                    userScrollEnabled = false,
-                ) { page ->
+            HorizontalPager(
+                count = 2,
+                state = pagerState,
+                itemSpacing = 1.dp,
+                userScrollEnabled = false,
+            ) { page ->
 
-                    when (page) {
-                        0 -> MovieTabContent(
-                            navHostController = navHostController,
-                            carousel = carouselMovies,
-                            popular = popularMovies,
-                            topRated = topRatedMovies,
-                            trending = trendingMovies,
-                            isConnected = isConnected
-                        )
-                        1 -> TvTabContent(
-                            navHostController = navHostController,
-                            carousel = carouselTvs,
-                            popular = popularTvs,
-                            topRated = topRatedTvs,
-                            trending = trendingTvs,
-                            isConnected = isConnected
-                        )
-                    }
+                when (page) {
+                    0 -> MovieTabContent(
+                        navHostController = navHostController,
+                        carousel = carouselMovies,
+                        popular = popularMovies,
+                        topRated = topRatedMovies,
+                        trending = trendingMovies,
+                        isConnected = isConnected
+                    )
+                    1 -> TvTabContent(
+                        navHostController = navHostController,
+                        carousel = carouselTvs,
+                        popular = popularTvs,
+                        topRated = topRatedTvs,
+                        trending = trendingTvs,
+                        isConnected = isConnected
+                    )
                 }
             }
         }
@@ -172,7 +155,7 @@ fun MovieTabContent(
             },
             onSeeAllClicked = {
                 navHostController.navigate(
-                    HomeScreen.List.passListName(
+                    HomeScreens.List.passListName(
                         listName = Constants.TRENDING,
                         isMovie = true
                     )
@@ -192,7 +175,7 @@ fun MovieTabContent(
             },
             onSeeAllClicked = {
                 navHostController.navigate(
-                    HomeScreen.List.passListName(
+                    HomeScreens.List.passListName(
                         listName = Constants.POPULAR,
                         isMovie = true
                     )
@@ -212,7 +195,7 @@ fun MovieTabContent(
             },
             onSeeAllClicked = {
                 navHostController.navigate(
-                    HomeScreen.List.passListName(
+                    HomeScreens.List.passListName(
                         listName = Constants.TOP_RATED,
                         isMovie = true
                     )
@@ -268,7 +251,7 @@ fun TvTabContent(
             },
             onSeeAllClicked = {
                 navHostController.navigate(
-                    HomeScreen.List.passListName(
+                    HomeScreens.List.passListName(
                         listName = Constants.TRENDING,
                         isMovie = false
                     )
@@ -288,7 +271,7 @@ fun TvTabContent(
             },
             onSeeAllClicked = {
                 navHostController.navigate(
-                    HomeScreen.List.passListName(
+                    HomeScreens.List.passListName(
                         listName = Constants.POPULAR,
                         isMovie = false
                     )
@@ -308,7 +291,7 @@ fun TvTabContent(
             },
             onSeeAllClicked = {
                 navHostController.navigate(
-                    HomeScreen.List.passListName(
+                    HomeScreens.List.passListName(
                         listName = Constants.TOP_RATED,
                         isMovie = false
                     )
@@ -319,38 +302,6 @@ fun TvTabContent(
 
         Spacer(modifier = Modifier.height(EXTRA_LARGE_PADDING))
 
-    }
-}
-
-@Composable
-fun <T : MarvinItem> handlePagingResult(
-    item: LazyPagingItems<T>,
-    isCarousel: Boolean,
-): Boolean {
-
-    item.apply {
-
-        return when {
-            loadState.refresh is LoadState.Loading -> {
-                if (isCarousel) {
-                    ShimmerCarouselEffect()
-                    false
-                } else {
-                    ShimmerCardEffect()
-                    false
-                }
-            }
-            item.itemCount < 3 -> {
-                if (isCarousel) {
-                    ShimmerCarouselEffect()
-                    false
-                } else {
-                    ShimmerCardEffect()
-                    false
-                }
-            }
-            else -> true
-        }
     }
 }
 
@@ -377,6 +328,13 @@ fun <T : MarvinItem> handleError(
                     errorMessage = parseErrorMessage(error = error),
                     isRefreshing = isRefreshing,
                     onRefresh = onRefresh
+                )
+                false
+            }
+            loadState.refresh is LoadState.Loading -> {
+                EmptyContent(
+                    isLoading = true,
+                    isError = false
                 )
                 false
             }

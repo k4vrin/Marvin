@@ -3,8 +3,8 @@ package com.kavrin.marvin.presentation.screens.home
 import androidx.compose.foundation.layout.Column
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Menu
-import androidx.compose.material.icons.filled.Search
+import androidx.compose.material.icons.rounded.Menu
+import androidx.compose.material.icons.rounded.Search
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
@@ -44,7 +44,7 @@ fun HomeTopBar(
 					onClick = onSearchClicked
 				) {
 					Icon(
-						imageVector = Icons.Default.Search,
+						imageVector = Icons.Rounded.Search,
 						contentDescription = stringResource(R.string.search_icon),
 						tint = MaterialTheme.colors.topBarContentColor
 					)
@@ -52,11 +52,11 @@ fun HomeTopBar(
 			},
 			navigationIcon = {
 				IconButton(
-					onClick = onSearchClicked
+					onClick = {/*TODO*/}
 				) {
 					Icon(
-						imageVector = Icons.Default.Menu,
-						contentDescription = stringResource(R.string.search_icon),
+						imageVector = Icons.Rounded.Menu,
+						contentDescription = stringResource(R.string.menu_icon),
 						tint = MaterialTheme.colors.topBarContentColor
 					)
 				}

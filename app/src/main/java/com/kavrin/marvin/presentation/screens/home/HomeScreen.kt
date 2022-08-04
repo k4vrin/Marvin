@@ -8,18 +8,18 @@ import androidx.compose.material.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
 import androidx.paging.compose.collectAsLazyPagingItems
 import com.google.accompanist.systemuicontroller.rememberSystemUiController
-import com.kavrin.marvin.navigation.DurationConstants
-import com.kavrin.marvin.navigation.HomeScreen
+import com.kavrin.marvin.navigation.util.Durations
+import com.kavrin.marvin.navigation.util.HomeScreens
 import com.kavrin.marvin.ui.theme.statusBarColor
 import kotlinx.coroutines.delay
 import me.onebone.toolbar.CollapsingToolbarScaffold
 import me.onebone.toolbar.ScrollStrategy
-import me.onebone.toolbar.rememberCollapsingToolbarScaffoldState
 
 @Composable
 fun HomeScreen(
@@ -45,12 +45,12 @@ fun HomeScreen(
     val useDarkIcons = MaterialTheme.colors.isLight
     LaunchedEffect(key1 = true) {
         delay(
-            timeMillis = ((DurationConstants.MEDIUM + DurationConstants.EXTRA_LONG) * 0.9).toLong()
+            timeMillis = ((Durations.MEDIUM + Durations.EXTRA_LONG) * 0.9).toLong()
         )
         ui.setStatusBarColor(color = color, darkIcons = useDarkIcons)
     }
 
-    val collapsingToolbarState = rememberCollapsingToolbarScaffoldState()
+    val collapsingToolbarState by homeViewModel.collapsingToolbar
 
     CollapsingToolbarScaffold(
         modifier = Modifier
@@ -62,7 +62,7 @@ fun HomeScreen(
         toolbar = {
             HomeTopBar(
                 isConnected = isConnected.value,
-                onSearchClicked = { navController.navigate(HomeScreen.Search.route) }
+                onSearchClicked = { navController.navigate(HomeScreens.Search.route) }
             )
         },
     ) {

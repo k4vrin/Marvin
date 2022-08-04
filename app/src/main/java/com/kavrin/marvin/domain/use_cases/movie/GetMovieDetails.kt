@@ -158,11 +158,17 @@ class GetMovieDetails(
 
 
     fun getRecommendations(): List<Movie>? {
-        return data?.recommendations?.movies
+        return data
+            ?.recommendations
+            ?.movies
+            ?.filter { it.title.isNotBlank() }
     }
 
     fun getSimilar(): List<Movie>? {
-        return data?.similar?.movies
+        return data
+            ?.similar
+            ?.movies
+            ?.filter { it.title.isNotBlank() }
     }
 }
 

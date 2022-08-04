@@ -106,8 +106,8 @@ class TvViewModel @Inject constructor(
             id?.let { id ->
                 _tvDetailsResponse.value = useCases.getTvDetails(id = id)
                 _toolbarInfo.value = useCases.getTvDetails.getToolbarInfo()
-                _overviewTotalEpisodes.value = useCases.getTvDetails.getOverviewTotalEpisodes()
                 _tvRuntimeStatusDate.value = useCases.getTvDetails.getRuntimeStatusDateTotal()
+                _overviewTotalEpisodes.value = useCases.getTvDetails.getOverviewTotalEpisodes()
                 _tvGenres.value = useCases.getTvDetails.getGenres()
                 _tvCast.value = useCases.getTvDetails.getCast()
                 _tvCrew.value = useCases.getTvDetails.getCrew()
@@ -120,13 +120,13 @@ class TvViewModel @Inject constructor(
                 _tvSimilar.value = useCases.getTvDetails.getSimilarTvs()
                 _tvRecommended.value = useCases.getTvDetails.getRecommendedTvs()
 
-                val imdbId = useCases.getTvDetails.getImdbId()
-                if (!imdbId.isNullOrBlank()) {
-                    _tvRatingsResponse.value = useCases.getTvRatings(id = imdbId)
-                    _tvRatings.value = useCases.getTvRatings.getRatingsValue()
-                } else {
-                    _tvRatingsResponse.value = NetworkResult.Success()
-                }
+//                val imdbId = useCases.getTvDetails.getImdbId()
+//                if (!imdbId.isNullOrBlank()) {
+//                    _tvRatingsResponse.value = useCases.getTvRatings(id = imdbId)
+//                    _tvRatings.value = useCases.getTvRatings.getRatingsValue()
+//                } else {
+//                    _tvRatingsResponse.value = NetworkResult.Success()
+//                }
             }
         }
     }

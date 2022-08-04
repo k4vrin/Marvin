@@ -18,8 +18,8 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.navigation.NavHostController
 import com.kavrin.marvin.R
-import com.kavrin.marvin.navigation.BoardingScreens
-import com.kavrin.marvin.navigation.Graph
+import com.kavrin.marvin.navigation.util.BoardingScreens
+import com.kavrin.marvin.navigation.util.Graph
 import com.kavrin.marvin.presentation.component.LoadingAnimation
 import com.kavrin.marvin.presentation.screens.boarding.BoardingViewModel
 import com.kavrin.marvin.ui.theme.EXTRA_LARGE_PADDING

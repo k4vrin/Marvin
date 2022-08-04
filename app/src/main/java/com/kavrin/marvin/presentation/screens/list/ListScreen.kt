@@ -17,7 +17,7 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavHostController
 import androidx.paging.compose.collectAsLazyPagingItems
 import com.google.accompanist.systemuicontroller.rememberSystemUiController
-import com.kavrin.marvin.navigation.Graph
+import com.kavrin.marvin.navigation.util.Graph
 import com.kavrin.marvin.ui.theme.*
 import com.kavrin.marvin.util.Constants
 import kotlinx.coroutines.delay

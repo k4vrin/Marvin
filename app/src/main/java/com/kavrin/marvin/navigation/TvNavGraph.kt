@@ -10,14 +10,17 @@ import androidx.navigation.NavType
 import androidx.navigation.navArgument
 import com.google.accompanist.navigation.animation.composable
 import com.google.accompanist.navigation.animation.navigation
+import com.kavrin.marvin.navigation.util.Durations
+import com.kavrin.marvin.navigation.util.Graph
+import com.kavrin.marvin.navigation.util.TvScreens
 import com.kavrin.marvin.presentation.screens.tv.TvScreen
 import com.kavrin.marvin.util.Constants
 
 fun NavGraphBuilder.tvNavGraph(navHostController: NavHostController) {
 
     navigation(
-        startDestination = TvScreen.Tv.route,
         route = Graph.Tv.route,
+        startDestination = TvScreens.Tv.route,
         arguments = listOf(
             navArgument(Constants.ARGUMENT_KEY_ID) {
                 type = NavType.IntType
@@ -28,7 +31,7 @@ fun NavGraphBuilder.tvNavGraph(navHostController: NavHostController) {
 
         //// Tv Screen ////
         composable(
-            route = TvScreen.Tv.route,
+            route = TvScreens.Tv.route,
             arguments = listOf(
                 navArgument(Constants.ARGUMENT_KEY_ID) {
                     type = NavType.IntType
@@ -38,56 +41,34 @@ fun NavGraphBuilder.tvNavGraph(navHostController: NavHostController) {
                 slideIntoContainer(
                     towards = AnimatedContentScope.SlideDirection.Up,
                     animationSpec = tween(
-                        durationMillis = DurationConstants.MEDIUM,
-                        delayMillis = DurationConstants.LONG
+                        durationMillis = Durations.MEDIUM,
+                        delayMillis = Durations.EXTRA_LONG
                     )
                 )
             },
             exitTransition = {
-                when (targetState.destination.route) {
-                    BottomBarScreen.Home.route -> {
-                        slideOutOfContainer(
-                            towards = AnimatedContentScope.SlideDirection.Down,
-                            animationSpec = tween(
-                                durationMillis = DurationConstants.MEDIUM,
-                                delayMillis = DurationConstants.LONG
-                            )
-                        )
-                    }
-                    else -> {
-                        fadeOut(
-                            tween(
-                                durationMillis = DurationConstants.EXTRA_SHORT,
-                                delayMillis = DurationConstants.EXTRA_LONG * 2
-                            )
-                        )
-                    }
-                }
+                fadeOut(
+                    tween(
+                        durationMillis = Durations.MEDIUM,
+                        delayMillis = Durations.EXTRA_LONG + Durations.EXTRA_SHORT
+                    )
+                )
             },
             popEnterTransition = {
                 fadeIn(
-                    tween(durationMillis = DurationConstants.EXTRA_SHORT)
+                    tween(
+                        durationMillis = Durations.SHORT,
+                        delayMillis = Durations.EXTRA_SHORT * 2
+                    )
                 )
             },
             popExitTransition = {
-                when (targetState.destination.route) {
-                    BottomBarScreen.Home.route -> {
-                        slideOutOfContainer(
-                            towards = AnimatedContentScope.SlideDirection.Down,
-                            animationSpec = tween(
-                                durationMillis = DurationConstants.MEDIUM,
-                                delayMillis = DurationConstants.LONG
-                            )
-                        )
-                    }
-                    else -> {
-                        slideOutOfContainer(
-                            towards = AnimatedContentScope.SlideDirection.Down,
-                            animationSpec = tween(durationMillis = DurationConstants.SHORT)
-                        )
-                    }
-                }
-
+                slideOutOfContainer(
+                    towards = AnimatedContentScope.SlideDirection.Down,
+                    animationSpec = tween(
+                        durationMillis = Durations.MEDIUM
+                    )
+                )
             }
         ) {
             TvScreen(navHostController = navHostController)
@@ -98,20 +79,4 @@ fun NavGraphBuilder.tvNavGraph(navHostController: NavHostController) {
 
 
     }
-}
-
-sealed class TvScreen(val route: String) {
-
-    object Tv : TvScreen("tv_screen/{id}") {
-        fun passId(id: Int): String {
-            return "tv_screen/${id}"
-        }
-    }
-
-    object Season : TvScreen("season_screen/{id}") {
-        fun passId(id: Int): String {
-            return "season_screen/${id}"
-        }
-    }
-
 }

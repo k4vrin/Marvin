@@ -9,7 +9,7 @@ import androidx.compose.material.MaterialTheme
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.SideEffect
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -17,7 +17,7 @@ import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.IntOffset
 import com.kavrin.marvin.R
-import com.kavrin.marvin.navigation.DurationConstants
+import com.kavrin.marvin.navigation.util.Durations
 import com.kavrin.marvin.ui.theme.*
 import me.onebone.toolbar.CollapsingToolbarScaffoldState
 
@@ -30,17 +30,18 @@ fun FabAndDivider(
 ) {
 
     ///// FAB Animations /////
-    SideEffect {
+    LaunchedEffect(key1 = true) {
         fabState.targetState = FabState.End
     }
+
     val transition =
         updateTransition(targetState = fabState, label = stringResource(R.string.fab_animation))
 
     val animFabTranslateX by transition.animateFloat(
         transitionSpec = {
             tween(
-                durationMillis = DurationConstants.MEDIUM,
-                delayMillis = DurationConstants.SHORT,
+                durationMillis = Durations.MEDIUM,
+                delayMillis = Durations.EXTRA_LONG,
                 easing = FastOutSlowInEasing
             )
         }, label = stringResource(R.string.fab_translate_x)
@@ -54,8 +55,8 @@ fun FabAndDivider(
     val animRotate by transition.animateFloat(
         transitionSpec = {
             tween(
-                durationMillis = DurationConstants.MEDIUM,
-                delayMillis = DurationConstants.SHORT,
+                durationMillis = Durations.MEDIUM,
+                delayMillis = Durations.EXTRA_LONG,
                 easing = FastOutSlowInEasing
             )
         },

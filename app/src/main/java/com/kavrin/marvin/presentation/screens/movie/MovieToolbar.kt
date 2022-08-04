@@ -170,15 +170,18 @@ fun CollapsingToolbarScope.MovieToolbar(
             .fillMaxWidth()
     ) {
 
-        Text(
-            text = title ?: "",
-            fontFamily = nunitoTypeFace,
-            fontSize = titleFontSize,
-            fontWeight = FontWeight.Black,
-            color = textColor,
-            maxLines = 2,
-            overflow = TextOverflow.Ellipsis
-        )
+        if (!title.isNullOrBlank()) {
+            Text(
+                text = title,
+                fontFamily = nunitoTypeFace,
+                fontSize = titleFontSize,
+                fontWeight = FontWeight.Black,
+                color = textColor,
+                maxLines = 2,
+                overflow = TextOverflow.Ellipsis
+            )
+        }
+
         if (!subtitle.isNullOrBlank()) {
 
             Spacer(modifier = Modifier.height(SMALL_PADDING))
@@ -189,7 +192,7 @@ fun CollapsingToolbarScope.MovieToolbar(
                 fontSize = subtitleFontSize,
                 fontWeight = FontWeight.Bold,
                 color = textColor,
-                maxLines = 2,
+                maxLines = 1,
                 overflow = TextOverflow.Ellipsis
             )
 

@@ -18,9 +18,9 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavHostController
 import com.google.accompanist.systemuicontroller.rememberSystemUiController
 import com.kavrin.marvin.domain.use_cases.movie.MovieUseCaseKeys
-import com.kavrin.marvin.navigation.DurationConstants
-import com.kavrin.marvin.navigation.Graph
-import com.kavrin.marvin.navigation.MovieScreen
+import com.kavrin.marvin.navigation.util.Durations
+import com.kavrin.marvin.navigation.util.Graph
+import com.kavrin.marvin.navigation.util.MovieScreens
 import com.kavrin.marvin.presentation.component.EmptyContent
 import com.kavrin.marvin.presentation.component.FabAndDivider
 import com.kavrin.marvin.util.NetworkResult
@@ -43,7 +43,7 @@ fun MovieScreen(
     LaunchedEffect(key1 = true) {
         movieViewModel.getMovieDetails()
         delay(
-            ((DurationConstants.MEDIUM + DurationConstants.LONG) * 0.9).toLong()
+            ((Durations.MEDIUM + Durations.LONG) * 0.9).toLong()
         )
         uiController.setStatusBarColor(
             color = Color.Transparent,
@@ -53,8 +53,8 @@ fun MovieScreen(
 
 
     val movieDetailsResultState by movieViewModel.movieDetailsResponse.collectAsStateWithLifecycle()
-    val movieRatingsResultState by movieViewModel.movieRatingResponse.collectAsStateWithLifecycle()
-    val movieCollectionResultState by movieViewModel.movieCollectionRes.collectAsStateWithLifecycle()
+//    val movieRatingsResultState by movieViewModel.movieRatingResponse.collectAsStateWithLifecycle()
+//    val movieCollectionResultState by movieViewModel.movieCollectionRes.collectAsStateWithLifecycle()
     val movieToolbarInfo by movieViewModel.toolbarInfo.collectAsStateWithLifecycle()
     val movieReleaseRuntimeStatus by movieViewModel.releaseRuntimeStatus.collectAsStateWithLifecycle()
     val movieOverview by movieViewModel.movieOverview.collectAsStateWithLifecycle()
@@ -78,9 +78,7 @@ fun MovieScreen(
     ///// Handle Errors /////
     var isRefreshing by remember { mutableStateOf(false) }
     val result = handleMovieNetworkResult(
-        ratings = movieRatingsResultState,
         details = movieDetailsResultState,
-        collection = movieCollectionResultState,
         isRefreshing = isRefreshing,
         onRefresh = {
             isRefreshing = true
@@ -153,7 +151,7 @@ fun MovieScreen(
                         navHostController.navigate(Graph.Person.passId(it))
                     },
                     onMovieClicked = {
-                        navHostController.navigate(MovieScreen.Movie.passId(it))
+                        navHostController.navigate(MovieScreens.Movie.passId(it))
                     },
                     onMenuClicked = {
                         /*TODO*/
@@ -192,33 +190,26 @@ fun MovieScreen(
 
 @Composable
 private fun handleMovieNetworkResult(
-    ratings: NetworkResult,
     details: NetworkResult,
-    collection: NetworkResult,
     isRefreshing: Boolean = false,
     onRefresh: () -> Unit
 ): Boolean {
 
-    return when {
-        ratings is NetworkResult.Error || details is NetworkResult.Error || collection is NetworkResult.Error -> {
+    return when (details) {
+        is NetworkResult.Error -> {
             EmptyContent(
                 isLoading = false,
                 isError = true,
                 isRefreshing = isRefreshing,
-                errorMessage = when {
-                    ratings is NetworkResult.Error -> ratings.message
-                    details is NetworkResult.Error -> details.message
-                    else -> collection.message
-                },
+                errorMessage = details.message,
                 onRefresh = onRefresh
             )
             false
         }
-        ratings is NetworkResult.Loading || details is NetworkResult.Loading -> {
+        is NetworkResult.Loading -> {
             EmptyContent(isLoading = true, isError = false)
             false
         }
-        ratings is NetworkResult.Success && details is NetworkResult.Success -> true
-        else -> false
+        is NetworkResult.Success -> true
     }
 }

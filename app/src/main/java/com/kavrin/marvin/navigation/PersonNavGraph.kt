@@ -10,13 +10,16 @@ import androidx.navigation.NavType
 import androidx.navigation.navArgument
 import com.google.accompanist.navigation.animation.composable
 import com.google.accompanist.navigation.animation.navigation
+import com.kavrin.marvin.navigation.util.Durations
+import com.kavrin.marvin.navigation.util.Graph
+import com.kavrin.marvin.navigation.util.PersonScreens
 import com.kavrin.marvin.presentation.screens.person.PersonScreen
 import com.kavrin.marvin.util.Constants
 
 fun NavGraphBuilder.personNavGraph(navHostController: NavHostController) {
 
     navigation(
-        startDestination = PersonScreen.Person.route,
+        startDestination = PersonScreens.Person.route,
         route = Graph.Person.route,
         arguments = listOf(
             navArgument(Constants.ARGUMENT_KEY_ID) {
@@ -27,7 +30,7 @@ fun NavGraphBuilder.personNavGraph(navHostController: NavHostController) {
 
         //// Person Screen ////
         composable(
-            route = PersonScreen.Person.route,
+            route = PersonScreens.Person.route,
             arguments = listOf(
                 navArgument(Constants.ARGUMENT_KEY_ID) {
                     type = NavType.IntType
@@ -37,41 +40,38 @@ fun NavGraphBuilder.personNavGraph(navHostController: NavHostController) {
                 slideIntoContainer(
                     towards = AnimatedContentScope.SlideDirection.Up,
                     animationSpec = tween(
-                        durationMillis = DurationConstants.MEDIUM,
-                        delayMillis = DurationConstants.LONG
+                        durationMillis = Durations.MEDIUM,
+                        delayMillis = Durations.EXTRA_LONG
                     )
                 )
             },
             exitTransition = {
                 fadeOut(
                     tween(
-                        durationMillis = DurationConstants.EXTRA_SHORT,
-                        delayMillis = DurationConstants.EXTRA_LONG * 2
+                        durationMillis = Durations.MEDIUM,
+                        delayMillis = Durations.EXTRA_LONG + Durations.EXTRA_SHORT
                     )
                 )
             },
             popEnterTransition = {
                 fadeIn(
-                    tween(durationMillis = DurationConstants.EXTRA_SHORT)
+                    tween(
+                        durationMillis = Durations.SHORT,
+                        delayMillis = Durations.EXTRA_SHORT * 2
+                    )
                 )
             },
             popExitTransition = {
                 slideOutOfContainer(
                     towards = AnimatedContentScope.SlideDirection.Down,
-                    animationSpec = tween(durationMillis = DurationConstants.SHORT)
+                    animationSpec = tween(
+                        durationMillis = Durations.MEDIUM
+                    )
                 )
             }
         ) {
             PersonScreen(navHostController = navHostController)
         }
 
-    }
-}
-
-sealed class PersonScreen(val route: String) {
-    object Person : PersonScreen("person_screen/{id}") {
-        fun passId(id: Int): String {
-            return "person_screen/${id}"
-        }
     }
 }

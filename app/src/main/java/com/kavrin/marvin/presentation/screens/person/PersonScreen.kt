@@ -9,7 +9,7 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavHostController
 import com.kavrin.marvin.domain.use_cases.person.PersonConstants
-import com.kavrin.marvin.navigation.Graph
+import com.kavrin.marvin.navigation.util.Graph
 import com.kavrin.marvin.presentation.component.EmptyContent
 import com.kavrin.marvin.util.NetworkResult
 import me.onebone.toolbar.CollapsingToolbarScaffold

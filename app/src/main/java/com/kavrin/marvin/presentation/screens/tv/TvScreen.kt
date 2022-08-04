@@ -18,9 +18,9 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavHostController
 import com.google.accompanist.systemuicontroller.rememberSystemUiController
 import com.kavrin.marvin.domain.use_cases.tv.TvUseCaseKeys
-import com.kavrin.marvin.navigation.DurationConstants
-import com.kavrin.marvin.navigation.Graph
-import com.kavrin.marvin.navigation.TvScreen
+import com.kavrin.marvin.navigation.util.Durations
+import com.kavrin.marvin.navigation.util.Graph
+import com.kavrin.marvin.navigation.util.TvScreens
 import com.kavrin.marvin.presentation.component.EmptyContent
 import com.kavrin.marvin.presentation.component.FabAndDivider
 import com.kavrin.marvin.util.NetworkResult
@@ -42,7 +42,7 @@ fun TvScreen(
     LaunchedEffect(key1 = true) {
         tvViewModel.getTvDetails()
         delay(
-            ((DurationConstants.MEDIUM + DurationConstants.LONG) * 0.9).toLong()
+            ((Durations.MEDIUM + Durations.LONG) * 0.9).toLong()
         )
         uiController.setStatusBarColor(
             color = Color.Transparent,
@@ -51,7 +51,7 @@ fun TvScreen(
     }
 
     val tvDetailsResultState by tvViewModel.tvDetailsResponse.collectAsStateWithLifecycle()
-    val tvRatingsResultState by tvViewModel.tvRatingsResponse.collectAsStateWithLifecycle()
+//    val tvRatingsResultState by tvViewModel.tvRatingsResponse.collectAsStateWithLifecycle()
     val toolbarInfo by tvViewModel.toolbarInfo.collectAsStateWithLifecycle()
     val overviewTotal by tvViewModel.overviewTotalEpisodes.collectAsStateWithLifecycle()
     val tvStatus by tvViewModel.tvRuntimeStatusDate.collectAsStateWithLifecycle()
@@ -74,7 +74,6 @@ fun TvScreen(
     ///// Handle Errors /////
     var isRefreshing by remember { mutableStateOf(false) }
     val result = handleTvNetworkResult(
-        ratings = tvRatingsResultState,
         tvDetails = tvDetailsResultState,
         isRefreshing = isRefreshing,
         onRefresh = {
@@ -168,7 +167,7 @@ fun TvScreen(
                         /*TODO*/
                     },
                     onTvClicked = {
-                        navHostController.navigate(TvScreen.Tv.passId(it))
+                        navHostController.navigate(TvScreens.Tv.passId(it))
                     },
                     onMenuClicked = {
                         /*TODO*/
@@ -193,31 +192,26 @@ fun TvScreen(
 
 @Composable
 private fun handleTvNetworkResult(
-    ratings: NetworkResult,
     tvDetails: NetworkResult,
     isRefreshing: Boolean = false,
     onRefresh: () -> Unit
 ): Boolean {
 
-    return when {
-        ratings is NetworkResult.Error || tvDetails is NetworkResult.Error  -> {
+    return when (tvDetails) {
+        is NetworkResult.Error -> {
             EmptyContent(
                 isLoading = false,
                 isError = true,
                 isRefreshing = isRefreshing,
-                errorMessage = when {
-                    ratings is NetworkResult.Error -> ratings.message
-                    else -> tvDetails.message
-                },
+                errorMessage = tvDetails.message,
                 onRefresh = onRefresh
             )
             false
         }
-        ratings is NetworkResult.Loading || tvDetails is NetworkResult.Loading -> {
+        is NetworkResult.Loading -> {
             EmptyContent(isLoading = true, isError = false)
             false
         }
-        ratings is NetworkResult.Success && tvDetails is NetworkResult.Success -> true
-        else -> false
+        is NetworkResult.Success -> true
     }
 }

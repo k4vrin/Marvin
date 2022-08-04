@@ -9,7 +9,6 @@ import androidx.compose.ui.Modifier
 import androidx.core.view.WindowCompat
 import com.google.accompanist.navigation.animation.rememberAnimatedNavController
 import com.kavrin.marvin.navigation.SetupNavGraph
-import com.kavrin.marvin.presentation.component.BottomBar
 import com.kavrin.marvin.ui.theme.MarvinTheme
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -24,7 +23,6 @@ class MainActivity : ComponentActivity() {
 				Scaffold(
 					modifier = Modifier
 					    .navigationBarsPadding(),
-					bottomBar = { BottomBar(navHostController = navHostController) }
 				) {
 					SetupNavGraph(navHostController = navHostController, paddingValues = it)
 				}

@@ -24,9 +24,10 @@ import com.google.accompanist.pager.HorizontalPager
 import com.google.accompanist.pager.PagerState
 import com.google.accompanist.pager.rememberPagerState
 import com.kavrin.marvin.R
-import com.kavrin.marvin.navigation.Graph
+import com.kavrin.marvin.navigation.util.Graph
 import com.kavrin.marvin.presentation.component.WormHorizontalPagerIndicator
 import com.kavrin.marvin.presentation.screens.boarding.BoardingViewModel
+import com.kavrin.marvin.presentation.screens.boarding.OnBoardingPage
 import com.kavrin.marvin.ui.theme.*
 import com.kavrin.marvin.util.Constants.LAST_WELCOME_PAGE
 import com.kavrin.marvin.util.Constants.ON_BOARDING_PAGE_COUNT
@@ -97,7 +98,7 @@ fun WelcomeScreen(
 
 @Composable
 fun PagerScreen(
-    onBoardingPage: OnBoardingPage,
+	onBoardingPage: OnBoardingPage,
 ) {
 
 	Box {

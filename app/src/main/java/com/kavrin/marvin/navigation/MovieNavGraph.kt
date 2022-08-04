@@ -10,14 +10,17 @@ import androidx.navigation.NavType
 import androidx.navigation.navArgument
 import com.google.accompanist.navigation.animation.composable
 import com.google.accompanist.navigation.animation.navigation
+import com.kavrin.marvin.navigation.util.Durations
+import com.kavrin.marvin.navigation.util.Graph
+import com.kavrin.marvin.navigation.util.MovieScreens
 import com.kavrin.marvin.presentation.screens.movie.MovieScreen
 import com.kavrin.marvin.util.Constants
 
 fun NavGraphBuilder.movieNavGraph(navHostController: NavHostController) {
 
     navigation(
-        startDestination = MovieScreen.Movie.route,
         route = Graph.Movie.route,
+        startDestination = MovieScreens.Movie.route,
         arguments = listOf(
             navArgument(Constants.ARGUMENT_KEY_ID) {
                 type = NavType.IntType
@@ -27,7 +30,7 @@ fun NavGraphBuilder.movieNavGraph(navHostController: NavHostController) {
 
         //// Movie Screen ////
         composable(
-            route = MovieScreen.Movie.route,
+            route = MovieScreens.Movie.route,
             arguments = listOf(
                 navArgument(Constants.ARGUMENT_KEY_ID) {
                     type = NavType.IntType
@@ -37,57 +40,34 @@ fun NavGraphBuilder.movieNavGraph(navHostController: NavHostController) {
                 slideIntoContainer(
                     towards = AnimatedContentScope.SlideDirection.Up,
                     animationSpec = tween(
-                        durationMillis = DurationConstants.MEDIUM,
-                        delayMillis = DurationConstants.LONG
+                        durationMillis = Durations.MEDIUM,
+                        delayMillis = Durations.EXTRA_LONG
                     )
                 )
             },
             exitTransition = {
-                when (targetState.destination.route) {
-                    BottomBarScreen.Home.route -> {
-                        slideOutOfContainer(
-                            towards = AnimatedContentScope.SlideDirection.Down,
-                            animationSpec = tween(
-                                durationMillis = DurationConstants.MEDIUM,
-                                delayMillis = DurationConstants.LONG
-                            )
-                        )
-                    }
-                    else -> {
-                        fadeOut(
-                            tween(
-                                durationMillis = DurationConstants.EXTRA_SHORT,
-                                delayMillis = DurationConstants.EXTRA_LONG * 2
-                            )
-                        )
-                    }
-                }
+                fadeOut(
+                    tween(
+                        durationMillis = Durations.MEDIUM,
+                        delayMillis = Durations.EXTRA_LONG + Durations.EXTRA_SHORT
+                    )
+                )
             },
             popEnterTransition = {
                 fadeIn(
-                    tween(durationMillis = DurationConstants.EXTRA_SHORT)
+                    tween(
+                        durationMillis = Durations.SHORT,
+                        delayMillis = Durations.EXTRA_SHORT * 2
+                    )
                 )
             },
             popExitTransition = {
-                when (targetState.destination.route) {
-                    BottomBarScreen.Home.route -> {
-                        slideOutOfContainer(
-                            towards = AnimatedContentScope.SlideDirection.Down,
-                            animationSpec = tween(
-                                durationMillis = DurationConstants.MEDIUM,
-                                delayMillis = DurationConstants.LONG
-                            )
-                        )
-                    }
-                    else -> {
-                        slideOutOfContainer(
-                            towards = AnimatedContentScope.SlideDirection.Down,
-                            animationSpec = tween(
-                                durationMillis = DurationConstants.SHORT
-                            )
-                        )
-                    }
-                }
+                slideOutOfContainer(
+                    towards = AnimatedContentScope.SlideDirection.Down,
+                    animationSpec = tween(
+                        durationMillis = Durations.MEDIUM
+                    )
+                )
             }
         ) {
             MovieScreen(navHostController = navHostController)
@@ -96,12 +76,3 @@ fun NavGraphBuilder.movieNavGraph(navHostController: NavHostController) {
     }
 }
 
-sealed class MovieScreen(val route: String) {
-
-    //// Movie Screen ////
-    object Movie : MovieScreen(route = "movie_screen/{id}") {
-        fun passId(id: Int): String {
-            return "movie_screen/${id}"
-        }
-    }
-}

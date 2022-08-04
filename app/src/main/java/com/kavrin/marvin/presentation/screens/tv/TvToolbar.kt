@@ -168,16 +168,18 @@ fun CollapsingToolbarScope.TvToolbar(
             .padding(horizontal = textHorizontalPad, vertical = textVerticalPad)
             .fillMaxWidth()
     ) {
+        if (!title.isNullOrBlank()) {
+            Text(
+                text = title,
+                fontFamily = nunitoTypeFace,
+                fontSize = titleFontSize,
+                fontWeight = FontWeight.Black,
+                color = textColor,
+                maxLines = 2,
+                overflow = TextOverflow.Ellipsis
+            )
+        }
 
-        Text(
-            text = title ?: "",
-            fontFamily = nunitoTypeFace,
-            fontSize = titleFontSize,
-            fontWeight = FontWeight.Black,
-            color = textColor,
-            maxLines = 2,
-            overflow = TextOverflow.Ellipsis
-        )
         if (!subtitle.isNullOrBlank()) {
 
             Spacer(modifier = Modifier.height(SMALL_PADDING))
@@ -188,7 +190,7 @@ fun CollapsingToolbarScope.TvToolbar(
                 fontSize = subtitleFontSize,
                 fontWeight = FontWeight.Bold,
                 color = textColor,
-                maxLines = 2,
+                maxLines = 1,
                 overflow = TextOverflow.Ellipsis
             )
 
