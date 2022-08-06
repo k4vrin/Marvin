@@ -17,6 +17,8 @@ import com.kavrin.marvin.domain.use_cases.tv.GetTv
 import com.kavrin.marvin.domain.use_cases.tv.GetTvDetails
 import com.kavrin.marvin.domain.use_cases.tv.GetTvRatings
 import com.kavrin.marvin.domain.use_cases.tv.TvUseCases
+import com.kavrin.marvin.domain.use_cases.tv_season.GetTvSeason
+import com.kavrin.marvin.domain.use_cases.tv_season.TvSeasonUseCases
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -115,6 +117,16 @@ object RepositoryModule {
 		return SearchUseCases(
 			searchMovies = SearchMovies(repository),
 			searchTvs = SearchTvs(repository)
+		)
+	}
+
+	@Provides
+	@ViewModelScoped
+	fun provideSeasonUseCases(
+		repository: Repository
+	): TvSeasonUseCases {
+		return TvSeasonUseCases(
+			getTvSeason = GetTvSeason(repository)
 		)
 	}
 }

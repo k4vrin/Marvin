@@ -11,6 +11,7 @@ object Constants {
 	const val IMDb_BASE_URL = "https://imdb-api.com/API/"
 
 	const val ARGUMENT_KEY_ID = "id"
+	const val ARGUMENT_KEY_SEASON_NUMBER = "seasonNumber"
 	const val LIST_ARGUMENT_KEY_NAME = "listName"
 	const val LIST_ARGUMENT_KEY_IS_MOVIE = "isMovie"
 

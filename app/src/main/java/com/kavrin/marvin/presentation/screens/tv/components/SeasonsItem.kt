@@ -41,7 +41,7 @@ fun SeasonItem(
             .fillMaxWidth()
             .height(160.dp)
             .clickable {
-                onSeasonClicked(season.id)
+                onSeasonClicked(season.seasonNumber)
             }
     ) {
 

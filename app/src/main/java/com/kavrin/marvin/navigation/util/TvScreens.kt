@@ -8,9 +8,15 @@ sealed class TvScreens(val route: String) {
         }
     }
 
-    object Season : TvScreens("season_screen/{id}") {
+    object Season : TvScreens("season_screen/{id}/{seasonNumber}") {
+        fun passIdAndSeasonNumber(id: Int, seasonNumber: Int): String {
+            return "season_screen/${id}/${seasonNumber}"
+        }
+    }
+
+    object Episode : TvScreens("episode_screen/{id}") {
         fun passId(id: Int): String {
-            return "season_screen/${id}"
+            return "episode_screen/${id}"
         }
     }
 

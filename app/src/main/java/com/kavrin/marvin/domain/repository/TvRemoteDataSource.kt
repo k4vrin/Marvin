@@ -2,6 +2,7 @@ package com.kavrin.marvin.domain.repository
 
 import androidx.paging.PagingData
 import com.kavrin.marvin.domain.model.tv.api.detail.SingleTvApiResponse
+import com.kavrin.marvin.domain.model.tv.api.season.SeasonApiResponse
 import com.kavrin.marvin.domain.model.tv.entities.Tv
 import com.kavrin.marvin.domain.model.tv.entities.relations.TvAndPopular
 import com.kavrin.marvin.domain.model.tv.entities.relations.TvAndTopRated
@@ -21,4 +22,5 @@ interface TvRemoteDataSource {
 	fun searchTvs(query: String): Flow<PagingData<Tv>>
 	suspend fun saveTvGenres()
 	suspend fun getTvDetails(id: Int): Response<SingleTvApiResponse>
+	suspend fun getTvSeason(id: Int, seasonNumber: Int): Response<SeasonApiResponse>
 }

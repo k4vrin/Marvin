@@ -10,6 +10,7 @@ import com.kavrin.marvin.domain.model.movie.entities.relations.MovieAndTopRated
 import com.kavrin.marvin.domain.model.movie.entities.relations.MovieAndTrending
 import com.kavrin.marvin.domain.model.person.PersonApiResponse
 import com.kavrin.marvin.domain.model.tv.api.detail.SingleTvApiResponse
+import com.kavrin.marvin.domain.model.tv.api.season.SeasonApiResponse
 import com.kavrin.marvin.domain.model.tv.entities.Tv
 import com.kavrin.marvin.domain.model.tv.entities.relations.TvAndPopular
 import com.kavrin.marvin.domain.model.tv.entities.relations.TvAndTopRated
@@ -146,6 +147,10 @@ class Repository @Inject constructor(
 
 	suspend fun getTvDetails(id: Int): Response<SingleTvApiResponse> {
 		return tvRemote.getTvDetails(id = id)
+	}
+
+	suspend fun getTvSeason(id: Int, seasonNumber: Int): Response<SeasonApiResponse> {
+		return tvRemote.getTvSeason(id, seasonNumber)
 	}
 
 	suspend fun saveTvs(tvs: List<Tv>) {

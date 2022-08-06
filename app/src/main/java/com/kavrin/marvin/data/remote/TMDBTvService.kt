@@ -4,6 +4,7 @@ import com.kavrin.marvin.BuildConfig
 import com.kavrin.marvin.domain.model.tv.api.TvApiResponse
 import com.kavrin.marvin.domain.model.tv.api.TvGenreApiResponse
 import com.kavrin.marvin.domain.model.tv.api.detail.SingleTvApiResponse
+import com.kavrin.marvin.domain.model.tv.api.season.SeasonApiResponse
 import retrofit2.Response
 import retrofit2.http.GET
 import retrofit2.http.Path
@@ -52,4 +53,11 @@ interface TMDBTvService {
 		@Query("api_key") apiKey: String = BuildConfig.API_KEY,
 		@Query("append_to_response") append: String = "videos,images,credits,reviews,external_ids,recommendations,similar"
 	): Response<SingleTvApiResponse>
+
+	@GET("tv/{id}/season/{season_number}")
+	suspend fun getTvSeason(
+		@Path("id") id: Int,
+		@Path("season_number") seasonNumber: Int,
+		@Query("api_key") apiKey: String = BuildConfig.API_KEY,
+	): Response<SeasonApiResponse>
 }

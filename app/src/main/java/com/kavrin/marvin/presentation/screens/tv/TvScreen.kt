@@ -160,8 +160,15 @@ fun TvScreen(
                     onPersonClicked = {
                         navHostController.navigate(Graph.Person.passId(it))
                     },
-                    onSeasonClicked = {
-                        /*TODO*/
+                    onSeasonClicked = { seasonNumber ->
+                        tvViewModel.id?.let { id ->
+                            navHostController.navigate(
+                                TvScreens.Season.passIdAndSeasonNumber(
+                                    id = id,
+                                    seasonNumber = seasonNumber
+                                )
+                            )
+                        }
                     },
                     onEpisodeClicked = {
                         /*TODO*/
@@ -189,9 +196,8 @@ fun TvScreen(
 }
 
 
-
 @Composable
-private fun handleTvNetworkResult(
+fun handleTvNetworkResult(
     tvDetails: NetworkResult,
     isRefreshing: Boolean = false,
     onRefresh: () -> Unit
