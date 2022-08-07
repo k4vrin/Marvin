@@ -37,7 +37,6 @@ fun NavGraphBuilder.boardingNavGraph(navHostController: NavHostController) {
                             towards = AnimatedContentScope.SlideDirection.Up,
                             animationSpec = tween(
                                 durationMillis = Durations.MEDIUM,
-                                delayMillis = Durations.EXTRA_LONG
                             )
                         )
                     }

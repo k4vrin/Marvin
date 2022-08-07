@@ -323,7 +323,6 @@ fun <T : MarvinItem> handleError(
         return when {
             error != null -> {
                 EmptyContent(
-                    isLoading = false,
                     isError = true,
                     errorMessage = parseErrorMessage(error = error),
                     isRefreshing = isRefreshing,
@@ -331,11 +330,8 @@ fun <T : MarvinItem> handleError(
                 )
                 false
             }
-            loadState.refresh is LoadState.Loading -> {
-                EmptyContent(
-                    isLoading = true,
-                    isError = false
-                )
+            loadState.refresh is LoadState.Loading || itemCount < 4 -> {
+                EmptyContent(isError = false)
                 false
             }
             else -> true

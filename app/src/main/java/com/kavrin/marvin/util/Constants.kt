@@ -5,6 +5,7 @@ object Constants {
 	const val BASE_URL = "https://api.themoviedb.org/3/"
 	const val IMAGE_BACKDROP_BASE_URL = "https://image.tmdb.org/t/p/w780/"
 	const val IMAGE_POSTER_BASE_URL = "https://image.tmdb.org/t/p/w342/"
+	const val IMAGE_CAROUSEL_POSTER_BASE_URL = "https://image.tmdb.org/t/p/w500/"
 	const val IMAGE_PROFILE_BASE_URL = "https://image.tmdb.org/t/p/w185/"
 	const val IMAGE_PERSON_BASE_URL = "https://image.tmdb.org/t/p/h632/"
 	const val IMAGE_STILL_BASE_URL = "https://image.tmdb.org/t/p/w185/"

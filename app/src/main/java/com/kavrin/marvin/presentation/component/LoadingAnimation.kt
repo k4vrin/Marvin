@@ -14,7 +14,6 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.graphicsLayer
-import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import com.kavrin.marvin.ui.theme.loadingCircleColor
@@ -55,7 +54,7 @@ fun LoadingAnimation(
     }
 
     val circleValues = circles.map { it.value }
-    val distance = with(LocalDensity.current) { travelDistance.toPx() }
+//    val distance = with(LocalDensity.current) { travelDistance.toPx() }
 
     Row(
         modifier = modifier,
@@ -67,7 +66,7 @@ fun LoadingAnimation(
                 modifier = Modifier
                     .size(circleSize)
                     .graphicsLayer {
-                        translationY = -value * distance
+                        alpha = value
                     }
                     .background(
                         color = circleColor,
@@ -80,10 +79,6 @@ fun LoadingAnimation(
     }
 
 }
-
-
-
-
 
 
 

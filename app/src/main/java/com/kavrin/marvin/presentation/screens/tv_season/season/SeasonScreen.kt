@@ -77,6 +77,9 @@ fun SeasonScreen(
             SeasonContent(
                 lazyListState = lazyListState,
                 episodes = episodes,
+                seasonName = seasonInfo[GetTvSeason.NAME],
+                seasonOverview = seasonInfo[GetTvSeason.OVERVIEW],
+                seasonPoster = seasonInfo[GetTvSeason.POSTER],
                 onEpisodeClicked = {
                     navHostController.navigate(TvScreens.Episode.passId(id = it))
                 }

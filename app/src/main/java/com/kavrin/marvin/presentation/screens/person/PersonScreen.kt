@@ -3,6 +3,7 @@ package com.kavrin.marvin.presentation.screens.person
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
 import androidx.hilt.navigation.compose.hiltViewModel
@@ -54,6 +55,16 @@ fun PersonScreen(
     val movieCrewLazyRow = rememberLazyListState()
     val tvCrewLazyRow = rememberLazyListState()
     val tvCastLazyRow = rememberLazyListState()
+    val toolbarScroll = rememberScrollState()
+
+    val toolbarScrollable by remember {
+        derivedStateOf {
+            when (scrollState.value) {
+                0 -> true
+                else -> false
+            }
+        }
+    }
 
 
     if (result) {
@@ -63,6 +74,11 @@ fun PersonScreen(
                 .fillMaxSize(),
             state = collapsingToolbarState,
             scrollStrategy = ScrollStrategy.ExitUntilCollapsed,
+            toolbarModifier = Modifier
+                .verticalScroll(
+                    state = toolbarScroll,
+                    enabled = toolbarScrollable
+                ),
             toolbar = {
                 PersonToolbar(
                     state = collapsingToolbarState,

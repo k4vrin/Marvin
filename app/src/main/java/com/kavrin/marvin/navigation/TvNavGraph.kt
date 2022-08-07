@@ -147,7 +147,7 @@ fun NavGraphBuilder.tvNavGraph(navHostController: NavHostController) {
                     towards = AnimatedContentScope.SlideDirection.Left,
                     animationSpec = tween(
                         durationMillis = Durations.MEDIUM,
-                        delayMillis = Durations.EXTRA_LONG
+                        delayMillis = Durations.LONG
                     )
                 )
             },
@@ -155,7 +155,7 @@ fun NavGraphBuilder.tvNavGraph(navHostController: NavHostController) {
                 fadeOut(
                     tween(
                         durationMillis = Durations.MEDIUM,
-                        delayMillis = Durations.EXTRA_LONG + Durations.EXTRA_SHORT
+                        delayMillis = Durations.EXTRA_LONG
                     )
                 )
             },

@@ -24,8 +24,8 @@ import com.kavrin.marvin.ui.theme.*
 
 @Composable
 fun EmptyContent(
-    isLoading: Boolean,
     isError: Boolean,
+    isLoading: Boolean = !isError,
     isRefreshing: Boolean = false,
     errorMessage: String? = null,
     onRefresh: (() -> Unit)? = null

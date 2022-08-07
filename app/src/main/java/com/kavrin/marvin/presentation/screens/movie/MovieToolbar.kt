@@ -99,7 +99,7 @@ fun CollapsingToolbarScope.MovieToolbar(
         contentDescription = stringResource(id = R.string.movie_poster),
         contentScale = ContentScale.Crop,
         modifier = Modifier
-            .background(color = MaterialTheme.colors.statusBarColor)
+            .background(color = MaterialTheme.colors.topBarBgColor)
             .fillMaxWidth()
             .height(300.dp)
             .parallax(0.5f)

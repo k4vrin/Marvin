@@ -8,7 +8,8 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowDropDown
-import androidx.compose.runtime.*
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.alpha
@@ -25,18 +26,19 @@ import com.kavrin.marvin.ui.theme.*
 @Composable
 fun SeasonList(
     seasons: List<Season>,
+    expanded: Boolean,
+    onExpand: () -> Unit,
     onSeasonClicked: (Int) -> Unit
 ) {
 
-    var expandedState by remember { mutableStateOf(false) }
     val rotationState by animateFloatAsState(
-        targetValue = if (expandedState) 180f else 0f
+        targetValue = if (expanded) 180f else 0f
     )
 
     Card(
         backgroundColor = MaterialTheme.colors.primaryCardColor,
         shape = RectangleShape,
-        onClick = { expandedState = !expandedState }
+        onClick = onExpand
     ) {
 
         Column(
@@ -66,7 +68,7 @@ fun SeasonList(
                         modifier = Modifier
                             .alpha(ContentAlpha.medium)
                             .rotate(rotationState),
-                        onClick = { expandedState = !expandedState },
+                        onClick = onExpand,
                     ) {
                         Icon(
                             imageVector = Icons.Default.ArrowDropDown,
@@ -90,7 +92,7 @@ fun SeasonList(
 
             if (seasons.size > 1) {
                 AnimatedVisibility(
-                    visible = expandedState,
+                    visible = expanded,
                     enter = expandVertically(
                         expandFrom = Alignment.Top
                     ),
@@ -160,7 +162,9 @@ fun SeasonListPreview() {
                 seasonNumber = 1
             )
         ),
-        onSeasonClicked = {}
+        onSeasonClicked = {},
+        expanded = true,
+        onExpand = {}
     )
 }
 

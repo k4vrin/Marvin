@@ -100,7 +100,7 @@ fun CollapsingToolbarScope.PersonToolbar(
         contentDescription = stringResource(id = R.string.movie_poster),
         contentScale = ContentScale.Crop,
         modifier = Modifier
-            .background(color = MaterialTheme.colors.statusBarColor)
+            .background(color = MaterialTheme.colors.topBarBgColor)
             .fillMaxWidth()
             .height(400.dp)
             .parallax(0.5f)

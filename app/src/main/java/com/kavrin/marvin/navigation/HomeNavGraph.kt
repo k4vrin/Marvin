@@ -37,7 +37,6 @@ fun NavGraphBuilder.homeNavGraph(
                     towards = AnimatedContentScope.SlideDirection.Up,
                     animationSpec = tween(
                         durationMillis = Durations.MEDIUM,
-                        delayMillis = Durations.EXTRA_LONG
                     )
                 )
             },
@@ -45,7 +44,7 @@ fun NavGraphBuilder.homeNavGraph(
                 fadeOut(
                     tween(
                         durationMillis = Durations.MEDIUM,
-                        delayMillis = Durations.EXTRA_LONG + Durations.EXTRA_SHORT
+                        delayMillis = Durations.EXTRA_LONG
                     )
                 )
             },
@@ -79,23 +78,23 @@ fun NavGraphBuilder.homeNavGraph(
                     towards = AnimatedContentScope.SlideDirection.Left,
                     animationSpec = tween(
                         durationMillis = Durations.MEDIUM,
-                        delayMillis = Durations.EXTRA_LONG
+                        delayMillis = Durations.LONG
                     )
                 )
             },
             exitTransition = {
                 fadeOut(
                     tween(
-                        durationMillis = Durations.EXTRA_SHORT,
-                        delayMillis = Durations.EXTRA_LONG + Durations.EXTRA_SHORT
+                        durationMillis = Durations.MEDIUM,
+                        delayMillis = Durations.EXTRA_LONG
                     )
                 )
             },
             popEnterTransition = {
                 fadeIn(
                     tween(
-                        durationMillis = Durations.LONG,
-                        delayMillis = Durations.EXTRA_SHORT
+                        durationMillis = Durations.SHORT,
+                        delayMillis = Durations.EXTRA_SHORT * 2
                     )
                 )
             },
@@ -127,14 +126,15 @@ fun NavGraphBuilder.homeNavGraph(
                 slideIntoContainer(
                     towards = AnimatedContentScope.SlideDirection.Left,
                     animationSpec = tween(
-                        durationMillis = Durations.SHORT
+                        durationMillis = Durations.MEDIUM,
+                        delayMillis = Durations.LONG
                     )
                 )
             },
             exitTransition = {
                 fadeOut(
                     tween(
-                        durationMillis = Durations.EXTRA_SHORT,
+                        durationMillis = Durations.MEDIUM,
                         delayMillis = Durations.EXTRA_LONG
                     )
                 )
@@ -142,8 +142,8 @@ fun NavGraphBuilder.homeNavGraph(
             popEnterTransition = {
                 fadeIn(
                     tween(
-                        durationMillis = Durations.MEDIUM,
-                        delayMillis = Durations.EXTRA_SHORT
+                        durationMillis = Durations.SHORT,
+                        delayMillis = Durations.EXTRA_SHORT * 2
                     )
                 )
             },

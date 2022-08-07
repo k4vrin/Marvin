@@ -14,6 +14,7 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.unit.dp
 import androidx.paging.compose.LazyPagingItems
 import com.google.accompanist.pager.HorizontalPager
 import com.google.accompanist.pager.calculateCurrentOffsetForPage
@@ -22,6 +23,7 @@ import com.kavrin.marvin.presentation.component.PosterWithIcon
 import com.kavrin.marvin.presentation.component.RatingIndicator
 import com.kavrin.marvin.presentation.component.WormHorizontalPagerIndicator
 import com.kavrin.marvin.ui.theme.*
+import com.kavrin.marvin.util.Constants
 import com.kavrin.marvin.util.MarvinItem
 import com.kavrin.marvin.util.lerp
 import kotlin.math.absoluteValue
@@ -43,12 +45,15 @@ fun <T : MarvinItem> Carousel(
     ///// Container /////
     Column(
         modifier = Modifier
-            .fillMaxWidth(),
+            .fillMaxWidth()
+            .heightIn(min = 400.dp),
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
 
         ///// Pager /////
         HorizontalPager(
+            modifier = Modifier
+                .heightIn(min = 300.dp),
             count = items.itemCount,
             state = pagerState,
             contentPadding = PaddingValues(
@@ -106,6 +111,7 @@ fun <T : MarvinItem> Carousel(
                         },
                     posterPath = posterPath,
                     itemId = itemId,
+                    imageBaseUrl = Constants.IMAGE_CAROUSEL_POSTER_BASE_URL,
                     onMenuIconClicked = onMenuIconClicked,
                 )
 

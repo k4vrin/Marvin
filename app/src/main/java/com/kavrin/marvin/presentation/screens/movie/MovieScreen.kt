@@ -7,6 +7,7 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.MaterialTheme
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
@@ -95,6 +96,17 @@ fun MovieScreen(
     val castState = rememberLazyListState()
     val crewState = rememberLazyListState()
     val collectionState = rememberLazyListState()
+    val toolbarScroll = rememberScrollState()
+
+
+    val toolbarScrollable by remember {
+        derivedStateOf {
+            when (scrollState.value) {
+                0 -> true
+                else -> false
+            }
+        }
+    }
 
     if (result) {
         Box(
@@ -106,6 +118,11 @@ fun MovieScreen(
                 modifier = Modifier,
                 state = collapsingToolbarState,
                 scrollStrategy = ScrollStrategy.ExitUntilCollapsed,
+                toolbarModifier = Modifier
+                    .verticalScroll(
+                        state = toolbarScroll,
+                        enabled = toolbarScrollable
+                    ),
                 toolbar = {
                     MovieToolbar(
                         state = collapsingToolbarState,

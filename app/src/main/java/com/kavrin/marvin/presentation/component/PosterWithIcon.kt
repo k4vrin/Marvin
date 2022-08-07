@@ -28,6 +28,7 @@ fun PosterWithIcon(
     posterPath: String?,
     itemId: Int?,
     modifier: Modifier = Modifier,
+    imageBaseUrl: String = IMAGE_POSTER_BASE_URL,
     onMenuIconClicked: (Int) -> Unit,
 ) {
 
@@ -40,7 +41,7 @@ fun PosterWithIcon(
             modifier = Modifier
                 .fillMaxSize(),
             model = ImageRequest.Builder(LocalContext.current)
-                .data("${IMAGE_POSTER_BASE_URL}${posterPath}")
+                .data("${imageBaseUrl}${posterPath}")
                 .placeholder(R.drawable.placeholder)
                 .error(R.drawable.placeholder)
                 .crossfade(true)

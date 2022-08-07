@@ -41,7 +41,7 @@ fun NavGraphBuilder.movieNavGraph(navHostController: NavHostController) {
                     towards = AnimatedContentScope.SlideDirection.Up,
                     animationSpec = tween(
                         durationMillis = Durations.MEDIUM,
-                        delayMillis = Durations.EXTRA_LONG
+                        delayMillis = Durations.LONG
                     )
                 )
             },
@@ -49,7 +49,7 @@ fun NavGraphBuilder.movieNavGraph(navHostController: NavHostController) {
                 fadeOut(
                     tween(
                         durationMillis = Durations.MEDIUM,
-                        delayMillis = Durations.EXTRA_LONG + Durations.EXTRA_SHORT
+                        delayMillis = Durations.EXTRA_LONG
                     )
                 )
             },

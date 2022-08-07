@@ -10,6 +10,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import com.kavrin.marvin.R
 import com.kavrin.marvin.ui.theme.HOME_TOP_BAR_ELEVATION
@@ -33,7 +34,9 @@ fun SeasonToolbar(
                     Text(
                         text = title,
                         fontFamily = nunitoTypeFace,
-                        fontWeight = FontWeight.Black,
+                        fontWeight = FontWeight.ExtraBold,
+                        maxLines = 1,
+                        overflow = TextOverflow.Ellipsis,
                         color = MaterialTheme.colors.topBarContentColor
                     )
                 }
@@ -43,7 +46,7 @@ fun SeasonToolbar(
                             .alpha(ContentAlpha.disabled),
                         text = dateFormatter(date = subtitle),
                         fontFamily = nunitoTypeFace,
-                        fontWeight = FontWeight.Black,
+                        fontWeight = FontWeight.ExtraBold,
                         fontSize = MaterialTheme.typography.body1.fontSize,
                         color = MaterialTheme.colors.topBarContentColor
                     )

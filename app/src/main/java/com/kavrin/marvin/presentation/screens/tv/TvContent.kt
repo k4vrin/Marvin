@@ -40,6 +40,7 @@ fun TvContent(
     tvRecommended: List<Tv>?,
     tvSimilar: List<Tv>?,
     tvEpisodesToAir: Map<String, EpisodeToAir?>,
+    seasonExpanded: Boolean,
     toolbarState: CollapsingToolbarScaffoldState,
     scrollState: ScrollState,
     reviewState: LazyListState,
@@ -55,7 +56,8 @@ fun TvContent(
     onEpisodeClicked: (Int?) -> Unit,
     onSeasonClicked: (Int) -> Unit,
     onTvClicked: (Int) -> Unit,
-    onMenuClicked: (Int) -> Unit
+    onMenuClicked: (Int) -> Unit,
+    onSeasonExpand: () -> Unit
 ) {
 
     val animRatings by remember {
@@ -192,6 +194,7 @@ fun TvContent(
             }
         }
 
+        ///// Episode To Air /////
         if (tvEpisodesToAir.isNotEmpty()) {
             EpisodeToAirCard(
                 episodes = tvEpisodesToAir,
@@ -202,15 +205,19 @@ fun TvContent(
             )
         }
 
+        ///// Season List /////
         if (!tvSeasons.isNullOrEmpty()) {
             SeasonList(
                 seasons = tvSeasons,
+                expanded = seasonExpanded,
+                onExpand = onSeasonExpand,
                 onSeasonClicked = {
                     onSeasonClicked(it)
                 }
             )
         }
 
+        ///// Video Section /////
         if (!tvVideos.isNullOrEmpty()) {
             Card(
                 backgroundColor = MaterialTheme.colors.primaryCardColor,
@@ -234,6 +241,7 @@ fun TvContent(
             }
         }
 
+        ///// Review Section /////
         if (!tvReviews.isNullOrEmpty()) {
             Card(
                 backgroundColor = MaterialTheme.colors.primaryCardColor,
@@ -255,6 +263,7 @@ fun TvContent(
             }
         }
 
+        ///// Similar Section /////
         if (!tvSimilar.isNullOrEmpty()) {
             Card(
                 backgroundColor = MaterialTheme.colors.primaryCardColor,
@@ -276,6 +285,7 @@ fun TvContent(
             }
         }
 
+        ///// Recommended Section /////
         if (!tvRecommended.isNullOrEmpty()) {
             Card(
                 backgroundColor = MaterialTheme.colors.primaryCardColor,

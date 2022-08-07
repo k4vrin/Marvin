@@ -7,8 +7,10 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.MaterialTheme
 import androidx.compose.runtime.*
+import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -83,6 +85,10 @@ fun TvScreen(
         }
     )
 
+    var seasonExpanded by rememberSaveable {
+        mutableStateOf(false)
+    }
+
 
     val scrollState = rememberScrollState()
     val reviewState = rememberLazyListState()
@@ -91,6 +97,16 @@ fun TvScreen(
     val videosState = rememberLazyListState()
     val castState = rememberLazyListState()
     val crewState = rememberLazyListState()
+    val toolbarScroll = rememberScrollState()
+
+    val toolbarScrollable by remember {
+        derivedStateOf {
+            when (scrollState.value) {
+                0 -> true
+                else -> false
+            }
+        }
+    }
 
     if (result) {
         Box(
@@ -102,6 +118,11 @@ fun TvScreen(
                 modifier = Modifier,
                 state = collapsingToolbarState,
                 scrollStrategy = ScrollStrategy.ExitUntilCollapsed,
+                toolbarModifier = Modifier
+                    .verticalScroll(
+                        state = toolbarScroll,
+                        enabled = toolbarScrollable
+                    ),
                 toolbar = {
                     TvToolbar(
                         state = collapsingToolbarState,
@@ -141,6 +162,7 @@ fun TvScreen(
                     crewState = crewState,
                     videosState = videosState,
                     ratingAnimationState = ratingState,
+                    seasonExpanded = seasonExpanded,
                     onReviewClicked = {
                         val reviewIntent = Intent(Intent.ACTION_VIEW, Uri.parse(it))
                         context.startActivity(reviewIntent)
@@ -178,6 +200,9 @@ fun TvScreen(
                     },
                     onMenuClicked = {
                         /*TODO*/
+                    },
+                    onSeasonExpand = {
+                        seasonExpanded = !seasonExpanded
                     }
                 )
             }

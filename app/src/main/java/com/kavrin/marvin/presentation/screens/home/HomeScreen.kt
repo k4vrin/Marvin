@@ -44,9 +44,7 @@ fun HomeScreen(
     val color = MaterialTheme.colors.statusBarColor
     val useDarkIcons = MaterialTheme.colors.isLight
     LaunchedEffect(key1 = true) {
-        delay(
-            timeMillis = ((Durations.MEDIUM + Durations.EXTRA_LONG) * 0.9).toLong()
-        )
+        delay(timeMillis = Durations.MEDIUM.toLong())
         ui.setStatusBarColor(color = color, darkIcons = useDarkIcons)
     }
 

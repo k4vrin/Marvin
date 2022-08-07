@@ -12,6 +12,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import com.kavrin.marvin.domain.use_cases.tv_season.EpisodeSummary
 import com.kavrin.marvin.presentation.screens.tv_season.component.EpisodeItem
+import com.kavrin.marvin.presentation.screens.tv_season.component.SeasonHeader
 import com.kavrin.marvin.ui.theme.SMALL_PADDING
 import com.kavrin.marvin.ui.theme.backGroundColor
 
@@ -19,6 +20,9 @@ import com.kavrin.marvin.ui.theme.backGroundColor
 fun SeasonContent(
     lazyListState: LazyListState,
     episodes: List<EpisodeSummary>,
+    seasonName: String?,
+    seasonOverview: String?,
+    seasonPoster: String?,
     onEpisodeClicked: (Int) -> Unit
 ) {
 
@@ -31,6 +35,14 @@ fun SeasonContent(
         contentPadding = PaddingValues(all = SMALL_PADDING),
         verticalArrangement = Arrangement.spacedBy(SMALL_PADDING)
     ) {
+
+        item {
+            SeasonHeader(
+                poster = seasonPoster,
+                seasonName = seasonName,
+                seasonOverview = seasonOverview
+            )
+        }
 
         items(
             items = episodes,

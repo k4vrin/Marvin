@@ -11,6 +11,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.unit.dp
 import androidx.paging.compose.LazyPagingItems
 import androidx.paging.compose.items
 import com.kavrin.marvin.R
@@ -39,6 +40,7 @@ fun <T : MarvinItem> CardList(
     Column(
         modifier = Modifier
             .fillMaxWidth()
+            .heightIn(min = 360.dp)
     ) {
 
         Row(
