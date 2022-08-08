@@ -84,6 +84,9 @@ android {
         }
         correctErrorTypes true
     }
+    hilt {
+        enableAggregatingTask = true
+    }
 }
 
 dependencies {
