@@ -8,6 +8,7 @@ import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -141,7 +142,7 @@ fun <T : MarvinItem> Carousel(
         // First Visible Carousel is number 2
         if (items.itemCount > 1) {
 
-            val title = remember(pagerState.currentPage) {
+            val title = rememberSaveable(pagerState.currentPage) {
                 if (isMovie) items[pagerState.currentPage]?.movie?.title
                     ?: "" else items[pagerState.currentPage]?.tv?.name ?: ""
             }

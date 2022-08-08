@@ -17,7 +17,7 @@ import javax.inject.Inject
 @HiltViewModel
 class HomeViewModel @Inject constructor(
     private val useCases: HomeUseCases,
-	networkListener: NetworkListener
+    networkListener: NetworkListener
 ) : ViewModel() {
 
 	private val _collapsingToolbar = mutableStateOf(
@@ -26,7 +26,6 @@ class HomeViewModel @Inject constructor(
 		)
 	)
 	val collapsingToolbar: State<CollapsingToolbarScaffoldState> = _collapsingToolbar
-
 
 	val getCarouselMovies = useCases.getCarouselMovies().cachedIn(viewModelScope)
 	val getPopularMovies = useCases.getHomePopularMovies().cachedIn(viewModelScope)
@@ -38,11 +37,45 @@ class HomeViewModel @Inject constructor(
 	val getTopRatedTvs = useCases.getHomeTopRatedTvs().cachedIn(viewModelScope)
 	val getTrendingTvs = useCases.getHomeTrendingTvs().cachedIn(viewModelScope)
 
-	val isConnected = networkListener.checkNetworkAvailability()
+    val isConnected = networkListener.checkNetworkAvailability()
 
-	fun deleteAll() {
-		viewModelScope.launch(Dispatchers.IO) {
-			useCases.deleteAll()
-		}
-	}
+    private val _error = mutableStateOf(HomeState.Error(isError = false))
+    val error: State<HomeState.Error> = _error
+
+    private val _loading = mutableStateOf(HomeState.Loading(isLoading = true))
+    val loading: State<HomeState.Loading> = _loading
+
+    fun updateError(
+        isError: Boolean,
+        message: String? = null
+    ) {
+        _error.value = error.value.copy(
+            isError = isError,
+            message = message
+        )
+    }
+
+    fun updateLoading(
+        isLoading: Boolean
+    ) {
+        _loading.value = _loading.value.copy(
+            isLoading = isLoading
+        )
+    }
+
+    fun deleteAll() {
+        viewModelScope.launch(Dispatchers.IO) {
+            useCases.deleteAll()
+        }
+    }
+}
+
+sealed class HomeState {
+    data class Loading(
+        val isLoading: Boolean
+    ) : HomeState()
+    data class Error(
+        val isError: Boolean,
+        val message: String? = null
+    ) : HomeState()
 }

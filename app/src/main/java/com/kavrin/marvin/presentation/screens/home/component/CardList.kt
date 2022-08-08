@@ -2,8 +2,8 @@ package com.kavrin.marvin.presentation.screens.home.component
 
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.lazy.LazyListState
 import androidx.compose.foundation.lazy.LazyRow
-import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
@@ -28,14 +28,12 @@ fun <T : MarvinItem> CardList(
     cardListTitle: String,
     items: LazyPagingItems<T>,
     isMovie: Boolean,
+    listState: LazyListState,
     seeAllEnabled: Boolean = true,
     onItemClicked: (Int) -> Unit,
     onMenuIconClicked: (Int) -> Unit,
     onSeeAllClicked: ((String) -> Unit)? = null
 ) {
-
-    val listState = rememberLazyListState()
-
 
     Column(
         modifier = Modifier
