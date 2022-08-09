@@ -4,13 +4,11 @@ import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.statusBarsPadding
+import androidx.compose.foundation.lazy.LazyListState
 import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.material.MaterialTheme
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.collectAsState
-import androidx.compose.runtime.getValue
+import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
@@ -59,6 +57,7 @@ fun HomeScreen(
     val tvScrollState = rememberScrollState()
     val pagerState = rememberPagerState()
 
+    val scrollState by homeViewModel.scrollState
 
     val isConnected by homeViewModel.isConnected.collectAsState()
 
@@ -66,6 +65,28 @@ fun HomeScreen(
     val loading by homeViewModel.loading
 
     val collapsingToolbarState by homeViewModel.collapsingToolbar
+
+    LaunchedEffect(key1 = true) {
+        handleScrollTo(
+            popularTvsLazyListState = popularTvsLazyListState,
+            topRatedTvsListState = topRatedTvsListState,
+            trendingTvsLazyListState = trendingTvsLazyListState,
+            popularMoviesLazyListState = popularMoviesLazyListState,
+            topRatedMoviesListState = topRatedMoviesListState,
+            trendingMoviesLazyListState = trendingMoviesLazyListState,
+            scrollState = scrollState
+        )
+    }
+
+    HandleScroll(
+        popularTvsLazyListState = popularTvsLazyListState,
+        topRatedTvsListState = topRatedTvsListState,
+        trendingTvsLazyListState = trendingTvsLazyListState,
+        popularMoviesLazyListState = popularMoviesLazyListState,
+        topRatedMoviesListState = topRatedMoviesListState,
+        trendingMoviesLazyListState = trendingMoviesLazyListState,
+        homeViewModel = homeViewModel
+    )
 
     HandleError(
         item = carouselMovies,
@@ -77,7 +98,7 @@ fun HomeScreen(
             homeViewModel.updateLoading(
                 isLoading = false
             )
-                  },
+        },
         onLoading = {
             homeViewModel.updateError(
                 isError = false
@@ -127,4 +148,151 @@ fun HomeScreen(
             onRefresh = { homeViewModel.deleteAll() }
         )
     }
+}
+
+@Composable
+fun HandleScroll(
+    popularTvsLazyListState: LazyListState,
+    topRatedTvsListState: LazyListState,
+    trendingTvsLazyListState: LazyListState,
+    popularMoviesLazyListState: LazyListState,
+    topRatedMoviesListState: LazyListState,
+    trendingMoviesLazyListState: LazyListState,
+    homeViewModel: HomeViewModel
+) {
+
+    if (popularMoviesLazyListState.isScrollInProgress) {
+        DisposableEffect(key1 = true) {
+            onDispose {
+                homeViewModel.updateScrollState(
+                    scrollState = homeViewModel.scrollState.value.copy(
+                        popularMovie = ScrollDetail(
+                            index = popularMoviesLazyListState.firstVisibleItemIndex,
+                            offset = popularMoviesLazyListState.firstVisibleItemScrollOffset
+                        )
+                    )
+                )
+            }
+        }
+    }
+
+    if (topRatedMoviesListState.isScrollInProgress) {
+        DisposableEffect(key1 = true) {
+            onDispose {
+                homeViewModel.updateScrollState(
+                    scrollState = homeViewModel.scrollState.value.copy(
+                        topRatedMovie = ScrollDetail(
+                            index = topRatedMoviesListState.firstVisibleItemIndex,
+                            offset = topRatedMoviesListState.firstVisibleItemScrollOffset
+                        )
+                    )
+                )
+            }
+        }
+    }
+
+    if (trendingMoviesLazyListState.isScrollInProgress) {
+        DisposableEffect(key1 = true) {
+            onDispose {
+                homeViewModel.updateScrollState(
+                    scrollState = homeViewModel.scrollState.value.copy(
+                        trendingMovie = ScrollDetail(
+                            index = trendingMoviesLazyListState.firstVisibleItemIndex,
+                            offset = trendingMoviesLazyListState.firstVisibleItemScrollOffset
+                        )
+                    )
+                )
+            }
+        }
+    }
+
+    if (popularTvsLazyListState.isScrollInProgress) {
+        DisposableEffect(key1 = true) {
+            onDispose {
+                homeViewModel.updateScrollState(
+                    scrollState = homeViewModel.scrollState.value.copy(
+                        popularTv = ScrollDetail(
+                            index = popularTvsLazyListState.firstVisibleItemIndex,
+                            offset = popularTvsLazyListState.firstVisibleItemScrollOffset
+                        )
+                    )
+                )
+            }
+        }
+    }
+
+    if (topRatedTvsListState.isScrollInProgress) {
+        DisposableEffect(key1 = true) {
+            onDispose {
+                homeViewModel.updateScrollState(
+                    scrollState = homeViewModel.scrollState.value.copy(
+                        topRatedTv = ScrollDetail(
+                            index = topRatedTvsListState.firstVisibleItemIndex,
+                            offset = topRatedTvsListState.firstVisibleItemScrollOffset
+                        )
+                    )
+                )
+            }
+        }
+    }
+
+    if (trendingTvsLazyListState.isScrollInProgress) {
+        DisposableEffect(key1 = true) {
+            onDispose {
+                homeViewModel.updateScrollState(
+                    scrollState = homeViewModel.scrollState.value.copy(
+                        trendingTv = ScrollDetail(
+                            index = trendingTvsLazyListState.firstVisibleItemIndex,
+                            offset = trendingTvsLazyListState.firstVisibleItemScrollOffset
+                        )
+                    )
+                )
+            }
+        }
+    }
+
+}
+
+suspend fun handleScrollTo(
+    popularTvsLazyListState: LazyListState,
+    topRatedTvsListState: LazyListState,
+    trendingTvsLazyListState: LazyListState,
+    popularMoviesLazyListState: LazyListState,
+    topRatedMoviesListState: LazyListState,
+    trendingMoviesLazyListState: LazyListState,
+    scrollState: ScrollState
+) {
+
+    delay(Durations.SHORT.toLong())
+
+    popularMoviesLazyListState.scrollToItem(
+        index = scrollState.popularMovie.index,
+        scrollOffset = scrollState.popularMovie.offset
+    )
+
+    topRatedMoviesListState.scrollToItem(
+        index = scrollState.topRatedMovie.index,
+        scrollOffset = scrollState.topRatedMovie.offset
+    )
+
+    trendingMoviesLazyListState.scrollToItem(
+        index = scrollState.trendingMovie.index,
+        scrollOffset = scrollState.trendingMovie.offset
+    )
+
+    popularTvsLazyListState.scrollToItem(
+        index = scrollState.popularTv.index,
+        scrollOffset = scrollState.popularTv.offset
+    )
+
+    topRatedTvsListState.scrollToItem(
+        index = scrollState.topRatedTv.index,
+        scrollOffset = scrollState.topRatedTv.offset
+    )
+
+    trendingTvsLazyListState.scrollToItem(
+        index = scrollState.trendingTv.index,
+        scrollOffset = scrollState.trendingTv.offset
+    )
+
 }

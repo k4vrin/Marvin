@@ -45,6 +45,13 @@ class HomeViewModel @Inject constructor(
     private val _loading = mutableStateOf(HomeState.Loading(isLoading = true))
     val loading: State<HomeState.Loading> = _loading
 
+    private val _scrollState = mutableStateOf(ScrollState())
+    val scrollState: State<ScrollState> = _scrollState
+
+    fun updateScrollState(scrollState: ScrollState) {
+        _scrollState.value = scrollState
+    }
+
     fun updateError(
         isError: Boolean,
         message: String? = null
@@ -79,3 +86,17 @@ sealed class HomeState {
         val message: String? = null
     ) : HomeState()
 }
+
+data class ScrollDetail(
+    val index: Int,
+    val offset: Int
+)
+
+data class ScrollState(
+    val popularMovie: ScrollDetail = ScrollDetail(index = 0, offset = 0),
+    val topRatedMovie: ScrollDetail = ScrollDetail(index = 0, offset = 0),
+    val trendingMovie: ScrollDetail = ScrollDetail(index = 0, offset = 0),
+    val popularTv: ScrollDetail = ScrollDetail(index = 0, offset = 0),
+    val topRatedTv: ScrollDetail = ScrollDetail(index = 0, offset = 0),
+    val trendingTv: ScrollDetail = ScrollDetail(index = 0, offset = 0),
+)
