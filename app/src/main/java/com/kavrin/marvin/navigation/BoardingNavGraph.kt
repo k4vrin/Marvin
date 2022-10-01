@@ -37,6 +37,7 @@ fun NavGraphBuilder.boardingNavGraph(navHostController: NavHostController) {
                             towards = AnimatedContentScope.SlideDirection.Up,
                             animationSpec = tween(
                                 durationMillis = Durations.MEDIUM,
+                                delayMillis = Durations.MEDIUM
                             )
                         )
                     }
@@ -67,10 +68,11 @@ fun NavGraphBuilder.boardingNavGraph(navHostController: NavHostController) {
                     towards = AnimatedContentScope.SlideDirection.Up,
                     animationSpec = tween(
                         durationMillis = Durations.MEDIUM,
+                        delayMillis = Durations.MEDIUM
                     )
                 )
             }
-        ) {navBackStack ->
+        ) { navBackStack ->
             val parentEntry = remember(navBackStack) {
                 navHostController.getBackStackEntry(route = Graph.Boarding.route)
             }

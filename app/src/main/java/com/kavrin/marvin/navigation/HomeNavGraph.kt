@@ -37,6 +37,7 @@ fun NavGraphBuilder.homeNavGraph(
                     towards = AnimatedContentScope.SlideDirection.Up,
                     animationSpec = tween(
                         durationMillis = Durations.MEDIUM,
+                        delayMillis = Durations.MEDIUM
                     )
                 )
             },
@@ -102,7 +103,8 @@ fun NavGraphBuilder.homeNavGraph(
                 slideOutOfContainer(
                     towards = AnimatedContentScope.SlideDirection.Right,
                     animationSpec = tween(
-                        durationMillis = Durations.MEDIUM
+                        durationMillis = Durations.MEDIUM,
+                        delayMillis = Durations.MEDIUM
                     )
                 )
             }
@@ -127,7 +129,7 @@ fun NavGraphBuilder.homeNavGraph(
                     towards = AnimatedContentScope.SlideDirection.Left,
                     animationSpec = tween(
                         durationMillis = Durations.MEDIUM,
-                        delayMillis = Durations.LONG
+                        delayMillis = Durations.MEDIUM
                     )
                 )
             },
@@ -143,7 +145,7 @@ fun NavGraphBuilder.homeNavGraph(
                 fadeIn(
                     tween(
                         durationMillis = Durations.SHORT,
-                        delayMillis = Durations.EXTRA_SHORT * 2
+                        delayMillis = Durations.MEDIUM + Durations.SHORT
                     )
                 )
             },

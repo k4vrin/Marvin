@@ -12,6 +12,7 @@ import com.google.accompanist.navigation.animation.composable
 import com.google.accompanist.navigation.animation.navigation
 import com.kavrin.marvin.navigation.util.Durations
 import com.kavrin.marvin.navigation.util.Graph
+import com.kavrin.marvin.navigation.util.HomeScreens
 import com.kavrin.marvin.navigation.util.PersonScreens
 import com.kavrin.marvin.presentation.screens.person.PersonScreen
 import com.kavrin.marvin.util.Constants
@@ -62,12 +63,25 @@ fun NavGraphBuilder.personNavGraph(navHostController: NavHostController) {
                 )
             },
             popExitTransition = {
-                slideOutOfContainer(
-                    towards = AnimatedContentScope.SlideDirection.Down,
-                    animationSpec = tween(
-                        durationMillis = Durations.MEDIUM
-                    )
-                )
+                when (targetState.destination.route) {
+                    HomeScreens.Home.route -> {
+                        slideOutOfContainer(
+                            towards = AnimatedContentScope.SlideDirection.Down,
+                            animationSpec = tween(
+                                durationMillis = Durations.MEDIUM,
+                                delayMillis = Durations.MEDIUM
+                            )
+                        )
+                    }
+                    else -> {
+                        slideOutOfContainer(
+                            towards = AnimatedContentScope.SlideDirection.Down,
+                            animationSpec = tween(
+                                durationMillis = Durations.MEDIUM
+                            )
+                        )
+                    }
+                }
             }
         ) {
             PersonScreen(navHostController = navHostController)

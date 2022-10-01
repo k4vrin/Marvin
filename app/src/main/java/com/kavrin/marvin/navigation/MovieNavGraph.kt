@@ -1,5 +1,6 @@
 package com.kavrin.marvin.navigation
 
+import android.util.Log
 import androidx.compose.animation.AnimatedContentScope
 import androidx.compose.animation.core.tween
 import androidx.compose.animation.fadeIn
@@ -12,6 +13,7 @@ import com.google.accompanist.navigation.animation.composable
 import com.google.accompanist.navigation.animation.navigation
 import com.kavrin.marvin.navigation.util.Durations
 import com.kavrin.marvin.navigation.util.Graph
+import com.kavrin.marvin.navigation.util.HomeScreens
 import com.kavrin.marvin.navigation.util.MovieScreens
 import com.kavrin.marvin.presentation.screens.movie.MovieScreen
 import com.kavrin.marvin.util.Constants
@@ -62,12 +64,26 @@ fun NavGraphBuilder.movieNavGraph(navHostController: NavHostController) {
                 )
             },
             popExitTransition = {
-                slideOutOfContainer(
-                    towards = AnimatedContentScope.SlideDirection.Down,
-                    animationSpec = tween(
-                        durationMillis = Durations.MEDIUM
-                    )
-                )
+                when (targetState.destination.route) {
+                    HomeScreens.Home.route -> {
+                        Log.d("movieNavGraph", ": call")
+                        slideOutOfContainer(
+                            towards = AnimatedContentScope.SlideDirection.Down,
+                            animationSpec = tween(
+                                durationMillis = Durations.MEDIUM,
+                                delayMillis = Durations.MEDIUM
+                            )
+                        )
+                    }
+                    else -> {
+                        slideOutOfContainer(
+                            towards = AnimatedContentScope.SlideDirection.Down,
+                            animationSpec = tween(
+                                durationMillis = Durations.MEDIUM
+                            )
+                        )
+                    }
+                }
             }
         ) {
             MovieScreen(navHostController = navHostController)

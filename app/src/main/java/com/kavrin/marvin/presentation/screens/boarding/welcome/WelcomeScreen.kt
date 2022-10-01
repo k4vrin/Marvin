@@ -87,11 +87,8 @@ fun WelcomeScreen(
 				pagerState = pagerState,
 				onClick = {
 					welcomeViewModel.saveOnBoardingState(completed = true)
-					navController.navigate(route = Graph.Home.route) {
-						popUpTo(route = Graph.Home.route) {
-							inclusive = false
-						}
-					}
+					navController.popBackStack()
+					navController.navigate(route = Graph.Home.route)
 				}
 			)
 		}

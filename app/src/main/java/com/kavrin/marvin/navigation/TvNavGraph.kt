@@ -14,6 +14,7 @@ import com.google.accompanist.navigation.animation.composable
 import com.google.accompanist.navigation.animation.navigation
 import com.kavrin.marvin.navigation.util.Durations
 import com.kavrin.marvin.navigation.util.Graph
+import com.kavrin.marvin.navigation.util.HomeScreens
 import com.kavrin.marvin.navigation.util.TvScreens
 import com.kavrin.marvin.presentation.screens.tv.TvScreen
 import com.kavrin.marvin.presentation.screens.tv_season.SeasonViewModel
@@ -168,12 +169,25 @@ fun NavGraphBuilder.tvNavGraph(navHostController: NavHostController) {
                 )
             },
             popExitTransition = {
-                slideOutOfContainer(
-                    towards = AnimatedContentScope.SlideDirection.Right,
-                    animationSpec = tween(
-                        durationMillis = Durations.MEDIUM
-                    )
-                )
+                when (targetState.destination.route) {
+                    HomeScreens.Home.route -> {
+                        slideOutOfContainer(
+                            towards = AnimatedContentScope.SlideDirection.Down,
+                            animationSpec = tween(
+                                durationMillis = Durations.MEDIUM,
+                                delayMillis = Durations.MEDIUM
+                            )
+                        )
+                    }
+                    else -> {
+                        slideOutOfContainer(
+                            towards = AnimatedContentScope.SlideDirection.Down,
+                            animationSpec = tween(
+                                durationMillis = Durations.MEDIUM
+                            )
+                        )
+                    }
+                }
             }
         ) { navBackStackEntry ->
             val parentEntry = remember(navBackStackEntry) {

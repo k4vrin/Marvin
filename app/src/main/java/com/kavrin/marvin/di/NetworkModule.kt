@@ -33,6 +33,7 @@ import javax.inject.Singleton
 @InstallIn(SingletonComponent::class)
 object NetworkModule {
 
+	// Builder Pattern
 	@Provides
 	@Singleton
 	fun provideHttpClient(): OkHttpClient {
@@ -57,6 +58,7 @@ object NetworkModule {
 		val json = Json {
 			ignoreUnknownKeys = true
 		}
+		// Builder Pattern
 		return Retrofit.Builder()
 			.baseUrl(BASE_URL)
 			.client(okHttpClient)
