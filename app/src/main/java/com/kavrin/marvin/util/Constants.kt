@@ -44,8 +44,8 @@ object Constants {
 
 	const val PLAYLIST_TABLE = "playlist_table"
 
-	const val ON_BOARDING_PAGE_COUNT = 2
-	const val LAST_WELCOME_PAGE = 1
+	const val ON_BOARDING_PAGE_COUNT = 3
+	const val LAST_WELCOME_PAGE = 2
 
 	const val PREFERENCES_NAME = "marvin_preferences"
 	const val PREFERENCES_KEY = "on_boarding_completed"

@@ -2,7 +2,7 @@ package com.kavrin.marvin.presentation.screens.boarding
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.kavrin.marvin.domain.use_cases.splash_welcome.SplashWelcomeUseCases
+import com.kavrin.marvin.domain.use_cases.boarding.SplashWelcomeUseCases
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow

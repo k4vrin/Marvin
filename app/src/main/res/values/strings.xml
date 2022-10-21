@@ -1,7 +1,7 @@
 <resources>
     <string name="app_name">Marvin</string>
     <string name="marvin">Marvin</string>
-    <string name="explore">Explore</string>
+    <string name="login">Login</string>
     <string name="on_boarding_image">OnBoarding Image</string>
     <string name="search_icon">Search Icon</string>
     <string name="movie_poster">Movie Poster</string>
@@ -36,4 +36,6 @@
     <string name="navigation_icon">Navigation Icon</string>
     <string name="episode_pic">Episode Still</string>
     <string name="drop_down_icon">DropDown Arrow</string>
+    <string name="skip">Skip</string>
+    <string name="signup">Sign up</string>
 </resources>

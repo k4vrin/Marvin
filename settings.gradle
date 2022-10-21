@@ -2,14 +2,18 @@ pluginManagement {
     repositories {
         gradlePluginPortal()
         google()
+        maven { url 'https://maven.google.com' }
         mavenCentral()
+        maven { url "https://jitpack.io" }
     }
 }
 dependencyResolutionManagement {
     repositoriesMode.set(RepositoriesMode.FAIL_ON_PROJECT_REPOS)
     repositories {
+        maven { url 'https://maven.google.com' }
         google()
         mavenCentral()
+        maven { url "https://jitpack.io" }
     }
 }
 rootProject.name = "Marvin"

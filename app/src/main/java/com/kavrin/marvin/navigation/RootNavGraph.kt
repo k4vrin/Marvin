@@ -14,9 +14,8 @@ fun SetupNavGraph(navHostController: NavHostController, paddingValues: PaddingVa
         startDestination = Graph.Boarding.route,
         route = Graph.Root.route
     ) {
-        this.
         boardingNavGraph(navHostController)
-//        authNavGraph(navHostController) TODO
+        authNavGraph(navHostController)
         homeNavGraph(navHostController, paddingValues)
     }
 }

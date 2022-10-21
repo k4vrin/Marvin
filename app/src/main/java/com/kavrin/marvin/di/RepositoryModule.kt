@@ -1,6 +1,11 @@
 package com.kavrin.marvin.di
 
 import com.kavrin.marvin.data.repository.Repository
+import com.kavrin.marvin.domain.use_cases.auth.*
+import com.kavrin.marvin.domain.use_cases.boarding.ReadOnBoarding
+import com.kavrin.marvin.domain.use_cases.boarding.SaveGenres
+import com.kavrin.marvin.domain.use_cases.boarding.SaveOnBoarding
+import com.kavrin.marvin.domain.use_cases.boarding.SplashWelcomeUseCases
 import com.kavrin.marvin.domain.use_cases.home.*
 import com.kavrin.marvin.domain.use_cases.list.*
 import com.kavrin.marvin.domain.use_cases.movie.*
@@ -9,10 +14,6 @@ import com.kavrin.marvin.domain.use_cases.person.PersonUseCases
 import com.kavrin.marvin.domain.use_cases.search.SearchMovies
 import com.kavrin.marvin.domain.use_cases.search.SearchTvs
 import com.kavrin.marvin.domain.use_cases.search.SearchUseCases
-import com.kavrin.marvin.domain.use_cases.splash_welcome.ReadOnBoarding
-import com.kavrin.marvin.domain.use_cases.splash_welcome.SaveGenres
-import com.kavrin.marvin.domain.use_cases.splash_welcome.SaveOnBoarding
-import com.kavrin.marvin.domain.use_cases.splash_welcome.SplashWelcomeUseCases
 import com.kavrin.marvin.domain.use_cases.tv.GetTv
 import com.kavrin.marvin.domain.use_cases.tv.GetTvDetails
 import com.kavrin.marvin.domain.use_cases.tv.GetTvRatings
@@ -127,6 +128,22 @@ object RepositoryModule {
 	): TvSeasonUseCases {
 		return TvSeasonUseCases(
 			getTvSeason = GetTvSeason(repository)
+		)
+	}
+
+	@Provides
+	@ViewModelScoped
+	fun provideSignupUseCases(
+		repository: Repository
+	): AuthUseCases {
+		return AuthUseCases(
+			socialMediaSignIn = SocialMediaSingIn(repository),
+			socialMediaSignup = SocialMediaSignup(repository),
+			userSignup = UserSignup(repository),
+			userSignIn = UserSignIn(repository),
+			validateEmail = ValidateEmail(),
+			validatePassword = ValidatePassword(),
+			validateUsername = ValidateUsername()
 		)
 	}
 }

@@ -14,9 +14,9 @@ import com.google.accompanist.navigation.animation.navigation
 import com.kavrin.marvin.navigation.util.Durations
 import com.kavrin.marvin.navigation.util.Graph
 import com.kavrin.marvin.navigation.util.HomeScreens
-import com.kavrin.marvin.presentation.screens.home.HomeScreen
-import com.kavrin.marvin.presentation.screens.list.ListScreen
-import com.kavrin.marvin.presentation.screens.search.SearchScreen
+import com.kavrin.marvin.presentation.screens.home.home.HomeScreen
+import com.kavrin.marvin.presentation.screens.home.list.ListScreen
+import com.kavrin.marvin.presentation.screens.home.search.SearchScreen
 import com.kavrin.marvin.util.Constants
 
 

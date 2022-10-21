@@ -17,4 +17,9 @@ sealed class OnBoardingPage(
 		image = R.drawable.figh_club,
 		description = "Find your next favorite."
 	)
+
+	object Third : OnBoardingPage(
+		image = R.drawable.marvin_og,
+		description = ""
+	)
 }

@@ -16,9 +16,9 @@ import com.kavrin.marvin.navigation.util.Durations
 import com.kavrin.marvin.navigation.util.Graph
 import com.kavrin.marvin.navigation.util.HomeScreens
 import com.kavrin.marvin.navigation.util.TvScreens
-import com.kavrin.marvin.presentation.screens.tv.TvScreen
-import com.kavrin.marvin.presentation.screens.tv_season.SeasonViewModel
-import com.kavrin.marvin.presentation.screens.tv_season.season.SeasonScreen
+import com.kavrin.marvin.presentation.screens.tv.tv.TvScreen
+import com.kavrin.marvin.presentation.screens.tv.tv_season.SeasonViewModel
+import com.kavrin.marvin.presentation.screens.tv.tv_season.season.SeasonScreen
 import com.kavrin.marvin.util.Constants
 
 fun NavGraphBuilder.tvNavGraph(navHostController: NavHostController) {
