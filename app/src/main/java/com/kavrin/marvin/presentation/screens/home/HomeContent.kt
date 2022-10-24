@@ -29,7 +29,9 @@ import com.kavrin.marvin.domain.model.tv.entities.relations.TvAndTrending
 import com.kavrin.marvin.navigation.util.Durations
 import com.kavrin.marvin.navigation.util.Graph
 import com.kavrin.marvin.navigation.util.HomeScreens
+import com.kavrin.marvin.presentation.component.CardList
 import com.kavrin.marvin.presentation.component.EmptyContent
+import com.kavrin.marvin.presentation.component.MovieCardList
 import com.kavrin.marvin.presentation.screens.home.component.CardList
 import com.kavrin.marvin.presentation.screens.home.component.Carousel
 import com.kavrin.marvin.presentation.screens.home.component.MarvinTabRow
@@ -37,7 +39,7 @@ import com.kavrin.marvin.ui.theme.EXTRA_LARGE_PADDING
 import com.kavrin.marvin.ui.theme.MEDIUM_PADDING
 import com.kavrin.marvin.ui.theme.backGroundColor
 import com.kavrin.marvin.util.Constants
-import com.kavrin.marvin.util.MarvinItem
+import com.kavrin.marvin.util.MarvinMovieItem
 import java.io.InterruptedIOException
 import java.net.ConnectException
 import java.net.SocketTimeoutException
@@ -206,11 +208,9 @@ fun MovieTabContent(
             onMenuIconClicked = { /*TODO*/ }
         )
 
-        CardList(
-            cardListTitle = Constants.TRENDING,
+        MovieCardList(
+            movies = trending,
             listState = trendingLazyListState,
-            items = trending,
-            isMovie = true,
             onItemClicked = { id ->
                 if (isConnected) {
                     navHostController.navigate(Graph.Movie.passId(id = id))
@@ -227,11 +227,9 @@ fun MovieTabContent(
             onMenuIconClicked = { /*TODO*/ }
         )
 
-        CardList(
-            cardListTitle = Constants.POPULAR,
+        MovieCardList(
+            movies = popular,
             listState = popularLazyListState,
-            items = popular,
-            isMovie = true,
             onItemClicked = { id ->
                 if (isConnected) {
                     navHostController.navigate(Graph.Movie.passId(id = id))
@@ -248,11 +246,9 @@ fun MovieTabContent(
             onMenuIconClicked = { /*TODO*/ }
         )
 
-        CardList(
-            cardListTitle = Constants.TOP_RATED,
+        MovieCardList(
             listState = topLazyListState,
-            items = topRated,
-            isMovie = true,
+            movies = topRated,
             onItemClicked = { id ->
                 if (isConnected) {
                     navHostController.navigate(Graph.Movie.passId(id = id))
@@ -377,7 +373,7 @@ fun TvTabContent(
 
 
 @Composable
-fun <T : MarvinItem> HandleError(
+fun <T : MarvinMovieItem> HandleError(
     item: LazyPagingItems<T>,
     onError: (String?) -> Unit,
     onLoading: (Boolean) -> Unit

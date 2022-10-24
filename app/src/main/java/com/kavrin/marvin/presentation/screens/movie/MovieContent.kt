@@ -91,15 +91,15 @@ fun MovieContent(
                         .padding(all = SMALL_PADDING)
                 ) {
 
-                        if (movieReleaseRuntimeStatus.isNotEmpty()) {
-                            DateTime(
-                                modifier = Modifier
-                                    .fillMaxWidth(0.8f),
-                                date = movieReleaseRuntimeStatus[MovieUseCaseKeys.RELEASE_DATE],
-                                time = movieReleaseRuntimeStatus[MovieUseCaseKeys.RUNTIME]?.toInt(),
-                                status = movieReleaseRuntimeStatus[MovieUseCaseKeys.STATUS]
-                            )
-                        }
+                    if (movieReleaseRuntimeStatus.isNotEmpty()) {
+                        DateTime(
+                            modifier = Modifier
+                                .fillMaxWidth(0.8f),
+                            date = movieReleaseRuntimeStatus[MovieUseCaseKeys.RELEASE_DATE],
+                            time = movieReleaseRuntimeStatus[MovieUseCaseKeys.RUNTIME]?.toInt(),
+                            status = movieReleaseRuntimeStatus[MovieUseCaseKeys.STATUS]
+                        )
+                    }
 
                     if (!movieOverview.isNullOrBlank()) {
                         Divider(
@@ -127,83 +127,44 @@ fun MovieContent(
             }
 
             if (movieRatings.isNotEmpty()) {
-            ///// Ratings /////
-            Card(
-                backgroundColor = MaterialTheme.colors.primaryCardColor,
-                shape = RectangleShape
-            ) {
-                Column(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(all = MEDIUM_PADDING)
-                ) {
-
-                        Rating(
-                            ratings = movieRatings,
-                            ratingState = ratingAnimationState
-                        )
-                    }
+                ///// Ratings /////
+                MarvinBgCard {
+                    Rating(
+                        ratings = movieRatings,
+                        ratingState = ratingAnimationState
+                    )
                 }
             }
         }
+
         ///// Cast List /////
         if (!movieCast.isNullOrEmpty()) {
-            Card(
-                backgroundColor = MaterialTheme.colors.primaryCardColor,
-                shape = RectangleShape
-            ) {
-                Column(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(vertical = MEDIUM_PADDING)
-                ) {
-                    CastList(
-                        lazyRowState = castState,
-                        cast = movieCast,
-                        onCastClicked = {
-                            onPersonClicked(it)
-                        }
-                    )
-
-                }
+            MarvinBgCard {
+                CastList(
+                    lazyRowState = castState,
+                    cast = movieCast,
+                    onCastClicked = {
+                        onPersonClicked(it)
+                    }
+                )
             }
-
         }
 
 
         ///// Crew List /////
         if (!movieCrew.isNullOrEmpty()) {
-            Card(
-                backgroundColor = MaterialTheme.colors.primaryCardColor,
-                shape = RectangleShape
-            ) {
-                Column(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(vertical = MEDIUM_PADDING)
-                ) {
-                    CrewList(
-                        lazyRowState = crewState,
-                        crew = movieCrew,
-                        onCrewClicked = {
-                            onPersonClicked(it)
-                        }
-                    )
-                }
+            MarvinBgCard {
+                CrewList(
+                    lazyRowState = crewState,
+                    crew = movieCrew,
+                    onCrewClicked = {
+                        onPersonClicked(it)
+                    }
+                )
             }
 
-        }
-
-        if (!movieVideos.isNullOrEmpty()) {
-            Card(
-                backgroundColor = MaterialTheme.colors.primaryCardColor,
-                shape = RectangleShape
-            ) {
-                Column(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(vertical = MEDIUM_PADDING)
-                ) {
+            if (!movieVideos.isNullOrEmpty()) {
+                MarvinBgCard {
                     VideoSection(
                         lazyRowState = videosState,
                         trailer = movieTrailer,
@@ -213,21 +174,11 @@ fun MovieContent(
                             onVideoClicked(it)
                         }
                     )
-
                 }
             }
-        }
 
-        if (!reviews.isNullOrEmpty()) {
-            Card(
-                backgroundColor = MaterialTheme.colors.primaryCardColor,
-                shape = RectangleShape
-            ) {
-                Column(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(vertical = MEDIUM_PADDING)
-                ) {
+            if (!reviews.isNullOrEmpty()) {
+                MarvinBgCard {
                     ReviewList(
                         lazyRowState = reviewState,
                         reviews = reviews,
@@ -235,66 +186,47 @@ fun MovieContent(
                             onReviewClicked(it)
                         }
                     )
-
                 }
-            }
-        }
 
-        if (!collection.isNullOrEmpty() && !collectionName.isNullOrEmpty()) {
-            CollectionList(
-                lazyListState = collectionState,
-                collectionName = collectionName[COLLECTION_NAME_KEY],
-                collectionOverview = collectionName[COLLECTION_OVERVIEW_KEY],
-                collectionBackdrop = collectionName[COLLECTION_BACKDROP_KEY],
-                movies = collection,
-                onMovieClicked = { onMovieClicked(it) },
-                onMenuClicked = { onMenuClicked(it) }
-            )
-        }
-
-
-        if (!similar.isNullOrEmpty()) {
-            Card(
-                backgroundColor = MaterialTheme.colors.primaryCardColor,
-                shape = RectangleShape
-            ) {
-                Column(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(vertical = MEDIUM_PADDING)
-                ) {
-                    MovieCardList(
-                        lazyRowState = similarState,
-                        cardListTitle = "Similar",
-                        items = similar,
+                if (!collection.isNullOrEmpty() && !collectionName.isNullOrEmpty()) {
+                    CollectionList(
+                        lazyListState = collectionState,
+                        collectionName = collectionName[COLLECTION_NAME_KEY],
+                        collectionOverview = collectionName[COLLECTION_OVERVIEW_KEY],
+                        collectionBackdrop = collectionName[COLLECTION_BACKDROP_KEY],
+                        movies = collection,
                         onMovieClicked = { onMovieClicked(it) },
                         onMenuClicked = { onMenuClicked(it) }
                     )
+                }
 
+
+                if (!similar.isNullOrEmpty()) {
+                    MarvinBgCard {
+                        MovieCardList(
+                            lazyRowState = similarState,
+                            cardListTitle = "Similar",
+                            items = similar,
+                            onMovieClicked = { onMovieClicked(it) },
+                            onMenuClicked = { onMenuClicked(it) }
+                        )
+                    }
+
+                }
+
+                if (!recommendation.isNullOrEmpty()) {
+                    MarvinBgCard {
+                        MovieCardList(
+                            lazyRowState = recommendState,
+                            cardListTitle = "Recommendation",
+                            items = recommendation,
+                            onMovieClicked = { onMovieClicked(it) },
+                            onMenuClicked = { onMenuClicked(it) }
+                        )
+                    }
                 }
             }
         }
 
-        if (!recommendation.isNullOrEmpty()) {
-            Card(
-                backgroundColor = MaterialTheme.colors.primaryCardColor,
-                shape = RectangleShape
-            ) {
-                Column(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(vertical = MEDIUM_PADDING)
-                ) {
-                    MovieCardList(
-                        lazyRowState = recommendState,
-                        cardListTitle = "Recommendation",
-                        items = recommendation,
-                        onMovieClicked = { onMovieClicked(it) },
-                        onMenuClicked = { onMenuClicked(it) }
-                    )
-
-                }
-            }
-        }
     }
 }
