@@ -10,13 +10,13 @@ data class MovieCollection(
     @SerialName("backdrop_path")
     val backdropPath: String?,
     @SerialName("id")
-    val id: Int,
+    val id: Int?,
     @SerialName("name")
-    val name: String,
+    val name: String?,
     @SerialName("overview")
-    val overview: String,
+    val overview: String?,
     @SerialName("parts")
-    val parts: List<Movie>,
+    val parts: List<Movie>?,
     @SerialName("poster_path")
     val posterPath: String?
 )

@@ -49,7 +49,7 @@ import java.text.DecimalFormat
 @Composable
 fun Rating(
     ratings: Map<String, String?>,
-    ratingState: MutableTransitionState<RatingState>
+    transitionState: MutableTransitionState<TransitionState>
 ) {
 
     Column(
@@ -79,7 +79,7 @@ fun Rating(
                 rating = ratings[IMDB],
                 isPercentage = false,
                 provider = IMDB,
-                ratingState = ratingState
+                transitionState = transitionState
             )
 
 
@@ -87,14 +87,14 @@ fun Rating(
                 rating = ratings[META],
                 isPercentage = true,
                 provider = META,
-                ratingState = ratingState
+                transitionState = transitionState
             )
 
             RatingItem(
                 rating = ratings[TMDB],
                 isPercentage = false,
                 provider = TMDB,
-                ratingState = ratingState
+                transitionState = transitionState
             )
 
 
@@ -102,7 +102,7 @@ fun Rating(
                 rating = ratings[ROTTEN],
                 isPercentage = true,
                 provider = ROTTEN,
-                ratingState = ratingState
+                transitionState = transitionState
             )
 
 
@@ -115,7 +115,7 @@ fun RatingItem(
     rating: String?,
     isPercentage: Boolean,
     provider: String,
-    ratingState: MutableTransitionState<RatingState>,
+    transitionState: MutableTransitionState<TransitionState>,
     maxIndicatorHeight: Dp = 100.dp,
     maxIndicatorWidth: Dp = 20.dp,
     circleSize: Dp = maxIndicatorWidth,
@@ -154,7 +154,7 @@ fun RatingItem(
     val backgroundColor = MaterialTheme.colors.ratingBackground
 
     val transition = updateTransition(
-        targetState = ratingState,
+        targetState = transitionState,
         label = stringResource(R.string.rating_animation)
     )
     val translateY by transition.animateFloat(
@@ -166,8 +166,8 @@ fun RatingItem(
         }, label = stringResource(R.string.rating_translate_y_animation)
     ) { state ->
         when (state.targetState) {
-            RatingState.Start -> height
-            RatingState.End -> animIndicatorValue
+            TransitionState.Start -> height
+            TransitionState.End -> animIndicatorValue
         }
     }
 
@@ -180,8 +180,8 @@ fun RatingItem(
         }, label = stringResource(R.string.rating_number_animation)
     ) { state ->
         when (state.targetState) {
-            RatingState.Start -> 0f
-            RatingState.End -> ratings.toFloat()
+            TransitionState.Start -> 0f
+            TransitionState.End -> ratings.toFloat()
         }
     }
 
@@ -359,11 +359,11 @@ fun RatingItemPrev() {
             META to "90",
             ROTTEN to ""
         ),
-        ratingState = MutableTransitionState(RatingState.Start)
+        transitionState = MutableTransitionState(TransitionState.Start)
     )
 }
 
-enum class RatingState {
+enum class TransitionState {
     Start,
     End
 }

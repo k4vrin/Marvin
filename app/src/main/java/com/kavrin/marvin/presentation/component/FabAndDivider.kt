@@ -24,14 +24,14 @@ import me.onebone.toolbar.CollapsingToolbarScaffoldState
 @Composable
 fun FabAndDivider(
     collapsingToolbarState: CollapsingToolbarScaffoldState,
-    fabState: MutableTransitionState<FabState>,
+    fabState: MutableTransitionState<TransitionState>,
     modifier: Modifier = Modifier,
     onFabClicked: () -> Unit
 ) {
 
     ///// FAB Animations /////
     LaunchedEffect(key1 = true) {
-        fabState.targetState = FabState.End
+        fabState.targetState = TransitionState.End
     }
 
     val transition =
@@ -47,8 +47,8 @@ fun FabAndDivider(
         }, label = stringResource(R.string.fab_translate_x)
     ) { state ->
         when (state.targetState) {
-            FabState.Start -> 300f
-            FabState.End -> 0f
+            TransitionState.Start -> 300f
+            TransitionState.End -> 0f
         }
     }
 
@@ -63,8 +63,8 @@ fun FabAndDivider(
         label = stringResource(R.string.fab_rotate)
     ) { state ->
         when (state.targetState) {
-            FabState.Start -> 360f
-            FabState.End -> 0f
+            TransitionState.Start -> 360f
+            TransitionState.End -> 0f
         }
     }
 
@@ -107,9 +107,4 @@ fun FabAndDivider(
             tint = MaterialTheme.colors.fabContentColor
         )
     }
-}
-
-enum class FabState {
-    Start,
-    End
 }

@@ -16,11 +16,11 @@ import androidx.paging.compose.LazyPagingItems
 import com.kavrin.marvin.presentation.component.MovieTvItem
 import com.kavrin.marvin.ui.theme.EXTRA_SMALL_PADDING
 import com.kavrin.marvin.ui.theme.MAIN_CARD_WIDTH
-import com.kavrin.marvin.util.MarvinItem
+import com.kavrin.marvin.util.MarvinMovieItem
 
 @Composable
 fun ListContent(
-    items: LazyPagingItems<out MarvinItem>,
+    items: LazyPagingItems<out MarvinMovieItem>,
     isMovie: Boolean?,
     gridState: LazyGridState,
     paddingValues: PaddingValues,

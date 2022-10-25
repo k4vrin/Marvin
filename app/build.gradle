@@ -64,7 +64,8 @@ android {
                 "-opt-in=kotlinx.serialization.ExperimentalSerializationApi",
                 "-opt-in=androidx.lifecycle.compose.ExperimentalLifecycleComposeApi",
                 "-opt-in=androidx.compose.foundation.ExperimentalFoundationApi",
-                "-opt-in=androidx.compose.animation.ExperimentalAnimationApi"
+                "-opt-in=androidx.compose.animation.ExperimentalAnimationApi",
+                "-opt-in=kotlinx.coroutines.FlowPreview"
         ]
     }
     buildFeatures {

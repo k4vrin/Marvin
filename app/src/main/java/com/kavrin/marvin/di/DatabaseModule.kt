@@ -8,6 +8,8 @@ import com.kavrin.marvin.data.repository.impl.LocalDataSourceImpl
 import com.kavrin.marvin.domain.repository.DataStoreOp
 import com.kavrin.marvin.domain.repository.LocalDataSource
 import com.kavrin.marvin.util.Constants.MARVIN_DB
+import com.kavrin.marvin.util.DefaultDispatchers
+import com.kavrin.marvin.util.DispatchersProvider
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -17,6 +19,8 @@ import javax.inject.Singleton
 @Module
 @InstallIn(SingletonComponent::class)
 object DatabaseModule {
+
+
 
 	@Provides
 	@Singleton

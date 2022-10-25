@@ -4,12 +4,12 @@ import androidx.room.Embedded
 import androidx.room.Relation
 import com.kavrin.marvin.domain.model.tv.entities.Tv
 import com.kavrin.marvin.domain.model.tv.entities.TvTrending
-import com.kavrin.marvin.util.MarvinItem
+import com.kavrin.marvin.util.MarvinTvItem
 
 data class TvAndTrending(
 
 	@Embedded
-	override val tv: Tv?,
+	override val tv: Tv,
 
 	@Relation(
 		parentColumn = "tvId",
@@ -17,4 +17,4 @@ data class TvAndTrending(
 		entity = TvTrending::class
 	)
 	val tvTrending: TvTrending?
-) : MarvinItem
+) : MarvinTvItem

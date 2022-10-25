@@ -25,13 +25,13 @@ import com.kavrin.marvin.presentation.component.RatingIndicator
 import com.kavrin.marvin.presentation.component.WormHorizontalPagerIndicator
 import com.kavrin.marvin.ui.theme.*
 import com.kavrin.marvin.util.Constants
-import com.kavrin.marvin.util.MarvinItem
+import com.kavrin.marvin.util.MarvinMovieItem
 import com.kavrin.marvin.util.lerp
 import kotlin.math.absoluteValue
 
 
 @Composable
-fun <T : MarvinItem> Carousel(
+fun <T : MarvinMovieItem> Carousel(
     items: LazyPagingItems<T>,
     isMovie: Boolean,
     onItemClicked: (Int) -> Unit,

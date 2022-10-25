@@ -20,15 +20,22 @@ import com.kavrin.marvin.domain.use_cases.tv.GetTvRatings
 import com.kavrin.marvin.domain.use_cases.tv.TvUseCases
 import com.kavrin.marvin.domain.use_cases.tv_season.GetTvSeason
 import com.kavrin.marvin.domain.use_cases.tv_season.TvSeasonUseCases
+import com.kavrin.marvin.util.DefaultDispatchers
+import com.kavrin.marvin.util.DispatchersProvider
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.android.components.ViewModelComponent
 import dagger.hilt.android.scopes.ViewModelScoped
+import javax.inject.Singleton
 
 @Module
 @InstallIn(ViewModelComponent::class)
 object RepositoryModule {
+
+	@Provides
+	@Singleton
+	fun provideDispatchers(): DispatchersProvider = DefaultDispatchers()
 
 	@Provides
 	@ViewModelScoped
@@ -63,11 +70,12 @@ object RepositoryModule {
 	@Provides
 	@ViewModelScoped
 	fun provideMovieUseCases(
-		repository: Repository
+		repository: Repository,
+		dispatchers: DispatchersProvider
 	): MovieUseCases {
 		return MovieUseCases(
 			getMovie = GetMovie(repository),
-			getMovieDetails = GetMovieDetails(repository),
+			getMovieDetails = GetMovieDetails(repository, dispatchers),
 			getMovieRatings = GetMovieRatings(repository),
 			getCollection = GetCollection(repository)
 		)

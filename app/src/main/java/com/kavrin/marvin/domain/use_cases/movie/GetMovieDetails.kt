@@ -4,45 +4,65 @@ import com.kavrin.marvin.data.repository.Repository
 import com.kavrin.marvin.domain.model.common.*
 import com.kavrin.marvin.domain.model.movie.api.detail.SingleMovieApiResponse
 import com.kavrin.marvin.domain.model.movie.entities.Movie
-import com.kavrin.marvin.util.NetworkResult
+import com.kavrin.marvin.util.DispatchersProvider
+import com.kavrin.marvin.util.Resource
+import com.kavrin.marvin.util.UiText
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.flow
+import kotlinx.coroutines.flow.flowOn
 import kotlin.random.Random
 
 class GetMovieDetails(
-    private val repository: Repository
+    private val repository: Repository,
+    private val dispatchers: DispatchersProvider
 ) {
 
-    private var data: SingleMovieApiResponse? = null
+    operator fun invoke(id: Int): Flow<Resource<UiMovie>> = flow {
+        try {
+            emit(Resource.Loading())
+            val response = repository.getMovieDetails(id = id)
 
-    suspend operator fun invoke(id: Int): NetworkResult {
-        return if (data == null) {
-            val response =
-                try {
-                    repository.getMovieDetails(id = id)
-                } catch (e: Exception) {
-                    return NetworkResult.Error(message = e.message)
-                }
             when {
                 response.message().toString()
-                    .contains("timeout") -> NetworkResult.Error(message = "Timeout")
-                response.code() == 401 -> NetworkResult.Error(message = "Invalid API key.")
-                response.code() == 404 -> NetworkResult.Error(message = "The resources could not be found.")
+                    .contains("timeout") -> emit(Resource.Error(message = UiText.DynamicString("Timeout")))
+                response.code() == 401 -> emit(Resource.Error(message = UiText.DynamicString("Invalid API key.")))
+                response.code() == 404 -> emit(Resource.Error(message = UiText.DynamicString("The resources could not be found.")))
                 response.isSuccessful -> {
-                    data = response.body()
-                    data?.similar?.movies?.let { repository.saveMovies(it) }
-                    data?.recommendations?.movies?.let { repository.saveMovies(it) }
-                    NetworkResult.Success()
+                    val uiMovie = getUiMovie(response.body())
+                    emit(Resource.Success(data = uiMovie))
                 }
-                else -> NetworkResult.Error(message = response.message())
+                else -> emit(Resource.Error(message = UiText.DynamicString(response.message())))
             }
-        } else
-            NetworkResult.Success()
+
+        } catch (e: Exception) {
+            emit(Resource.Error(message = e.message?.let { UiText.DynamicString(it) }))
+        }
+    }.flowOn(dispatchers.io)
+
+    private fun getUiMovie(apiMovie: SingleMovieApiResponse?): UiMovie {
+        return UiMovie(
+            imdbId = getImdbId(apiMovie),
+            toolbarInfo = getMovieToolbar(apiMovie),
+            releaseRuntimeStatus = getReleaseRuntimeStatus(apiMovie),
+            overview = getOverview(apiMovie),
+            genres = getGenres(apiMovie),
+            trailer = getOfficialTrailer(apiMovie),
+            trailerBackdrop = getTrailerBackdrop(apiMovie),
+            videos = getVideos(apiMovie),
+            cast = getCast(apiMovie),
+            crew = getCrew(apiMovie),
+            collectionId = getCollectionId(apiMovie),
+            reviews = getReviews(apiMovie),
+            recommendations = getRecommendations(apiMovie),
+            similars = getSimilar(apiMovie)
+        )
     }
 
-    fun getImdbId(): String? {
+    private fun getImdbId(data: SingleMovieApiResponse?): String? {
         return data?.imdbId
     }
 
-    fun getMovieToolbar(): Map<String, String?> {
+    private fun getMovieToolbar(data: SingleMovieApiResponse?): Map<String, String?> {
         return buildMap {
             put(
                 key = MovieUseCaseKeys.TITLE,
@@ -63,7 +83,7 @@ class GetMovieDetails(
         }
     }
 
-    fun getReleaseRuntimeStatus(): Map<String, String?> {
+    private fun getReleaseRuntimeStatus(data: SingleMovieApiResponse?): Map<String, String?> {
         return buildMap {
             put(
                 key = MovieUseCaseKeys.RELEASE_DATE,
@@ -82,17 +102,17 @@ class GetMovieDetails(
         }
     }
 
-    fun getOverview(): String? {
+    private fun getOverview(data: SingleMovieApiResponse?): String? {
         return data?.overview
     }
 
-    fun getGenres(): List<String>? {
+    private fun getGenres(data: SingleMovieApiResponse?): List<String>? {
         return data?.genres?.map {
             it.name
         }
     }
 
-    fun getOfficialTrailer(): Video? {
+    private fun getOfficialTrailer(data: SingleMovieApiResponse?): Video? {
         return data
             ?.videos
             ?.videos
@@ -102,7 +122,7 @@ class GetMovieDetails(
             }
     }
 
-    fun getVideos(): List<Video>? {
+    private fun getVideos(data: SingleMovieApiResponse?): List<Video>? {
         return data
             ?.videos
             ?.videos
@@ -111,7 +131,7 @@ class GetMovieDetails(
             }
     }
 
-    fun getTrailerBackdrop(): Backdrop? {
+    private fun getTrailerBackdrop(data: SingleMovieApiResponse?): Backdrop? {
         return if (!data?.images?.backdrops.isNullOrEmpty()) {
             data
                 ?.images
@@ -120,28 +140,27 @@ class GetMovieDetails(
                 ?.let { size -> Random.nextInt(until = size) }
                 ?.let { index ->
                     data
-                        ?.images
-                        ?.backdrops
-                        ?.get(index)
+                        .images
+                        .backdrops[index]
                 }
         } else
             null
 
     }
 
-    fun getReviews(): List<Review>? {
+    private fun getReviews(data: SingleMovieApiResponse?): List<Review>? {
         return data?.reviews?.reviews
     }
 
-    fun getCollectionId(): Int? {
+    private fun getCollectionId(data: SingleMovieApiResponse?): Int? {
         return data?.belongsToCollection?.id
     }
 
-    fun getCast(): List<Cast>? {
+    private fun getCast(data: SingleMovieApiResponse?): List<Cast>? {
         return data?.credits?.cast
     }
 
-    fun getCrew(): List<Crew>? {
+    private fun getCrew(data: SingleMovieApiResponse?): List<Crew>? {
         return data?.credits?.crew?.filter {
             it.job == "Screenplay" || it.job == "Producer" || it.job == "Director" || it.job == "Story" || it.job == "Writer"
         }
@@ -157,14 +176,14 @@ class GetMovieDetails(
     }
 
 
-    fun getRecommendations(): List<Movie>? {
+    private fun getRecommendations(data: SingleMovieApiResponse?): List<Movie>? {
         return data
             ?.recommendations
             ?.movies
             ?.filter { it.title.isNotBlank() }
     }
 
-    fun getSimilar(): List<Movie>? {
+    private fun getSimilar(data: SingleMovieApiResponse?): List<Movie>? {
         return data
             ?.similar
             ?.movies
@@ -180,3 +199,4 @@ object MovieUseCaseKeys {
     const val RUNTIME = "runtime"
     const val STATUS = "status"
 }
+

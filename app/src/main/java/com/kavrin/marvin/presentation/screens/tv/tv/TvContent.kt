@@ -49,7 +49,7 @@ fun TvContent(
     similarState: LazyListState,
     recommendState: LazyListState,
     videosState: LazyListState,
-    ratingAnimationState: MutableTransitionState<RatingState>,
+    ratingAnimationState: MutableTransitionState<TransitionState>,
     onPersonClicked: (Int) -> Unit,
     onReviewClicked: (String) -> Unit,
     onVideoClicked: (String) -> Unit,
@@ -68,7 +68,7 @@ fun TvContent(
 
     LaunchedEffect(key1 = animRatings) {
         if (animRatings)
-            ratingAnimationState.targetState = RatingState.End
+            ratingAnimationState.targetState = TransitionState.End
     }
 
     Column(
@@ -142,7 +142,7 @@ fun TvContent(
                     ) {
                         Rating(
                             ratings = tvRatings,
-                            ratingState = ratingAnimationState
+                            transitionState = ratingAnimationState
                         )
                     }
                 }
