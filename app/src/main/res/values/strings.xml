@@ -36,4 +36,6 @@
     <string name="navigation_icon">Navigation Icon</string>
     <string name="episode_pic">Episode Still</string>
     <string name="drop_down_icon">DropDown Arrow</string>
+    <string name="similar">Similar</string>
+    <string name="recommendation">Recommendation</string>
 </resources>

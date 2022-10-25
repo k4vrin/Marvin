@@ -11,8 +11,7 @@ import com.kavrin.marvin.domain.model.tv.api.detail.EpisodeToAir
 import com.kavrin.marvin.domain.model.tv.api.detail.Season
 import com.kavrin.marvin.domain.model.tv.entities.Tv
 import com.kavrin.marvin.domain.use_cases.tv.TvUseCases
-import com.kavrin.marvin.presentation.component.FabState
-import com.kavrin.marvin.presentation.component.RatingState
+import com.kavrin.marvin.presentation.component.TransitionState
 import com.kavrin.marvin.util.Constants
 import com.kavrin.marvin.util.NetworkResult
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -33,12 +32,12 @@ class TvViewModel @Inject constructor(
     val id = savedStateHandle.get<Int>(Constants.ARGUMENT_KEY_ID)
 
     private val _ratingAnimationState = mutableStateOf(
-        MutableTransitionState(RatingState.Start)
+        MutableTransitionState(TransitionState.Start)
     )
-    val ratingAnimationState: State<MutableTransitionState<RatingState>> = _ratingAnimationState
+    val ratingAnimationState: State<MutableTransitionState<TransitionState>> = _ratingAnimationState
 
-    private val _fabState = mutableStateOf(MutableTransitionState(FabState.Start))
-    val fabState: State<MutableTransitionState<FabState>> = _fabState
+    private val _fabState = mutableStateOf(MutableTransitionState(TransitionState.Start))
+    val fabState: State<MutableTransitionState<TransitionState>> = _fabState
 
     private val _collapsingToolbar = mutableStateOf(
         CollapsingToolbarScaffoldState(

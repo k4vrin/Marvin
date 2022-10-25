@@ -15,7 +15,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.hilt.navigation.compose.hiltViewModel
-import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavHostController
 import com.google.accompanist.systemuicontroller.rememberSystemUiController
 import com.kavrin.marvin.domain.use_cases.movie.MovieUseCaseKeys
@@ -24,7 +23,6 @@ import com.kavrin.marvin.navigation.util.Graph
 import com.kavrin.marvin.navigation.util.MovieScreens
 import com.kavrin.marvin.presentation.component.EmptyContent
 import com.kavrin.marvin.presentation.component.FabAndDivider
-import com.kavrin.marvin.util.NetworkResult
 import kotlinx.coroutines.delay
 import me.onebone.toolbar.CollapsingToolbarScaffold
 import me.onebone.toolbar.ScrollStrategy
@@ -33,16 +31,18 @@ import me.onebone.toolbar.ScrollStrategy
 @Composable
 fun MovieScreen(
     navHostController: NavHostController,
-    movieViewModel: MovieViewModel = hiltViewModel()
+    viewModel: MovieViewModel = hiltViewModel()
 ) {
 
     val context = LocalContext.current
+    val state = viewModel.state
 
-    ///// Status Bar /////
+
+    /* ///// Status Bar ///// */
     val uiController = rememberSystemUiController()
     val useDarkIcons = MaterialTheme.colors.isLight
     LaunchedEffect(key1 = true) {
-        movieViewModel.getMovieDetails()
+        viewModel.init()
         delay(
             ((Durations.MEDIUM + Durations.LONG) * 0.9).toLong()
         )
@@ -52,38 +52,15 @@ fun MovieScreen(
         )
     }
 
-
-    val movieDetailsResultState by movieViewModel.movieDetailsResponse.collectAsStateWithLifecycle()
-//    val movieRatingsResultState by movieViewModel.movieRatingResponse.collectAsStateWithLifecycle()
-//    val movieCollectionResultState by movieViewModel.movieCollectionRes.collectAsStateWithLifecycle()
-    val movieToolbarInfo by movieViewModel.toolbarInfo.collectAsStateWithLifecycle()
-    val movieReleaseRuntimeStatus by movieViewModel.releaseRuntimeStatus.collectAsStateWithLifecycle()
-    val movieOverview by movieViewModel.movieOverview.collectAsStateWithLifecycle()
-    val movieGenres by movieViewModel.movieGenre.collectAsStateWithLifecycle()
-    val movieRatings by movieViewModel.movieRatings.collectAsStateWithLifecycle()
-    val movieCast by movieViewModel.movieCast.collectAsStateWithLifecycle()
-    val movieCrew by movieViewModel.movieCrew.collectAsStateWithLifecycle()
-    val movieTrailer by movieViewModel.movieTrailer.collectAsStateWithLifecycle()
-    val movieVideos by movieViewModel.movieVideos.collectAsStateWithLifecycle()
-    val trailerBackdrop by movieViewModel.trailerBackdrop.collectAsStateWithLifecycle()
-    val movieReviews by movieViewModel.movieReviews.collectAsStateWithLifecycle()
-    val movieCollectionName by movieViewModel.movieCollectionInfo.collectAsStateWithLifecycle()
-    val movieCollection by movieViewModel.movieCollection.collectAsStateWithLifecycle()
-    val recommendation by movieViewModel.movieRecommend.collectAsStateWithLifecycle()
-    val similar by movieViewModel.movieSimilar.collectAsStateWithLifecycle()
-    val collapsingToolbarState by movieViewModel.collapsingToolbar
-    val fabState by movieViewModel.fabState
-    val ratingState by movieViewModel.ratingAnimationState
-
-
-    ///// Handle Errors /////
+    /* ///// Handle Errors ///// */
     var isRefreshing by remember { mutableStateOf(false) }
     val result = handleMovieNetworkResult(
-        details = movieDetailsResultState,
+        isLoading = state.isLoading,
+        errorMessage = state.error?.asString(),
         isRefreshing = isRefreshing,
         onRefresh = {
             isRefreshing = true
-            movieViewModel.getMovieDetails()
+            viewModel.init()
             isRefreshing = false
         }
     )
@@ -116,7 +93,7 @@ fun MovieScreen(
 
             CollapsingToolbarScaffold(
                 modifier = Modifier,
-                state = collapsingToolbarState,
+                state = viewModel.state.collapsingToolbar,
                 scrollStrategy = ScrollStrategy.ExitUntilCollapsed,
                 toolbarModifier = Modifier
                     .verticalScroll(
@@ -125,10 +102,10 @@ fun MovieScreen(
                     ),
                 toolbar = {
                     MovieToolbar(
-                        state = collapsingToolbarState,
-                        backdrop = movieToolbarInfo[MovieUseCaseKeys.BACKDROP],
-                        title = movieToolbarInfo[MovieUseCaseKeys.TITLE],
-                        subtitle = movieToolbarInfo[MovieUseCaseKeys.DIRECTOR],
+                        state = state.collapsingToolbar,
+                        backdrop = state.movie?.toolbarInfo?.get(MovieUseCaseKeys.BACKDROP),
+                        title = state.movie?.toolbarInfo?.get(MovieUseCaseKeys.TITLE),
+                        subtitle = state.movie?.toolbarInfo?.get(MovieUseCaseKeys.DIRECTOR),
                         onBackIconClicked = {
                             navHostController.popBackStack()
                         },
@@ -140,22 +117,8 @@ fun MovieScreen(
             ) {
 
                 MovieContent(
-                    movieReleaseRuntimeStatus = movieReleaseRuntimeStatus,
-                    movieOverview = movieOverview,
-                    movieRatings = movieRatings,
-                    movieGenres = movieGenres,
-                    movieCast = movieCast,
-                    movieCrew = movieCrew,
-                    movieTrailer = movieTrailer,
-                    movieVideos = movieVideos,
-                    trailerBackdrop = trailerBackdrop,
-                    reviews = movieReviews,
-                    collectionName = movieCollectionName,
-                    collection = movieCollection,
-                    recommendation = recommendation,
+                    movieStates = state,
                     scrollState = scrollState,
-                    similar = similar,
-                    toolbarState = collapsingToolbarState,
                     recommendState = recommendState,
                     similarState = similarState,
                     reviewState = reviewState,
@@ -163,7 +126,6 @@ fun MovieScreen(
                     crewState = crewState,
                     videosState = videosState,
                     collectionState = collectionState,
-                    ratingAnimationState = ratingState,
                     onPersonClicked = {
                         navHostController.navigate(Graph.Person.passId(it))
                     },
@@ -194,8 +156,8 @@ fun MovieScreen(
             }
 
             FabAndDivider(
-                collapsingToolbarState = collapsingToolbarState,
-                fabState = fabState,
+                collapsingToolbarState = state.collapsingToolbar,
+                fabState = state.fabAnimation,
                 modifier = Modifier
                     .align(Alignment.TopEnd),
                 onFabClicked = { /*TODO*/ }
@@ -207,26 +169,28 @@ fun MovieScreen(
 
 @Composable
 private fun handleMovieNetworkResult(
-    details: NetworkResult,
+    isLoading: Boolean,
+    errorMessage: String?,
+    isError: Boolean = errorMessage != null,
     isRefreshing: Boolean = false,
     onRefresh: () -> Unit
 ): Boolean {
 
-    return when (details) {
-        is NetworkResult.Error -> {
+    return when  {
+        isError -> {
             EmptyContent(
                 isLoading = false,
                 isError = true,
                 isRefreshing = isRefreshing,
-                errorMessage = details.message,
+                errorMessage = errorMessage,
                 onRefresh = onRefresh
             )
             false
         }
-        is NetworkResult.Loading -> {
+        isLoading-> {
             EmptyContent(isLoading = true, isError = false)
             false
         }
-        is NetworkResult.Success -> true
+        else -> true
     }
 }
