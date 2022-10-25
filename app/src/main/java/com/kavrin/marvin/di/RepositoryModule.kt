@@ -22,6 +22,7 @@ import com.kavrin.marvin.domain.use_cases.tv_season.GetTvSeason
 import com.kavrin.marvin.domain.use_cases.tv_season.TvSeasonUseCases
 import com.kavrin.marvin.util.DefaultDispatchers
 import com.kavrin.marvin.util.DispatchersProvider
+import com.kavrin.marvin.util.PatternChecker
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -142,16 +143,19 @@ object RepositoryModule {
 	@Provides
 	@ViewModelScoped
 	fun provideSignupUseCases(
-		repository: Repository
+		repository: Repository,
+		patternChecker: PatternChecker
 	): AuthUseCases {
 		return AuthUseCases(
-			socialMediaSignIn = SocialMediaSingIn(repository),
-			socialMediaSignup = SocialMediaSignup(repository),
+			socialMediaSignIn = SocialMediaSingIn(),
+			socialMediaSignup = SocialMediaSignup(),
 			userSignup = UserSignup(repository),
-			userSignIn = UserSignIn(repository),
-			validateEmail = ValidateEmail(),
+			userSignIn = UserSignIn(),
+			validateEmail = ValidateEmail(patternChecker),
 			validatePassword = ValidatePassword(),
 			validateUsername = ValidateUsername()
 		)
 	}
+
+
 }

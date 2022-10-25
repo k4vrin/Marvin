@@ -8,8 +8,8 @@ import com.kavrin.marvin.data.repository.impl.LocalDataSourceImpl
 import com.kavrin.marvin.domain.repository.DataStoreOp
 import com.kavrin.marvin.domain.repository.LocalDataSource
 import com.kavrin.marvin.util.Constants.MARVIN_DB
-import com.kavrin.marvin.util.DefaultDispatchers
-import com.kavrin.marvin.util.DispatchersProvider
+import com.kavrin.marvin.util.PatternChecker
+import com.kavrin.marvin.util.PatternCheckerImpl
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -51,5 +51,9 @@ object DatabaseModule {
 			marvinDatabase = marvinDatabase
 		)
 	}
+
+	@Provides
+	@Singleton
+	fun providePatternChecker(): PatternChecker = PatternCheckerImpl()
 
 }

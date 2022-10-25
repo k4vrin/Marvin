@@ -31,14 +31,14 @@ fun SignupForm(
     email: String,
     password: String,
     hasUsernameError: Boolean,
-    usernameErrorMessage: String,
+    usernameErrorMessage: String?,
     hasEmailError: Boolean,
-    emailErrorMessage: String,
+    emailErrorMessage: String?,
     hasPasswordError: Boolean,
-    passwordErrorMessage: String,
+    passwordErrorMessage: String?,
     isProcessing: Boolean,
     focusManager: FocusManager,
-    onSignUpClicked: (user: String, email: String, pass: String) -> Unit,
+    onSignUpClicked: () -> Unit,
     onUsernameChange: (String) -> Unit,
     onEmailChange: (String) -> Unit,
     onPasswordChange: (String) -> Unit,
@@ -76,7 +76,7 @@ fun SignupForm(
             Text(
                 modifier = Modifier
                     .align(Alignment.End),
-                text = usernameErrorMessage,
+                text = usernameErrorMessage!!,
                 textAlign = TextAlign.End,
                 color = RedNCS,
                 fontFamily = nunitoTypeFace,
@@ -115,7 +115,7 @@ fun SignupForm(
             Text(
                 modifier = Modifier
                     .align(Alignment.End),
-                text = emailErrorMessage,
+                text = emailErrorMessage!!,
                 textAlign = TextAlign.End,
                 color = RedNCS,
                 fontFamily = nunitoTypeFace,
@@ -160,7 +160,7 @@ fun SignupForm(
             Text(
                 modifier = Modifier
                     .align(Alignment.End),
-                text = passwordErrorMessage,
+                text = passwordErrorMessage!!,
                 textAlign = TextAlign.End,
                 color = RedNCS,
                 fontFamily = nunitoTypeFace,
@@ -178,7 +178,7 @@ fun SignupForm(
                 .height(48.dp),
             onClick = {
                 focusManager.clearFocus()
-                onSignUpClicked(username, email, password)
+                onSignUpClicked()
             },
             enabled = !isProcessing,
             colors = ButtonDefaults.buttonColors(

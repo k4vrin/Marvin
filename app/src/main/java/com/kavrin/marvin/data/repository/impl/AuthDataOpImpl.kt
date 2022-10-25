@@ -7,23 +7,23 @@ import com.parse.coroutines.suspendSignUp
 class AuthDataOpImpl : AuthDataOp {
     override suspend fun userSignUp(email: String, username: String, password: String) {
         val user = ParseUser().apply {
-            setEmail(email)
             setUsername(username)
+            setEmail(email)
             setPassword(password)
         }
 
-        val result = user.suspendSignUp()
+        user.suspendSignUp()
     }
 
     override suspend fun userSignIn(email: String?, username: String?, password: String) {
-        TODO("Not yet implemented")
+        /* TODO:  */
     }
 
     override suspend fun socialMediaSignIn() {
-        TODO("Not yet implemented")
+        /* TODO:  */
     }
 
     override suspend fun socialMediaSignUp() {
-        TODO("Not yet implemented")
+        /* TODO:  */
     }
 }

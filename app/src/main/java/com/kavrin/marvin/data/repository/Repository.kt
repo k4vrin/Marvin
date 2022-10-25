@@ -26,8 +26,16 @@ class Repository @Inject constructor(
 	private val tvRemote: TvRemoteDataSource,
 	private val personRemote: PersonRemoteDataSource,
 	private val imdb: IMDbDataSource,
-	private val localDataSource: LocalDataSource
+	private val localDataSource: LocalDataSource,
+	private val authDataOp: AuthDataOp
 ) {
+
+	///////////////////////////////////////////////////////////////////////////
+	// Auth
+	///////////////////////////////////////////////////////////////////////////
+	suspend fun signUp(email: String, username: String, password: String) {
+		authDataOp.userSignUp(email, username, password)
+	}
 
 	///////////////////////////////////////////////////////////////////////////
 	// Movie

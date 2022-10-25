@@ -38,4 +38,11 @@
     <string name="drop_down_icon">DropDown Arrow</string>
     <string name="similar">Similar</string>
     <string name="recommendation">Recommendation</string>
+    <string name="error_blank">The %d can\'t be blank</string>
+    <string name="error_valid">That\'s not a valid %d</string>
+    <string name="error_length">The %d should at least be %d letters</string>
+    <string name="error_contain">The %d should at least contain 1 digit, 1 lower case letter and 1 uppercase letter</string>
+    <string name="signup">Sign Up</string>
+    <string name="login">Login</string>
+    <string name="skip">Skip</string>
 </resources>

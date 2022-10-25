@@ -7,14 +7,8 @@ import com.kavrin.marvin.data.remote.IMDbService
 import com.kavrin.marvin.data.remote.TMDBMovieService
 import com.kavrin.marvin.data.remote.TMDBPersonService
 import com.kavrin.marvin.data.remote.TMDBTvService
-import com.kavrin.marvin.data.repository.impl.IMDbDataSourceImpl
-import com.kavrin.marvin.data.repository.impl.MovieRemoteDataSourceImpl
-import com.kavrin.marvin.data.repository.impl.PersonRemoteDataSourceImpl
-import com.kavrin.marvin.data.repository.impl.TvRemoteDataSourceImpl
-import com.kavrin.marvin.domain.repository.IMDbDataSource
-import com.kavrin.marvin.domain.repository.MovieRemoteDataSource
-import com.kavrin.marvin.domain.repository.PersonRemoteDataSource
-import com.kavrin.marvin.domain.repository.TvRemoteDataSource
+import com.kavrin.marvin.data.repository.impl.*
+import com.kavrin.marvin.domain.repository.*
 import com.kavrin.marvin.util.Constants.BASE_URL
 import com.kavrin.marvin.util.NetworkListener
 import dagger.Module
@@ -149,4 +143,8 @@ object NetworkModule {
 	fun provideNetworkListener(
 		application: Application
 	) = NetworkListener(application)
+
+	@Provides
+	@Singleton
+	fun provideAuthOp(): AuthDataOp = AuthDataOpImpl()
 }

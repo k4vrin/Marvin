@@ -32,9 +32,9 @@ import com.kavrin.marvin.navigation.util.HomeScreens
 import com.kavrin.marvin.presentation.component.CardList
 import com.kavrin.marvin.presentation.component.EmptyContent
 import com.kavrin.marvin.presentation.component.MovieCardList
-import com.kavrin.marvin.presentation.screens.home.component.CardList
-import com.kavrin.marvin.presentation.screens.home.component.Carousel
-import com.kavrin.marvin.presentation.screens.home.component.MarvinTabRow
+import com.kavrin.marvin.presentation.screens.home.home.HomeState
+import com.kavrin.marvin.presentation.screens.home.home.component.Carousel
+import com.kavrin.marvin.presentation.screens.home.home.component.MarvinTabRow
 import com.kavrin.marvin.ui.theme.EXTRA_LARGE_PADDING
 import com.kavrin.marvin.ui.theme.MEDIUM_PADDING
 import com.kavrin.marvin.ui.theme.backGroundColor

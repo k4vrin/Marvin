@@ -14,7 +14,7 @@ class LoginViewModel @Inject constructor(
 ) : ViewModel() {
 
     var loginStates by mutableStateOf(LoginStates())
-
+        private set
 
 
 }
